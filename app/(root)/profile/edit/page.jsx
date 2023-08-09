@@ -18,8 +18,6 @@ async function Page() {
     image: userInfo ? userInfo?.image : user.imageUrl,
   };
 
-  console.log(userData);
-
   return (
     <>
       <h1 className="">Edit Profile</h1>
