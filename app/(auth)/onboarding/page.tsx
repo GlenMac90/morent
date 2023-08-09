@@ -2,7 +2,7 @@ import React from 'react';
 
 import { currentUser } from '@clerk/nextjs';
 
-const page = async () => {
+const Page = async () => {
   const user = await currentUser();
 
   if (!user) return null;
@@ -10,4 +10,4 @@ const page = async () => {
   return <h1>Onboarding</h1>;
 };
 
-export default page;
+export default Page;
