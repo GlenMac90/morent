@@ -1,17 +1,19 @@
-import "../globals.css";
-import type { Metadata } from "next";
+import React from 'react';
+import '../globals.css';
+
+import type { Metadata } from 'next';
 // eslint-disable-next-line camelcase
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Plus_Jakarta_Sans } from 'next/font/google';
 import { ClerkProvider } from '@clerk/nextjs';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--plus-jakarta-sans",
+  subsets: ['latin'],
+  variable: '--plus-jakarta-sans',
 });
 
 export const metadata: Metadata = {
-  title: "Morent",
-  description: "The best platform for car rental",
+  title: 'Morent',
+  description: 'The best platform for car rental',
 };
 
 export default function RootLayout({
