@@ -5,7 +5,7 @@ import { currentUser } from '@clerk/nextjs';
 const page = async () => {
   const user = await currentUser();
 
-  console.log(user);
+  if (!user) return null;
 
   return <h1>Onboarding</h1>;
 };
