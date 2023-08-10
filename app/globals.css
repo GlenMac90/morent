@@ -7,3 +7,16 @@
     @apply font-plusJakartaSans;
   }
 }
+
+.white_car_ad {
+  background-image: repeating-radial-gradient(
+    circle at 35% 80%,
+    #66b4fc 0% 5%,
+    #5caffc 0% 15%
+  );
+}
+
+.black_car_ad {
+  background-image: url("../public/pngs/car-ad-background.png");
+  background-size: 100% 100%;
+}
