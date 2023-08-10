@@ -21,11 +21,17 @@ module.exports = {
     extend: {
       colors: {
         blue50: '#C3D4E9',
+        blue100: '#94A7CB',
         blue300: '#5CAFFC',
         blue500: '#3563E9',
         gray400: '#90A3BF',
+        gray700: '#3D5278',
         gray800: '#424B5C',
+        gray850: '#293346',
         gray900: '#1A202C',
+        red400: '##ED3F3F',
+        yellow400: '#FBAD39',
+        white0: '#FFFFFF',
       },
       keyframes: {
         'accordion-down': {
