@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Image from 'next/image';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -51,12 +52,36 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
       >
         <FormField
           control={form.control}
-          name="username"
+          name="profile_photo"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="shadcn" {...field} />
+            <FormItem className="">
+              <FormLabel className="">Profile Image</FormLabel>
+              {field.value ? (
+                <Image
+                  src={field.value}
+                  alt="profile photo"
+                  width={96}
+                  height={96}
+                  priority
+                  className="rounded-full object-contain"
+                />
+              ) : (
+                <Image
+                  src="/profile.svg"
+                  alt="profile photo"
+                  width={24}
+                  height={24}
+                  className=" object-contain"
+                />
+              )}
+              <FormControl className="">
+                <Input
+                  type="file"
+                  accept="image/*"
+                  placeholder="Upload an Image"
+                  className=""
+                  onChange={(e) => handleImage(e, field.onChange)}
+                />
               </FormControl>
               <FormDescription>
                 This is your public display name.
@@ -65,7 +90,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
             </FormItem>
           )}
         />
-        <Button className="" type="submit">
+        <Button className="bg-blue500 text-white" type="submit">
           Submit
         </Button>
       </form>
