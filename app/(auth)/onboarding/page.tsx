@@ -1,12 +1,21 @@
 import React from 'react';
 
 import { currentUser } from '@clerk/nextjs';
-import AccountProfile from '@/components/forms/AccountProfile';
+import AccountProfile from '@/components/AccountProfile';
+import { userInfo } from 'os';
 
 const Page = async () => {
   const user = await currentUser();
-
   if (!user) return null;
+
+  const currentUserData = {
+    id: user?.id,
+    objectId: userInfo?._id,
+    username: userInfo?.username || user.username,
+    name: userInfo?.name || user?.firstName || '',
+    bio: userInfo?.bio || '',
+    image: userInfo?.image || user.imageUrl,
+  };
 
   return (
     <main className="flex flex-col  px-12 py-20">
@@ -17,7 +26,7 @@ const Page = async () => {
         Customize your profile for Morent
       </p>
       <section className="mt-8 bg-blue-50 p-10">
-        <AccountProfile />
+        <AccountProfile user={currentUserData} />
       </section>
     </main>
   );
