@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { currentUser } from '@clerk/nextjs';
-import AccountProfile from '@/components/AccountProfile';
+import AccountProfile from '@/components/forms/AccountProfile';
 import { userInfo } from 'os';
 
 const Page = async () => {
@@ -19,7 +19,7 @@ const Page = async () => {
 
   return (
     <main className="flex flex-col  px-12 py-20">
-      <h1 className="text-2xl font-semibold leading-7 text-gray900">
+      <h1 className="text-gray900 text-2xl font-semibold leading-7">
         All on board - let us complete your onboarding !!
       </h1>
       <p className="text-base font-normal leading-7">
