@@ -16,6 +16,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '../ui/textarea';
 import * as z from 'zod';
+import ImageWithFallback from '@/utils/ImageWithFallback';
 
 interface Props {
   user: {
@@ -32,10 +33,10 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
-      profile_photo: '',
-      name: '',
-      username: '',
-      bio: '',
+      profile_photo: user?.image || '',
+      name: user?.name || '',
+      username: user?.username || '',
+      bio: user?.bio || '',
     },
   });
 
@@ -63,7 +64,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
             <FormItem className="flex flex-col justify-start">
               <FormLabel className="ml-1 p-4 pl-0">
                 {field.value ? (
-                  <Image
+                  <ImageWithFallback
                     src={field.value}
                     alt="profile photo"
                     width={96}
@@ -111,7 +112,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
           name="username"
           render={({ field }) => (
             <FormItem className="flex flex-col justify-start">
-              <FormLabel className="ml-1 p-4 pl-0">User Name</FormLabel>
+              <FormLabel className="ml-1 p-4 pl-0">Username</FormLabel>
               <FormControl className="">
                 <Input type="text" className="" {...field} />
               </FormControl>
