@@ -6,16 +6,15 @@ import { useForm } from 'react-hook-form';
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { UserValidation } from '@/lib/validations/user';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '../ui/textarea';
 import * as z from 'zod';
 
 interface Props {
@@ -61,26 +60,27 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
           control={form.control}
           name="profile_photo"
           render={({ field }) => (
-            <FormItem className="">
-              <FormLabel className="">Profile Image</FormLabel>
-              {field.value ? (
-                <Image
-                  src={field.value}
-                  alt="profile photo"
-                  width={96}
-                  height={96}
-                  priority
-                  className="rounded-full object-contain"
-                />
-              ) : (
-                <Image
-                  src="/profile.svg"
-                  alt="profile photo"
-                  width={24}
-                  height={24}
-                  className=" object-contain"
-                />
-              )}
+            <FormItem className="flex flex-col justify-start">
+              <FormLabel className="ml-1 p-4 pl-0">
+                {field.value ? (
+                  <Image
+                    src={field.value}
+                    alt="profile photo"
+                    width={96}
+                    height={96}
+                    priority
+                    className=" rounded-full object-contain"
+                  />
+                ) : (
+                  <Image
+                    src="/profile.svg"
+                    alt="profile photo"
+                    width={24}
+                    height={24}
+                    className=" object-contain"
+                  />
+                )}
+              </FormLabel>
               <FormControl className="">
                 <Input
                   type="file"
@@ -90,10 +90,43 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
                   onChange={(e) => handleImage(e, field.onChange)}
                 />
               </FormControl>
-              <FormDescription>
-                This is your public display name.
-              </FormDescription>
-              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem className="flex flex-col justify-start">
+              <FormLabel className="ml-1 p-4 pl-0">Name</FormLabel>
+              <FormControl className="">
+                <Input type="text" className="" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="username"
+          render={({ field }) => (
+            <FormItem className="flex flex-col justify-start">
+              <FormLabel className="ml-1 p-4 pl-0">User Name</FormLabel>
+              <FormControl className="">
+                <Input type="text" className="" {...field} />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="bio"
+          render={({ field }) => (
+            <FormItem className="flex flex-col justify-start">
+              <FormLabel className="ml-1 p-4 pl-0">Bio</FormLabel>
+              <FormControl className="">
+                <Textarea rows={10} className="" {...field} />
+              </FormControl>
             </FormItem>
           )}
         />
