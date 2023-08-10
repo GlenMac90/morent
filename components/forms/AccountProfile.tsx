@@ -1,7 +1,21 @@
 'use client';
 
-import React, { useState } from 'react';
-import { updateUser } from '@/lib/actions/user.actions';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from '@/components/ui/form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { UserValidation } from '@/lib/validations/user';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import * as z from 'zod';
 
 interface Props {
   user: {
@@ -15,72 +29,47 @@ interface Props {
 }
 
 const AccountProfile: React.FC<Props> = ({ user }) => {
-  const [formData, setFormData] = useState(user);
+  const form = useForm({
+    resolver: zodResolver(UserValidation),
+    defaultValues: {
+      profile_photo: '',
+      name: '',
+      username: '',
+      bio: '',
+    },
+  });
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = event.target;
-    setFormData((prevState) => ({ ...prevState, [name]: value }));
-  };
-
-  const onSubmit = async () => {
-    await updateUser({
-      name: formData.name,
-      username: formData.username,
-      userId: user.id,
-      bio: formData.bio,
-      image: formData.image,
-    });
-  };
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    onSubmit();
-  };
+  function onSubmit(values: z.infer<typeof UserValidation>) {
+    console.log(values);
+  }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username:
-        <input
-          type="text"
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="flex flex-col justify-start gap-5"
+      >
+        <FormField
+          control={form.control}
           name="username"
-          value={formData.username}
-          onChange={handleInputChange}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Username</FormLabel>
+              <FormControl>
+                <Input placeholder="shadcn" {...field} />
+              </FormControl>
+              <FormDescription>
+                This is your public display name.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
         />
-      </label>
-
-      <label>
-        Name:
-        <input
-          type="text"
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
-        />
-      </label>
-
-      <label>
-        Bio:
-        <input
-          type="text"
-          name="bio"
-          value={formData.bio}
-          onChange={handleInputChange}
-        />
-      </label>
-
-      <label>
-        Image URL:
-        <input
-          type="text"
-          name="image"
-          value={formData.image}
-          onChange={handleInputChange}
-        />
-      </label>
-
-      <button type="submit">Update Profile</button>
-    </form>
+        <Button className="" type="submit">
+          Submit
+        </Button>
+      </form>
+    </Form>
   );
 };
 
