@@ -65,7 +65,7 @@ const Footer = () => {
           <Link href="/">Privacy & Policy</Link>
           <Link href="/">Terms & Condition</Link>
         </div>
-        <p>©2023 MORENT. All rights reserved</p>
+        <p>©{new Date().getFullYear()} MORENT. All rights reserved</p>
       </div>
     </footer>
   );
