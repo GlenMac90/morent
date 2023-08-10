@@ -19,7 +19,7 @@ const Page = async () => {
 
   return (
     <main className="flex flex-col  px-12 py-20">
-      <h1 className="text-gray900 text-2xl font-semibold leading-7">
+      <h1 className="text-2xl font-semibold leading-7 text-gray-900">
         All on board - let us complete your onboarding !!
       </h1>
       <p className="text-base font-normal leading-7">
