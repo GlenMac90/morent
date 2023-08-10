@@ -44,7 +44,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
         <input
           type="text"
           name="username"
-          value={formData.username}
+          value={formData?.username}
           onChange={handleInputChange}
         />
       </label>
@@ -54,7 +54,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
         <input
           type="text"
           name="name"
-          value={formData.name}
+          value={formData?.name}
           onChange={handleInputChange}
         />
       </label>
@@ -64,7 +64,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
         <input
           type="text"
           name="bio"
-          value={formData.bio}
+          value={formData?.bio}
           onChange={handleInputChange}
         />
       </label>
@@ -74,7 +74,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
         <input
           type="text"
           name="image"
-          value={formData.image}
+          value={formData?.image}
           onChange={handleInputChange}
         />
       </label>
