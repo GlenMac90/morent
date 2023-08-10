@@ -22,6 +22,8 @@ import { isBase64Image } from '@/lib/utils';
 import '@uploadthing/react/styles.css';
 
 import { UploadButton, useUploadThing } from '@/lib/uploadthing';
+import { updateUser } from '@/lib/actions/user.actions';
+import { usePathname, useRouter } from 'next/navigation';
 
 interface Props {
   user: {
@@ -36,7 +38,10 @@ interface Props {
 
 const AccountProfile: React.FC<Props> = ({ user }) => {
   const [files, setFiles] = useState<File[]>([]);
-  const { startUpload, progress } = useUploadThing('media');
+  const { startUpload } = useUploadThing('media');
+
+  const router = useRouter();
+  const pathname = usePathname();
 
   const form = useForm({
     resolver: zodResolver(UserValidation),
@@ -57,6 +62,20 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
       if (imgRes && imgRes[0].fileUrl) {
         values.profile_photo = imgRes[0].fileUrl;
       }
+    }
+    await updateUser({
+      name: values.name,
+      path: pathname,
+      username: values.username,
+      userId: user.id,
+      bio: values.bio,
+      image: values.profile_photo,
+    });
+
+    if (pathname === '/profile/edit') {
+      router.back();
+    } else {
+      router.push('/');
     }
   };
 
