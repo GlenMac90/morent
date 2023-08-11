@@ -7,3 +7,12 @@
     @apply font-plusJakartaSans;
   }
 }
+
+.no_scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.advert_background {
+  background-image: url("../public/testCarPictures/carAdBackground.png");
+  background-size: 100%;
+}
