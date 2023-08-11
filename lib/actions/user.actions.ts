@@ -15,10 +15,11 @@ export async function fetchUser(userId: string) {
 
 interface Params {
   userId: string;
+  objectId?: string;
   username: string;
   name: string;
-  bio: string;
-  image: string;
+  image?: string;
+  bio?: string;
   path: string;
 }
 

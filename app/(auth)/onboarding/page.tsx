@@ -2,19 +2,28 @@ import React from 'react';
 
 import { currentUser } from '@clerk/nextjs';
 import AccountProfile from '@/components/forms/AccountProfile';
-import { userInfo } from 'os';
+import { User } from '@clerk/nextjs/server';
+
+type ExtendedUser = User & {
+  objectId?: string;
+  bio?: string;
+};
 
 const Page = async () => {
-  const user = await currentUser();
+  const user = (await currentUser()) as ExtendedUser;
   if (!user) return null;
 
   const currentUserData = {
-    id: user?.id,
-    objectId: userInfo?._id,
-    username: userInfo?.username || user.username,
-    name: userInfo?.name || user?.firstName || '',
-    bio: userInfo?.bio || '',
-    image: userInfo?.image || user.imageUrl,
+    id: user?.id || '',
+    objectId: user?.objectId || '',
+    username: user?.username || '',
+    name:
+      `${user?.firstName} ${user?.lastName}` ||
+      user?.firstName ||
+      user?.lastName ||
+      '',
+    bio: user?.bio || '',
+    image: user.imageUrl || '',
   };
 
   return (

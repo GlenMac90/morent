@@ -21,17 +21,17 @@ import { isBase64Image } from '@/lib/utils';
 
 import '@uploadthing/react/styles.css';
 
-import { UploadButton, useUploadThing } from '@/lib/uploadthing';
+import { useUploadThing } from '@/lib/uploadthing';
 import { updateUser } from '@/lib/actions/user.actions';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface Props {
   user: {
     id: string;
-    objectId: string;
+    objectId?: string;
     username: string;
     name: string;
-    bio: string;
+    bio?: string;
     image: string;
   };
 }
