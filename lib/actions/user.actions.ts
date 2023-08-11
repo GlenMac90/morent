@@ -7,7 +7,15 @@ import User from '../models/user.model';
 export async function fetchUser(userId: string) {
   try {
     connectToDB();
-    return await User.findOne({ id: userId });
+    const userDocument = await User.findOne({ id: userId });
+    if (!userDocument) {
+      return null;
+    }
+    const userData = userDocument.toObject();
+    userData._id = userData._id.toString();
+    delete userData.__v;
+
+    return userData;
   } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`);
   }
@@ -25,10 +33,11 @@ interface Params {
 
 export async function updateUser({
   userId,
-  bio,
-  name,
   username,
+  name,
+  bio,
   image,
+
   path,
 }: Params): Promise<void> {
   try {

@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  onboarded: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);
