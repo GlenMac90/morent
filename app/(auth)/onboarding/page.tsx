@@ -24,7 +24,11 @@ const Page = async () => {
       '',
     bio: user?.bio || '',
     image: user.imageUrl || '',
+    onboarded: true,
   };
+
+  console.log(user);
+  console.log(currentUserData);
 
   return (
     <main className="flex flex-col  px-12 py-20">

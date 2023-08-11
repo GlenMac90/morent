@@ -29,6 +29,7 @@ interface Params {
   image?: string;
   bio?: string;
   path: string;
+  onboarded?: boolean;
 }
 
 export async function updateUser({
@@ -37,8 +38,8 @@ export async function updateUser({
   name,
   bio,
   image,
-
   path,
+  onboarded,
 }: Params): Promise<void> {
   try {
     connectToDB();

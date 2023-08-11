@@ -69,8 +69,8 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
       username: values.username,
       bio: values.bio,
       image: values.profile_photo,
-
       path: pathname,
+      onboarded: true,
     });
 
     if (pathname === '/profile/edit') {

@@ -3,7 +3,7 @@ import { SignUp } from '@clerk/nextjs';
 const Page = () => {
   return (
     <div className="flex min-h-screen items-center justify-center">
-      <SignUp afterSignUpUrl="/onboarding" />
+      <SignUp redirectUrl="/onboarding" />
     </div>
   );
 };
