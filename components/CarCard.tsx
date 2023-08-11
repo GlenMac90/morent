@@ -41,8 +41,10 @@ const CarCard = ({ isPopularCar = false }) => {
     <>
       <div
         className={`flex w-full ${
-          isPopularCar ? "min-w-[15rem]" : "max-w-sm"
-        } flex-col rounded-lg bg-white p-4 shadow hover:translate-y-[-1px] hover:shadow-lg sm:w-auto sm:max-w-full`}
+          isPopularCar
+            ? "min-w-[15rem]"
+            : "max-w-sm hover:translate-y-[-1px] hover:shadow-lg"
+        } flex-col rounded-lg bg-white p-4 shadow sm:w-auto sm:max-w-full`}
       >
         <div className="flex w-full justify-between">
           <div className="flex flex-col">

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState } from "react";
 import Image from "next/image";
 
@@ -9,8 +11,8 @@ const CarDetailsModalOne = ({ data, setShowModal, isPopular }) => {
   return (
     <>
       <div
-        className={`fixed inset-x-2 top-10 z-50 flex max-w-[25rem] flex-col rounded-lg bg-white p-5 xs:inset-x-auto sm:top-40 sm:self-center sm:justify-self-center md:max-w-[45rem] md:flex-row ${
-          isPopular && "xs:ml-5"
+        className={`fixed inset-x-2 top-10 z-50 flex max-w-[25rem] flex-col rounded-lg bg-white p-5 xs:inset-x-auto xs:self-center xs:justify-self-center sm:top-28 md:max-w-[45rem] md:flex-row ${
+          isPopular && "inset-x-auto flex-initial -translate-x-3.5 sm:ml-0"
         }`}
       >
         <div className="flex flex-col">
@@ -22,12 +24,12 @@ const CarDetailsModalOne = ({ data, setShowModal, isPopular }) => {
             />
           </div>
           <div className="no_scrollbar mt-5 flex gap-5 overflow-x-auto">
-            {data.pictures.map((picture) => (
+            {data.pictures.map((picture: string) => (
               <div className="w-1/3 rounded-lg" key={picture}>
                 <Image
                   src={picture}
                   alt="car pictures"
-                  className={`h-full rounded-lg p-[3px] ${
+                  className={`h-full cursor-pointer rounded-lg p-[3px] ${
                     displayPicture === picture &&
                     "border border-blue-600 p-[1px]"
                   }`}
@@ -47,6 +49,7 @@ const CarDetailsModalOne = ({ data, setShowModal, isPopular }) => {
               width={20}
               alt="close modal"
               onClick={() => setShowModal(false)}
+              className="hidden self-start md:flex"
             />
           </div>
           <p className="mt-2 text-xs leading-6 text-gray700">
@@ -77,7 +80,7 @@ const CarDetailsModalOne = ({ data, setShowModal, isPopular }) => {
           <div className="mt-8 flex w-full justify-between">
             <p className="self-center font-medium">
               ${data.rentPrice}/
-              <span className="text-xs text-gray-400"> days</span>
+              <span className="text-xs text-gray-400"> day</span>
             </p>
             <button className="rounded bg-blue500 px-6 py-2 font-medium text-white">
               Rent Now
@@ -86,7 +89,7 @@ const CarDetailsModalOne = ({ data, setShowModal, isPopular }) => {
         </div>
       </div>
       <div
-        className="fixed inset-0 z-10 bg-black opacity-30 dark:bg-white  dark:opacity-10"
+        className="fixed inset-0 z-10 h-screen w-screen bg-black opacity-30 dark:bg-white dark:opacity-10"
         onClick={() => setShowModal(false)}
       ></div>
     </>
