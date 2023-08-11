@@ -10,7 +10,7 @@ const CarDetailsModalOne = ({ data, setShowModal, isPopular }) => {
     <>
       <div
         className={`fixed inset-x-2 top-10 z-50 flex max-w-[25rem] flex-col rounded-lg bg-white p-5 xs:inset-x-auto sm:top-40 sm:self-center sm:justify-self-center md:max-w-[45rem] md:flex-row ${
-          isPopular && "ml-5"
+          isPopular && "xs:ml-5"
         }`}
       >
         <div className="flex flex-col">
