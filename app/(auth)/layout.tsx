@@ -1,5 +1,6 @@
 import React from 'react';
 import '../globals.css';
+import { dark } from '@clerk/themes';
 
 import type { Metadata } from 'next';
 // eslint-disable-next-line camelcase
@@ -22,7 +23,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <ClerkProvider>
+    <ClerkProvider
+      appearance={{
+        baseTheme: dark,
+      }}
+    >
       <html lang="en">
         <body className={plusJakartaSans.className}>{children}</body>
       </html>

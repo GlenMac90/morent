@@ -12,13 +12,13 @@ export default function Home() {
             description="Ease of doing a car rental safely and reliably. Of course at a low
           price."
             imageSrc="/pngs/advertWhiteCar.png"
-            backgroundStyle="white_car_ad"
+            additionalStyles="white_car_ad"
           />
           <Advert
             title="Easy way to rent a car at a low price"
             description="Providing cheap car rental services and safe and comfortable facilities."
             imageSrc="/pngs/advertSilverCar.png"
-            backgroundStyle="black_car_ad"
+            additionalStyles="black_car_ad hidden lg:flex"
           />
         </div>
       </section>

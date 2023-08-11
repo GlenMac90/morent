@@ -5,18 +5,18 @@ interface AdvertProps {
   title: String;
   description: String;
   imageSrc: String;
-  backgroundStyle: String;
+  additionalStyles: String;
 }
 
 const Advert: React.FC = ({
   title,
   description,
   imageSrc,
-  backgroundStyle,
+  additionalStyles,
 }: AdvertProps) => {
   return (
     <div
-      className={`${backgroundStyle} flex h-60 w-full flex-col justify-between rounded-xl px-6 pb-3 pt-6 sm:h-[22.5rem]`}
+      className={`${additionalStyles} flex h-60 w-full flex-col justify-between rounded-xl px-6 pb-3 pt-6 sm:h-[22.5rem]`}
     >
       <div className="flex flex-col">
         <p className="w-full text-white sm:text-3xl lg:w-1/2">{title}</p>
