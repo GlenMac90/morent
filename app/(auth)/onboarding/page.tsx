@@ -27,9 +27,6 @@ const Page = async () => {
     onboarded: true,
   };
 
-  console.log(user);
-  console.log(currentUserData);
-
   return (
     <main className="flex flex-col  px-12 py-20">
       <h1 className="text-2xl font-semibold leading-7 text-gray-900">
