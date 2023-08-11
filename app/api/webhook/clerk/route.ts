@@ -52,6 +52,7 @@ export const POST = async (request: Request) => {
         image,
         // @ts-ignore
         name,
+        onboarded: true,
       });
     } catch (err) {
       console.log(err);
