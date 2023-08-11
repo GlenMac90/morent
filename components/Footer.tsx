@@ -4,7 +4,7 @@ import { footerLinks } from "@/constants";
 
 const Footer = () => {
   return (
-    <footer className="flex flex-col pt-12 md:bg-white md:px-[3.75rem] md:pb-[3.75rem] md:pt-[5rem] dark:md:bg-gray900">
+    <footer className="m-6 flex flex-col bg-white md:px-[3.75rem] md:pb-[3.75rem] md:pt-[5rem] dark:md:bg-gray900">
       <div className="flex flex-col md:flex-row md:justify-between">
         {/* Morent & Our vision */}
         <div className="flex flex-col justify-start gap-4">
@@ -17,9 +17,10 @@ const Footer = () => {
           </p>
         </div>
         {/* About, Community and Socials links */}
-        <div className="flex flex-row gap-[4.06rem] md:gap-6 lg:mr-[3.75rem] lg:gap-[3.75rem]">
+        <div className="flex flex-col gap-12 sm:flex-row md:gap-6 lg:mr-[3.75rem] lg:gap-[3.75rem]">
           {/* About, Community */}
-          <div className="mt-12 flex flex-col gap-12 min-[500px]:flex-row md:mt-0 md:gap-6 lg:gap-[3.75rem]">
+          {/* TODO - Working on here */}
+          <div className="mt-12 flex flex-row justify-between sm:gap-12 md:mt-0 md:gap-6 lg:gap-[3.75rem]">
             {footerLinks.slice(0, 2).map((item) => (
               <div key={item.title}>
                 <h3 className="text-[1.25rem] font-semibold not-italic leading-6 text-gray900 dark:text-white100 md:text-gray800">
@@ -40,7 +41,7 @@ const Footer = () => {
             ))}
           </div>
           {/* Social links */}
-          <div className="mt-12 md:mt-0">
+          <div className="sm:mt-12 md:mt-0">
             <h3 className="text-[1.25rem] font-semibold not-italic leading-6 text-gray900 dark:text-white100 md:text-gray800">
               {footerLinks[2].title}
             </h3>
@@ -65,7 +66,7 @@ const Footer = () => {
           <Link href="/">Privacy & Policy</Link>
           <Link href="/">Terms & Condition</Link>
         </div>
-        <p>©{new Date().getFullYear()} MORENT. All rights reserved</p>
+        <p>©{new Date().getFullYear()} MORENT. All rights reserved.</p>
       </div>
     </footer>
   );
