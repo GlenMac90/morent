@@ -11,8 +11,8 @@ const CarDetailsModalOne = ({ data, setShowModal, isPopular }) => {
   return (
     <>
       <div
-        className={`fixed inset-x-2 top-10 z-50 flex max-w-[25rem] flex-col rounded-lg bg-white p-5 xs:inset-x-auto xs:self-center xs:justify-self-center sm:top-28 md:max-w-[45rem] md:flex-row ${
-          isPopular && "inset-x-auto flex-initial -translate-x-3.5 sm:ml-0"
+        className={`fixed inset-x-2 top-10 z-50 flex max-w-[25rem] flex-col rounded-lg bg-white p-5 xs:inset-x-auto xs:self-center xs:justify-self-center sm:top-40 md:max-w-[45rem] md:flex-row ${
+          isPopular && "inset-x-auto mx-2 flex-initial xs:ml-4"
         }`}
       >
         <div className="flex flex-col">
