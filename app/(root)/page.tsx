@@ -1,7 +1,6 @@
 import { UserButton, currentUser } from '@clerk/nextjs';
 import { fetchUser } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
-import { userInfo } from 'os';
 
 const Home = async () => {
   const info = await currentUser();
