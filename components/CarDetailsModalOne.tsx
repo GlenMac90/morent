@@ -5,7 +5,28 @@ import Image from "next/image";
 
 import { cross } from "../public/svg-icons/index";
 
-const CarDetailsModalOne = ({ data, setShowModal, isPopular }) => {
+interface CarData {
+  pictures: string[];
+  brand: string;
+  shortDescription: string;
+  type: string;
+  capacity: number;
+  transmission: string;
+  fuelCapacity: number;
+  rentPrice: number;
+}
+
+interface CarDetailsModalOneProps {
+  data: CarData;
+  setShowModal: (show: boolean) => void;
+  isPopular?: boolean; // assuming isPopular might be optional
+}
+
+const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
+  data,
+  setShowModal,
+  isPopular,
+}) => {
   const [displayPicture, setDisplayPicture] = useState(data.pictures[0]);
 
   return (
@@ -49,7 +70,7 @@ const CarDetailsModalOne = ({ data, setShowModal, isPopular }) => {
               width={20}
               alt="close modal"
               onClick={() => setShowModal(false)}
-              className="hidden self-start md:flex"
+              className="hidden cursor-pointer self-start md:flex"
             />
           </div>
           <p className="mt-2 text-xs leading-6 text-gray700">

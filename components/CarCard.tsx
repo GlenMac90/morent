@@ -33,7 +33,11 @@ const dummyData = {
   pictures: [carExterior, carInteriorOne, carInteriorTwo],
 };
 
-const CarCard = ({ isPopularCar = false }) => {
+interface CarCardProps {
+  isPopularCar?: boolean;
+}
+
+const CarCard: React.FC<CarCardProps> = ({ isPopularCar = false }) => {
   const [isFavourited, setIsFavourited] = useState(dummyData.isFavourited);
   const [showModal, setShowModal] = useState(false);
 
