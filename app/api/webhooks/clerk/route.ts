@@ -70,7 +70,7 @@ export const POST = async (request: Request) => {
     } catch (err) {
       console.error('Failed to update user:', err);
       return NextResponse.json(
-        { message: 'Internal Server Error' },
+        { message: 'Internal Server Error from Created Event' },
         { status: 500 }
       );
     }
@@ -106,7 +106,7 @@ export const POST = async (request: Request) => {
     } catch (err) {
       console.error('Failed to update user:', err);
       return NextResponse.json(
-        { message: 'Internal Server Error' },
+        { message: 'Internal Server Error from Updated Event' },
         { status: 500 }
       );
     }

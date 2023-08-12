@@ -43,7 +43,7 @@ export async function updateUser({
 }: Params): Promise<void> {
   try {
     connectToDB();
-
+    console.log('USER ID : ', userId);
     await User.findOneAndUpdate(
       { id: userId },
       {
