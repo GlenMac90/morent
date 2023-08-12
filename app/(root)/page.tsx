@@ -1,10 +1,10 @@
-// import { UserButton } from "@clerk/nextjs";
+import { UserButton } from "@clerk/nextjs";
 import CarCard from "@/components/CarCard";
 
 export default function Home() {
   return (
     <div className="flex flex-col items-center bg-white200 p-2">
-      {/* <UserButton afterSignOutUrl="/" /> */}
+      <UserButton afterSignOutUrl="/" />
       <p className="">Hello World!</p>
       <div className="flex w-full max-w-7xl flex-col items-center pt-5">
         <div className="flex w-full justify-between px-5">
