@@ -8,14 +8,16 @@ export async function fetchUser(userId: string) {
   try {
     connectToDB();
     const userDocument = await User.findOne({ id: userId });
-    if (!userDocument) {
-      return null;
-    }
-    const userData = userDocument.toObject();
-    userData._id = userData._id.toString();
-    delete userData.__v;
+    console.log(userDocument);
+    return userDocument;
+    // if (!userDocument) {
+    //   return null;
+    // }
+    // const userData = userDocument.toObject();
+    // userData._id = userData._id.toString();
+    // delete userData.__v;
 
-    return userData;
+    // return userData;
   } catch (error: any) {
     throw new Error(`Failed to fetch user: ${error.message}`);
   }
@@ -23,7 +25,7 @@ export async function fetchUser(userId: string) {
 
 interface Params {
   userId: string;
-  objectId?: string;
+
   username: string;
   name: string;
   image?: string;
@@ -52,6 +54,7 @@ export async function updateUser({
         bio,
         image,
         path,
+        onboarded,
       },
       { upsert: true }
     );

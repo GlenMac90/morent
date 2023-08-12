@@ -5,17 +5,16 @@ import AccountProfile from '@/components/forms/AccountProfile';
 import { User } from '@clerk/nextjs/server';
 
 type ExtendedUser = User & {
-  objectId?: string;
   bio?: string;
 };
 
 const Page = async () => {
   const user = (await currentUser()) as ExtendedUser;
+  console.log(user);
   if (!user) return null;
 
   const currentUserData = {
     id: user?.id || '',
-    objectId: user?.objectId || '',
     username: user?.username || '',
     name:
       `${user?.firstName} ${user?.lastName}` ||
