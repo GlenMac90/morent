@@ -28,7 +28,7 @@ import { usePathname, useRouter } from 'next/navigation';
 interface Props {
   user: {
     id: string;
-    objectId?: string;
+
     username: string;
     name: string;
     bio?: string;
@@ -56,7 +56,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
     const blob = values.profile_photo;
     const hasImageChanged = isBase64Image(blob);
-
+    console.log('first');
     if (hasImageChanged) {
       const imgRes = await startUpload(files);
       if (imgRes && imgRes[0].fileUrl) {
