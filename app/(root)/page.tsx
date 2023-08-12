@@ -1,7 +1,18 @@
-import { UserButton } from "@clerk/nextjs";
+import { UserButton, currentUser } from "@clerk/nextjs";
+import { fetchUser } from "@/lib/actions/user.actions";
+import { redirect } from "next/navigation";
 import CarCard from "@/components/CarCard";
 
-export default function Home() {
+const Home = async () => {
+  const info = await currentUser();
+  if (!info) return null;
+
+  const userInfo = await fetchUser(info.id);
+
+  if (!userInfo?.onboarded) redirect("/onboarding");
+
+  console.log(userInfo);
+
   return (
     <div className="flex flex-col items-center bg-white200 p-2">
       <UserButton afterSignOutUrl="/" />
@@ -32,4 +43,6 @@ export default function Home() {
       </div>
     </div>
   );
-}
+};
+
+export default Home;

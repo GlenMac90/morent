@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const userSchema = new mongoose.Schema({
   id: {
     type: String,
+    unique: true,
     required: true,
   },
   username: {
@@ -14,8 +15,18 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image: String,
-  bio: String,
+  image: {
+    type: String,
+    required: false,
+  },
+  bio: {
+    type: String,
+    required: false,
+  },
+  onboarded: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);
