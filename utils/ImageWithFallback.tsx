@@ -21,7 +21,7 @@ const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
   fallback = fallbackImage,
   ...props
 }) => {
-  const [hasError, setHasError] = useState(true);
+  const [hasError, setHasError] = useState(Boolean);
 
   useEffect(() => {
     setHasError(false);
