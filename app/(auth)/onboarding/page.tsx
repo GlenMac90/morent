@@ -11,7 +11,10 @@ type ExtendedUser = User & {
 
 const Page = async () => {
   const user = (await currentUser()) as ExtendedUser;
+  console.log(user);
   if (!user) return null;
+
+  console.log(user);
 
   const currentUserData = {
     id: user?.id || '',
