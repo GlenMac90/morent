@@ -1,22 +1,22 @@
-import { UserButton, currentUser } from "@clerk/nextjs";
-import { fetchUser } from "@/lib/actions/user.actions";
-import { redirect } from "next/navigation";
+// import { UserButton, currentUser } from "@clerk/nextjs";
+// import { fetchUser } from "@/lib/actions/user.actions";
+// import { redirect } from "next/navigation";
 import CarCard from "@/components/CarCard";
 import Advert from "@/components/Advert";
 
 const Home = async () => {
-  const info = await currentUser();
-  if (!info) return null;
+  // const info = await currentUser();
+  // if (!info) return null;
 
-  const userInfo = await fetchUser(info.id);
+  // const userInfo = await fetchUser(info.id);
 
-  if (!userInfo?.onboarded) redirect("/onboarding");
+  // if (!userInfo?.onboarded) redirect("/onboarding");
 
-  console.log(userInfo);
+  // console.log(userInfo);
 
   return (
     <div className="flex flex-col items-center bg-white200 p-2">
-      <UserButton afterSignOutUrl="/" />
+      {/* <UserButton afterSignOutUrl="/" /> */}
       <p className="">Hello World!</p>
       <div className="flex w-full max-w-7xl flex-col items-center pt-5">
         <section className="flex w-full max-w-7xl px-5">

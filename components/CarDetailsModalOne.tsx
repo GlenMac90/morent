@@ -36,6 +36,16 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
           isPopular && "inset-x-auto mx-2 flex-initial xs:ml-4"
         }`}
       >
+        <div className="absolute -top-4 right-2 rounded-sm bg-white">
+          <Image
+            src={cross}
+            height={20}
+            width={20}
+            alt="close modal"
+            onClick={() => setShowModal(false)}
+            className="flex cursor-pointer self-start md:hidden"
+          />
+        </div>
         <div className="flex flex-col">
           <div className="flex h-[12rem] items-center justify-center rounded-lg">
             <Image
