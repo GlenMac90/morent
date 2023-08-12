@@ -3,7 +3,7 @@ import { IncomingHttpHeaders } from 'http';
 import { NextResponse } from 'next/server';
 import { updateUser } from '@/lib/actions/user.actions';
 import { headers } from 'next/headers';
-import { useRouter } from 'next/router';
+
 const webhookSecret = process.env.NEXT_CLERK_WEBHOOK_SECRET;
 
 type EventType = 'user.created' | 'user.updated';
@@ -35,22 +35,18 @@ export const POST = async (request: Request) => {
       heads as IncomingHttpHeaders & WebhookRequiredHeaders
     ) as Event;
   } catch (err) {
-    console.error('Webhook verification failed:', err);
-    return NextResponse.json(
-      // @ts-ignore
-      { message: err.message || 'Error processing request' },
-      { status: 400 }
-    );
+    return NextResponse.json({ message: err }, { status: 400 });
   }
 
-  if (evnt && evnt.type === 'user.created') {
+  const eventType: EventType = evnt?.type!;
+
+  if (eventType === 'user.created') {
     const {
       image_url: image,
       first_name: name,
       id: userId,
       last_name: username,
     } = evnt.data;
-    console.log(evnt.data);
     try {
       await updateUser({
         // @ts-ignore
@@ -64,6 +60,13 @@ export const POST = async (request: Request) => {
         bio: '',
         onboarded: false,
       });
+
+      return NextResponse.json(
+        {
+          message: 'User created successfully.',
+        },
+        { status: 201 }
+      );
     } catch (err) {
       console.error('Failed to update user:', err);
       return NextResponse.json(
@@ -73,14 +76,13 @@ export const POST = async (request: Request) => {
     }
   }
 
-  if (evnt && evnt.type === 'user.updated') {
+  if (eventType === 'user.updated') {
     const {
       image_url: image,
       first_name: name,
       id: userId,
       last_name: username,
     } = evnt.data;
-    console.log(evnt.data);
     try {
       await updateUser({
         // @ts-ignore
@@ -94,6 +96,13 @@ export const POST = async (request: Request) => {
         bio: '',
         onboarded: false,
       });
+
+      return NextResponse.json(
+        {
+          message: 'User updated successfully.',
+        },
+        { status: 201 }
+      );
     } catch (err) {
       console.error('Failed to update user:', err);
       return NextResponse.json(
@@ -108,5 +117,3 @@ export const POST = async (request: Request) => {
     { status: 200 }
   );
 };
-
-// @ts-ignore
