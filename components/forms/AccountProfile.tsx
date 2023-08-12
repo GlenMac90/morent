@@ -21,17 +21,17 @@ import { isBase64Image } from '@/lib/utils';
 
 import '@uploadthing/react/styles.css';
 
-import { UploadButton, useUploadThing } from '@/lib/uploadthing';
+import { useUploadThing } from '@/lib/uploadthing';
 import { updateUser } from '@/lib/actions/user.actions';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface Props {
   user: {
     id: string;
-    objectId: string;
+
     username: string;
     name: string;
-    bio: string;
+    bio?: string;
     image: string;
   };
 }
@@ -46,17 +46,17 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
-      profile_photo: user?.image || '',
       name: user?.name || '',
       username: user?.username || '',
       bio: user?.bio || '',
+      profile_photo: user?.image || '',
     },
   });
 
   const onSubmit = async (values: z.infer<typeof UserValidation>) => {
     const blob = values.profile_photo;
     const hasImageChanged = isBase64Image(blob);
-
+    console.log('first');
     if (hasImageChanged) {
       const imgRes = await startUpload(files);
       if (imgRes && imgRes[0].fileUrl) {
@@ -64,12 +64,13 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
       }
     }
     await updateUser({
-      name: values.name,
-      path: pathname,
-      username: values.username,
       userId: user.id,
+      name: values.name,
+      username: values.username,
       bio: values.bio,
       image: values.profile_photo,
+      path: pathname,
+      onboarded: true,
     });
 
     if (pathname === '/profile/edit') {
