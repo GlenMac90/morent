@@ -6,26 +6,19 @@ const carSchema = new mongoose.Schema({
     ref: 'User',
     required: true,
   },
-  id: {
-    type: String,
-    unique: true,
-    required: true,
-  },
   carTitle: {
     type: String,
-    unique: true,
     required: true,
   },
-  brandName: {
+  carType: {
     type: String,
-    unique: true,
     required: true,
   },
   rentPrice: String,
-  capacity: String,
+  capacity: Number,
   transmission: String,
   location: String,
-  fuelCapacity: String,
+  fuelCapacity: Number,
   shortDescription: String,
   carImageMain: String,
   carImageInteriorOne: String,
@@ -33,6 +26,6 @@ const carSchema = new mongoose.Schema({
   carImageInteriorThree: String,
 });
 
-const Car = mongoose.models.Car || mongoose.model('Car', carSchema);
+const Car = mongoose?.models?.Car || mongoose.model('Car', carSchema);
 
 export default Car;
