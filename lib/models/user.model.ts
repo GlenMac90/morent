@@ -27,6 +27,12 @@ const userSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  cars: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Car',
+    },
+  ],
 });
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);
