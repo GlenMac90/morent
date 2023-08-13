@@ -1,6 +1,11 @@
 import mongoose from 'mongoose';
 
 const carSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+  },
   id: {
     type: String,
     unique: true,
