@@ -28,7 +28,7 @@ const PaymentResult: React.FC<PaymentResultProps> = ({ result }) => {
         </p>
         <Image
           src={imageSrc}
-          alt=""
+          alt="payment result image"
           className="mt-8 h-[7rem] w-[7rem] sm:h-[7.5rem] sm:w-[7.5rem]"
         />
         <p className="mt-8 text-2xl font-semibold sm:text-4xl">
