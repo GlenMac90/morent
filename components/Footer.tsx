@@ -11,7 +11,7 @@ const Footer = () => {
           <p className="text-[1.5rem] font-bold not-italic leading-[1.8rem] text-blue500 md:text-[2rem] md:leading-[2.4rem] md:tracking-[0.0625rem]">
             MORENT
           </p>
-          <p className="text-[0.75rem] font-medium not-italic leading-6 tracking-[-0.0075rem] text-gray400 dark:text-white200 md:text-[1rem] md:leading-8 md:tracking-[-0.01rem] md:text-gray500">
+          <p className="text-[0.75rem] font-medium not-italic leading-6 tracking-[-0.0075rem] text-gray400 dark:text-white200 md:text-[1rem] md:leading-8 md:tracking-[-0.01rem]">
             Our vision is to provide convenience <br />
             and help increase your sales business.
           </p>
@@ -19,11 +19,10 @@ const Footer = () => {
         {/* About, Community and Socials links */}
         <div className="flex flex-col gap-12 sm:flex-row md:gap-6 lg:mr-[3.75rem] lg:gap-[3.75rem]">
           {/* About, Community */}
-          {/* TODO - Working on here */}
           <div className="mt-12 flex flex-row justify-between sm:gap-12 md:mt-0 md:gap-6 lg:gap-[3.75rem]">
             {footerLinks.slice(0, 2).map((item) => (
               <div key={item.title}>
-                <h3 className="text-[1.25rem] font-semibold not-italic leading-6 text-gray900 dark:text-white100 md:text-gray800">
+                <h3 className="text-[1.25rem] font-semibold not-italic leading-6 text-gray800 dark:text-white100">
                   {item.title}
                 </h3>
                 <div className="mt-5 flex flex-col gap-4 sm:mt-6">
@@ -31,7 +30,7 @@ const Footer = () => {
                     <Link
                       key={link.title}
                       href={link.url}
-                      className="text-[1rem] font-medium not-italic leading-[1.2rem] text-gray400 dark:text-white200 md:text-gray500"
+                      className="text-[1rem] font-medium not-italic leading-[1.2rem] text-gray400 dark:text-white200"
                     >
                       {link.title}
                     </Link>
@@ -42,7 +41,7 @@ const Footer = () => {
           </div>
           {/* Social links */}
           <div className="sm:mt-12 md:mt-0">
-            <h3 className="text-[1.25rem] font-semibold not-italic leading-6 text-gray900 dark:text-white100 md:text-gray800">
+            <h3 className="text-[1.25rem] font-semibold not-italic leading-6 text-gray800 dark:text-white100">
               {footerLinks[2].title}
             </h3>
             <div className="mt-5 flex flex-col gap-4 sm:mt-6">
@@ -50,7 +49,7 @@ const Footer = () => {
                 <Link
                   key={link.title}
                   href={link.url}
-                  className="font-medium not-italic leading-[1.2rem] text-gray400 last:text-[1rem] dark:text-white200 md:text-gray500"
+                  className="font-medium not-italic leading-[1.2rem] text-gray400 last:text-[1rem] dark:text-white200"
                 >
                   {link.title}
                 </Link>
@@ -61,7 +60,7 @@ const Footer = () => {
       </div>
       <Separator className="hidden sm:mt-12 sm:block sm:bg-blue50 dark:sm:bg-gray850 md:mt-[3.75rem]" />
       {/* ©2023 MORENT. All rights reserved Privacy & Policy, Terms & Condition */}
-      <div className="mt-12 flex flex-col text-[0.75rem] font-semibold not-italic leading-6 tracking-[-0.0075rem] text-gray900 dark:text-white100 sm:flex-row-reverse sm:justify-between md:text-[1rem] md:leading-8 md:tracking-[-0.01rem] md:text-gray800">
+      <div className="mt-12 flex flex-col text-[0.75rem] font-semibold not-italic leading-6 tracking-[-0.0075rem] text-gray800 dark:text-white100 sm:flex-row-reverse sm:justify-between md:text-[1rem] md:leading-8 md:tracking-[-0.01rem]">
         <div className="mb-8 flex flex-row justify-between sm:gap-[3.75rem] md:mb-0 md:text-right">
           <Link href="/">Privacy & Policy</Link>
           <Link href="/">Terms & Condition</Link>
