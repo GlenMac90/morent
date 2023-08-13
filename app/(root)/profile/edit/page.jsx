@@ -8,7 +8,7 @@ async function Page() {
   if (!user) return null;
 
   const userInfo = await fetchUser(user.id);
-  console.log(userInfo);
+
   const userData = {
     id: user.id,
     username: userInfo ? userInfo?.username : user.username,
