@@ -16,7 +16,6 @@ export async function fetchUser(userId: string) {
 
 interface Params {
   userId: string;
-
   username: string;
   name: string;
   image?: string;
@@ -64,5 +63,19 @@ export async function deleteUser(userId: string): Promise<void> {
     console.log(`User with ID ${userId} deleted successfully.`);
   } catch (error: any) {
     throw new Error(`Failed to delete user: ${error.message}`);
+  }
+}
+
+export async function fetchUserWithCars(userId: string): Promise<void> {
+  try {
+    connectToDB();
+    const userWithCars = await User.findById(userId).populate('cars').exec();
+    if (!userWithCars) {
+      console.log('User not found.');
+    }
+
+    return userWithCars;
+  } catch (error: any) {
+    throw new Error(`Failed to fetch user and their cars: ${error.message}`);
   }
 }
