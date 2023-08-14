@@ -1,6 +1,6 @@
 'use client';
 
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import {
   Form,
@@ -40,11 +40,15 @@ interface Props {
   userId: string;
 }
 
+interface FileWithPreview extends File {
+  preview?: string;
+}
+
 const CarForm: React.FC<Props> = ({ userId }) => {
-  const [files, setFiles] = useState<File[]>([]);
   const { startUpload } = useUploadThing('media');
   const router = useRouter();
   const pathname = usePathname();
+  const [dragDropFiles, setDragDropFiles] = useState<FileWithPreview[]>([]);
 
   const form = useForm({
     resolver: zodResolver(CarValidation),
@@ -63,14 +67,15 @@ const CarForm: React.FC<Props> = ({ userId }) => {
 
   const onSubmit = async (values: z.infer<typeof CarValidation>) => {
     const blob = values.carImageMain;
-    const hasImageChanged = isBase64Image(blob);
+    const isImage = isBase64Image(blob);
 
-    if (hasImageChanged) {
-      const imgRes = await startUpload(files);
+    if (isImage) {
+      const imgRes = await startUpload(dragDropFiles);
       if (imgRes && imgRes[0].fileUrl) {
         values.carImageMain = imgRes[0].fileUrl;
       }
     }
+
     await createCar({
       userId,
       carTitle: values.carTitle || '',
@@ -93,18 +98,25 @@ const CarForm: React.FC<Props> = ({ userId }) => {
   };
 
   const handleImage = (
-    e: ChangeEvent<HTMLInputElement>,
+    files: FileWithPreview[],
     fieldChange: (value: string) => void
   ) => {
-    e.preventDefault();
-    const fileReader = new FileReader();
-    if (e.target.files && e.target.files.length > 0) {
-      const file = e.target.files[0];
-      setFiles(Array.from(e.target.files));
+    if (files.length > 0) {
+      const file = files[0];
+      const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
       fileReader.onload = () => {
         fieldChange((fileReader.result as string) || '');
       };
+    }
+  };
+
+  const handleFilesChanged = (files: FileWithPreview[]) => {
+    setDragDropFiles(files);
+    if (files.length > 0) {
+      handleImage(files, (result) => {
+        form.setValue('carImageMain', result);
+      });
     }
   };
 
@@ -117,6 +129,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
         <h1>Add a Car for Rent</h1>
         <p>Please enter your car info</p>
         <h3 className="text-blue500">CAR INFO</h3>
+
         <FormField
           control={form.control}
           name="carTitle"
@@ -221,25 +234,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
           )}
         />
 
-        <FormField
-          control={form.control}
-          name="carImageMain"
-          render={({ field }) => (
-            <FormItem className="flex flex-col justify-start">
-              <FormLabel>Car Image</FormLabel>
-              <FormControl>
-                <Input
-                  className="bg-white200"
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => handleImage(e, field.onChange)}
-                />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <DragDrop />
+        <DragDrop onFilesChanged={handleFilesChanged} />
 
         <Button className="bg-blue500 text-white" type="submit">
           Submit
