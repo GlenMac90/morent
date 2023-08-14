@@ -1,6 +1,3 @@
-// https://innocentanyaele.medium.com/create-a-drag-and-drop-file-component-in-reactjs-nextjs-tailwind-6ae70ba06e4b
-// Drag and Drop component from medium article
-
 'use client';
 
 import { useRef, useState, ChangeEvent, DragEvent, useEffect } from 'react';
@@ -10,17 +7,20 @@ interface FileWithPreview extends File {
 }
 
 interface DragDropProps {
-  onFilesChanged: (files: FileWithPreview[]) => void;
+  handleFilesChange: (files: FileWithPreview[]) => void;
 }
 
-const DragDrop: React.FC<DragDropProps> = ({ onFilesChanged }) => {
+// https://innocentanyaele.medium.com/create-a-drag-and-drop-file-component-in-reactjs-nextjs-tailwind-6ae70ba06e4b
+// Drag and Drop component from medium article
+
+const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
   const [dragActive, setDragActive] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    onFilesChanged(files);
+    handleFilesChange(files);
     setIsMounted(true);
   }, [files]);
 

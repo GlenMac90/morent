@@ -97,29 +97,19 @@ const CarForm: React.FC<Props> = ({ userId }) => {
     }
   };
 
-  const handleImage = (
-    files: FileWithPreview[],
-    fieldChange: (value: string) => void
-  ) => {
+  const handleFilesChange = (files: FileWithPreview[]) => {
+    setDragDropFiles(files);
+
     if (files.length > 0) {
       const file = files[0];
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
       fileReader.onload = () => {
-        fieldChange((fileReader.result as string) || '');
+        const result = fileReader.result as string;
+        form.setValue('carImageMain', result || '');
       };
     }
   };
-
-  const handleFilesChanged = (files: FileWithPreview[]) => {
-    setDragDropFiles(files);
-    if (files.length > 0) {
-      handleImage(files, (result) => {
-        form.setValue('carImageMain', result);
-      });
-    }
-  };
-
   return (
     <Form {...form}>
       <form
@@ -234,7 +224,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
           )}
         />
 
-        <DragDrop onFilesChanged={handleFilesChanged} />
+        <DragDrop handleFilesChange={handleFilesChange} />
 
         <Button className="bg-blue500 text-white" type="submit">
           Submit
