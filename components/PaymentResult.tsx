@@ -19,8 +19,8 @@ const PaymentResult: React.FC<PaymentResultProps> = ({ result }) => {
     imageSrc = StripeCancelImage;
   }
   return (
-    <div className="flex h-screen w-screen items-center justify-center px-2">
-      <section className="flex w-full flex-col items-center justify-center rounded-lg px-4 py-10 sm:w-auto sm:p-12">
+    <div className="flex h-screen w-screen items-center justify-center bg-white200 px-2">
+      <section className="flex w-full flex-col items-center justify-center rounded-xl bg-white px-4 py-10 sm:w-auto sm:p-12">
         <p className="font-medium text-gray400 sm:text-lg">
           {result === "Success" && "Thank You For Your Purchase"}
           {result === "Error" && "There was an error making payment"}
