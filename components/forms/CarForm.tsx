@@ -43,7 +43,6 @@ interface Props {
 const CarForm: React.FC<Props> = ({ userId }) => {
   const [files, setFiles] = useState<File[]>([]);
   const { startUpload } = useUploadThing('media');
-
   const router = useRouter();
   const pathname = usePathname();
 

@@ -1,6 +1,5 @@
 'use server';
 
-import mongoose from 'mongoose';
 import { connectToDB } from '../mongoose';
 import User from '../models/user.model';
 import Car from '../models/car.model';
@@ -32,7 +31,6 @@ export async function createCar(carData: CarParams): Promise<void> {
     await User.findByIdAndUpdate(carData.userId, {
       $push: { cars: car._id },
     });
-
     return car;
   } catch (error: any) {
     throw new Error(`Failed to create car: ${error.message}`);
