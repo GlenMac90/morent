@@ -10,9 +10,9 @@ const Page = async () => {
   const userMongo = await fetchUser(userId);
 
   return (
-    <>
+    <div className="my-10 flex w-full items-center justify-center bg-white200">
       <CarForm userId={userMongo._id} />
-    </>
+    </div>
   );
 };
 

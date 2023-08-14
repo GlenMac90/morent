@@ -23,6 +23,7 @@ import { useUploadThing } from '@/lib/uploadthing';
 import { createCar } from '@/lib/actions/car.actions';
 
 import { usePathname, useRouter } from 'next/navigation';
+import DragDrop from './DragDrop';
 
 interface Props {
   car?: {
@@ -112,16 +113,19 @@ const CarForm: React.FC<Props> = ({ userId }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col justify-start gap-5"
+        className="flex flex-col justify-start gap-5 bg-white0 px-4 py-5 sm:px-[3.75rem] sm:py-[2.25rem] md:px-[3.75rem] md:py-[2.25rem]"
       >
+        <h1>Add a Car for Rent</h1>
+        <p>Please enter your car info</p>
+        <h3 className="text-blue500">CAR INFO</h3>
         <FormField
           control={form.control}
           name="carTitle"
           render={({ field }) => (
-            <FormItem className="flex flex-col justify-start">
+            <FormItem className="flex flex-col justify-start ">
               <FormLabel>Car Title</FormLabel>
               <FormControl>
-                <Input type="text" {...field} />
+                <Input className="bg-white200" type="text" {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -134,7 +138,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
             <FormItem className="flex flex-col justify-start">
               <FormLabel>Brand Name</FormLabel>
               <FormControl>
-                <Input type="text" {...field} />
+                <Input className="bg-white200" type="text" {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -147,7 +151,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
             <FormItem className="flex flex-col justify-start">
               <FormLabel>Rent Price</FormLabel>
               <FormControl>
-                <Input type="text" {...field} />
+                <Input className="bg-white200" type="text" {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -160,7 +164,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
             <FormItem className="flex flex-col justify-start">
               <FormLabel>Capacity</FormLabel>
               <FormControl>
-                <Input type="number" {...field} />
+                <Input className="bg-white200" type="number" {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -173,7 +177,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
             <FormItem className="flex flex-col justify-start">
               <FormLabel>Transmission</FormLabel>
               <FormControl>
-                <Input type="text" {...field} />
+                <Input className="bg-white200" type="text" {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -186,7 +190,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
             <FormItem className="flex flex-col justify-start">
               <FormLabel>Location</FormLabel>
               <FormControl>
-                <Input type="text" {...field} />
+                <Input className="bg-white200" type="text" {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -199,7 +203,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
             <FormItem className="flex flex-col justify-start">
               <FormLabel>Fuel Capacity</FormLabel>
               <FormControl>
-                <Input type="number" {...field} />
+                <Input className="bg-white200" type="number" {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -212,7 +216,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
             <FormItem className="flex flex-col justify-start">
               <FormLabel>Short Description</FormLabel>
               <FormControl>
-                <Textarea rows={5} {...field} />
+                <Textarea className="bg-white200" rows={5} {...field} />
               </FormControl>
             </FormItem>
           )}
@@ -226,6 +230,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
               <FormLabel>Car Image</FormLabel>
               <FormControl>
                 <Input
+                  className="bg-white200"
                   type="file"
                   accept="image/*"
                   onChange={(e) => handleImage(e, field.onChange)}
@@ -234,6 +239,8 @@ const CarForm: React.FC<Props> = ({ userId }) => {
             </FormItem>
           )}
         />
+
+        <DragDrop />
 
         <Button className="bg-blue500 text-white" type="submit">
           Submit

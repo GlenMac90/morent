@@ -14,6 +14,7 @@ const carSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+
   rentPrice: String,
   capacity: Number,
   transmission: String,
