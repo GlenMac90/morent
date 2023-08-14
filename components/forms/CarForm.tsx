@@ -13,7 +13,6 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { CarValidation } from '@/lib/validations/car';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '../ui/textarea';
 import * as z from 'zod';
 import { isBase64Image } from '@/lib/utils';
 
@@ -114,120 +113,169 @@ const CarForm: React.FC<Props> = ({ userId }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col justify-start gap-5 bg-white0 px-4 py-5 sm:px-[3.75rem] sm:py-[2.25rem] md:px-[3.75rem] md:py-[2.25rem]"
+        className="flex w-full max-w-4xl flex-col items-center gap-5 bg-white0 px-6 py-12"
       >
-        <h1>Add a Car for Rent</h1>
-        <p>Please enter your car info</p>
-        <h3 className="text-blue500">CAR INFO</h3>
+        <div className="flex flex-col self-start">
+          <h1 className="text-xl font-semibold ">Add a Car for Rent</h1>
+          <p className="mt-2.5  text-sm text-gray400">
+            Please enter your car info
+          </p>
+          <h3 className="mt-8 text-lg font-bold text-blue500">CAR INFO</h3>
+        </div>
+        <div className="flex w-full flex-col gap-8 md:flex-row ">
+          <FormField
+            control={form.control}
+            name="carTitle"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col justify-start">
+                <FormLabel>Car Title</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-11 bg-white200 md:h-14 "
+                    type="text"
+                    {...field}
+                    placeholder="Your title"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="carTitle"
-          render={({ field }) => (
-            <FormItem className="flex flex-col justify-start ">
-              <FormLabel>Car Title</FormLabel>
-              <FormControl>
-                <Input className="bg-white200" type="text" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="carType"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col justify-start">
+                <FormLabel>Car Type</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-11 bg-white200 md:h-14 "
+                    type="text"
+                    {...field}
+                    placeholder="Car Type"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex w-full flex-col gap-8 md:flex-row">
+          <FormField
+            control={form.control}
+            name="rentPrice"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col justify-start">
+                <FormLabel>Rent Price</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-11 bg-white200 md:h-14 "
+                    type="text"
+                    {...field}
+                    placeholder="Price"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="carType"
-          render={({ field }) => (
-            <FormItem className="flex flex-col justify-start">
-              <FormLabel>Brand Name</FormLabel>
-              <FormControl>
-                <Input className="bg-white200" type="text" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="capacity"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col justify-start">
+                <FormLabel>Capacity</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-11 bg-white200 md:h-14 "
+                    type="number"
+                    {...field}
+                    placeholder="Capacity in persons"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex w-full flex-col gap-8 md:flex-row">
+          <FormField
+            control={form.control}
+            name="transmission"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col justify-start">
+                <FormLabel>Transmission</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-11 bg-white200 md:h-14 "
+                    type="text"
+                    {...field}
+                    placeholder="Your title"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="rentPrice"
-          render={({ field }) => (
-            <FormItem className="flex flex-col justify-start">
-              <FormLabel>Rent Price</FormLabel>
-              <FormControl>
-                <Input className="bg-white200" type="text" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="location"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col justify-start">
+                <FormLabel>Location</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-11 bg-white200 md:h-14 "
+                    type="text"
+                    {...field}
+                    placeholder="Select your city"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
+        <div className="flex w-full flex-col gap-8 md:flex-row">
+          <FormField
+            control={form.control}
+            name="fuelCapacity"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col justify-start">
+                <FormLabel>Fuel Capacity</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-11 bg-white200 md:h-14 "
+                    type="number"
+                    {...field}
+                    placeholder="Fuel Capacity in Litres"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="capacity"
-          render={({ field }) => (
-            <FormItem className="flex flex-col justify-start">
-              <FormLabel>Capacity</FormLabel>
-              <FormControl>
-                <Input className="bg-white200" type="number" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="transmission"
-          render={({ field }) => (
-            <FormItem className="flex flex-col justify-start">
-              <FormLabel>Transmission</FormLabel>
-              <FormControl>
-                <Input className="bg-white200" type="text" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="location"
-          render={({ field }) => (
-            <FormItem className="flex flex-col justify-start">
-              <FormLabel>Location</FormLabel>
-              <FormControl>
-                <Input className="bg-white200" type="text" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="fuelCapacity"
-          render={({ field }) => (
-            <FormItem className="flex flex-col justify-start">
-              <FormLabel>Fuel Capacity</FormLabel>
-              <FormControl>
-                <Input className="bg-white200" type="number" {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="shortDescription"
-          render={({ field }) => (
-            <FormItem className="flex flex-col justify-start">
-              <FormLabel>Short Description</FormLabel>
-              <FormControl>
-                <Textarea className="bg-white200" rows={5} {...field} />
-              </FormControl>
-            </FormItem>
-          )}
-        />
-
+          <FormField
+            control={form.control}
+            name="shortDescription"
+            render={({ field }) => (
+              <FormItem className="flex w-full flex-col justify-start">
+                <FormLabel>Short Description</FormLabel>
+                <FormControl>
+                  <Input
+                    className="h-11 bg-white200 md:h-14 "
+                    {...field}
+                    placeholder="Enter a short description"
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        </div>
         <DragDrop handleFilesChange={handleFilesChange} />
 
-        <Button className="bg-blue500 text-white" type="submit">
-          Submit
+        <Button
+          className="flex w-full self-end bg-blue500 p-5 text-white md:w-auto"
+          type="submit"
+        >
+          Register Car
         </Button>
       </form>
     </Form>

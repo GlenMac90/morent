@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState, ChangeEvent, DragEvent, useEffect } from 'react';
+import Image from 'next/image';
 
 interface FileWithPreview extends File {
   preview?: string;
@@ -78,53 +79,59 @@ const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
   }
 
   return (
-    <div className="flex items-center justify-center ">
-      <form
-        className={`${
-          dragActive ? 'bg-blue-400' : 'bg-blue-100'
-        }  flex min-h-[10rem] w-1/3  flex-col items-center justify-center rounded-lg p-4 text-center`}
-        onDragEnter={handleDragEnter}
-        onSubmit={(e) => e.preventDefault()}
-        onDrop={handleDrop}
-        onDragLeave={handleDragLeave}
-        onDragOver={handleDragOver}
-      >
-        <input
-          placeholder="fileInput"
-          className="hidden"
-          ref={inputRef}
-          type="file"
-          multiple={true}
-          onChange={handleChange}
-          accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf"
-        />
+    <form
+      className={`${
+        dragActive ? 'bg-blue-400' : 'bg-blue-100'
+      }  flex  w-full  flex-col items-center justify-center rounded-lg border border-dotted border-gray400 bg-white0  py-10  text-center`}
+      onDragEnter={handleDragEnter}
+      onSubmit={(e) => e.preventDefault()}
+      onDrop={handleDrop}
+      onDragLeave={handleDragLeave}
+      onDragOver={handleDragOver}
+    >
+      <input
+        placeholder="fileInput"
+        className="hidden  "
+        ref={inputRef}
+        type="file"
+        multiple={true}
+        onChange={handleChange}
+        accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf"
+      />
+      <Image
+        src="/pngs/uploadFile.png"
+        width={30}
+        height={30}
+        alt="file upload png"
+      />
 
-        <p>
-          Drag & Drop files or{' '}
-          <span
-            className="cursor-pointer font-bold text-blue-600"
-            onClick={openFileExplorer}
-          >
-            <u>Select files</u>
-          </span>{' '}
-          to upload
-        </p>
+      <p className="mt-2.5 text-sm md:text-base">
+        Drag & Drop an image, or{' '}
+        <span
+          className="cursor-pointer font-bold text-blue500"
+          onClick={openFileExplorer}
+        >
+          Browse
+        </span>
+      </p>
+      <p className="mb-11 mt-2 text-xs text-gray400 md:text-sm ">
+        High resolution images (png, jpg, gif)
+      </p>
 
-        <div className="flex flex-col items-center p-3">
-          {files.map((file: any, idx: any) => (
-            <div key={idx} className="flex flex-row space-x-5">
-              <span>{file.name}</span>
-              <span
-                className="cursor-pointer text-red-500"
-                onClick={() => removeFile(idx)}
-              >
-                remove
-              </span>
-            </div>
-          ))}
-        </div>
-      </form>
-    </div>
+      <div className="flex flex-col items-center p-3">
+        {files.map((file: any, idx: any) => (
+          <div key={idx} className="flex flex-row space-x-5">
+            <span>{file.name}</span>
+            <span
+              className="cursor-pointer text-red-500"
+              onClick={() => removeFile(idx)}
+            >
+              remove
+            </span>
+          </div>
+        ))}
+      </div>
+    </form>
   );
 };
 
