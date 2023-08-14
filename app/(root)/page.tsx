@@ -12,8 +12,6 @@ const Home = async () => {
 
   if (!userInfo?.onboarded) redirect("/onboarding");
 
-  console.log(userInfo);
-
   return (
     <div className="flex flex-col items-center bg-white200 p-2">
       <UserButton afterSignOutUrl="/" />
