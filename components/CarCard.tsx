@@ -129,11 +129,13 @@ const CarCard: React.FC<CarCardProps> = ({ isPopularCar = false }) => {
         </div>
       </div>
       {showModal && (
-        <CarDetailsModalOne
-          data={dummyData}
-          setShowModal={setShowModal}
-          isPopular={isPopularCar}
-        />
+        <div className="absolute flex w-screen max-w-7xl items-center justify-center">
+          <CarDetailsModalOne
+            data={dummyData}
+            setShowModal={setShowModal}
+            isPopular={isPopularCar}
+          />
+        </div>
       )}
     </>
   );

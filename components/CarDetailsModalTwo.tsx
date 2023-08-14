@@ -11,7 +11,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
   setShowModal,
 }) => {
   return (
-    <section className="w-[20rem] flex-initial flex-col py-6 xs:w-[22rem] sm:w-[31.25rem] md:p-6">
+    <section className="w-full flex-1 flex-col self-center py-6 xs:min-w-[21rem] sm:w-[31.25rem] md:p-6">
       <div className="flex justify-between">
         <div className="flex flex-col">
           <p className="text-xl font-semibold text-gray900">
