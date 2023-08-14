@@ -4,3 +4,4 @@ export { default as peopleCapacity } from "./peopleCapacity.svg";
 export { default as redHeart } from "./redHeart.svg";
 export { default as transmission } from "./transmission.svg";
 export { default as cross } from "./cross.svg";
+export { default as calendar } from "./calendar.svg";
