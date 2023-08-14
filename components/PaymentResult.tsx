@@ -29,14 +29,14 @@ const PaymentResult: React.FC<PaymentResultProps> = ({ result }) => {
         <Image
           src={imageSrc}
           alt="payment result image"
-          className="mt-8 h-[7rem] w-[7rem] sm:h-[7.5rem] sm:w-[7.5rem]"
+          className="mt-12 h-[7rem] w-[7rem] sm:h-[7.5rem] sm:w-[7.5rem]"
         />
-        <p className="mt-8 text-2xl font-semibold sm:text-4xl">
+        <p className="mt-12 text-2xl font-semibold sm:text-4xl">
           {result === "Success" && "Payment Successful"}
           {result === "Error" && "Payment Unsuccessful"}
           {result === "Cancel" && "Payment Cancelled"}
         </p>
-        <button className="mt-8 w-full rounded-lg bg-blue500 py-4 font-semibold text-white sm:w-[25rem]">
+        <button className="mt-12 w-full rounded-lg bg-blue500 py-4 font-semibold text-white sm:w-[25rem]">
           {result === "Success" && "View Rented Car"}
           {result === "Error" && "Try Again"}
           {result === "Cancel" && "Back To Homepage"}
