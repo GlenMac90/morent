@@ -16,10 +16,8 @@ interface CarParams {
   fuelCapacity: number;
   shortDescription: string;
   carImageMain: string;
-  carImageInteriorOne?: string;
-  carImageInteriorTwo?: string;
-  carImageInteriorThree?: string;
   path?: string;
+  datesBooked?: string[];
 }
 
 export async function createCar(carData: CarParams): Promise<void> {
@@ -34,5 +32,34 @@ export async function createCar(carData: CarParams): Promise<void> {
     return car;
   } catch (error: any) {
     throw new Error(`Failed to create car: ${error.message}`);
+  }
+}
+
+export async function editCar(carData: CarParams): Promise<void> {
+  if (!carData.id) {
+    throw new Error('Car ID is required to edit.');
+  }
+
+  try {
+    connectToDB();
+    const car = await Car.findByIdAndUpdate(carData.id, carData, {
+      new: true,
+    });
+    return car;
+  } catch (error: any) {
+    throw new Error(`Failed to edit car: ${error.message}`);
+  }
+}
+
+export async function deleteCar(userId: string, carId: string): Promise<void> {
+  try {
+    connectToDB();
+    await Car.findByIdAndRemove(carId);
+
+    await User.findByIdAndUpdate(userId, {
+      $pull: { cars: carId },
+    });
+  } catch (error: any) {
+    throw new Error(`Failed to delete car: ${error.message}`);
   }
 }

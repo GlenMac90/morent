@@ -44,6 +44,7 @@ export const POST = async (request: Request) => {
   const eventType: EventType = evnt?.type!;
 
   if (eventType === 'user.created') {
+    console.log('user.created');
     const {
       image_url: image,
       first_name: name,
@@ -80,6 +81,7 @@ export const POST = async (request: Request) => {
   }
 
   if (eventType === 'user.updated') {
+    console.log('user.updated');
     const {
       image_url: image,
       first_name: name,
@@ -117,6 +119,7 @@ export const POST = async (request: Request) => {
 
   if (eventType === 'user.deleted') {
     const { id: userId } = evnt.data;
+    console.log(userId);
     try {
       await deleteUser(userId);
       return NextResponse.json(

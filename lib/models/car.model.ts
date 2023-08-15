@@ -14,7 +14,10 @@ const carSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
+  datesBooked: {
+    type: [String], // or Date depending on how we are going to store it
+    default: [],
+  },
   rentPrice: String,
   capacity: Number,
   transmission: String,
@@ -22,9 +25,6 @@ const carSchema = new mongoose.Schema({
   fuelCapacity: Number,
   shortDescription: String,
   carImageMain: String,
-  carImageInteriorOne: String,
-  carImageInteriorTwo: String,
-  carImageInteriorThree: String,
 });
 
 const Car = mongoose?.models?.Car || mongoose.model('Car', carSchema);

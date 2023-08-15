@@ -7,7 +7,7 @@ const Home = async () => {
   const info = await currentUser();
   if (!info) return null;
 
-  const userInfo = await fetchUser(info.id);
+  const userInfo = await fetchUser(info?.id);
 
   if (!userInfo?.onboarded) redirect('/onboarding');
 
