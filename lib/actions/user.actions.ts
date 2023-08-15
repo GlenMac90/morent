@@ -3,6 +3,7 @@
 import { revalidatePath } from 'next/cache';
 import { connectToDB } from '../mongoose';
 import User from '../models/user.model';
+import Car from '../models/car.model';
 
 export async function fetchUser(userId: string) {
   try {
@@ -59,10 +60,13 @@ export async function updateUser({
 export async function deleteUser(userId: string): Promise<void> {
   try {
     connectToDB();
+
+    await Car.deleteMany({ userId });
+
     await User.findOneAndDelete({ id: userId });
-    console.log(`User with ID ${userId} deleted successfully.`);
+    console.log(`User with ID ${userId} and their cars deleted successfully.`);
   } catch (error: any) {
-    throw new Error(`Failed to delete user: ${error.message}`);
+    throw new Error(`Failed to delete user and their cars: ${error.message}`);
   }
 }
 
