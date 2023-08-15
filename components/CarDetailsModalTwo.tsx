@@ -4,10 +4,12 @@ import Image from "next/image";
 import { cross, calendar } from "../public/svg-icons/index";
 
 interface CarDetailsModalTwoProps {
+  id: string;
   setShowModal: (show: boolean) => void;
 }
 
 const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
+  id,
   setShowModal,
 }) => {
   return (

@@ -6,3 +6,4 @@ export { default as transmission } from "./transmission.svg";
 export { default as cross } from "./cross.svg";
 export { default as calendar } from "./calendar.svg";
 export { default as profilePic } from "./profilePic.svg";
+export { default as editSymbol } from "./editSymbol.svg";

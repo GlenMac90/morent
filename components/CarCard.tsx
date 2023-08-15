@@ -2,7 +2,10 @@
 
 import Image from "next/image";
 import React, { useState } from "react";
+import Link from "next/link";
+
 import CarDetailsModalOne from "./CarDetailsModalOne";
+import { dummyData } from "@/utils/dummyCarData";
 
 import {
   heart,
@@ -10,34 +13,20 @@ import {
   peopleCapacity,
   redHeart,
   transmission,
+  editSymbol,
 } from "../public/svg-icons/index";
 
-import {
-  carTestPicture,
-  carInteriorOne,
-  carInteriorTwo,
-  carExterior,
-} from "@/public/testCarPictures";
-
-const dummyData = {
-  brand: "Rolls-Royce",
-  type: "Sedan",
-  capacity: 4,
-  transmission: "Manual",
-  fuelCapacity: 80,
-  isFavourited: true,
-  shortDescription:
-    "The Rolls-Royce is a British luxury automobile maker known for its opulent design, unmatched craftsmanship, and attention to detail.",
-  rentPrice: "96.00",
-  mainPicture: carTestPicture,
-  pictures: [carExterior, carInteriorOne, carInteriorTwo],
-};
-
 interface CarCardProps {
+  id: string;
   isPopularCar?: boolean;
+  canEdit?: boolean;
 }
 
-const CarCard: React.FC<CarCardProps> = ({ isPopularCar = false }) => {
+const CarCard: React.FC<CarCardProps> = ({
+  id,
+  isPopularCar = false,
+  canEdit = false,
+}) => {
   const [isFavourited, setIsFavourited] = useState(dummyData.isFavourited);
   const [showModal, setShowModal] = useState(false);
 
@@ -56,12 +45,22 @@ const CarCard: React.FC<CarCardProps> = ({ isPopularCar = false }) => {
               {dummyData.type}
             </p>
           </div>
-          <Image
-            src={isFavourited ? redHeart : heart}
-            alt="heart button"
-            className="h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6"
-            onClick={() => setIsFavourited((prev) => !prev)}
-          />
+          {!canEdit ? (
+            <Image
+              src={isFavourited ? redHeart : heart}
+              alt="heart button"
+              className="h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6"
+              onClick={() => setIsFavourited((prev) => !prev)}
+            />
+          ) : (
+            <Link href={`/car/${dummyData.id}`}>
+              <Image
+                src={editSymbol}
+                alt="edit button"
+                className="h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6"
+              />
+            </Link>
+          )}
         </div>
         <div
           className={`mt-3 flex justify-between ${
@@ -71,7 +70,7 @@ const CarCard: React.FC<CarCardProps> = ({ isPopularCar = false }) => {
           <Image
             src={dummyData.mainPicture}
             alt="car picture"
-            className={`mb-1 ml-4 h-[3rem] w-[10rem] self-end xs:mt-6 xs:h-[5rem] xs:w-[16.25rem] sm:ml-0 sm:h-[4.5rem] sm:w-[14.75rem] sm:self-center ${
+            className={`mb-1 ml-4 h-[3rem] w-[10rem] self-end xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[5rem] sm:w-[16.25rem] sm:self-center ${
               isPopularCar ? "self-center" : "self-end sm:self-center"
             }`}
           />
@@ -121,7 +120,9 @@ const CarCard: React.FC<CarCardProps> = ({ isPopularCar = false }) => {
             <span className="text-xs text-gray400">day</span>
           </p>
           <button
-            className="rounded-md bg-blue500 px-5 py-2 text-sm font-medium text-white"
+            className={`rounded-md bg-blue500 px-5 py-2 text-sm font-medium text-white ${
+              canEdit && "hidden"
+            }`}
             onClick={() => setShowModal(true)}
           >
             More Info
@@ -130,11 +131,14 @@ const CarCard: React.FC<CarCardProps> = ({ isPopularCar = false }) => {
       </div>
       {showModal && (
         <div className="absolute flex w-screen max-w-7xl items-center justify-center">
+          {/* Type error of data will so away once dummyData is removed and lived data will be a string leading to the URL of the image */}
           <CarDetailsModalOne
+            id={id}
             data={dummyData}
             setShowModal={setShowModal}
             isPopular={isPopularCar}
           />
+          {/* Type error of data will so away once dummyData is removed and lived data will be a string leading to the URL of the image */}
         </div>
       )}
     </>

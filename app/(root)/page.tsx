@@ -42,17 +42,22 @@ const Home = async () => {
         <div className="no_scrollbar mt-4 flex w-full gap-5 overflow-x-auto xs:mt-0 xs:flex-col xs:items-center xs:justify-center xs:p-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           <div className="absolute right-0 h-60 w-20 bg-gradient-to-r from-transparent to-white/100 xs:hidden"></div>
           <div className="flex w-5 xs:hidden" />
+
+          {/* Change id to match id of card once live data is passed */}
           {[0, 1, 2, 3, 4].map((card) => (
-            <CarCard key={card} isPopularCar={true} />
+            <CarCard key={card} isPopularCar={true} id={"123"} />
           ))}
+          {/* Change id to match id of card once live data is passed */}
         </div>
         <p className="ml-5 mt-5 self-start font-medium text-gray400 xs:mt-0">
           Recommended cars
         </p>
         <div className="mt-5 flex w-full flex-col items-center gap-5 px-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
+          {/* Change id to match id of card once live data is passed */}
           {[0, 1, 2, 3, 4, 5, 6, 7].map((card) => (
-            <CarCard key={card} />
+            <CarCard key={card} id={"123"} />
           ))}
+          {/* Change id to match id of card once live data is passed */}
         </div>
         <button className="mt-10 rounded-md bg-blue500 px-10 py-4 text-sm font-medium text-white">
           Show More Cars

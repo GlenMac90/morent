@@ -18,12 +18,14 @@ interface CarData {
 }
 
 interface CarDetailsModalOneProps {
+  id: string;
   data: CarData;
   setShowModal: (show: boolean) => void;
   isPopular?: boolean; // assuming isPopular might be optional
 }
 
 const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
+  id,
   data,
   setShowModal,
   isPopular,
@@ -37,7 +39,9 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         className={`fixed inset-x-2 top-10 z-50 flex flex-col rounded-lg bg-white p-4 xs:inset-x-auto sm:top-40 sm:-translate-x-7 md:flex-row 
         ${!showModalScreen2 && "max-w-[25rem] md:max-w-[45rem]"}`}
       >
-        {showModalScreen2 && <CarDetailsModalTwo setShowModal={setShowModal} />}
+        {showModalScreen2 && (
+          <CarDetailsModalTwo setShowModal={setShowModal} id={id} />
+        )}
         <div
           className={`flex flex-col md:flex-row ${
             showModalScreen2 && "hidden"
