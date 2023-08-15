@@ -15,7 +15,10 @@ const page = () => {
               src={dummyUserData.coverImage}
               alt="cover-picture"
               layout="fill"
-              objectFit="cover"
+              style={{
+                objectFit: "cover",
+                objectPosition: "center 80%",
+              }}
               className="rounded-t-xl"
             />
             <button className="absolute bottom-2.5 right-2.5 rounded bg-white/40 px-2.5 py-1.5 text-[10px] text-white md:bottom-6 md:right-14 md:rounded-md md:px-5 md:py-3 md:text-sm">

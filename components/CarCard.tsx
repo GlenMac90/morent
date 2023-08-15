@@ -70,7 +70,7 @@ const CarCard: React.FC<CarCardProps> = ({
           <Image
             src={dummyData.mainPicture}
             alt="car picture"
-            className={`mb-1 ml-4 h-[3rem] w-[10rem] self-end xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[5rem] sm:w-[16.25rem] sm:self-center ${
+            className={`mb-1 ml-4 h-[3.3rem] w-[11rem] self-end xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[4.5rem] sm:w-[236px] sm:self-center ${
               isPopularCar ? "self-center" : "self-end sm:self-center"
             }`}
           />
