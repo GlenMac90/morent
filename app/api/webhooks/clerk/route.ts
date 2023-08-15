@@ -1,15 +1,18 @@
 import { Webhook, WebhookRequiredHeaders } from 'svix';
 import { IncomingHttpHeaders } from 'http';
 import { NextResponse } from 'next/server';
-import { updateUser } from '@/lib/actions/user.actions';
+import { deleteUser, updateUser } from '@/lib/actions/user.actions';
 import { headers } from 'next/headers';
 
 const webhookSecret = process.env.NEXT_CLERK_WEBHOOK_SECRET;
 
-type EventType = 'user.created' | 'user.updated';
+type EventType = 'user.created' | 'user.updated' | 'user.deleted';
 
 type Event = {
-  data: Record<string, string | number | Record<string, string>[]>;
+  data: {
+    id: string;
+    [key: string]: string | Record<string, string>[];
+  };
   object: 'event';
   type: EventType;
 };
@@ -107,6 +110,25 @@ export const POST = async (request: Request) => {
       console.error('Failed to update user:', err);
       return NextResponse.json(
         { message: 'Internal Server Error from Updated Event' },
+        { status: 500 }
+      );
+    }
+  }
+
+  if (eventType === 'user.deleted') {
+    const { id: userId } = evnt.data;
+    try {
+      await deleteUser(userId);
+      return NextResponse.json(
+        {
+          message: 'User deleted successfully.',
+        },
+        { status: 200 }
+      );
+    } catch (err) {
+      console.error('Failed to delete user:', err);
+      return NextResponse.json(
+        { message: 'Internal Server Error from Deleted Event' },
         { status: 500 }
       );
     }
