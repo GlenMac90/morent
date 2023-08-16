@@ -10,7 +10,7 @@ interface DateRange {
 }
 
 interface CarParams {
-  userId: string;
+  userId?: string;
   id?: string;
   carTitle: string;
   carType: string;

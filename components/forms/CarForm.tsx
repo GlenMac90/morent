@@ -21,16 +21,16 @@ interface Props {
   car?: {
     carTitle: string;
     carType: string;
-    rentPrice: string;
-    capacity: number;
-    transmission: string;
-    location: string;
-    fuelCapacity: number;
-    shortDescription: string;
-    carImageMain: string;
-    path: string;
+    rentPrice?: string;
+    capacity?: number;
+    transmission?: string;
+    location?: string;
+    fuelCapacity?: number;
+    shortDescription?: string;
+    carImageMain?: string;
+    path?: string;
   };
-  userId: string;
+  userId?: string;
   carId?: string | null;
 }
 
@@ -38,7 +38,7 @@ interface FileWithPreview extends File {
   preview?: string;
 }
 
-const CarForm: React.FC<Props> = ({ userId, carId = '' }) => {
+const CarForm: React.FC<Props> = ({ userId, carId = '', car }) => {
   const { startUpload } = useUploadThing('media');
   const router = useRouter();
   const pathname = usePathname();
@@ -48,21 +48,25 @@ const CarForm: React.FC<Props> = ({ userId, carId = '' }) => {
   const [success, setSuccess] = useState<boolean>(false);
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
+  const carIdPattern = /^\/cars\/([a-zA-Z0-9]+)$/;
+  const match = pathname.match(carIdPattern);
+  const carIdFromPath = match ? match[1] : null;
+
   const { toast } = useToast();
 
   const form = useForm({
     resolver: zodResolver(CarValidation),
     defaultValues: {
-      carTitle: '',
-      carType: '',
-      rentPrice: '',
-      capacity: 1,
-      transmission: '',
-      location: '',
-      fuelCapacity: 0,
-      shortDescription: '',
-      carImageMain: '',
-      path: '',
+      carTitle: car?.carTitle || '',
+      carType: car?.carType || '',
+      rentPrice: car?.rentPrice || '',
+      capacity: car?.capacity || 1,
+      transmission: car?.transmission || '',
+      location: car?.location || '',
+      fuelCapacity: car?.fuelCapacity || 0,
+      shortDescription: car?.shortDescription || '',
+      carImageMain: car?.carImageMain || '',
+      path: car?.path || '',
     },
   });
 
@@ -127,7 +131,7 @@ const CarForm: React.FC<Props> = ({ userId, carId = '' }) => {
         carImageMain: values.carImageMain,
       });
 
-      if (pathname === '/car/edit') {
+      if (pathname === '/cars/[id]') {
         router.back();
       } else {
         router.push('/');
@@ -357,7 +361,7 @@ const CarForm: React.FC<Props> = ({ userId, carId = '' }) => {
         <DragDrop handleFilesChange={handleFilesChange} />
 
         <div className="flex space-x-4 self-end">
-          {pathname === '/car/edit' && carId && (
+          {pathname === `/cars/${carIdFromPath}` && carIdFromPath && (
             <>
               {isConfirmingDelete ? (
                 <div className="flex space-x-4">
@@ -365,7 +369,7 @@ const CarForm: React.FC<Props> = ({ userId, carId = '' }) => {
                     className="flex w-full self-end bg-red-500 p-5 text-white md:w-auto"
                     onClick={async () => {
                       setIsLoading(true);
-                      await handleDelete(carId);
+                      await handleDelete(carIdFromPath);
                       setIsConfirmingDelete(false);
                     }}
                   >
@@ -392,14 +396,15 @@ const CarForm: React.FC<Props> = ({ userId, carId = '' }) => {
               )}
             </>
           )}
-
-          <Button
-            className="flex w-full  bg-blue500 p-5 text-white md:w-auto"
-            type="submit"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Registering...' : 'Register Car'}
-          </Button>
+          {pathname === `/cars/new` && (
+            <Button
+              className="flex w-full  bg-blue500 p-5 text-white md:w-auto"
+              type="submit"
+              disabled={isLoading}
+            >
+              {isLoading ? 'Registering...' : 'Register Car'}
+            </Button>
+          )}
         </div>
       </form>
     </Form>

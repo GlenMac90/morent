@@ -53,8 +53,6 @@ const Page = async () => {
     );
   }
 
-  console.log(userCars);
-
   return (
     <div className="my-10 flex w-full items-center justify-center bg-blue100">
       <div>
@@ -62,8 +60,6 @@ const Page = async () => {
         <ul className="grid grid-cols-3 gap-8">
           {userCars.cars.map((car: Car) => {
             const carIdString = car._id.toString();
-            console.log(typeof carIdString);
-            console.log(carIdString);
             return (
               <li
                 key={carIdString}
