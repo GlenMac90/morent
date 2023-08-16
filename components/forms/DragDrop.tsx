@@ -35,7 +35,7 @@ const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
     }
   }
 
-  function handleDrop(e: DragEvent<HTMLFormElement>) {
+  function handleDrop(e: DragEvent<HTMLDivElement>) {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
@@ -47,19 +47,19 @@ const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
     }
   }
 
-  function handleDragLeave(e: DragEvent<HTMLFormElement>) {
+  function handleDragLeave(e: DragEvent<HTMLDivElement>) {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(false);
   }
 
-  function handleDragOver(e: DragEvent<HTMLFormElement>) {
+  function handleDragOver(e: DragEvent<HTMLDivElement>) {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(true);
   }
 
-  function handleDragEnter(e: DragEvent<HTMLFormElement>) {
+  function handleDragEnter(e: DragEvent<HTMLDivElement>) {
     e.preventDefault();
     e.stopPropagation();
     setDragActive(true);
@@ -79,12 +79,11 @@ const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
   }
 
   return (
-    <form
+    <div
       className={`${
         dragActive ? 'bg-blue-400' : 'bg-blue-100'
       }  flex  w-full  flex-col items-center justify-center rounded-lg border border-dotted border-gray400 bg-white0  py-10  text-center`}
       onDragEnter={handleDragEnter}
-      onSubmit={(e) => e.preventDefault()}
       onDrop={handleDrop}
       onDragLeave={handleDragLeave}
       onDragOver={handleDragOver}
@@ -131,7 +130,7 @@ const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
           </div>
         ))}
       </div>
-    </form>
+    </div>
   );
 };
 

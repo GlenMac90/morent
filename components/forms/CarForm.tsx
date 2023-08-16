@@ -35,6 +35,7 @@ interface Props {
     fuelCapacity: number;
     shortDescription: string;
     carImageMain: string;
+    path: string;
   };
   userId: string;
 }
@@ -48,6 +49,9 @@ const CarForm: React.FC<Props> = ({ userId }) => {
   const router = useRouter();
   const pathname = usePathname();
   const [dragDropFiles, setDragDropFiles] = useState<FileWithPreview[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [success, setSuccess] = useState<boolean>(false);
 
   const form = useForm({
     resolver: zodResolver(CarValidation),
@@ -61,38 +65,70 @@ const CarForm: React.FC<Props> = ({ userId }) => {
       fuelCapacity: 0,
       shortDescription: '',
       carImageMain: '',
+      path: '',
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof CarValidation>) => {
-    const blob = values.carImageMain;
+  const uploadImage = async (
+    blob: string,
+    files: FileWithPreview[]
+  ): Promise<string | null> => {
     const isImage = isBase64Image(blob);
+    if (!isImage) return null;
 
-    if (isImage) {
-      const imgRes = await startUpload(dragDropFiles);
-      if (imgRes && imgRes[0].fileUrl) {
-        values.carImageMain = imgRes[0].fileUrl;
+    const imgRes = await startUpload(files);
+    return imgRes?.[0]?.fileUrl || null;
+  };
+
+  const onSubmit = async (values: z.infer<typeof CarValidation>) => {
+    setIsLoading(true);
+    setError(null);
+    setSuccess(false);
+
+    try {
+      const imageUrl = await uploadImage(
+        values.carImageMain as string,
+        dragDropFiles
+      );
+      if (!imageUrl) {
+        throw new Error('Failed to upload image.');
       }
-    }
 
-    await createCar({
-      userId,
-      carTitle: values.carTitle || '',
-      carType: values.carType || '',
-      rentPrice: values.rentPrice || '',
-      capacity: values.capacity || 1,
-      transmission: values.transmission || '',
-      location: values.location || '',
-      fuelCapacity: values.fuelCapacity || 1,
-      shortDescription: values.shortDescription || '',
-      carImageMain: values.carImageMain || '',
-      path: pathname,
-    });
+      values.carImageMain = imageUrl;
 
-    if (pathname === '/car/edit') {
-      router.back();
-    } else {
-      router.push('/');
+      await createCar({
+        userId,
+        carTitle: values.carTitle || '',
+        carType: values.carType || '',
+        rentPrice: values.rentPrice || '',
+        capacity: values.capacity || 1,
+        transmission: values.transmission || '',
+        location: values.location || '',
+        fuelCapacity: values.fuelCapacity || 1,
+        shortDescription: values.shortDescription || '',
+        carImageMain: values.carImageMain,
+      });
+
+      if (pathname === '/car/edit') {
+        router.back();
+      } else {
+        router.push('/');
+      }
+
+      setSuccess(true);
+    } catch (error) {
+      let errorMessage = 'There was an issue while creating the car.';
+
+      if (error instanceof Error) {
+        errorMessage += ` Detail: ${error.message}`;
+        console.error({ error, message: error.message });
+      } else {
+        console.error({ error, message: 'An unknown error occurred' });
+      }
+
+      setError(errorMessage);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -115,6 +151,12 @@ const CarForm: React.FC<Props> = ({ userId }) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex w-full max-w-4xl flex-col items-center gap-5 bg-white0 px-6 py-12"
       >
+        {isLoading && <div>Loading...</div>}
+        {error && <div className="text-red-500">{error}</div>}
+        {success && (
+          <div className="text-green-500">Car registered successfully!</div>
+        )}
+
         <div className="flex flex-col self-start">
           <h1 className="text-xl font-semibold ">Add a Car for Rent</h1>
           <p className="mt-2.5  text-sm text-gray400">
@@ -274,6 +316,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
         <Button
           className="flex w-full self-end bg-blue500 p-5 text-white md:w-auto"
           type="submit"
+          disabled={dragDropFiles.length === 0 || isLoading}
         >
           Register Car
         </Button>
