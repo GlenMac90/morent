@@ -14,9 +14,14 @@ const carSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  datesBooked: {
-    type: [String], // or Date depending on how we are going to store it
-    default: [],
+  disabledDates: {
+    singleDates: [Date],
+    dateRanges: [
+      {
+        from: Date,
+        to: Date,
+      },
+    ],
   },
   rentPrice: String,
   capacity: Number,

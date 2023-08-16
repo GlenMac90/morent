@@ -4,20 +4,27 @@ import { connectToDB } from '../mongoose';
 import User from '../models/user.model';
 import Car from '../models/car.model';
 
+interface DateRange {
+  from: Date;
+  to: Date;
+}
+
 interface CarParams {
   userId: string;
   id?: string;
   carTitle: string;
   carType: string;
-  rentPrice: string;
-  capacity: number;
-  transmission: string;
-  location: string;
-  fuelCapacity: number;
-  shortDescription: string;
-  carImageMain: string;
-  path?: string;
-  datesBooked?: string[];
+  rentPrice?: string;
+  capacity?: number;
+  transmission?: string;
+  location?: string;
+  fuelCapacity?: number;
+  shortDescription?: string;
+  carImageMain?: string;
+  disabledDates?: {
+    singleDates?: Date[];
+    dateRanges?: DateRange[];
+  };
 }
 
 export async function createCar(carData: CarParams): Promise<void> {

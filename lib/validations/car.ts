@@ -11,5 +11,17 @@ export const CarValidation = z.object({
   shortDescription: z.string().optional(),
   carImageMain: z.string().optional(),
   path: z.string().optional(),
-  datesBooked: z.array(z.string()).optional(),
+  disabledDates: z
+    .object({
+      singleDates: z.array(z.date()).optional(),
+      dateRanges: z
+        .array(
+          z.object({
+            from: z.date().optional(),
+            to: z.date().optional(),
+          })
+        )
+        .optional(),
+    })
+    .optional(),
 });
