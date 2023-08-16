@@ -30,7 +30,7 @@
 }
 
 .geoapify-autocomplete-item {
-  @apply dark:text-white0 bg-white200 dark:bg-gray800 dark:border-gray850 !important;
+  @apply dark:text-white0 dark:bg-gray800 dark:border-gray850 !important;
 }
 
 .icon {
