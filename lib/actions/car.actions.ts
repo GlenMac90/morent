@@ -66,3 +66,16 @@ export async function deleteCar(carId: string): Promise<void> {
     throw new Error(`Failed to delete car: ${error.message}`);
   }
 }
+
+export async function fetchCarById(carId: string): Promise<CarParams | null> {
+  try {
+    connectToDB();
+    const car = await Car.findById(carId).exec();
+    if (!car) {
+      throw new Error('Car not found.');
+    }
+    return car.toObject();
+  } catch (error: any) {
+    throw new Error(`Failed to fetch car by ID: ${error.message}`);
+  }
+}

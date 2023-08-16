@@ -80,7 +80,6 @@ export async function deleteUser(userId: string): Promise<void> {
     await Car.deleteMany({ userId });
 
     await User.findOneAndDelete({ id: userId });
-    console.log(`User with ID ${userId} and their cars deleted successfully.`);
   } catch (error: any) {
     throw new Error(`Failed to delete user and their cars: ${error.message}`);
   }
