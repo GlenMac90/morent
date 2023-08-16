@@ -1,43 +1,28 @@
-'use client';
-
-import { useEffect } from 'react';
-import { useToast } from '@/components/ui/use-toast';
-
 import { UserButton, currentUser } from '@clerk/nextjs';
 import { fetchUser } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 import Advert from '@/components/Advert';
 
-const Home = () => {
-  const { toast: showToast } = useToast();
+const Home = async () => {
+  let info;
+  try {
+    info = await currentUser();
+  } catch (error) {
+    console.error('Error fetching current user:', error);
+    return <div>Error fetching user data.</div>;
+  }
 
-  useEffect(() => {
-    const fetchData = async () => {
-      let info;
-      try {
-        info = await currentUser();
-        if (!info) throw new Error('User not authenticated.');
+  if (!info) return <div>User not authenticated.</div>;
 
-        const userInfo = await fetchUser(info?.id);
-        if (!userInfo?.onboarded) redirect('/onboarding');
-      } catch (error) {
-        console.error(error);
-        if (error instanceof Error && error.message) {
-          showToast({
-            title: 'Error',
-            description: error?.message,
-          });
-        } else {
-          showToast({
-            title: 'Error',
-            description: 'An unexpected error occurred.',
-          });
-        }
-      }
-    };
+  let userInfo;
+  try {
+    userInfo = await fetchUser(info?.id);
+  } catch (error) {
+    console.error('Error fetching MongoDB user data:', error);
+    return <div>Error fetching MongoDB user data.</div>;
+  }
 
-    fetchData();
-  }, []);
+  if (!userInfo?.onboarded) redirect('/onboarding');
 
   return (
     <div className="flex h-screen bg-gray-600 p-10">
