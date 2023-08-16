@@ -1,4 +1,4 @@
-import React,  from 'react';
+import React from 'react';
 
 import { currentUser } from '@clerk/nextjs';
 import CarForm from '@/components/forms/CarForm';

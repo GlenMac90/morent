@@ -1,7 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { usePathname, useRouter } from 'next/navigation';
+import { useForm, Controller } from 'react-hook-form';
+import { useToast } from '@/components/ui/use-toast';
+import * as z from 'zod';
 import {
   Form,
   FormControl,
@@ -10,18 +13,14 @@ import {
   FormLabel,
 } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import '@uploadthing/react/styles.css';
+
 import { CarValidation } from '@/lib/validations/car';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import * as z from 'zod';
 import { isBase64Image } from '@/lib/utils';
-
-import '@uploadthing/react/styles.css';
-
 import { useUploadThing } from '@/lib/uploadthing';
 import { createCar } from '@/lib/actions/car.actions';
-
-import { usePathname, useRouter } from 'next/navigation';
 import DragDrop from './DragDrop';
 
 interface Props {
@@ -52,6 +51,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const { toast } = useToast();
 
   const form = useForm({
     resolver: zodResolver(CarValidation),
@@ -84,6 +84,27 @@ const CarForm: React.FC<Props> = ({ userId }) => {
     setIsLoading(true);
     setError(null);
     setSuccess(false);
+
+    if (Object.keys(form.formState.errors).length > 0) {
+      const errorFields = Object.keys(form.formState.errors);
+      const errorMessage = `Errors in: ${errorFields.join(', ')}`;
+
+      toast({
+        title: 'Validation Error',
+        description: errorMessage,
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    if (dragDropFiles.length === 0) {
+      toast({
+        title: 'Error',
+        description: 'Please add an image before submitting the form.',
+      });
+      setIsLoading(false);
+      return;
+    }
 
     try {
       const imageUrl = await uploadImage(
@@ -165,10 +186,10 @@ const CarForm: React.FC<Props> = ({ userId }) => {
           <h3 className="mt-8 text-lg font-bold text-blue500">CAR INFO</h3>
         </div>
         <div className="flex w-full flex-col gap-8 md:flex-row ">
-          <FormField
+          <Controller
             control={form.control}
             name="carTitle"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem className="flex w-full flex-col justify-start">
                 <FormLabel>Car Title</FormLabel>
                 <FormControl>
@@ -179,14 +200,15 @@ const CarForm: React.FC<Props> = ({ userId }) => {
                     placeholder="Your title"
                   />
                 </FormControl>
+                {fieldState.invalid && <span>Car title is required!</span>}
               </FormItem>
             )}
           />
 
-          <FormField
+          <Controller
             control={form.control}
             name="carType"
-            render={({ field }) => (
+            render={({ field, fieldState }) => (
               <FormItem className="flex w-full flex-col justify-start">
                 <FormLabel>Car Type</FormLabel>
                 <FormControl>
@@ -197,12 +219,13 @@ const CarForm: React.FC<Props> = ({ userId }) => {
                     placeholder="Car Type"
                   />
                 </FormControl>
+                {fieldState.invalid && <span>Car type is required!</span>}
               </FormItem>
             )}
           />
         </div>
         <div className="flex w-full flex-col gap-8 md:flex-row">
-          <FormField
+          <Controller
             control={form.control}
             name="rentPrice"
             render={({ field }) => (
@@ -220,7 +243,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
             )}
           />
 
-          <FormField
+          <Controller
             control={form.control}
             name="capacity"
             render={({ field }) => (
@@ -239,7 +262,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
           />
         </div>
         <div className="flex w-full flex-col gap-8 md:flex-row">
-          <FormField
+          <Controller
             control={form.control}
             name="transmission"
             render={({ field }) => (
@@ -257,7 +280,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
             )}
           />
 
-          <FormField
+          <Controller
             control={form.control}
             name="location"
             render={({ field }) => (
@@ -276,7 +299,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
           />
         </div>
         <div className="flex w-full flex-col gap-8 md:flex-row">
-          <FormField
+          <Controller
             control={form.control}
             name="fuelCapacity"
             render={({ field }) => (
@@ -294,7 +317,7 @@ const CarForm: React.FC<Props> = ({ userId }) => {
             )}
           />
 
-          <FormField
+          <Controller
             control={form.control}
             name="shortDescription"
             render={({ field }) => (
@@ -316,9 +339,9 @@ const CarForm: React.FC<Props> = ({ userId }) => {
         <Button
           className="flex w-full self-end bg-blue500 p-5 text-white md:w-auto"
           type="submit"
-          disabled={dragDropFiles.length === 0 || isLoading}
+          disabled={isLoading}
         >
-          Register Car
+          {isLoading ? 'Registering...' : 'Register Car'}
         </Button>
       </form>
     </Form>

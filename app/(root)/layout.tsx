@@ -1,17 +1,18 @@
-import "../globals.css";
-import type { Metadata } from "next";
+import '../globals.css';
+import type { Metadata } from 'next';
 // eslint-disable-next-line camelcase
-import { Plus_Jakarta_Sans } from "next/font/google";
-import { ClerkProvider } from "@clerk/nextjs";
+import { Plus_Jakarta_Sans } from 'next/font/google';
+import { ClerkProvider } from '@clerk/nextjs';
+import { Toaster } from '@/components/ui/toaster';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  variable: "--plus-jakarta-sans",
+  subsets: ['latin'],
+  variable: '--plus-jakarta-sans',
 });
 
 export const metadata: Metadata = {
-  title: "Morent",
-  description: "The best platform for car rental",
+  title: 'Morent',
+  description: 'The best platform for car rental',
 };
 
 export default function RootLayout({
@@ -22,7 +23,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={plusJakartaSans.className}>{children}</body>
+        <body className={plusJakartaSans.className}>
+          {children} <Toaster />
+        </body>
       </html>
     </ClerkProvider>
   );
