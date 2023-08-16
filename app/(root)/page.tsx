@@ -1,7 +1,10 @@
+import Link from 'next/link';
+
 import { UserButton, currentUser } from '@clerk/nextjs';
 import { fetchUser } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 import Advert from '@/components/Advert';
+import { Button } from '@/components/ui/button';
 
 const Home = async () => {
   let info;
@@ -27,6 +30,9 @@ const Home = async () => {
   return (
     <div className="flex h-screen bg-gray-600 p-10">
       <UserButton afterSignOutUrl="/" />
+      <Link href={`/profile/${info?.id}`}>
+        <Button className="bg-blue500 text-white">Profile</Button>
+      </Link>
       <section className="flex w-full max-w-7xl">
         <div className="flex w-full flex-col gap-8 lg:flex-row">
           <Advert
