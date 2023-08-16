@@ -29,22 +29,22 @@ const PickUpDropOffCard = () => {
     to: addDays(threeDaysFromNow, 3),
   });
 
-  const searchPageDiv = pathname === "/test" ? "xl:px-6" : "xl:px-9";
+  const searchPageDiv = pathname === "/search" ? "xl:px-6" : "xl:px-9";
 
   const searchPageLocation =
-    pathname === "/test" && "xl:max-w-[10.75rem] 2xl:max-w-none";
+    pathname === "/search" && "xl:max-w-[10.75rem] 2xl:max-w-none";
 
   const searchPageFlexDirection =
-    pathname === "/test" ? "xl:flex-row" : "xl:flex-row";
+    pathname === "/search" ? "xl:flex-row" : "xl:flex-row";
 
   const searchPageButton =
-    pathname === "/test"
+    pathname === "/search"
       ? "h-14 w-[3.75rem] xl:flex hidden"
       : "flex h-12 grow flex-row gap-[0.38rem] xl:h-14 xl:max-w-[10rem]";
 
   return (
     <div
-      className={`flex flex-col gap-5 md:mx-auto md:max-w-xl xl:mx-0 xl:max-w-none xl:gap-4 xl:rounded-[0.625rem] xl:bg-white0 dark:xl:bg-gray850  2xl:mx-auto 2xl:max-w-[90rem] ${searchPageFlexDirection} ${searchPageDiv}`}
+      className={`2xl:mx-auto 2xl:max-w-[90rem] flex flex-col gap-5 dark:text-white0 md:mx-auto md:max-w-xl xl:mx-0 xl:max-w-none xl:gap-4 xl:rounded-[0.625rem]  xl:bg-white0 dark:xl:bg-gray850 ${searchPageFlexDirection} ${searchPageDiv}`}
     >
       <Card className="border-0 bg-none shadow-none xl:shrink-0 xl:grow">
         <CardContent
@@ -195,14 +195,14 @@ const PickUpDropOffCard = () => {
       >
         <Image src="/images/search.svg" width={14} height={14} alt="Search" />
         <span className="text-[0.875rem] font-semibold not-italic leading-[1.6625rem] text-white0 xl:text-[1rem] xl:font-medium xl:leading-[1.6rem]">
-          {pathname === "/test" ? "" : "Search"}
+          {pathname === "/search" ? "" : "Search"}
         </span>
       </Button>
       {/* Search button on search Page */}
-      {pathname === "/test" && (
+      {pathname === "/search" && (
         <Button
           className={`${
-            pathname === "/test" ? "xl:hidden" : "xl:max-w-[10rem]"
+            pathname === "/search" ? "xl:hidden" : "xl:max-w-[10rem]"
           } flex h-12 grow flex-row gap-[0.38rem] rounded-[0.625rem] bg-blue500 xl:mt-[3.26rem] xl:h-14`}
         >
           <Image src="/images/search.svg" width={14} height={14} alt="Search" />

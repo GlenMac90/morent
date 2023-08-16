@@ -8,6 +8,15 @@
   }
 }
 
+.no_scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.advert_background {
+  background-image: url("../public/testCarPictures/carAdBackground.png");
+  background-size: 100%;
+}
+
 .white_car_ad {
   background-image: repeating-radial-gradient(
     circle at 35% 80%,
@@ -27,6 +36,10 @@
 
 .geoapify-autocomplete-items {
   @apply dark:border-gray850 dark:bg-gray850 rounded-[0.625rem] !important;
+}
+
+.geoapify-autocomplete-items .active {
+  @apply dark:bg-gray400 !important;
 }
 
 .geoapify-autocomplete-item {
