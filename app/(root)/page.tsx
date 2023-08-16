@@ -20,7 +20,6 @@ const Home = async () => {
   let userInfo;
   try {
     userInfo = await fetchUser(info?.id);
-    console.log('USER INFO FETCHED WITH THIS ID', info?.id);
   } catch (error) {
     console.error('Error fetching MongoDB user data:', error);
     return <div>Error fetching MongoDB user data.</div>;
