@@ -4,10 +4,23 @@ import { redirect } from 'next/navigation';
 import Advert from '@/components/Advert';
 
 const Home = async () => {
-  const info = await currentUser();
-  if (!info) return null;
+  let info;
+  try {
+    info = await currentUser();
+  } catch (error) {
+    console.error('Error fetching current user:', error);
+    return <div>Error fetching user data.</div>;
+  }
 
-  const userInfo = await fetchUser(info?.id);
+  if (!info) return <div>User not authenticated.</div>;
+
+  let userInfo;
+  try {
+    userInfo = await fetchUser(info?.id);
+  } catch (error) {
+    console.error('Error fetching MongoDB user data:', error);
+    return <div>Error fetching MongoDB user data.</div>;
+  }
 
   if (!userInfo?.onboarded) redirect('/onboarding');
 

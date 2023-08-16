@@ -58,14 +58,10 @@ export async function editCar(carData: CarParams): Promise<void> {
   }
 }
 
-export async function deleteCar(userId: string, carId: string): Promise<void> {
+export async function deleteCar(carId: string): Promise<void> {
   try {
     connectToDB();
     await Car.findByIdAndRemove(carId);
-
-    await User.findByIdAndUpdate(userId, {
-      $pull: { cars: carId },
-    });
   } catch (error: any) {
     throw new Error(`Failed to delete car: ${error.message}`);
   }

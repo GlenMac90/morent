@@ -5,13 +5,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { useToast } from '@/components/ui/use-toast';
 import * as z from 'zod';
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from '@/components/ui/form';
+import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import '@uploadthing/react/styles.css';
 
@@ -20,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing';
-import { createCar } from '@/lib/actions/car.actions';
+import { createCar, deleteCar } from '@/lib/actions/car.actions';
 import DragDrop from './DragDrop';
 
 interface Props {
@@ -37,13 +31,14 @@ interface Props {
     path: string;
   };
   userId: string;
+  carId?: string | null;
 }
 
 interface FileWithPreview extends File {
   preview?: string;
 }
 
-const CarForm: React.FC<Props> = ({ userId }) => {
+const CarForm: React.FC<Props> = ({ userId, carId = '' }) => {
   const { startUpload } = useUploadThing('media');
   const router = useRouter();
   const pathname = usePathname();
@@ -51,6 +46,8 @@ const CarForm: React.FC<Props> = ({ userId }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+
   const { toast } = useToast();
 
   const form = useForm({
@@ -166,6 +163,29 @@ const CarForm: React.FC<Props> = ({ userId }) => {
       };
     }
   };
+
+  const handleDelete = async (carId: string) => {
+    try {
+      setIsLoading(true);
+      await deleteCar(carId);
+
+      toast({
+        title: 'Success',
+        description: 'Car deleted successfully.',
+      });
+
+      router.push('/');
+    } catch (error) {
+      console.error('Failed to delete car:', error);
+      toast({
+        title: 'Error',
+        description: 'Failed to delete car. Please try again.',
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <Form {...form}>
       <form
@@ -336,13 +356,51 @@ const CarForm: React.FC<Props> = ({ userId }) => {
         </div>
         <DragDrop handleFilesChange={handleFilesChange} />
 
-        <Button
-          className="flex w-full self-end bg-blue500 p-5 text-white md:w-auto"
-          type="submit"
-          disabled={isLoading}
-        >
-          {isLoading ? 'Registering...' : 'Register Car'}
-        </Button>
+        <div className="flex space-x-4 self-end">
+          {pathname === '/car/edit' && carId && (
+            <>
+              {isConfirmingDelete ? (
+                <div className="flex space-x-4">
+                  <Button
+                    className="flex w-full self-end bg-red-500 p-5 text-white md:w-auto"
+                    onClick={async () => {
+                      setIsLoading(true);
+                      await handleDelete(carId);
+                      setIsConfirmingDelete(false);
+                    }}
+                  >
+                    Confirm Delete
+                  </Button>
+                  <Button
+                    className="flex w-full self-end bg-gray-500 p-5 text-white md:w-auto"
+                    onClick={() => {
+                      setIsConfirmingDelete(false);
+                    }}
+                  >
+                    Cancel Delete
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  className="flex w-full self-end bg-red-500 p-5 text-white md:w-auto"
+                  onClick={() => {
+                    setIsConfirmingDelete(true);
+                  }}
+                >
+                  Delete Car
+                </Button>
+              )}
+            </>
+          )}
+
+          <Button
+            className="flex w-full  bg-blue500 p-5 text-white md:w-auto"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Registering...' : 'Register Car'}
+          </Button>
+        </div>
       </form>
     </Form>
   );
