@@ -1,3 +1,5 @@
+
+
 import React from 'react';
 
 import { currentUser } from '@clerk/nextjs';
@@ -32,7 +34,7 @@ const Page = async () => {
   const userId = user.id;
   const userMongo = await fetchUser(userId);
 
-  const userIdSimpleObject = toPlainObject(userMongo)._id;
+  const userIdSimpleObject = toPlainObject(userMongo).id;
 
   return (
     <div className="my-10 flex w-full items-center justify-center bg-white200">

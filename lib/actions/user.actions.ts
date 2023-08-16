@@ -15,6 +15,22 @@ export async function fetchUser(userId: string) {
   }
 }
 
+export async function fetchUserWithCars(userId: string) {
+  try {
+    connectToDB();
+    const userWithCars = await User.findOne({ id: userId })
+      .populate('cars')
+      .exec();
+    if (!userWithCars) {
+      console.log('User not found.');
+    }
+    const jsObjectUserWithCars = userWithCars.toObject();
+    return jsObjectUserWithCars;
+  } catch (error: any) {
+    throw new Error(`Failed to fetch user and their cars: ${error.message}`);
+  }
+}
+
 interface Params {
   userId: string;
   username: string;
@@ -67,19 +83,5 @@ export async function deleteUser(userId: string): Promise<void> {
     console.log(`User with ID ${userId} and their cars deleted successfully.`);
   } catch (error: any) {
     throw new Error(`Failed to delete user and their cars: ${error.message}`);
-  }
-}
-
-export async function fetchUserWithCars(userId: string): Promise<void> {
-  try {
-    connectToDB();
-    const userWithCars = await User.findById(userId).populate('cars').exec();
-    if (!userWithCars) {
-      console.log('User not found.');
-    }
-
-    return userWithCars;
-  } catch (error: any) {
-    throw new Error(`Failed to fetch user and their cars: ${error.message}`);
   }
 }
