@@ -30,7 +30,7 @@ const Footer = () => {
                     <Link
                       key={link.title}
                       href={link.url}
-                      className="text-[1rem] font-medium not-italic leading-[1.2rem] text-gray400 dark:text-white200"
+                      className="text-[1rem] font-medium not-italic leading-[1.2rem] text-gray400 hover:text-gray800 dark:text-white200 dark:hover:text-blue500"
                     >
                       {link.title}
                     </Link>
@@ -49,7 +49,7 @@ const Footer = () => {
                 <Link
                   key={link.title}
                   href={link.url}
-                  className="font-medium not-italic leading-[1.2rem] text-gray400 last:text-[1rem] dark:text-white200"
+                  className="font-medium not-italic leading-[1.2rem] text-gray400 last:text-[1rem] hover:text-gray800 dark:text-white200 dark:hover:text-blue500"
                 >
                   {link.title}
                 </Link>
