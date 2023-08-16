@@ -3,6 +3,7 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 import CarDetailsModalOne from "./CarDetailsModalOne";
 import { dummyData } from "@/utils/dummyCarData";
@@ -29,12 +30,23 @@ const CarCard: React.FC<CarCardProps> = ({
 }) => {
   const [isFavourited, setIsFavourited] = useState(dummyData.isFavourited);
   const [showModal, setShowModal] = useState(false);
+  const [motionKey, setMotionKey] = useState(0);
+
+  const handleButtonClick = () => {
+    setIsFavourited((prev) => !prev);
+    setMotionKey((prevKey) => prevKey + 1); // Increment the key
+  };
 
   return (
     <>
-      <div
+      <motion.div
+        animate={{ scale: 1, y: 0 }}
+        initial={{ scale: 0, y: 500, opacity: 0 }}
+        whileHover={{ scale: 1.1 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
         className={`flex w-full flex-col rounded-lg
-        bg-white p-4 shadow hover:translate-y-[-1px] hover:shadow-lg xs:max-w-[28rem] sm:w-auto sm:max-w-full ${
+        bg-white p-4 shadow hover:shadow-xl xs:max-w-[28rem] sm:w-auto sm:max-w-full ${
           isPopularCar && "min-w-[16rem]"
         }`}
       >
@@ -46,12 +58,19 @@ const CarCard: React.FC<CarCardProps> = ({
             </p>
           </div>
           {!canEdit ? (
-            <Image
-              src={isFavourited ? redHeart : heart}
-              alt="heart button"
-              className="h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6"
-              onClick={() => setIsFavourited((prev) => !prev)}
-            />
+            <motion.div
+              key={motionKey}
+              className="flex"
+              animate={{ scale: isFavourited ? [1.5, 1] : [1, 1] }}
+              transition={{ duration: 0.7 }}
+            >
+              <Image
+                src={isFavourited ? redHeart : heart}
+                alt="heart button"
+                className="h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6"
+                onClick={handleButtonClick}
+              />
+            </motion.div>
           ) : (
             <Link href={`/car/${dummyData.id}`}>
               <Image
@@ -128,7 +147,7 @@ const CarCard: React.FC<CarCardProps> = ({
             More Info
           </button>
         </div>
-      </div>
+      </motion.div>
       {showModal && (
         <div className="absolute flex w-screen max-w-7xl items-center justify-center">
           {/* Type error of data will so away once dummyData is removed and lived data will be a string leading to the URL of the image */}

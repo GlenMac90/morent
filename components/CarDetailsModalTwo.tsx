@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 import { cross, calendar } from "../public/svg-icons/index";
 
@@ -13,7 +14,11 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
   setShowModal,
 }) => {
   return (
-    <section className="w-full flex-1 flex-col self-center py-6 xs:min-w-[22rem] sm:w-[31.25rem] sm:p-6">
+    <motion.section
+      animate={{ scale: 1 }}
+      initial={{ scale: 0 }}
+      className="w-full flex-1 flex-col self-center py-6 xs:min-w-[22rem] sm:w-[31.25rem] sm:p-2"
+    >
       <div className="flex justify-between">
         <div className="flex flex-col">
           <p className="text-xl font-semibold text-gray900">
@@ -61,7 +66,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
       <button className="mt-7 w-full rounded-xl bg-blue500 py-4 font-semibold text-white">
         Rent Now
       </button>
-    </section>
+    </motion.section>
   );
 };
 

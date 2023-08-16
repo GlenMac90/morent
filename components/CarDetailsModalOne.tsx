@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 import { cross } from "../public/svg-icons/index";
 import CarDetailsModalTwo from "./CarDetailsModalTwo";
@@ -32,10 +33,20 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
 }) => {
   const [displayPicture, setDisplayPicture] = useState(data.pictures[0]);
   const [showModalScreen2, setShowModalScreen2] = useState(false);
+  const [changePicture, setChangePicture] = useState(true);
+  const [motionKey, setMotionKey] = useState(0);
+
+  const handleButtonClick = () => {
+    setShowModalScreen2(true);
+    setMotionKey((prevKey) => prevKey + 1);
+  };
 
   return (
     <>
-      <div
+      <motion.div
+        key={motionKey}
+        animate={{ scale: 1 }}
+        initial={{ scale: 0 }}
         className={`fixed inset-x-2 top-10 z-50 flex flex-col rounded-lg bg-white p-4 xs:inset-x-auto sm:top-40 sm:-translate-x-7 md:flex-row 
         ${!showModalScreen2 && "max-w-[25rem] md:max-w-[45rem]"}`}
       >
@@ -58,13 +69,19 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             />
           </div>
           <div className="flex flex-col">
-            <div className="flex h-[12rem] items-center justify-center rounded-lg">
+            <motion.div
+              animate={{ opacity: changePicture ? 100 : 0 }}
+              initial={{ opacity: 0 }}
+              transition={{ duration: changePicture ? 0.08 : 0 }}
+              whileHover={{ scale: 1.2 }}
+              className="flex h-[12rem] items-center justify-center rounded-lg border-2 border-white"
+            >
               <Image
                 src={displayPicture}
                 alt="main display picture"
                 className="h-full w-full rounded-lg"
               />
-            </div>
+            </motion.div>
             <div className="no_scrollbar mt-5 flex gap-5 overflow-x-auto">
               {data.pictures.map((picture: string) => (
                 <div className="w-1/3 rounded-lg" key={picture}>
@@ -75,7 +92,13 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
                       displayPicture === picture &&
                       "border border-blue-600 p-[1px]"
                     }`}
-                    onClick={() => setDisplayPicture(picture)}
+                    onClick={() => {
+                      setChangePicture(false);
+                      setDisplayPicture(picture);
+                      setTimeout(() => {
+                        setChangePicture(true);
+                      }, 80); // Adding a short delay to let the component fade out before starting to fade in again
+                    }}
                   />
                 </div>
               ))}
@@ -126,14 +149,14 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
               </p>
               <button
                 className="rounded bg-blue500 px-6 py-2 font-medium text-white"
-                onClick={() => setShowModalScreen2(true)}
+                onClick={handleButtonClick}
               >
                 Rent Now
               </button>
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
       <div
         className="fixed inset-0 z-10 h-screen w-screen bg-black opacity-30 dark:bg-white dark:opacity-10"
         onClick={() => setShowModal(false)}

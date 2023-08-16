@@ -28,6 +28,7 @@
     "eslint-config-prettier": "^9.0.0",
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-tailwindcss": "^3.13.0",
+    "framer-motion": "^10.16.0",
     "lucide-react": "^0.265.0",
     "mongoose": "^7.4.2",
     "next": "13.4.13",
