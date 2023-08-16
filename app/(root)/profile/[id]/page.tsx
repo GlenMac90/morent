@@ -53,27 +53,37 @@ const Page = async () => {
     );
   }
 
+  console.log(userCars);
+
   return (
     <div className="my-10 flex w-full items-center justify-center bg-blue100">
       <div>
         <h2>Cars:</h2>
         <ul className="grid grid-cols-3 gap-8">
-          {userCars.cars.map((car: Car) => (
-            <li key={car._id} className="flex flex-col items-center space-y-2">
-              <div className="text-center">
-                {car.carTitle} {car.carType}
-              </div>
-              <Image
-                src={car.carImageMain}
-                alt={car.carTitle}
-                width={200}
-                height={150}
-              />
-              <Link href={`/cars/${car._id}`}>
-                <Button className="bg-blue500 text-white">Edit car</Button>
-              </Link>
-            </li>
-          ))}
+          {userCars.cars.map((car: Car) => {
+            const carIdString = car._id.toString();
+            console.log(typeof carIdString);
+            console.log(carIdString);
+            return (
+              <li
+                key={carIdString}
+                className="flex flex-col items-center space-y-2"
+              >
+                <div className="text-center">
+                  {car.carTitle} {car.carType}
+                </div>
+                <Image
+                  src={car.carImageMain}
+                  alt={car.carTitle}
+                  width={200}
+                  height={150}
+                />
+                <Link href={`/cars/${carIdString}`}>
+                  <Button className="bg-blue500 text-white">Edit car</Button>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </div>
