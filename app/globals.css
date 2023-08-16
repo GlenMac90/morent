@@ -8,6 +8,15 @@
   }
 }
 
+.no_scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.advert_background {
+  background-image: url("../public/testCarPictures/carAdBackground.png");
+  background-size: 100%;
+}
+
 .white_car_ad {
   background-image: repeating-radial-gradient(
     circle at 35% 80%,

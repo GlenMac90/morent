@@ -2,18 +2,18 @@ import React from "react";
 import Image from "next/image";
 
 interface AdvertProps {
-  title: String;
-  description: String;
-  imageSrc: String;
-  additionalStyles: String;
+  title: string;
+  description: string;
+  imageSrc: string;
+  additionalStyles: string;
 }
 
-const Advert: React.FC = ({
+const Advert: React.FC<AdvertProps> = ({
   title,
   description,
   imageSrc,
   additionalStyles,
-}: AdvertProps) => {
+}) => {
   return (
     <div
       className={`${additionalStyles} flex h-60 w-full flex-col justify-between rounded-xl px-6 pb-3 pt-6 sm:h-[22.5rem]`}
