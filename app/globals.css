@@ -29,3 +29,31 @@
   background-image: url("../public/pngs/car-ad-background.png");
   background-size: 100% 100%;
 }
+
+.geoapify-autocomplete-input {
+  @apply dark:placeholder:text-white200 dark:text-white0 bg-white200 dark:bg-gray800 flex-shrink xl:inline-flex px-[1.12rem] xl:h-14 w-full not-italic truncate border-0 rounded-md xl:py-[0.87rem] !important;
+}
+
+.geoapify-autocomplete-items {
+  @apply dark:border-gray850 dark:bg-gray850 rounded-[0.625rem] !important;
+}
+
+.geoapify-autocomplete-items .active {
+  @apply dark:bg-gray400 !important;
+}
+
+.geoapify-autocomplete-item {
+  @apply dark:text-white0 dark:bg-gray800 dark:border-gray850 !important;
+}
+
+.icon {
+  @apply dark:text-white200 !important;
+}
+
+.secondary-part {
+  @apply dark:text-white200 !important;
+}
+
+.geoapify-close-button {
+  @apply hidden !important;
+}
