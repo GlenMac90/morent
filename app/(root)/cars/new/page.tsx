@@ -14,8 +14,11 @@ const Page = async () => {
     }
 
     userMongo = await fetchUser(user.id);
-    userIdString = objectToStringId(userMongo._id);
+    if (!userMongo) {
+      throw new Error('Failed to fetch user from MongoDB.');
+    }
 
+    userIdString = objectToStringId(userMongo._id);
     if (!userIdString) {
       throw new Error('Error processing user ID.');
     }

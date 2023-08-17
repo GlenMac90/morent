@@ -23,6 +23,7 @@ export interface CarParams {
 
 export interface UserParams {
   id: string;
+  _id: any;
   userId: string;
   username: string;
   name: string;
