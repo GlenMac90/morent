@@ -6,6 +6,7 @@ import { Check } from "lucide-react";
 
 import { cn } from "@/lib/utils";
 import Image from "next/image";
+import { arrowDown, darkModeArrowDown } from "@/public/svg-icons";
 
 const Select = SelectPrimitive.Root;
 
@@ -20,7 +21,7 @@ const SelectTrigger = React.forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-10 w-full items-center justify-between rounded-md border border-slate-200 border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-950 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:border-slate-800 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus:ring-slate-300",
+      "flex h-10 w-full items-center justify-between rounded-md border border-slate-200 bg-white px-3 py-2 text-sm ring-offset-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-slate-950 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 dark:border-slate-800 dark:border-slate-800 dark:bg-slate-950 dark:ring-offset-slate-950 dark:placeholder:text-slate-400 dark:focus:ring-slate-300",
       className
     )}
     {...props}
@@ -29,14 +30,14 @@ const SelectTrigger = React.forwardRef<
     <SelectPrimitive.Icon>
       <Image
         className="dark:hidden"
-        src="images/arrowDown.svg"
+        src={arrowDown}
         width="12"
         height="12"
         alt="Arrow Down"
       />
       <Image
         className="hidden dark:block"
-        src="images/darkModeArrowDown.svg"
+        src={darkModeArrowDown}
         width="12"
         height="12"
         alt="Arrow Down"

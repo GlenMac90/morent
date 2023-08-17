@@ -4,7 +4,7 @@ import { footerLinks } from "@/constants";
 
 const Footer = () => {
   return (
-    <footer className="2xl:mx-auto 2xl:max-w-[90rem] flex flex-col bg-white p-6 dark:bg-gray900 md:px-[3.75rem] md:pb-[3.75rem] md:pt-[5rem]">
+    <footer className="m-6 flex flex-col bg-white dark:bg-gray900 md:mx-[3.75rem] md:mb-[3.75rem] md:mt-[5rem] 2xl:mx-auto 2xl:max-w-[90rem]">
       <div className="flex flex-col md:flex-row md:justify-between">
         {/* Morent & Our vision */}
         <div className="flex flex-col justify-start gap-4">
