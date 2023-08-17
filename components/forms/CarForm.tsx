@@ -19,6 +19,7 @@ import DragDrop from './DragDrop';
 
 interface Props {
   car?: {
+    _id: string;
     carTitle: string;
     carType: string;
     rentPrice?: string;
@@ -38,7 +39,7 @@ interface FileWithPreview extends File {
   preview?: string;
 }
 
-const CarForm: React.FC<Props> = ({ userId, carId = '', car }) => {
+const CarForm: React.FC<Props> = ({ userId, car }) => {
   const { startUpload } = useUploadThing('media');
   const router = useRouter();
   const pathname = usePathname();
@@ -48,10 +49,11 @@ const CarForm: React.FC<Props> = ({ userId, carId = '', car }) => {
   const [success, setSuccess] = useState<boolean>(false);
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
 
-  const carIdPattern = /^\/cars\/([a-zA-Z0-9]+)$/;
+  const carIdPattern = /^\/cars\/(?!new$)([a-zA-Z0-9]+)$/;
   const match = pathname.match(carIdPattern);
   const carIdFromPath = match ? match[1] : null;
-
+  console.log(carIdFromPath);
+  console.log(car?._id);
   const { toast } = useToast();
 
   const form = useForm({
@@ -131,7 +133,7 @@ const CarForm: React.FC<Props> = ({ userId, carId = '', car }) => {
         carImageMain: values.carImageMain,
       });
 
-      if (pathname === '/cars/[id]') {
+      if (pathname === '/cars/new') {
         router.back();
       } else {
         router.push('/');
@@ -394,6 +396,13 @@ const CarForm: React.FC<Props> = ({ userId, carId = '', car }) => {
                   Delete Car
                 </Button>
               )}
+              <Button
+                className="flex w-full  bg-blue500 p-5 text-white md:w-auto"
+                type="submit"
+                disabled={isLoading}
+              >
+                {isLoading ? 'Updating...' : 'Update Car'}
+              </Button>
             </>
           )}
           {pathname === `/cars/new` && (

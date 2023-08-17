@@ -10,8 +10,8 @@ interface DateRange {
 }
 
 interface CarParams {
-  userId?: string;
-  id?: string;
+  userId: string;
+  _id?: string;
   carTitle: string;
   carType: string;
   rentPrice?: string;
@@ -20,14 +20,14 @@ interface CarParams {
   location?: string;
   fuelCapacity?: number;
   shortDescription?: string;
-  carImageMain?: string;
+  carImageMain?: string[];
   disabledDates?: {
     singleDates?: Date[];
     dateRanges?: DateRange[];
   };
 }
 
-export async function createCar(carData: CarParams): Promise<void> {
+export async function createCar(carData: CarParams): Promise<CarParams> {
   try {
     connectToDB();
     const car = new Car(carData);
@@ -36,23 +36,29 @@ export async function createCar(carData: CarParams): Promise<void> {
     await User.findByIdAndUpdate(carData.userId, {
       $push: { cars: car._id },
     });
-    return car;
+
+    return car.toObject();
   } catch (error: any) {
     throw new Error(`Failed to create car: ${error.message}`);
   }
 }
 
-export async function editCar(carData: CarParams): Promise<void> {
-  if (!carData.id) {
+export async function editCar(carData: CarParams): Promise<CarParams> {
+  if (!carData._id) {
     throw new Error('Car ID is required to edit.');
   }
 
   try {
     connectToDB();
-    const car = await Car.findByIdAndUpdate(carData.id, carData, {
+    const updatedCar = await Car.findByIdAndUpdate(carData._id, carData, {
       new: true,
     });
-    return car;
+
+    if (!updatedCar) {
+      throw new Error('Failed to find and update the car.');
+    }
+
+    return updatedCar.toObject();
   } catch (error: any) {
     throw new Error(`Failed to edit car: ${error.message}`);
   }
@@ -61,6 +67,15 @@ export async function editCar(carData: CarParams): Promise<void> {
 export async function deleteCar(carId: string): Promise<void> {
   try {
     connectToDB();
+    const car = await Car.findById(carId);
+    if (!car) {
+      throw new Error('Car not found.');
+    }
+
+    await User.findByIdAndUpdate(car.userId, {
+      $pull: { cars: carId },
+    });
+
     await Car.findByIdAndRemove(carId);
   } catch (error: any) {
     throw new Error(`Failed to delete car: ${error.message}`);
