@@ -18,7 +18,7 @@ import { createCar, deleteCar, editCar } from '@/lib/actions/car.actions';
 import DragDrop from './DragDrop';
 import { CarParams } from '@/lib/interfaces';
 
-interface Props extends CarParams {
+interface Props {
   userId?: string;
   carId?: string | null;
   car?: CarParams | null;
