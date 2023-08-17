@@ -48,7 +48,7 @@ const PickUpDropOffCard = () => {
 
   return (
     <div
-      className={`flex flex-col gap-5 dark:text-white0 md:mx-auto md:max-w-xl xl:mx-0 xl:max-w-none xl:flex-row xl:gap-4 xl:rounded-[0.625rem] xl:bg-white0 dark:xl:bg-gray850 2xl:mx-auto 2xl:max-w-[90rem] ${searchPageDiv}`}
+      className={`flex flex-col gap-5 dark:text-white0 xl:mx-0 xl:max-w-none xl:flex-row xl:gap-4 xl:rounded-[0.625rem] xl:bg-white0 dark:xl:bg-gray850 ${searchPageDiv}`}
     >
       <Card className="border-0 bg-none shadow-none xl:shrink-0 xl:grow">
         <CardContent
