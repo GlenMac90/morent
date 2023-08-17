@@ -17,7 +17,9 @@ const SelectYourTime = ({ pickUpOrDropOff }: { pickUpOrDropOff: string }) => {
       <div className="flex w-full flex-col gap-3.5">
         <div className="flex flex-row items-center gap-[0.38rem]">
           <Image src={clock} width={14} height={14} alt="Clock" />
-          <Label htmlFor="timeSelect">{pickUpOrDropOff} Time</Label>
+          <Label className="truncate" htmlFor="timeSelect">
+            {pickUpOrDropOff}
+          </Label>
         </div>
         <SelectTrigger
           id="timeSelect"
