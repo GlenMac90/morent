@@ -16,24 +16,12 @@ import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing';
 import { createCar, deleteCar, editCar } from '@/lib/actions/car.actions';
 import DragDrop from './DragDrop';
+import { CarParams } from '@/lib/interfaces';
 
-interface Props {
-  car?: {
-    _id?: string;
-    userId: string | undefined | null;
-    carTitle: string;
-    carType: string;
-    rentPrice?: string;
-    capacity?: number;
-    transmission?: string;
-    location?: string;
-    fuelCapacity?: number;
-    shortDescription?: string;
-    carImageMain?: string;
-    path?: string;
-  };
+interface Props extends CarParams {
   userId?: string;
   carId?: string | null;
+  car?: CarParams | null;
 }
 
 interface FileWithPreview extends File {

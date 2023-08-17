@@ -19,6 +19,7 @@ export interface CarParams {
     singleDates?: Date[];
     dateRanges?: DateRange[];
   };
+  path?: string;
 }
 
 export interface UserParams {
