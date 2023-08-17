@@ -14,7 +14,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing';
-import { createCar, deleteCar } from '@/lib/actions/car.actions';
+import { createCar, deleteCar, editCar } from '@/lib/actions/car.actions';
 import DragDrop from './DragDrop';
 
 interface Props {
@@ -52,8 +52,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
   const carIdPattern = /^\/cars\/(?!new$)([a-zA-Z0-9]+)$/;
   const match = pathname.match(carIdPattern);
   const carIdFromPath = match ? match[1] : null;
-  console.log(carIdFromPath);
-  console.log(car?._id);
+
   const { toast } = useToast();
 
   const form = useForm({
@@ -91,7 +90,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
     if (Object.keys(form.formState.errors).length > 0) {
       const errorFields = Object.keys(form.formState.errors);
       const errorMessage = `Errors in: ${errorFields.join(', ')}`;
-
       toast({
         title: 'Validation Error',
         description: errorMessage,
@@ -120,7 +118,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
 
       values.carImageMain = imageUrl;
 
-      await createCar({
+      const carData = {
         userId,
         carTitle: values.carTitle || '',
         carType: values.carType || '',
@@ -131,7 +129,16 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
         fuelCapacity: values.fuelCapacity || 1,
         shortDescription: values.shortDescription || '',
         carImageMain: values.carImageMain,
-      });
+      };
+
+      if (car?._id) {
+        await editCar({
+          ...carData,
+          _id: car?._id,
+        });
+      } else {
+        await createCar(carData);
+      }
 
       if (pathname === '/cars/new') {
         router.back();
@@ -141,7 +148,9 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
 
       setSuccess(true);
     } catch (error) {
-      let errorMessage = 'There was an issue while creating the car.';
+      let errorMessage = car?._id
+        ? 'There was an issue while updating the car.'
+        : 'There was an issue while creating the car.';
 
       if (error instanceof Error) {
         errorMessage += ` Detail: ${error.message}`;

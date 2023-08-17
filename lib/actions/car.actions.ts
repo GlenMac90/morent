@@ -10,7 +10,7 @@ interface DateRange {
 }
 
 interface CarParams {
-  userId: string;
+  userId?: string;
   _id?: string;
   carTitle: string;
   carType: string;
@@ -20,7 +20,7 @@ interface CarParams {
   location?: string;
   fuelCapacity?: number;
   shortDescription?: string;
-  carImageMain?: string[];
+  carImageMain?: string;
   disabledDates?: {
     singleDates?: Date[];
     dateRanges?: DateRange[];

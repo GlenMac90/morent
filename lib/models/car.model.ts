@@ -29,7 +29,7 @@ const carSchema = new mongoose.Schema({
   location: String,
   fuelCapacity: Number,
   shortDescription: String,
-  carImageMain: [String],
+  carImageMain: String,
 });
 
 const Car = mongoose?.models?.Car || mongoose.model('Car', carSchema);

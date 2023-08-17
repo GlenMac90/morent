@@ -59,6 +59,8 @@ const Page = async () => {
         <h2>Cars:</h2>
         <ul className="grid grid-cols-3 gap-8">
           {userCars.cars.map((car: Car) => {
+            console.log(car);
+            console.log(car?.carImageMain);
             const carIdString = car._id.toString();
             return (
               <li
