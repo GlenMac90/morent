@@ -23,6 +23,7 @@ const carSchema = new mongoose.Schema({
       },
     ],
   },
+
   rentPrice: String,
   capacity: Number,
   transmission: String,
