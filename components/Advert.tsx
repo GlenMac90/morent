@@ -40,13 +40,13 @@ const Advert: React.FC<AdvertProps> = ({
         transition={{
           delay: 2,
           type: "spring",
-          duration: 1,
+          duration: 1.5,
         }}
       >
         <div className="flex items-center justify-between">
           <div className="absolute flex">
             <ul
-              className={`${!driveAway && "hidden"} smoke_list_container z-10 ${
+              className={`${!driveAway && "hidden"} z-10 ${
                 whiteCar
                   ? "translate-x-12 translate-y-3 sm:translate-x-16"
                   : "translate-x-7 translate-y-2"

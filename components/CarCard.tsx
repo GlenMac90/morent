@@ -61,7 +61,7 @@ const CarCard: React.FC<CarCardProps> = ({
             <motion.div
               key={motionKey}
               className="flex"
-              animate={{ scale: isFavourited ? [1.5, 1] : [1, 1] }}
+              animate={{ scale: isFavourited ? [1.8, 1] : [1, 1] }}
               transition={{ duration: 0.7 }}
             >
               <Image
