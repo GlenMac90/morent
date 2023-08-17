@@ -19,6 +19,7 @@ import DragDrop from './DragDrop';
 
 interface Props {
   car?: {
+    _id?: string;
     userId: string | undefined | null;
     carTitle: string;
     carType: string;

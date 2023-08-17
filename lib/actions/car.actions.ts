@@ -50,7 +50,7 @@ export async function editCar(carData: CarParams): Promise<CarParams> {
 
   try {
     connectToDB();
-    const updatedCar = await Car.findByIdAndUpdate(carData._id, carData, {
+    const updatedCar = await Car.findByIdAndUpdate(carData._id!, carData, {
       new: true,
     });
 
