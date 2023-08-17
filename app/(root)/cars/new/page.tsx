@@ -1,52 +1,34 @@
-import React from 'react';
-
 import { currentUser } from '@clerk/nextjs';
+
 import CarForm from '@/components/forms/CarForm';
 import { fetchUser } from '@/lib/actions/user.actions';
-
-interface MongooseUserObject {
-  _id: string;
-  id: string;
-  __v: number;
-  bio: string;
-  image: string;
-  name: string;
-  onboarded: boolean;
-  username: string;
-  cars: [];
-}
-
-interface MongooseUser extends MongooseUserObject {
-  toObject: () => MongooseUserObject;
-}
-
-const toPlainObject = (mongooseDoc: MongooseUser): MongooseUserObject => {
-  const plainObject = mongooseDoc.toObject();
-  delete (plainObject as Partial<MongooseUserObject>).__v;
-  return plainObject;
-};
+import { objectToStringId } from '@/utils/objectToStringId';
 
 const Page = async () => {
-  const user = (await currentUser()) as any;
-  if (!user) return null;
-  const userId = user.id;
-  const userMongo = await fetchUser(userId);
-  // try catch
-  const userIdSimpleObject = toPlainObject(userMongo)._id;
+  let user, userMongo, userIdString;
+
+  try {
+    user = (await currentUser()) as any;
+    if (!user) {
+      return <div>User not authenticated.</div>;
+    }
+
+    userMongo = await fetchUser(user.id);
+    userIdString = objectToStringId(userMongo._id);
+
+    if (!userIdString) {
+      throw new Error('Error processing user ID.');
+    }
+  } catch (err) {
+    console.error(err);
+    return <div>Error fetching data.</div>;
+  }
 
   return (
     <div className="my-10 flex w-full items-center justify-center bg-white200">
-      <CarForm userId={userIdSimpleObject} carId={null} />
+      <CarForm userId={userIdString} carId={null} />
     </div>
   );
 };
 
 export default Page;
-
-export function stringToObjectId(id: string): mongoose.Types.ObjectId | null {
-  if (mongoose.Types.ObjectId.isValid(id)) {
-    return new mongoose.Types.ObjectId(id);
-  } else {
-    return null;
-  }
-}
