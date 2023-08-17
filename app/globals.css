@@ -92,3 +92,249 @@
 .smoke_list:nth-child(8) {
   animation-delay: 0.7s;
 }
+
+.sky_animation {
+  animation: dayToNight 5s linear infinite;
+}
+
+@keyframes dayToNight {
+  0% {
+    background-color: rgb(3, 3, 56);
+  }
+  40% {
+    background-color: #87ceeb;
+  }
+  50% {
+    background-color: #87ceeb;
+  }
+  90% {
+    background-color: rgb(3, 3, 56);
+  }
+  100% {
+    background-color: rgb(3, 3, 56);
+  }
+}
+
+.sun_moon {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  animation: sunToMoon 5s linear infinite;
+}
+
+@keyframes sunToMoon {
+  0% {
+    transform: translate(100px, -200px);
+    background-color: white;
+    filter: blur(2px);
+  }
+  20% {
+    transform: translate(-100px, 100px);
+    background-color: white;
+    filter: blur(2px);
+  }
+  21% {
+    transform: translate(-100px, 100px);
+    background-color: yellow;
+    filter: blur(2px);
+  }
+  40% {
+    transform: translate(100px, -200px);
+    background-color: yellow;
+    filter: blur(2px);
+  }
+  50% {
+    transform: translate(100px, -200px);
+    background-color: yellow;
+    filter: blur(2px);
+  }
+  51% {
+    transform: translate(100px, -200px);
+    background-color: yellow;
+    filter: blur(2px);
+  }
+  71% {
+    transform: translate(-100px, 100px);
+    background-color: yellow;
+    filter: blur(2px);
+  }
+  72% {
+    transform: translate(-100px, 100px);
+    background-color: white;
+    filter: blur(2px);
+  }
+  90% {
+    transform: translate(100px, -200px);
+    background-color: white;
+    filter: blur(2px);
+  }
+  100% {
+    transform: translate(100px, -200px);
+    background-color: white;
+    filter: blur(2px);
+  }
+}
+.car_bounce {
+  animation: carBounce 0.5s linear infinite;
+}
+@keyframes carBounce {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(0, 3px);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+.shooting_star {
+  width: 4px;
+  height: 4px;
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.1),
+    0 0 0 8px rgba(255, 255, 255, 0.1),
+    0 0 20px rgba(255, 255, 255, 1);
+  animation: animateStars 0.5s linear infinite;
+}
+.star_container {
+  animation: showStars 5s linear infinite;
+}
+.shooting_star::before {
+  content: "";
+  position: absolute;
+  width: 150px;
+  height: 1px;
+  background: linear-gradient(90deg, white, transparent);
+}
+@keyframes animateStars {
+  0% {
+    transform: rotate(315deg) translateX(0);
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    transform: rotate(315deg) translateX(-100px);
+    opacity: 0;
+  }
+}
+
+.shooting_star:nth-child(1) {
+  animation-delay: 0;
+  animation-duration: 0.5s;
+}
+.shooting_star:nth-child(2) {
+  animation-delay: 0.2;
+  left: 80px;
+  animation-duration: 1s;
+}
+.shooting_star:nth-child(3) {
+  animation-delay: 0.4;
+  right: 30px;
+  animation-duration: 1.2s;
+}
+.shooting_star:nth-child(4) {
+  animation-delay: 0.6;
+  left: 60px;
+  animation-duration: 0.6s;
+}
+.shooting_star:nth-child(5) {
+  animation-delay: 0.8;
+  left: 150px;
+  animation-duration: 0.6s;
+}
+@keyframes showStars {
+  0% {
+    opacity: 1;
+  }
+  20% {
+    opacity: 0;
+  }
+  75% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.cloud {
+  width: 100px;
+  height: 40px;
+  border-radius: 50px;
+  background: white;
+  opacity: 0.5;
+  animation: moveCloud 5s linear infinite;
+}
+.cloud:before {
+  content: "";
+  position: absolute;
+  top: -15px;
+  left: 15px;
+  background: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+.cloud:after {
+  content: "";
+  position: absolute;
+  top: -20px;
+  right: 15px;
+  background: white;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+}
+.cloud:nth-child(1) {
+  right: 10px;
+  top: 20px;
+  animation-duration: 5s;
+}
+.cloud:nth-child(2) {
+  left: 150px;
+  animation-duration: 5s;
+}
+.cloud:nth-child(3) {
+  left: 20px;
+  top: 0px;
+  animation-duration: 5s;
+}
+@keyframes moveCloud {
+  0% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(100px, 0);
+  }
+  100% {
+    transform: translate(0, 0);
+  }
+}
+.cloud_container {
+  animation: showClouds 5s linear infinite;
+}
+@keyframes showClouds {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0;
+  }
+  40% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
