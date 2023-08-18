@@ -1,14 +1,15 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
-import { useToast } from '@/components/ui/use-toast';
 import * as z from 'zod';
-import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import '@uploadthing/react/styles.css';
 
+import { useToast } from '@/components/ui/use-toast';
+import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
 import { CarValidation } from '@/lib/validations/car';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -74,7 +75,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
   const onSubmit = async (values: z.infer<typeof CarValidation>) => {
     setIsLoading(true);
     setError(null);
-    setSuccess(false);
 
     if (Object.keys(form.formState.errors).length > 0) {
       const errorFields = Object.keys(form.formState.errors);
@@ -89,7 +89,8 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
 
     if (dragDropFiles.length === 0) {
       toast({
-        title: 'Error',
+        variant: 'destructive',
+        title: 'Not so quick!',
         description: 'Please add an image before submitting the form.',
       });
       setIsLoading(false);
@@ -125,17 +126,23 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
           ...carData,
           _id: car?._id,
         });
+        setSuccess(true);
       } else {
         await createCar(carData);
+        setSuccess(true);
       }
+
+      toast({
+        variant: 'success',
+        title: 'Success',
+        description: 'Car registered successfully',
+      });
 
       if (pathname === '/cars/new') {
         router.back();
       } else {
         router.push('/');
       }
-
-      setSuccess(true);
     } catch (error) {
       let errorMessage = car?._id
         ? 'There was an issue while updating the car.'
@@ -150,6 +157,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
 
       setError(errorMessage);
     } finally {
+      setSuccess(false);
       setIsLoading(false);
     }
   };
@@ -202,8 +210,21 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
           <div className="text-green-500">Car registered successfully!</div>
         )}
 
-        <div className="flex flex-col self-start">
-          <h1 className="text-xl font-semibold ">Add a Car for Rent</h1>
+        <div className="flex w-full flex-col justify-start">
+          {pathname === '/cars/new' ? (
+            <h1 className="text-xl font-semibold ">Add a Car for Rent</h1>
+          ) : (
+            <div className="flex w-full items-center justify-between">
+              <h1 className="text-xl font-semibold ">Edit Car Details</h1>
+              <Image
+                src={car?.carImageMain || ''}
+                width={100}
+                height={50}
+                alt="Car Image"
+              />
+            </div>
+          )}
+
           <p className="mt-2.5  text-sm text-gray400">
             Please enter your car info
           </p>
