@@ -3,8 +3,6 @@ import { fetchUser } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 import CarCard from "@/components/CarCard";
 import Advert from "@/components/Advert";
-import ErrorPage from "@/components/ErrorPage";
-import Loader from "@/components/Loader";
 
 const Home = async () => {
   const info = await currentUser();
@@ -13,18 +11,6 @@ const Home = async () => {
   const userInfo = await fetchUser(info.id);
 
   if (!userInfo?.onboarded) redirect("/onboarding");
-
-  const show404 = true;
-
-  if (show404) {
-    return <ErrorPage />;
-  }
-
-  const showLoader = true;
-
-  if (showLoader) {
-    return <Loader />;
-  }
 
   return (
     <div className="flex flex-col items-center bg-white200 p-2">
