@@ -38,6 +38,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
   const carIdPattern = /^\/cars\/(?!new$)([a-zA-Z0-9]+)$/;
   const match = pathname.match(carIdPattern);
@@ -165,15 +166,30 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
   const handleFilesChange = (files: FileWithPreview[]) => {
     setDragDropFiles(files);
 
-    if (files.length > 0) {
-      const file = files[0];
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(file);
-      fileReader.onload = () => {
-        const result = fileReader.result as string;
-        form.setValue('carImageMain', result || '');
-      };
-    }
+    const fileReadPromises = files.map((file) => {
+      return new Promise<string>((resolve, reject) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        fileReader.onload = () => {
+          const result = fileReader.result as string;
+          resolve(result);
+        };
+        fileReader.onerror = () => {
+          reject(fileReader.error);
+        };
+      });
+    });
+
+    Promise.all(fileReadPromises)
+      .then((allFileData) => {
+        setImagePreviews(allFileData);
+        if (allFileData.length > 0) {
+          form.setValue('carImageMain', allFileData[0] || '');
+        }
+      })
+      .catch((error) => {
+        console.error('Error reading one or more files:', error);
+      });
   };
 
   const handleDelete = async (carId: string) => {
@@ -228,6 +244,18 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
           <p className="mt-2.5  text-sm text-gray400">
             Please enter your car info
           </p>
+          <div className="mt-4 flex space-x-4">
+            {imagePreviews.map((preview, index) => (
+              <div key={index} className="relative h-24 w-24">
+                <Image
+                  src={preview}
+                  alt="Preview"
+                  layout="fill"
+                  objectFit="cover"
+                />
+              </div>
+            ))}
+          </div>
           <h3 className="mt-8 text-lg font-bold text-blue500">CAR INFO</h3>
         </div>
         <div className="flex w-full flex-col gap-8 md:flex-row ">
