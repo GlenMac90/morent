@@ -62,15 +62,20 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
     },
   });
 
-  const uploadImage = async (
-    blob: string,
+  const uploadImages = async (
+    imagePreviews: string[],
     files: FileWithPreview[]
-  ): Promise<string | null> => {
-    const isImage = isBase64Image(blob);
-    if (!isImage) return null;
+  ): Promise<string[]> => {
+    const uploadPromises = imagePreviews.map(async (blob, index) => {
+      const isImage = isBase64Image(blob);
+      if (!isImage) return null;
 
-    const imgRes = await startUpload(files);
-    return imgRes?.[0]?.fileUrl || null;
+      const imgRes = await startUpload([files[index]]);
+      return imgRes?.[0]?.fileUrl || null;
+    });
+
+    const uploadedUrls: (string | null)[] = await Promise.all(uploadPromises);
+    return uploadedUrls.filter((url) => url !== null) as string[];
   };
 
   const onSubmit = async (values: z.infer<typeof CarValidation>) => {
@@ -99,16 +104,14 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
     }
 
     try {
-      const imageUrl = await uploadImage(
-        values.carImageMain as string,
-        dragDropFiles
-      );
-      if (!imageUrl) {
+      const uploadedUrls = await uploadImages(imagePreviews, dragDropFiles);
+      if (!uploadedUrls) {
         throw new Error('Failed to upload image.');
       }
 
-      values.carImageMain = imageUrl;
-
+      if (uploadedUrls.length > 0) {
+        values.carImageMain = uploadedUrls[0];
+      }
       const carData = {
         userId,
         carTitle: values.carTitle || '',
