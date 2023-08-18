@@ -5,3 +5,4 @@ export { default as profileDefaultCover } from "./profileDefaultCover.png";
 export { default as loaderCityscape } from "./loaderCityscape.png";
 export { default as advertSilverCar } from "./advertSilverCar.png";
 export { default as advertWhiteCar } from "./advertWhiteCar.png";
+export { default as cityScapeCropped } from "./cityScapeCropped.png";

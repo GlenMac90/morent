@@ -99,7 +99,7 @@
 
 @keyframes dayToNight {
   0% {
-    background-color: rgb(3, 3, 56);
+    background-color: #030338;
   }
   40% {
     background-color: #87ceeb;
@@ -108,10 +108,10 @@
     background-color: #87ceeb;
   }
   90% {
-    background-color: rgb(3, 3, 56);
+    background-color: #030338;
   }
   100% {
-    background-color: rgb(3, 3, 56);
+    background-color: #030338;
   }
 }
 
@@ -213,10 +213,10 @@
 @keyframes animateStars {
   0% {
     transform: rotate(315deg) translateX(0);
-    opacity: 1;
+    opacity: 0.6;
   }
   70% {
-    opacity: 1;
+    opacity: 0.6;
   }
   100% {
     transform: rotate(315deg) translateX(-100px);
@@ -267,7 +267,7 @@
   height: 40px;
   border-radius: 50px;
   background: white;
-  opacity: 0.5;
+  opacity: 0.6;
   animation: moveCloud 5s linear infinite;
 }
 .cloud:before {
@@ -293,16 +293,16 @@
 .cloud:nth-child(1) {
   right: 10px;
   top: 20px;
-  animation-duration: 5s;
+  animation-duration: 10s;
 }
 .cloud:nth-child(2) {
   left: 150px;
-  animation-duration: 5s;
+  animation-duration: 7s;
 }
 .cloud:nth-child(3) {
   left: 20px;
   top: 0px;
-  animation-duration: 5s;
+  animation-duration: 6s;
 }
 @keyframes moveCloud {
   0% {
@@ -336,5 +336,36 @@
   }
   100% {
     opacity: 0;
+  }
+}
+.heart_animation {
+  animation: heartGrow 1s;
+}
+@keyframes heartGrow {
+  0% {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background-color: rgba(255, 0, 0, 0.5);
+    box-shadow: 0 0 10px red; /* Red shadow */
+  }
+  100% {
+    border-radius: 50%;
+    background-color: transparent;
+    box-shadow: none; /* No shadow */
+  }
+}
+.loading_text {
+  animation: animateText 0.5s linear infinite;
+}
+@keyframes animateText {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(2px);
+  }
+  100% {
+    transform: translateY(0px);
   }
 }

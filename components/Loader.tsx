@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 
 const Loader = () => {
   return (
-    <div className="z-10 flex h-screen w-screen flex-col items-center justify-center bg-white200">
+    <div className="fixed z-10 flex h-screen w-screen flex-col items-center justify-center bg-white200">
       <div className="flex w-full items-center justify-center">
         <div className="z-20 h-full w-full bg-white200"></div>
         <div className="sky_animation mt-40 flex flex-col overflow-hidden rounded-t-full px-80 pt-72">
@@ -17,7 +17,7 @@ const Loader = () => {
               <div key={star} className="shooting_star"></div>
             ))}
           </div>
-          <div className="absolute z-10 translate-x-[-4.5rem] translate-y-[2rem]">
+          <div className="absolute z-10 translate-x-[-6.5rem] translate-y-[2rem] md:translate-x-[-5rem] lg:translate-x-[-4.5rem]">
             {[0, 1, 2, 3, 4, 5, 6, 7].map((puff) => (
               <div key={puff} className="smoke_list z-10"></div>
             ))}
@@ -55,7 +55,9 @@ const Loader = () => {
         <div className="z-20 h-full w-full bg-white200"></div>
       </div>
       <div className="z-20 flex w-full flex-auto justify-center bg-white200">
-        <p className="mt-2 text-3xl font-semibold">Loading...</p>
+        <p className="loading_text mt-2 flex text-4xl font-semibold">
+          Loading...
+        </p>
       </div>
     </div>
   );

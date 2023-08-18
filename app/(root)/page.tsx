@@ -1,20 +1,20 @@
-// import { UserButton, currentUser } from "@clerk/nextjs";
-// import { fetchUser } from "@/lib/actions/user.actions";
-// import { redirect } from "next/navigation";
+import { UserButton, currentUser } from "@clerk/nextjs";
+import { fetchUser } from "@/lib/actions/user.actions";
+import { redirect } from "next/navigation";
 import CarCard from "@/components/CarCard";
 import Advert from "@/components/Advert";
 import ErrorPage from "@/components/ErrorPage";
 import Loader from "@/components/Loader";
 
 const Home = async () => {
-  // const info = await currentUser();
-  // if (!info) return null;
+  const info = await currentUser();
+  if (!info) return null;
 
-  // const userInfo = await fetchUser(info.id);
+  const userInfo = await fetchUser(info.id);
 
-  // if (!userInfo?.onboarded) redirect("/onboarding");
+  if (!userInfo?.onboarded) redirect("/onboarding");
 
-  const show404 = false;
+  const show404 = true;
 
   if (show404) {
     return <ErrorPage />;
@@ -28,7 +28,7 @@ const Home = async () => {
 
   return (
     <div className="flex flex-col items-center bg-white200 p-2">
-      {/* <UserButton afterSignOutUrl="/" /> */}
+      <UserButton afterSignOutUrl="/" />
       <p className="">Hello World!</p>
       <div className="flex w-full max-w-7xl flex-col items-center pt-5">
         <section className="flex w-full max-w-7xl px-5">
@@ -55,8 +55,8 @@ const Home = async () => {
           <p className="font-medium text-gray400">Popular Cars</p>
           <p className="font-medium text-blue500">View All</p>
         </div>
-        <div className="no_scrollbar mt-4 flex w-full gap-5 overflow-x-auto xs:mt-0 xs:flex-col xs:items-center xs:justify-center xs:p-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
-          <div className="absolute right-0 h-60 w-20 bg-gradient-to-r from-transparent to-white/100 xs:hidden"></div>
+        <div className="no_scrollbar mt-4 flex w-full gap-5 overflow-x-auto xs:mt-0 xs:items-center xs:p-5 sm:grid sm:grid-cols-2 sm:flex-col sm:justify-center sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
+          <div className="absolute right-0 h-60 w-20 bg-gradient-to-r from-transparent to-white/100 sm:hidden"></div>
           <div className="flex w-5 xs:hidden" />
 
           {/* Change id to match id of card once live data is passed */}

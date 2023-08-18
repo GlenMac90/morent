@@ -46,9 +46,9 @@ const CarCard: React.FC<CarCardProps> = ({
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
         className={`flex w-full flex-col rounded-lg
-        bg-white p-4 shadow hover:shadow-xl xs:max-w-[28rem] sm:w-auto sm:max-w-full ${
-          isPopularCar && "min-w-[16rem]"
-        }`}
+        bg-white p-4 shadow hover:shadow-xl ${
+          isPopularCar ? "min-w-[18rem]" : "xs:max-w-[28rem]"
+        } sm:w-auto sm:max-w-full`}
       >
         <div className="flex w-full justify-between">
           <div className="flex flex-col">
@@ -61,13 +61,15 @@ const CarCard: React.FC<CarCardProps> = ({
             <motion.div
               key={motionKey}
               className="flex"
-              animate={{ scale: isFavourited ? [1.8, 1] : [1, 1] }}
+              animate={{ scale: isFavourited ? [1.6, 1] : [1, 1] }}
               transition={{ duration: 0.7 }}
             >
               <Image
                 src={isFavourited ? redHeart : heart}
                 alt="heart button"
-                className="h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6"
+                className={`h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6 ${
+                  isFavourited && "heart_animation"
+                }`}
                 onClick={handleButtonClick}
               />
             </motion.div>
