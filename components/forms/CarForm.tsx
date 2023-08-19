@@ -457,6 +457,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             )}
           />
         </div>
+
         <DragDrop handleFilesChange={handleFilesChange} />
 
         <div className="flex space-x-4 self-end">
@@ -518,20 +519,3 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
 };
 
 export default CarForm;
-
-/* <Select
-                    className="h-11 bg-white200 md:h-14 "
-                    type="number"
-                    value={field.value}
-                    onValueChange={(value) => field.onChange(value)}
-                  >
-                    <SelectTrigger className="w-[180px]">
-                      <SelectValue placeholder="Capacity in persons" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value={2}>2 Person</SelectItem>
-                      <SelectItem value={4}>4 Person</SelectItem>
-                      <SelectItem value={6}>6 Person</SelectItem>
-                      <SelectItem value={8}>8 or More</SelectItem>
-                    </SelectContent>
-                  </Select> */
