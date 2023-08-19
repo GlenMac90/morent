@@ -63,9 +63,12 @@ const NavBar = () => {
   return (
     <>
       <nav className="fixed z-40 flex h-[5.75rem] w-screen items-center justify-between border-b bg-white px-6 dark:border-b-gray850 dark:bg-gray900 md:h-[6.25rem] md:px-14">
-        <p className="text-2xl font-semibold text-blue500 md:text-3xl">
+        <Link
+          href="/"
+          className="text-2xl font-semibold text-blue500 md:text-3xl"
+        >
           MORENT
-        </p>
+        </Link>
         <div className="flex items-center">
           {buttons.map((button) => (
             <Link key={button.path} href={button.path}>
