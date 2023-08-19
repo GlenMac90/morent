@@ -169,7 +169,15 @@ const NavBar = () => {
                     userId ? "mr-1.5 flex min-h-[20px] rounded-full" : "hidden"
                   }`}
                 />
-                <p>{userId ? "My Profile" : "Login"}</p>
+                <Link
+                  href={
+                    userId
+                      ? "/profile/id"
+                      : "/sign-in?redirect_url=http%3A%2F%2Flocalhost%3A3000%2F"
+                  }
+                >
+                  <p>{userId ? "My Profile" : "Login"}</p>
+                </Link>
               </button>
               <button
                 className={`${

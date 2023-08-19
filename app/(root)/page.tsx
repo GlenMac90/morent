@@ -1,11 +1,18 @@
+"use client";
+
+import { motion } from "framer-motion";
 import CarCard from "@/components/CarCard";
 import Advert from "@/components/Advert";
 import { Adverts } from "@/constants";
 import PickUpDropOffCard from "@/components/PickUpDropOffCard";
 
-const Home = async () => {
+const Home = () => {
   return (
-    <div className="flex  flex-col items-center bg-white200 p-2 dark:bg-gray900">
+    <motion.div
+      className="flex flex-col items-center bg-white200 p-2 dark:bg-gray900"
+      animate={{ scale: 1 }}
+      initial={{ scale: 0 }}
+    >
       <div className="mt-24 flex w-full max-w-[90rem] flex-col items-center pt-5">
         <section className="flex w-full max-w-[90rem] px-5">
           <div className="flex w-full flex-col gap-8 lg:flex-row">
@@ -52,7 +59,7 @@ const Home = async () => {
           Show More Cars
         </button>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
