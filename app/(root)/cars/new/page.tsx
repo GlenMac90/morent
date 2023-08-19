@@ -24,8 +24,8 @@ const Page = async () => {
   }
 
   return (
-    <div className="flex items-center justify-center bg-white200 dark:bg-gray900">
-      <div className="mb-12 mt-40 flex w-full max-w-4xl">
+    <div className="flex w-screen items-center justify-center bg-white200 dark:bg-gray900">
+      <div className="mb-12 mt-40 flex w-screen max-w-4xl items-center justify-center">
         <CarForm userId={userIdString} />
       </div>
     </div>

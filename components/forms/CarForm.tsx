@@ -251,7 +251,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             </div>
           )}
 
-          <p className="mt-2.5  text-sm text-gray400">
+          <p className="mt-2.5 text-sm text-gray400">
             Please enter your car info
           </p>
           <div className="mt-4 flex space-x-4">
