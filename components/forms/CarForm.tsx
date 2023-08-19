@@ -100,7 +100,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       return;
     }
 
-    if (dragDropFiles.length === 0) {
+    if (dragDropFiles.length === 0 && pathname === '/cars/new') {
       toast({
         variant: 'destructive',
         title: 'Not so quick!',

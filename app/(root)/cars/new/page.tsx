@@ -5,23 +5,19 @@ import { userFromDB } from '@/lib/actions/user.actions';
 import { objectToStringId } from '@/utils/objectToStringId';
 
 const Page = async () => {
-  let user, userMongo, userIdString;
+  let user;
+  let userMongo;
+  let userIdString;
 
   try {
-    user = (await currentUser()) as any;
-    if (!user) {
-      return <div>User not authenticated.</div>;
-    }
+    user = await currentUser();
+    if (!user) throw new Error('User not authenticated.');
 
     userMongo = await userFromDB(user.id);
-    if (!userMongo) {
-      throw new Error('Failed to fetch user from MongoDB.');
-    }
+    if (!userMongo) throw new Error('Failed to fetch user from MongoDB.');
 
     userIdString = objectToStringId(userMongo._id);
-    if (!userIdString) {
-      throw new Error('Error processing user ID.');
-    }
+    if (!userIdString) throw new Error('Error processing user ID.');
   } catch (err) {
     console.error(err);
     return <div>Error fetching data.</div>;
