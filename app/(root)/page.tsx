@@ -4,7 +4,6 @@ import { Adverts } from "@/constants";
 import PickUpDropOffCard from "@/components/PickUpDropOffCard";
 
 const Home = async () => {
-  console.log(Adverts.length);
   return (
     <div className="flex  flex-col items-center bg-white200 p-2 dark:bg-gray900">
       <div className="mt-24 flex w-full max-w-[90rem] flex-col items-center pt-5">
