@@ -9,7 +9,6 @@ import { advertWhiteCar, cityScapeCropped } from "@/public/pngs";
 
 const ErrorPage = () => {
   const { theme } = useTheme();
-  const isLight = true;
   return (
     <div className="fixed flex h-screen w-screen flex-col items-center justify-center bg-white200 p-2 dark:bg-gray900">
       <p className="text-3xl font-semibold">Uh oh something went wrong...</p>
