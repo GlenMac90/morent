@@ -25,6 +25,7 @@ import {
   SelectContent,
   SelectItem,
 } from '@/components/ui/select';
+import AvailableDates from '../AvailableDates';
 
 interface Props {
   userId?: string;
@@ -457,7 +458,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             )}
           />
         </div>
-
+        <AvailableDates />
         <DragDrop handleFilesChange={handleFilesChange} />
 
         <div className="flex space-x-4 self-end">
