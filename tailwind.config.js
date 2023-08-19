@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  darkMode: ["class"],
+  darkMode: "class",
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -14,7 +14,7 @@ module.exports = {
       md: "768px",
       lg: "1024px",
       xl: "1280px",
-      '2xl': "1536px"
+      "2xl": "1536px",
     },
     fontFamily: {
       plusJakartaSans: ["var(--plus-jakarta-sans)"],
@@ -40,7 +40,7 @@ module.exports = {
         gray800: "#424B5C",
         gray850: "#293346",
         gray900: "#1A202C",
-        red400: "##ED3F3F",
+        red400: "#ED3F3F",
         yellow400: "#FBAD39",
         white0: "#FFFFFF",
         white100: "#F7F9FC",

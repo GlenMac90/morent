@@ -62,7 +62,7 @@ const Advert: React.FC<AdvertProps> = ({
             alt="car picture"
             width={192}
             height={56}
-            className="z-20 ml-6 h-[5.3rem] w-[18rem] self-center sm:h-[7.25rem] sm:w-[25.5rem]"
+            className="z-20 ml-0 h-[4.2rem] w-[14rem] self-center xs:h-[5rem] xs:w-[18rem] sm:ml-6 sm:h-[7.25rem] sm:w-[25.5rem]"
           />
         </div>
       </motion.div>

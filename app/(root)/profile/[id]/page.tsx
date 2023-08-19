@@ -6,10 +6,12 @@ import { dummyUserData } from "@/utils/dummyUserData";
 
 const page = () => {
   return (
-    <div className="flex w-full justify-center self-center bg-white200 p-6">
-      <div className="flex w-full max-w-7xl flex-col">
-        <p className="text-xl font-semibold text-gray900">My Profile</p>
-        <section className="mt-6 flex h-auto w-full flex-col rounded-xl bg-white">
+    <div className="flex w-full justify-center self-center bg-white200 p-6 dark:bg-gray900">
+      <div className="mt-20 flex w-full max-w-7xl flex-col md:mt-40">
+        <p className="text-xl font-semibold text-gray900 dark:text-white">
+          My Profile
+        </p>
+        <section className="mt-6 flex h-auto w-full flex-col rounded-xl bg-white dark:bg-gray850">
           <div className="relative flex h-40 md:h-48">
             <Image
               src={dummyUserData.coverImage}

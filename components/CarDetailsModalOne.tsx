@@ -3,8 +3,9 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
-import { cross } from "../public/svg-icons/index";
+import { cross, whiteCross } from "../public/svg-icons/index";
 import CarDetailsModalTwo from "./CarDetailsModalTwo";
 
 interface CarData {
@@ -31,6 +32,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
   setShowModal,
   isPopular,
 }) => {
+  const { theme } = useTheme();
   const [displayPicture, setDisplayPicture] = useState(data.pictures[0]);
   const [showModalScreen2, setShowModalScreen2] = useState(false);
   const [changePicture, setChangePicture] = useState(true);
@@ -47,7 +49,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         key={motionKey}
         animate={{ scale: 1 }}
         initial={{ scale: 0 }}
-        className={`fixed inset-x-2 top-10 z-50 flex flex-col rounded-lg bg-white p-4 xs:inset-x-auto sm:top-40 sm:-translate-x-7 md:flex-row 
+        className={`fixed inset-x-2 top-10 z-50 flex flex-col rounded-lg bg-white p-4 dark:bg-gray850 xs:inset-x-auto sm:top-40 sm:-translate-x-7 md:flex-row 
         ${!showModalScreen2 && "max-w-[25rem] md:max-w-[45rem]"}`}
       >
         {showModalScreen2 && (
@@ -58,9 +60,9 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             showModalScreen2 && "hidden"
           }`}
         >
-          <div className="absolute -top-4 right-2 rounded-sm bg-white">
+          <div className="absolute -top-4 right-2 rounded-sm bg-white dark:bg-gray850">
             <Image
-              src={cross}
+              src={theme === "light" ? cross : whiteCross}
               height={20}
               width={20}
               alt="close modal"
@@ -74,7 +76,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
               initial={{ opacity: 0 }}
               transition={{ duration: changePicture ? 0.08 : 0 }}
               whileHover={{ scale: 1.2 }}
-              className="flex h-[12rem] items-center justify-center rounded-lg border-2 border-white"
+              className="flex h-[12rem] items-center justify-center rounded-lg"
             >
               <Image
                 src={displayPicture}
@@ -109,25 +111,27 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             <div className="flex justify-between">
               <p className="text-xl font-medium">{data.brand}</p>
               <Image
-                src={cross}
+                src={theme === "light" ? cross : whiteCross}
                 height={20}
                 width={20}
                 alt="close modal"
                 onClick={() => setShowModal(false)}
-                className="hidden cursor-pointer self-start md:flex"
+                className="hidden cursor-pointer self-start dark:text-white200 md:flex"
               />
             </div>
-            <p className="mt-2 text-xs leading-6 text-gray700">
+            <p className="mt-2 text-xs leading-6 text-gray700 dark:text-white200">
               {data.shortDescription}
             </p>
             <div className="mt-4 flex justify-between gap-8">
               <div className="flex w-1/2 justify-between">
                 <p className="text-xs text-gray400">Type Car</p>
-                <p className="text-xs text-gray700">{data.type}</p>
+                <p className="text-xs text-gray700 dark:text-white200">
+                  {data.type}
+                </p>
               </div>
               <div className="flex w-1/2 justify-between">
                 <p className="text-xs text-gray400">Capacity</p>
-                <p className="text-xs text-gray700">
+                <p className="text-xs text-gray700 dark:text-white200">
                   {data.capacity} {data.capacity === 1 ? "person" : "people"}
                 </p>
               </div>
@@ -135,11 +139,15 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             <div className="mt-4 flex justify-between gap-8">
               <div className="flex w-1/2 justify-between">
                 <p className="text-xs text-gray400">Transm.</p>
-                <p className="text-xs text-gray700">{data.transmission}</p>
+                <p className="text-xs text-gray700 dark:text-white200">
+                  {data.transmission}
+                </p>
               </div>
               <div className="flex w-1/2 justify-between">
                 <p className="text-xs text-gray400">Gasoline</p>
-                <p className="text-xs text-gray700">{data.fuelCapacity}L</p>
+                <p className="text-xs text-gray700 dark:text-white200">
+                  {data.fuelCapacity}L
+                </p>
               </div>
             </div>
             <div className="mt-8 flex w-full justify-between">
@@ -158,7 +166,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         </div>
       </motion.div>
       <div
-        className="fixed inset-0 z-10 h-screen w-screen bg-black opacity-30 dark:bg-white dark:opacity-10"
+        className="fixed inset-0 z-40 h-screen w-screen bg-black opacity-50 dark:bg-gray900 dark:opacity-70"
         onClick={() => setShowModal(false)}
       ></div>
     </>

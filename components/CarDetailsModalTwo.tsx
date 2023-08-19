@@ -1,8 +1,9 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
-import { cross, calendar } from "../public/svg-icons/index";
+import { cross, calendar, whiteCross } from "../public/svg-icons/index";
 
 interface CarDetailsModalTwoProps {
   id: string;
@@ -13,6 +14,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
   id,
   setShowModal,
 }) => {
+  const { theme } = useTheme();
   return (
     <motion.section
       animate={{ scale: 1 }}
@@ -21,7 +23,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
     >
       <div className="flex justify-between">
         <div className="flex flex-col">
-          <p className="text-xl font-semibold text-gray900">
+          <p className="text-xl font-semibold text-gray900 dark:text-white">
             Add Pickup Location
           </p>
           <p className="mt-2.5 text-sm text-gray400">
@@ -29,16 +31,18 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
           </p>
         </div>
         <Image
-          src={cross}
+          src={theme === "light" ? cross : whiteCross}
           alt="close modal"
           onClick={() => setShowModal(false)}
           className="flex h-6 w-6 -translate-y-6 cursor-pointer self-start sm:h-8 sm:w-8 sm:-translate-y-0"
         />
       </div>
       <p className="mt-10 text-lg font-bold text-blue500">PICKUP INFO</p>
-      <p className="mt-6 font-medium text-gray900">Pickup Location</p>
+      <p className="mt-6 font-medium text-gray900 dark:text-white">
+        Pickup Location
+      </p>
       <input
-        className="mt-3 w-full rounded-lg bg-white200 py-3.5 pl-6 text-sm"
+        className="mt-3 w-full rounded-lg bg-white200 py-3.5 pl-6 text-sm dark:bg-gray800 dark:placeholder:text-white200"
         placeholder="Location Address"
       />
       <div className="mt-6 flex flex-col sm:flex-row sm:gap-2.5">
@@ -48,7 +52,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
             <p className="ml-1.5">Availability From</p>
           </div>
           <input
-            className="mt-3 w-full rounded-lg bg-white200 py-3.5 pl-6 text-sm"
+            className="mt-3 w-full rounded-lg bg-white200 py-3.5 pl-6 text-sm dark:bg-gray800 dark:placeholder:text-white200"
             placeholder="Select your date"
           />
         </div>
@@ -58,7 +62,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
             <p className="ml-1.5">Availability To</p>
           </div>
           <input
-            className="mt-3 w-full rounded-lg bg-white200 py-3.5 pl-6 text-sm"
+            className="mt-3 w-full rounded-lg bg-white200 py-3.5 pl-6 text-sm dark:bg-gray800 dark:placeholder:text-white200"
             placeholder="Select your date"
           />
         </div>

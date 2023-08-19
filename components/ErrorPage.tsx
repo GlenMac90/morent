@@ -1,18 +1,22 @@
+"use client";
+
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useTheme } from "next-themes";
 
 import { advertWhiteCar, cityScapeCropped } from "@/public/pngs";
 
 const ErrorPage = () => {
+  const { theme } = useTheme();
   const isLight = true;
   return (
-    <div className="fixed flex h-screen w-screen flex-col items-center justify-center bg-white200 p-2">
+    <div className="fixed flex h-screen w-screen flex-col items-center justify-center bg-white200 p-2 dark:bg-gray900">
       <p className="text-3xl font-semibold">Uh oh something went wrong...</p>
       <div className="flex flex-col items-center justify-center gap-12 rounded-xl p-8">
         <div
           className={`flex justify-center rounded-t-full ${
-            isLight ? "bg-[#87ceeb]" : "bg-[#030338]"
+            theme === "light" ? "bg-[#87ceeb]" : "bg-[#030338]"
           } px-24`}
         >
           <Image
@@ -36,12 +40,12 @@ const ErrorPage = () => {
           </ul>
           <div
             className={`absolute h-20 w-20 translate-x-14 translate-y-10 rounded-full ${
-              isLight ? "bg-[#FFFF00]" : "bg-white"
+              theme === "light" ? "bg-[#FFFF00]" : "bg-white"
             } blur-[2px]`}
           ></div>
           <div
             className={`absolute -translate-x-20 translate-y-24 ${
-              !isLight && "hidden"
+              theme === "dark" && "hidden"
             }`}
           >
             {[0, 1, 2].map((cloud) => (
@@ -49,8 +53,8 @@ const ErrorPage = () => {
             ))}
           </div>
           <div
-            className={`absolute -translate-x-20 translate-y-14 opacity-50 ${
-              isLight && "hidden"
+            className={`absolute -translate-x-20 translate-y-20 opacity-50 ${
+              theme === "light" && "hidden"
             }`}
           >
             {[0, 1, 2, 3, 4].map((star) => (

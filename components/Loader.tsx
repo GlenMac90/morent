@@ -7,9 +7,9 @@ import { motion } from "framer-motion";
 
 const Loader = () => {
   return (
-    <div className="fixed z-10 flex h-screen w-screen flex-col items-center justify-center bg-white200">
+    <div className="fixed z-10 flex h-screen w-screen flex-col items-center justify-center bg-white200 dark:bg-gray900">
       <div className="flex w-full items-center justify-center">
-        <div className="z-20 h-full w-full bg-white200"></div>
+        <div className="z-20 h-full w-full bg-white200 dark:bg-gray900"></div>
         <div className="sky_animation mt-40 flex flex-col overflow-hidden rounded-t-full px-80 pt-72">
           <div className="sun_moon absolute"></div>
           <div className="star_container absolute -translate-x-24 -translate-y-52">
@@ -52,9 +52,9 @@ const Loader = () => {
             />
           </motion.div>
         </div>
-        <div className="z-20 h-full w-full bg-white200"></div>
+        <div className="z-20 h-full w-full bg-white200 dark:bg-gray900"></div>
       </div>
-      <div className="z-20 flex w-full flex-auto justify-center bg-white200">
+      <div className="z-20 flex w-full flex-auto justify-center bg-white200 dark:bg-gray900">
         <p className="loading_text mt-2 flex text-4xl font-semibold">
           Loading...
         </p>

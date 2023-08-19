@@ -3,6 +3,8 @@
 // import { redirect } from "next/navigation";
 import CarCard from "@/components/CarCard";
 import Advert from "@/components/Advert";
+import Loader from "@/components/Loader";
+import ErrorPage from "@/components/ErrorPage";
 
 const Home = async () => {
   // const info = await currentUser();
@@ -11,12 +13,22 @@ const Home = async () => {
   // const userInfo = await fetchUser(info.id);
 
   // if (!userInfo?.onboarded) redirect("/onboarding");
+  const showLoader = false;
+
+  if (showLoader) {
+    return <Loader />;
+  }
+
+  const show404 = false;
+
+  if (show404) {
+    return <ErrorPage />;
+  }
 
   return (
-    <div className="flex flex-col items-center bg-white200 p-2">
+    <div className="flex flex-col items-center bg-white200 p-2 dark:bg-gray900">
       {/* <UserButton afterSignOutUrl="/" /> */}
-      <p className="">Hello World!</p>
-      <div className="flex w-full max-w-7xl flex-col items-center pt-5">
+      <div className="mt-24 flex w-full max-w-7xl flex-col items-center pt-5">
         <section className="flex w-full max-w-7xl px-5">
           <div className="flex w-full flex-col gap-8 lg:flex-row">
             <Advert
@@ -42,7 +54,7 @@ const Home = async () => {
           <p className="font-medium text-blue500">View All</p>
         </div>
         <div className="no_scrollbar mt-4 flex w-full gap-5 overflow-x-auto xs:mt-0 xs:items-center xs:p-5 sm:grid sm:grid-cols-2 sm:flex-col sm:justify-center sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
-          <div className="absolute right-0 h-60 w-20 bg-gradient-to-r from-transparent to-white/100 sm:hidden"></div>
+          <div className="absolute right-0 h-60 w-20 bg-gradient-to-r from-transparent to-white/100 dark:to-gray900/100 xs:h-72 sm:hidden"></div>
           <div className="flex w-5 xs:hidden" />
 
           {/* Change id to match id of card once live data is passed */}
@@ -61,7 +73,7 @@ const Home = async () => {
           ))}
           {/* Change id to match id of card once live data is passed */}
         </div>
-        <button className="mt-10 rounded-md bg-blue500 px-10 py-4 text-sm font-medium text-white">
+        <button className="mt-10 rounded bg-blue500 px-10 py-4 text-sm font-medium text-white">
           Show More Cars
         </button>
       </div>

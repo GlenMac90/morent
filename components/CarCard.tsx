@@ -45,8 +45,8 @@ const CarCard: React.FC<CarCardProps> = ({
         whileHover={{ scale: 1.1 }}
         whileInView={{ opacity: 1 }}
         viewport={{ once: true }}
-        className={`flex w-full flex-col rounded-lg
-        bg-white p-4 shadow hover:shadow-xl ${
+        className={`flex w-full flex-col rounded-lg bg-white
+        p-4 shadow hover:shadow-xl dark:bg-gray850 ${
           isPopularCar ? "min-w-[18rem]" : "xs:max-w-[28rem]"
         } sm:w-auto sm:max-w-full`}
       >
@@ -88,18 +88,20 @@ const CarCard: React.FC<CarCardProps> = ({
             isPopularCar ? "flex-col" : "sm:flex-col"
           }`}
         >
-          <Image
-            src={dummyData.mainPicture}
-            alt="car picture"
-            className={`mb-1 ml-4 h-[3.3rem] w-[11rem] self-end xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[4.5rem] sm:w-[236px] sm:self-center ${
-              isPopularCar ? "self-center" : "self-end sm:self-center"
-            }`}
-          />
+          <div className="flex w-full justify-center">
+            <Image
+              src={dummyData.mainPicture}
+              alt="car picture"
+              className={`mb-1 ml-0 h-[3.3rem] w-[11rem] self-end dark:bg-gray850 xs:ml-4 xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[4.5rem] sm:w-[236px] sm:self-center ${
+                isPopularCar ? "self-center" : "self-end sm:self-center"
+              }`}
+            />
+          </div>
           <div
-            className={`flex gap-3 xs:mt-4 sm:mt-6 ${
+            className={`flex gap-3 xs:mt-4  sm:mt-6  ${
               isPopularCar
-                ? "mt-3 flex-row justify-between"
-                : "flex-col sm:flex-row"
+                ? "mt-3 flex-row justify-evenly"
+                : "w-1/3 flex-col sm:w-auto sm:flex-row"
             } sm:justify-evenly`}
           >
             <div className="flex">
