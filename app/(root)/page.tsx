@@ -31,7 +31,7 @@ const Home = () => {
         <div className="mt-7 flex w-full px-5">
           <PickUpDropOffCard />
         </div>
-        <div className="mt-11 flex w-full justify-between px-5 xl:mt-[2.88rem] xl:px-10">
+        <div className="mt-11 flex w-full justify-between px-5 xl:px-10">
           <p className="font-medium text-gray400">Popular Cars</p>
           <p className="font-medium text-blue500">View All</p>
         </div>
