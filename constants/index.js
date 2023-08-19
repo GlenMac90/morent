@@ -42,3 +42,11 @@ export const timeOptions = [
   '8:00 PM', '8:30 PM', '9:00 PM', '9:30 PM',
   '10:00 PM', '10:30 PM', '11:00 PM', '11:30 PM'
 ]
+
+export const typeFilters = [
+  'Sport', 'SUV', 'MPV', 'Sedan', 'Coupe', 'Hatchback'
+]
+
+export const capacityFilters = [
+  '2 Person', '4 Person', '6 Person', '8 or More'
+]

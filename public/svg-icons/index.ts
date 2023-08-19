@@ -12,3 +12,5 @@ export { default as clock } from "./clock.svg";
 export { default as darkModeArrowDown } from "./darkModeArrowDown.svg";
 export { default as ellipse } from "./ellipse.svg";
 export { default as search } from "./search.svg";
+export { default as filter } from "./filter.svg";
+export { default as checkBox } from "./checkBox.svg";
