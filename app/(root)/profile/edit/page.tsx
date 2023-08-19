@@ -1,7 +1,7 @@
 import { currentUser } from '@clerk/nextjs';
 
 import { fetchUser } from '@/lib/actions/user.actions';
-import { AccountProfile } from '@/components/forms/AccountProfile';
+import AccountProfile from '@/components/forms/AccountProfile';
 
 async function Page() {
   const user = await currentUser();
@@ -22,7 +22,7 @@ async function Page() {
       <p className="">Make any changes</p>
 
       <section className="mt-12">
-        <AccountProfile user={userData} />
+        <AccountProfile user={JSON.stringify(userData)} />
       </section>
     </>
   );
