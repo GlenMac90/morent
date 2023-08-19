@@ -25,6 +25,8 @@ const Page = async () => {
     onboarded: true,
   };
 
+  const currentUserDataString = JSON.stringify(currentUserData);
+
   return (
     <main className="flex flex-col  px-12 py-20">
       <h1 className="text-2xl font-semibold leading-7 text-gray-900">
@@ -34,7 +36,7 @@ const Page = async () => {
         Customize your profile for Morent
       </p>
       <section className="mt-8 bg-blue-50 p-10">
-        <AccountProfile user={currentUserData} />
+        <AccountProfile user={currentUserDataString} />
       </section>
     </main>
   );

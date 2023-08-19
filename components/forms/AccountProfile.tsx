@@ -26,14 +26,7 @@ import { updateUser } from '@/lib/actions/user.actions';
 import { usePathname, useRouter } from 'next/navigation';
 
 interface Props {
-  user: {
-    id: string;
-
-    username: string;
-    name: string;
-    bio?: string;
-    image: string;
-  };
+  user: string;
 }
 
 const AccountProfile: React.FC<Props> = ({ user }) => {
@@ -43,13 +36,15 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
   const router = useRouter();
   const pathname = usePathname();
 
+  const userData = JSON.parse(user);
+
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
-      name: user?.name || '',
-      username: user?.username || '',
-      bio: user?.bio || '',
-      profile_photo: user?.image || '',
+      name: userData?.name || '',
+      username: userData?.username || '',
+      bio: userData?.bio || '',
+      profile_photo: userData?.image || '',
     },
   });
 
@@ -64,13 +59,15 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
       }
     }
     await updateUser({
-      userId: user.id,
+      userId: userData.id,
       name: values.name,
       username: values.username,
       bio: values.bio,
       image: values.profile_photo,
       path: pathname,
       onboarded: true,
+      id: '',
+      _id: undefined,
     });
 
     if (pathname === '/profile/edit') {

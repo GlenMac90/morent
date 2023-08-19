@@ -2,11 +2,12 @@ import "../globals.css";
 import type { Metadata } from "next";
 // eslint-disable-next-line camelcase
 import { Plus_Jakarta_Sans } from "next/font/google";
-
 import { ClerkProvider } from "@clerk/nextjs";
+
 import Provider from "../providers/Provider";
 import NavBar from "@/components/NavBar";
 import Footer from "@/components/Footer";
+import { Toaster } from "@/components/ui/toaster";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({
           <Provider>
             <NavBar />
             {children}
+            <Toaster />
             <Footer />
           </Provider>
         </body>
