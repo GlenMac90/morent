@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
 
 interface AdvertProps {
   title: string;
@@ -21,14 +20,15 @@ const Advert: React.FC<AdvertProps> = ({
 }) => {
   const [driveAway, setDriveAway] = useState(false);
 
-  const handleDriveAway = () => {
-    setDriveAway(!driveAway);
+  const handleClick = () => {
+    setDriveAway(true);
+    setTimeout(() => setDriveAway(false), 4000);
   };
 
   return (
     <div
-      className={`${additionalStyles} flex h-60 w-full flex-col justify-between rounded-xl px-6 pb-3 pt-6 sm:h-[22.5rem]`}
-      onClick={handleDriveAway}
+      className={`${additionalStyles} flex h-60 w-full flex-col justify-between overflow-hidden rounded-xl px-6 pb-3 pt-6 sm:h-[22.5rem]`}
+      onClick={handleClick}
     >
       <div className="flex flex-col">
         <p className="w-full text-white sm:text-3xl lg:w-1/2">{title}</p>
@@ -37,15 +37,8 @@ const Advert: React.FC<AdvertProps> = ({
         </p>
       </div>
 
-      <motion.div
-        drag
-        className="flex w-full justify-center"
-        animate={{ x: driveAway ? 2000 : 0 }}
-        transition={{
-          delay: 2,
-          type: "spring",
-          duration: 1.5,
-        }}
+      <div
+        className={`flex w-full justify-center ${driveAway && "car_animation"}`}
       >
         <div className="flex items-center justify-between">
           <div className="absolute flex">
@@ -69,7 +62,7 @@ const Advert: React.FC<AdvertProps> = ({
             className="z-20 ml-0 h-[4.2rem] w-[14rem] self-center xs:h-[5rem] xs:w-[18rem] sm:ml-6 sm:h-[7.25rem] sm:w-[25.5rem]"
           />
         </div>
-      </motion.div>
+      </div>
     </div>
   );
 };

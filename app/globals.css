@@ -396,3 +396,23 @@
 .geoapify-close-button {
   @apply hidden !important;
 }
+.car_animation {
+  animation: driveAway 4s;
+}
+@keyframes driveAway {
+  0% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(0);
+  }
+  75% {
+    transform: translateX(1000px);
+  }
+  76% {
+    transform: translateX(-1000px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
