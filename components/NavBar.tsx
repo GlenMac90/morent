@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { UserButton, currentUser } from "@clerk/nextjs";
+import { UserButton, useAuth } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -22,13 +22,8 @@ import {
   darkModeHome,
 } from "@/public/svg-icons";
 
-interface navBarProps {
-  userLoggedIn: boolean;
-}
-
-const NavBar: React.FC<navBarProps> = ({ userLoggedIn }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
-  console.log(userLoggedIn);
+const NavBar = () => {
+  const { userId } = useAuth();
   const [showNavMenu, setShowNavMenu] = useState(false);
   const { systemTheme, theme, setTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
@@ -46,10 +41,6 @@ const NavBar: React.FC<navBarProps> = ({ userLoggedIn }) => {
       images: [lightModePlus, darkModePlus],
     },
   ];
-
-  useEffect(() => {
-    setLoggedIn(userLoggedIn);
-  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -83,7 +74,7 @@ const NavBar: React.FC<navBarProps> = ({ userLoggedIn }) => {
             </Link>
           ))}
 
-          {loggedIn ? (
+          {userId ? (
             <UserButton afterSignOutUrl="/" />
           ) : (
             <Link href="/sign-in?redirect_url=http%3A%2F%2Flocalhost%3A3000%2F">
@@ -171,13 +162,13 @@ const NavBar: React.FC<navBarProps> = ({ userLoggedIn }) => {
                   height={20}
                   width={20}
                   alt="profile pic"
-                  className={`${loggedIn ? "mr-1.5 flex" : "hidden"}`}
+                  className={`${userId ? "mr-1.5 flex" : "hidden"}`}
                 />
-                <p>{loggedIn ? "My Profile" : "Login"}</p>
+                <p>{userId ? "My Profile" : "Login"}</p>
               </button>
               <button
                 className={`${
-                  loggedIn ? "flex" : "hidden"
+                  userId ? "flex" : "hidden"
                 } w-full items-center justify-center rounded bg-red400 py-3.5 text-sm font-semibold text-white`}
               >
                 Logout

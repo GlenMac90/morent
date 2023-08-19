@@ -17,9 +17,6 @@ export const metadata: Metadata = {
   description: "The best platform for car rental",
 };
 
-const isUserLoggedIn = await userDetails();
-console.log(isUserLoggedIn);
-
 export default function RootLayout({
   children,
 }: {
@@ -30,7 +27,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={plusJakartaSans.className}>
           <Provider>
-            <NavBar userLoggedIn={isUserLoggedIn} />
+            <NavBar />
             {children}
           </Provider>
         </body>

@@ -1,8 +1,8 @@
-'use server';
+"use server";
 
-import { revalidatePath } from 'next/cache';
-import { connectToDB } from '../mongoose';
-import User from '../models/user.model';
+import { revalidatePath } from "next/cache";
+import { connectToDB } from "../mongoose";
+import User from "../models/user.model";
 
 export async function fetchUser(userId: string) {
   try {
@@ -49,7 +49,7 @@ export async function updateUser({
       { upsert: true }
     );
 
-    if (path === '/profile/edit') {
+    if (path === "/profile/edit") {
       revalidatePath(path);
     }
   } catch (error: any) {
