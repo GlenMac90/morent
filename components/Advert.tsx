@@ -21,10 +21,14 @@ const Advert: React.FC<AdvertProps> = ({
 }) => {
   const [driveAway, setDriveAway] = useState(false);
 
+  const handleDriveAway = () => {
+    setDriveAway(!driveAway);
+  };
+
   return (
     <div
       className={`${additionalStyles} flex h-60 w-full flex-col justify-between rounded-xl px-6 pb-3 pt-6 sm:h-[22.5rem]`}
-      onClick={() => setDriveAway(!driveAway)}
+      onClick={handleDriveAway}
     >
       <div className="flex flex-col">
         <p className="w-full text-white sm:text-3xl lg:w-1/2">{title}</p>
@@ -59,7 +63,7 @@ const Advert: React.FC<AdvertProps> = ({
           </div>
           <Image
             src={imageSrc}
-            alt="car picture"
+            alt="car-picture-for-advert"
             width={192}
             height={56}
             className="z-20 ml-0 h-[4.2rem] w-[14rem] self-center xs:h-[5rem] xs:w-[18rem] sm:ml-6 sm:h-[7.25rem] sm:w-[25.5rem]"

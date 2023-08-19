@@ -1,24 +1,6 @@
 import CarCard from "@/components/CarCard";
 import Advert from "@/components/Advert";
-
-const Adverts = [
-  {
-    title: "The Best Platform for Car Rental",
-    description:
-      "Ease of doing a car rental safely and reliably. Of course at a low price.",
-    imageSrc: "/pngs/advertWhiteCar.png",
-    additionalStyles: "white_car_ad",
-    whiteCar: true,
-  },
-  {
-    title: "Easy way to rent a car at a low price",
-    description:
-      "Providing cheap car rental services and safe and comfortable facilities.",
-    imageSrc: "/pngs/advertSilverCar.png",
-    additionalStyles: "black_car_ad hidden lg:flex",
-    whiteCar: false,
-  },
-];
+import { Adverts } from "@/constants";
 
 const Home = async () => {
   return (
@@ -26,21 +8,16 @@ const Home = async () => {
       <div className="mt-24 flex w-full max-w-7xl flex-col items-center pt-5">
         <section className="flex w-full max-w-7xl px-5">
           <div className="flex w-full flex-col gap-8 lg:flex-row">
-            <Advert
-              title="The Best Platform for Car Rental"
-              description="Ease of doing a car rental safely and reliably. Of course at a low
-          price."
-              imageSrc="/pngs/advertWhiteCar.png"
-              additionalStyles="white_car_ad"
-              whiteCar={true}
-            />
-            <Advert
-              title="Easy way to rent a car at a low price"
-              description="Providing cheap car rental services and safe and comfortable facilities."
-              imageSrc="/pngs/advertSilverCar.png"
-              additionalStyles="black_car_ad hidden lg:flex"
-              whiteCar={false}
-            />
+            {Adverts.map((advert, index) => (
+              <Advert
+                key={advert.title}
+                title={advert.title}
+                description={advert.description}
+                imageSrc={advert.imageSrc}
+                additionalStyles={advert.additionalStyles}
+                whiteCar={advert.whiteCar}
+              />
+            ))}
           </div>
         </section>
 
