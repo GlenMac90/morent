@@ -1,8 +1,8 @@
 import Link from 'next/link';
-
 import { UserButton, currentUser } from '@clerk/nextjs';
-import { userFromDB } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
+
+import { userFromDB } from '@/lib/actions/user.actions';
 import Advert from '@/components/Advert';
 import { Button } from '@/components/ui/button';
 import CarCard from '@/components/CarCard';
