@@ -37,7 +37,7 @@
     "eslint-config-standard": "^17.1.0",
     "eslint-plugin-tailwindcss": "^3.13.0",
     "framer-motion": "^10.16.0",
-    "lucide-react": "^0.265.0",
+    "lucide-react": "^0.263.1",
     "mongoose": "^7.4.2",
     "next": "13.4.13",
     "next-themes": "^0.2.1",

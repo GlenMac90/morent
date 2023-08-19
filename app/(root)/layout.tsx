@@ -6,6 +6,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import Provider from "../providers/Provider";
 import NavBar from "@/components/NavBar";
+import Footer from "@/components/Footer";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -29,6 +30,7 @@ export default function RootLayout({
           <Provider>
             <NavBar />
             {children}
+            <Footer />
           </Provider>
         </body>
       </html>
