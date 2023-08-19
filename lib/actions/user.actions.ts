@@ -6,7 +6,7 @@ import User from '../models/user.model';
 import Car from '../models/car.model';
 import { UserParams } from '../interfaces';
 
-export async function fetchUser(userId: string): Promise<UserParams | null> {
+export async function userFromDB(userId: string): Promise<UserParams | null> {
   connectToDB();
   const userDocument = await User.findOne({ id: userId });
   if (!userDocument) {

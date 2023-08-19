@@ -1,7 +1,7 @@
 import Link from 'next/link';
 
 import { UserButton, currentUser } from '@clerk/nextjs';
-import { fetchUser } from '@/lib/actions/user.actions';
+import { userFromDB } from '@/lib/actions/user.actions';
 import { redirect } from 'next/navigation';
 import Advert from '@/components/Advert';
 import { Button } from '@/components/ui/button';
@@ -21,7 +21,7 @@ const Home = async () => {
 
   let userInfo;
   try {
-    userInfo = await fetchUser(info?.id);
+    userInfo = await userFromDB(info?.id);
   } catch (error) {
     console.error('Error fetching MongoDB user data:', error);
     return <div>Error fetching MongoDB user data.</div>;

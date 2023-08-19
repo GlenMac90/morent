@@ -1,7 +1,7 @@
 import { currentUser } from '@clerk/nextjs';
 
 import CarForm from '@/components/forms/CarForm';
-import { fetchUser } from '@/lib/actions/user.actions';
+import { userFromDB } from '@/lib/actions/user.actions';
 import { objectToStringId } from '@/utils/objectToStringId';
 
 const Page = async () => {
@@ -13,7 +13,7 @@ const Page = async () => {
       return <div>User not authenticated.</div>;
     }
 
-    userMongo = await fetchUser(user.id);
+    userMongo = await userFromDB(user.id);
     if (!userMongo) {
       throw new Error('Failed to fetch user from MongoDB.');
     }
