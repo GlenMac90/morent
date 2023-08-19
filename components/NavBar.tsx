@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { UserButton, currentUser } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -21,7 +22,13 @@ import {
   darkModeHome,
 } from "@/public/svg-icons";
 
-const NavBar = () => {
+interface navBarProps {
+  userLoggedIn: boolean;
+}
+
+const NavBar: React.FC<navBarProps> = ({ userLoggedIn }) => {
+  const [loggedIn, setLoggedIn] = useState(false);
+  console.log(userLoggedIn);
   const [showNavMenu, setShowNavMenu] = useState(false);
   const { systemTheme, theme, setTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
@@ -40,7 +47,9 @@ const NavBar = () => {
     },
   ];
 
-  const loggedIn = true;
+  useEffect(() => {
+    setLoggedIn(userLoggedIn);
+  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -56,7 +65,7 @@ const NavBar = () => {
   return (
     <>
       <nav className="fixed z-40 flex h-[5.75rem] w-screen items-center justify-between border-b bg-white px-6 dark:border-b-gray850 dark:bg-gray900 md:h-[6.25rem] md:px-14">
-        <p className="font-plusJakartaSans text-2xl font-semibold text-blue500 md:text-3xl">
+        <p className="text-2xl font-semibold text-blue500 md:text-3xl">
           MORENT
         </p>
         <div className="flex items-center">
@@ -73,9 +82,17 @@ const NavBar = () => {
               </p>
             </Link>
           ))}
-          <button className="hidden h-[2.75rem] w-[6.8rem] items-center justify-center rounded bg-blue500 font-semibold text-white md:flex">
-            Login
-          </button>
+
+          {loggedIn ? (
+            <UserButton afterSignOutUrl="/" />
+          ) : (
+            <Link href="/sign-in?redirect_url=http%3A%2F%2Flocalhost%3A3000%2F">
+              <button className="hidden h-[2.75rem] w-[6.8rem] items-center justify-center rounded bg-blue500 font-semibold text-white md:flex">
+                Login
+              </button>
+            </Link>
+          )}
+
           <span className="mx-1 hidden w-[2.25rem] rotate-90 border-t border-blue-50 dark:border-gray850 md:flex"></span>
           <Image
             src={theme === "light" ? lightModeIcon : darkModeIcon}

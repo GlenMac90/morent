@@ -1,33 +1,32 @@
-// import { UserButton, currentUser } from "@clerk/nextjs";
-// import { fetchUser } from "@/lib/actions/user.actions";
-// import { redirect } from "next/navigation";
+import { currentUser } from "@clerk/nextjs";
+import { fetchUser } from "@/lib/actions/user.actions";
+import { redirect } from "next/navigation";
 import CarCard from "@/components/CarCard";
 import Advert from "@/components/Advert";
-import Loader from "@/components/Loader";
-import ErrorPage from "@/components/ErrorPage";
 
 const Home = async () => {
-  // const info = await currentUser();
-  // if (!info) return null;
-
-  // const userInfo = await fetchUser(info.id);
-
-  // if (!userInfo?.onboarded) redirect("/onboarding");
-  const showLoader = false;
-
-  if (showLoader) {
-    return <Loader />;
+  let info;
+  try {
+    info = await currentUser();
+  } catch (error) {
+    console.error("Error fetching current user:", error);
+    return <div>Error fetching user data.</div>;
   }
 
-  const show404 = false;
+  if (!info) return <div>User not authenticated.</div>;
 
-  if (show404) {
-    return <ErrorPage />;
+  let userInfo;
+  try {
+    userInfo = await fetchUser(info?.id);
+  } catch (error) {
+    console.error("Error fetching MongoDB user data:", error);
+    return <div>Error fetching MongoDB user data.</div>;
   }
+
+  if (!userInfo?.onboarded) redirect("/onboarding");
 
   return (
     <div className="flex flex-col items-center bg-white200 p-2 dark:bg-gray900">
-      {/* <UserButton afterSignOutUrl="/" /> */}
       <div className="mt-24 flex w-full max-w-7xl flex-col items-center pt-5">
         <section className="flex w-full max-w-7xl px-5">
           <div className="flex w-full flex-col gap-8 lg:flex-row">

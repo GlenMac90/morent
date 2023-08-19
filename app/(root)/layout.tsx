@@ -5,6 +5,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import Provider from "../providers/Provider";
 import NavBar from "@/components/NavBar";
+import { userDetails } from "@/app/test/userDetails";
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -16,6 +17,9 @@ export const metadata: Metadata = {
   description: "The best platform for car rental",
 };
 
+const isUserLoggedIn = await userDetails();
+console.log(isUserLoggedIn);
+
 export default function RootLayout({
   children,
 }: {
@@ -26,7 +30,7 @@ export default function RootLayout({
       <html lang="en">
         <body className={plusJakartaSans.className}>
           <Provider>
-            <NavBar />
+            <NavBar userLoggedIn={isUserLoggedIn} />
             {children}
           </Provider>
         </body>
