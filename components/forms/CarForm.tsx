@@ -342,17 +342,26 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
               <FormItem className="flex w-full flex-col justify-start">
                 <FormLabel>Capacity</FormLabel>
                 <FormControl>
-                  <Input
-                    className="h-11 bg-white200 md:h-14 "
-                    type="number"
-                    {...field}
-                    placeholder="Capacity in persons"
-                  />
+                  <Select
+                    value={String(field.value)}
+                    onValueChange={(value) => field.onChange(Number(value))}
+                  >
+                    <SelectTrigger className="h-11 bg-white200 md:h-14">
+                      <SelectValue placeholder="Capacity in persons" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="2">2 Person</SelectItem>
+                      <SelectItem value="4">4 Person</SelectItem>
+                      <SelectItem value="6">6 Person</SelectItem>
+                      <SelectItem value="8">8 or more</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
               </FormItem>
             )}
           />
         </div>
+
         <div className="flex w-full flex-col gap-8 md:flex-row">
           <Controller
             control={form.control}
