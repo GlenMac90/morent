@@ -48,7 +48,7 @@ const PickUpDropOffCard = () => {
 
   return (
     <div
-      className={`flex flex-col gap-5 dark:text-white0 md:mx-auto md:max-w-xl xl:mx-0 xl:max-w-none xl:flex-row xl:gap-4 xl:rounded-[0.625rem] xl:bg-white0 dark:xl:bg-gray850 2xl:mx-auto 2xl:max-w-[90rem] ${searchPageDiv}`}
+      className={`flex flex-col gap-5 dark:text-white0 xl:mx-0 xl:max-w-none xl:flex-row xl:gap-4 xl:rounded-[0.625rem] xl:bg-white0 dark:xl:bg-gray850 ${searchPageDiv}`}
     >
       <Card className="border-0 bg-none shadow-none xl:shrink-0 xl:grow">
         <CardContent
@@ -76,10 +76,10 @@ const PickUpDropOffCard = () => {
                       height={14}
                       alt="calendar"
                     />
-                    <Label htmlFor="">Pick-Up Date</Label>
+                    <Label htmlFor="availabilityFrom">Availability from</Label>
                   </div>
                 </div>
-                <PopoverTrigger asChild>
+                <PopoverTrigger asChild id="availabilityFrom">
                   <Button
                     variant={"outline"}
                     className={cn(
@@ -123,7 +123,7 @@ const PickUpDropOffCard = () => {
                 />
               </PopoverContent>
             </Popover>
-            <SelectYourTime pickUpOrDropOff={"Pick-Up"} />
+            <SelectYourTime pickUpOrDropOff={"Availability Time from"} />
           </div>
 
           <div className="flex flex-row gap-3 xl:grow xl:gap-4">
@@ -137,10 +137,10 @@ const PickUpDropOffCard = () => {
                       height={14}
                       alt="calender"
                     />
-                    <Label htmlFor="">Drop-Off Date</Label>
+                    <Label htmlFor="availabilityTo">Availability to</Label>
                   </div>
                 </div>
-                <PopoverTrigger asChild>
+                <PopoverTrigger asChild id="availabilityTo">
                   <Button
                     variant={"outline"}
                     className={cn(
@@ -184,7 +184,7 @@ const PickUpDropOffCard = () => {
                 />
               </PopoverContent>
             </Popover>
-            <SelectYourTime pickUpOrDropOff={"Drop-Off"} />
+            <SelectYourTime pickUpOrDropOff={"Availability Time to"} />
           </div>
         </CardContent>
       </Card>
