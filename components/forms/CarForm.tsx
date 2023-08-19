@@ -283,7 +283,9 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
                     placeholder="Your title"
                   />
                 </FormControl>
-                {fieldState.invalid && <span>Car title is required!</span>}
+                {fieldState.invalid && (
+                  <span className="text-red-500">Car title is required!</span>
+                )}
               </FormItem>
             )}
           />
@@ -311,7 +313,9 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
                     </SelectContent>
                   </Select>
                 </FormControl>
-                {fieldState.invalid && <span>Car type is required!</span>}
+                {fieldState.invalid && (
+                  <span className="text-red-500">Car type is required!</span>
+                )}
               </FormItem>
             )}
           />
@@ -417,12 +421,20 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
               <FormItem className="flex w-full flex-col justify-start">
                 <FormLabel>Fuel Capacity</FormLabel>
                 <FormControl>
-                  <Input
-                    className="h-11 bg-white200 md:h-14 "
-                    type="number"
-                    {...field}
-                    placeholder="Fuel Capacity in Litres"
-                  />
+                  <Select
+                    value={String(field.value)}
+                    onValueChange={(value) => field.onChange(Number(value))}
+                  >
+                    <SelectTrigger className="h-11 bg-white200 md:h-14">
+                      <SelectValue placeholder="Fuel Capacity" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="40">40 litres</SelectItem>
+                      <SelectItem value="50">50 litres</SelectItem>
+                      <SelectItem value="60">60 litres</SelectItem>
+                      <SelectItem value="80">80 litres or more</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
               </FormItem>
             )}
