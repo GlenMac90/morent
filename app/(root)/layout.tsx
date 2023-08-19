@@ -26,7 +26,9 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-        <body className={plusJakartaSans.className}>
+        <body
+          className={`${plusJakartaSans.className} bg-white200 dark:bg-gray900`}
+        >
           <Provider>
             <NavBar />
             {children}
