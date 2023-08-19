@@ -1,8 +1,8 @@
-import { currentUser } from '@clerk/nextjs';
+import { currentUser } from "@clerk/nextjs";
 
-import CarForm from '@/components/forms/CarForm';
-import { userFromDB } from '@/lib/actions/user.actions';
-import { objectToStringId } from '@/utils/objectToStringId';
+import CarForm from "@/components/forms/CarForm";
+import { userFromDB } from "@/lib/actions/user.actions";
+import { objectToStringId } from "@/utils/objectToStringId";
 
 const Page = async () => {
   let user;
@@ -11,21 +11,23 @@ const Page = async () => {
 
   try {
     user = await currentUser();
-    if (!user) throw new Error('User not authenticated.');
+    if (!user) throw new Error("User not authenticated.");
 
     userMongo = await userFromDB(user.id);
-    if (!userMongo) throw new Error('Failed to fetch user from MongoDB.');
+    if (!userMongo) throw new Error("Failed to fetch user from MongoDB.");
 
     userIdString = objectToStringId(userMongo._id);
-    if (!userIdString) throw new Error('Error processing user ID.');
+    if (!userIdString) throw new Error("Error processing user ID.");
   } catch (err) {
     console.error(err);
     return <div>Error fetching data.</div>;
   }
 
   return (
-    <div className="my-10 flex w-full items-center justify-center bg-white200">
-      <CarForm userId={userIdString} />
+    <div className="flex items-center justify-center bg-white200 dark:bg-gray900">
+      <div className="mb-12 mt-40 flex w-full max-w-4xl">
+        <CarForm userId={userIdString} />
+      </div>
     </div>
   );
 };

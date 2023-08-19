@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useRef, useState, ChangeEvent, DragEvent, useEffect } from 'react';
-import Image from 'next/image';
+import { useRef, useState, ChangeEvent, DragEvent, useEffect } from "react";
+import Image from "next/image";
 
 interface FileWithPreview extends File {
   preview?: string;
@@ -73,7 +73,7 @@ const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
 
   function openFileExplorer() {
     if (inputRef.current) {
-      inputRef.current.value = '';
+      inputRef.current.value = "";
       inputRef.current.click();
     }
   }
@@ -81,8 +81,12 @@ const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
   return (
     <div
       className={`${
-        dragActive ? 'bg-blue-400' : 'bg-blue-100'
-      }  flex  w-full  flex-col items-center justify-center rounded-lg border border-dotted border-gray400 bg-white0  py-10  text-center`}
+        dragActive ? "bg-blue-400" : "bg-blue-100"
+      }  flex  w-full  flex-col items-center justify-center rounded-lg border border-dotted border-gray400 bg-white py-10  text-center  dark:bg-gray850`}
+      style={{
+        borderWidth: "1px",
+        borderStyle: "dashed",
+      }}
       onDragEnter={handleDragEnter}
       onDrop={handleDrop}
       onDragLeave={handleDragLeave}
@@ -104,8 +108,8 @@ const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
         alt="file upload png"
       />
 
-      <p className="mt-2.5 text-sm md:text-base">
-        Drag & Drop an image, or{' '}
+      <p className="mt-2.5 text-sm text-gray400">
+        Drag & Drop an image, or{" "}
         <span
           className="cursor-pointer font-bold text-blue500"
           onClick={openFileExplorer}
@@ -113,7 +117,7 @@ const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
           Browse
         </span>
       </p>
-      <p className="mb-11 mt-2 text-xs text-gray400 md:text-sm ">
+      <p className="mt-2 text-xs sm:text-sm ">
         High resolution images (png, jpg, gif)
       </p>
 
