@@ -3,6 +3,7 @@ import { fetchUser } from "@/lib/actions/user.actions";
 import { redirect } from "next/navigation";
 import CarCard from "@/components/CarCard";
 import Advert from "@/components/Advert";
+import Link from "next/link";
 
 const Home = async () => {
   const info = await currentUser();
@@ -14,6 +15,7 @@ const Home = async () => {
 
   return (
     <div className="flex flex-col items-center bg-white200 p-2">
+      <Link href="/search">Temp Search Link</Link>
       <UserButton afterSignOutUrl="/" />
       <p className="">Hello World!</p>
       <div className="flex w-full max-w-7xl flex-col items-center pt-5">
