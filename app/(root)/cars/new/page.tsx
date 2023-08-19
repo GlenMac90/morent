@@ -25,7 +25,7 @@ const Page = async () => {
 
   return (
     <div className="my-10 flex w-full items-center justify-center bg-white200">
-      <CarForm userId={userIdString} carId={null} />
+      <CarForm userId={userIdString} />
     </div>
   );
 };
