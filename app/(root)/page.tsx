@@ -1,25 +1,46 @@
-import { UserButton, currentUser } from "@clerk/nextjs";
-import { fetchUser } from "@/lib/actions/user.actions";
-import { redirect } from "next/navigation";
-import CarCard from "@/components/CarCard";
-import Advert from "@/components/Advert";
-import PickUpDropOffCard from "@/components/PickUpDropOffCard";
+import Link from 'next/link';
+import { UserButton, currentUser } from '@clerk/nextjs';
+import { redirect } from 'next/navigation';
+
+import { userFromDB } from '@/lib/actions/user.actions';
+import Advert from '@/components/Advert';
+import { Button } from '@/components/ui/button';
+import CarCard from '@/components/CarCard';
+import PickUpDropOffCard from '@/components/PickUpDropOffCard';
 
 const Home = async () => {
-  const info = await currentUser();
-  if (!info) return null;
+  let info;
+  try {
+    info = await currentUser();
+  } catch (error) {
+    console.error('Error fetching current user:', error);
+    return <div>Error fetching user data.</div>;
+  }
 
-  const userInfo = await fetchUser(info.id);
+  if (!info) return <div>User not authenticated.</div>;
 
-  if (!userInfo?.onboarded) redirect("/onboarding");
+  let userInfo;
+  try {
+    userInfo = await userFromDB(info?.id);
+  } catch (error) {
+    console.error('Error fetching MongoDB user data:', error);
+    return <div>Error fetching MongoDB user data.</div>;
+  }
+
+  if (!userInfo?.onboarded) redirect('/onboarding');
 
   return (
-    <div className="flex flex-col items-center bg-white200 pb-10 pt-8 xl:pb-16">
-      <UserButton afterSignOutUrl="/" />
-      <p className="">Hello World!</p>
-      <div className="flex w-full max-w-[90rem] flex-col items-center pt-5">
-        <section className="flex w-full flex-col px-5 xl:px-16">
-          <div className="mb-8 flex w-full flex-col gap-8 lg:flex-row">
+    <div className="flex flex-col items-center bg-white200 p-2">
+      <div className="flex w-full justify-between">
+        <Link href={`/profile/${info?.id}`}>
+          <Button className="bg-blue500 text-white">Profile</Button>
+        </Link>
+        <UserButton afterSignOutUrl="/" />
+      </div>
+
+      <div className="flex w-full max-w-7xl flex-col items-center pt-5">
+        <section className="flex w-full max-w-7xl px-5">
+          <div className="flex w-full flex-col gap-8 lg:flex-row">
             <Advert
               title="The Best Platform for Car Rental"
               description="Ease of doing a car rental safely and reliably. Of course at a low
@@ -47,7 +68,7 @@ const Home = async () => {
 
           {/* Change id to match id of card once live data is passed */}
           {[0, 1, 2, 3, 4].map((card) => (
-            <CarCard key={card} isPopularCar={true} id={"123"} />
+            <CarCard key={card} isPopularCar={true} id={'123'} />
           ))}
           {/* Change id to match id of card once live data is passed */}
         </div>
@@ -57,7 +78,7 @@ const Home = async () => {
         <div className="mt-5 flex w-full flex-col items-center gap-5 px-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4 xl:px-16">
           {/* Change id to match id of card once live data is passed */}
           {[0, 1, 2, 3, 4, 5, 6, 7].map((card) => (
-            <CarCard key={card} id={"123"} />
+            <CarCard key={card} id={'123'} />
           ))}
           {/* Change id to match id of card once live data is passed */}
         </div>

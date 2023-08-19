@@ -1,10 +1,10 @@
-import Image from "next/image";
-import Link from "next/link";
+import Image from 'next/image';
+import Link from 'next/link';
 
-import CarCard from "@/components/CarCard";
-import { dummyUserData } from "@/utils/dummyUserData";
+import CarCard from '@/components/CarCard';
+import { dummyUserData } from '@/utils/dummyUserData';
 
-const page = () => {
+const Page = () => {
   return (
     <div className="flex w-full justify-center self-center bg-white200 p-6">
       <div className="flex w-full max-w-7xl flex-col">
@@ -16,8 +16,8 @@ const page = () => {
               alt="cover-picture"
               layout="fill"
               style={{
-                objectFit: "cover",
-                objectPosition: "center 80%",
+                objectFit: 'cover',
+                objectPosition: 'center 80%',
               }}
               className="rounded-t-xl"
             />
@@ -70,4 +70,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

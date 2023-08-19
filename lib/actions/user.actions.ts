@@ -3,39 +3,41 @@
 import { revalidatePath } from 'next/cache';
 import { connectToDB } from '../mongoose';
 import User from '../models/user.model';
+import Car from '../models/car.model';
+import { UserParams } from '../interfaces';
 
-export async function fetchUser(userId: string) {
-  try {
-    connectToDB();
-    const userDocument = await User.findOne({ id: userId });
-    return userDocument;
-  } catch (error: any) {
-    throw new Error(`Failed to fetch user: ${error.message}`);
+export async function userFromDB(userId: string): Promise<UserParams | null> {
+  connectToDB();
+  const userDocument = await User.findOne({ id: userId });
+  if (!userDocument) {
+    console.warn('User not found.');
+    return null;
   }
+  return userDocument.toObject();
 }
 
-interface Params {
-  userId: string;
+export async function fetchUserWithCars(
+  userId: string
+): Promise<UserParams | null> {
+  connectToDB();
+  const userWithCars = await User.findOne({ id: userId })
+    .populate('cars')
+    .exec();
 
-  username: string;
-  name: string;
-  image?: string;
-  bio?: string;
-  path: string;
-  onboarded?: boolean;
+  if (!userWithCars) {
+    console.warn('User not found.');
+    return null;
+  }
+
+  return userWithCars.toObject();
 }
 
-export async function updateUser({
-  userId,
-  username,
-  name,
-  bio,
-  image,
-  path,
-  onboarded,
-}: Params): Promise<void> {
+export async function updateUser(params: UserParams): Promise<void> {
+  const { userId, username, name, bio, image, onboarded, path } = params;
+
   try {
     connectToDB();
+
     await User.findOneAndUpdate(
       { id: userId },
       {
@@ -43,13 +45,12 @@ export async function updateUser({
         name,
         bio,
         image,
-        path,
         onboarded,
       },
       { upsert: true }
     );
 
-    if (path === '/profile/edit') {
+    if (path === `/profile/${userId}`) {
       revalidatePath(path);
     }
   } catch (error: any) {
@@ -60,9 +61,10 @@ export async function updateUser({
 export async function deleteUser(userId: string): Promise<void> {
   try {
     connectToDB();
+
+    await Car.deleteMany({ userId });
     await User.findOneAndDelete({ id: userId });
-    console.log(`User with ID ${userId} deleted successfully.`);
   } catch (error: any) {
-    throw new Error(`Failed to delete user: ${error.message}`);
+    throw new Error(`Failed to delete user and their cars: ${error.message}`);
   }
 }
