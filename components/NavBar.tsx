@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { UserButton, useAuth } from "@clerk/nextjs";
+import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -10,7 +10,6 @@ import { useTheme } from "next-themes";
 import {
   darkModeIcon,
   lightModeIcon,
-  profilePic,
   burgerMenu,
   cross,
   whiteCross,
@@ -23,11 +22,19 @@ import {
 } from "@/public/svg-icons";
 
 const NavBar = () => {
+  const { user } = useUser();
+  const userImage = user?.profileImageUrl;
   const { userId } = useAuth();
   const [showNavMenu, setShowNavMenu] = useState(false);
   const { systemTheme, theme, setTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;
   const pathname = usePathname();
+
+  let profilePic = darkModeIcon;
+
+  if (userImage) {
+    profilePic = userImage;
+  }
   const buttons = [
     { title: "Home", path: "/", images: [lightModeHome, darkModeHome] },
     {
@@ -75,7 +82,9 @@ const NavBar = () => {
           ))}
 
           {userId ? (
-            <UserButton afterSignOutUrl="/" />
+            <div className="hidden md:flex">
+              <UserButton afterSignOutUrl="/" />
+            </div>
           ) : (
             <Link href="/sign-in?redirect_url=http%3A%2F%2Flocalhost%3A3000%2F">
               <button className="hidden h-[2.75rem] w-[6.8rem] items-center justify-center rounded bg-blue500 font-semibold text-white md:flex">
@@ -93,14 +102,8 @@ const NavBar = () => {
             onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
             className="cursor-pointer"
           />
-          <Link href="/profile/id">
-            <Image
-              src={profilePic}
-              height={28}
-              width={28}
-              alt="profile pic"
-              className="mx-2.5 md:hidden"
-            />
+          <Link href="/profile/id" className="mx-3 md:hidden">
+            <UserButton afterSignOutUrl="/" />
           </Link>
           <Image
             src={burgerMenu}
@@ -162,7 +165,9 @@ const NavBar = () => {
                   height={20}
                   width={20}
                   alt="profile pic"
-                  className={`${userId ? "mr-1.5 flex" : "hidden"}`}
+                  className={`${
+                    userId ? "mr-1.5 flex min-h-[20px] rounded-full" : "hidden"
+                  }`}
                 />
                 <p>{userId ? "My Profile" : "Login"}</p>
               </button>
