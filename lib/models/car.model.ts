@@ -23,6 +23,10 @@ const carSchema = new mongoose.Schema({
       },
     ],
   },
+  availableDates: {
+    from: Date,
+    to: Date,
+  },
 
   rentPrice: String,
   capacity: Number,

@@ -15,6 +15,10 @@ export interface CarParams {
   fuelCapacity?: number;
   shortDescription?: string;
   carImageMain?: string;
+  availableDates?: {
+    from: Date;
+    to: Date;
+  };
   disabledDates?: {
     singleDates?: Date[];
     dateRanges?: DateRange[];
