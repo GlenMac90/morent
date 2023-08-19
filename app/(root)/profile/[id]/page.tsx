@@ -6,8 +6,8 @@ import { dummyUserData } from "@/utils/dummyUserData";
 
 const page = () => {
   return (
-    <div className="flex w-full justify-center self-center bg-white200 p-6 dark:bg-gray900">
-      <div className="mt-20 flex w-full max-w-7xl flex-col md:mt-40">
+    <div className="flex w-full justify-center self-center bg-white200 dark:bg-gray900">
+      <div className="mt-20 flex w-full max-w-[90rem] flex-col p-6 md:mt-40">
         <p className="text-xl font-semibold text-gray900 dark:text-white">
           My Profile
         </p>

@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
 import CarDetailsModalOne from "./CarDetailsModalOne";
 import { dummyData } from "@/utils/dummyCarData";
@@ -15,6 +16,7 @@ import {
   redHeart,
   transmission,
   editSymbol,
+  editSymbolDarkMode,
 } from "../public/svg-icons/index";
 
 interface CarCardProps {
@@ -28,6 +30,7 @@ const CarCard: React.FC<CarCardProps> = ({
   isPopularCar = false,
   canEdit = false,
 }) => {
+  const { theme } = useTheme();
   const [isFavourited, setIsFavourited] = useState(dummyData.isFavourited);
   const [showModal, setShowModal] = useState(false);
   const [motionKey, setMotionKey] = useState(0);
@@ -76,7 +79,7 @@ const CarCard: React.FC<CarCardProps> = ({
           ) : (
             <Link href={`/car/${dummyData.id}`}>
               <Image
-                src={editSymbol}
+                src={theme === "light" ? editSymbol : editSymbolDarkMode}
                 alt="edit button"
                 className="h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6"
               />
