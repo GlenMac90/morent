@@ -18,6 +18,13 @@ import { useUploadThing } from '@/lib/uploadthing';
 import { createCar, deleteCar, editCar } from '@/lib/actions/car.actions';
 import DragDrop from './DragDrop';
 import { CarParams } from '@/lib/interfaces';
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@/components/ui/select';
 
 interface Props {
   userId?: string;
@@ -280,7 +287,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
               </FormItem>
             )}
           />
-
           <Controller
             control={form.control}
             name="carType"
@@ -288,12 +294,22 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
               <FormItem className="flex w-full flex-col justify-start">
                 <FormLabel>Car Type</FormLabel>
                 <FormControl>
-                  <Input
-                    className="h-11 bg-white200 md:h-14 "
-                    type="text"
-                    {...field}
-                    placeholder="Car Type"
-                  />
+                  <Select
+                    value={field.value}
+                    onValueChange={(value) => field.onChange(value)}
+                  >
+                    <SelectTrigger className="h-11 bg-white200 md:h-14">
+                      <SelectValue placeholder="Car Type" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="sport">Sport</SelectItem>
+                      <SelectItem value="suv">SUV</SelectItem>
+                      <SelectItem value="mpv">MPV</SelectItem>
+                      <SelectItem value="sedan">Sedan</SelectItem>
+                      <SelectItem value="coupe">Coupe</SelectItem>
+                      <SelectItem value="hatchback">Hatchback</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </FormControl>
                 {fieldState.invalid && <span>Car type is required!</span>}
               </FormItem>
@@ -471,3 +487,20 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
 };
 
 export default CarForm;
+
+/* <Select
+                    className="h-11 bg-white200 md:h-14 "
+                    type="number"
+                    value={field.value}
+                    onValueChange={(value) => field.onChange(value)}
+                  >
+                    <SelectTrigger className="w-[180px]">
+                      <SelectValue placeholder="Capacity in persons" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value={2}>2 Person</SelectItem>
+                      <SelectItem value={4}>4 Person</SelectItem>
+                      <SelectItem value={6}>6 Person</SelectItem>
+                      <SelectItem value={8}>8 or More</SelectItem>
+                    </SelectContent>
+                  </Select> */
