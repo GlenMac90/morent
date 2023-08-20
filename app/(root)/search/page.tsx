@@ -1,4 +1,4 @@
-import Link from "next/link";
+// import Link from "next/link";
 
 import PickUpDropOffCard from "@/components/PickUpDropOffCard";
 import SearchWithFiltering from "@/components/SearchWithFiltering";
@@ -10,10 +10,10 @@ const Page = () => {
     <>
       {/* // NOTE: This is a temporary nav link */}
       {/* // TODO: Remove this temporary nav link */}
-      <div className="h-[5.75rem] bg-white0 px-6 py-8 lg:h-[6.25rem] lg:border-b lg:border-gray450">
+      {/* <div className="h-[5.75rem] bg-white0 px-6 py-8 lg:h-[6.25rem] lg:border-b lg:border-gray450">
         <Link href="/">Temp Home</Link>
-      </div>
-      <div className="flex flex-col lg:flex-row">
+      </div> */}
+      <div className="flex flex-col pt-[5.75rem] lg:flex-row">
         <SearchWithFiltering />
         <div className="flex grow flex-col bg-white200 px-6 pb-[3.75rem] pt-6 dark:bg-gray950 sm:pb-0">
           <PickUpDropOffCard />
