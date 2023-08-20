@@ -38,8 +38,8 @@ const Home = async () => {
         <UserButton afterSignOutUrl="/" />
       </div>
 
-      <div className="flex w-full max-w-7xl flex-col items-center pt-5">
-        <section className="flex w-full max-w-7xl px-5">
+      <div className="flex w-full max-w-[90rem] flex-col items-center pt-5">
+        <section className="flex w-full flex-col px-5 xl:px-16">
           <div className="flex w-full flex-col gap-8 lg:flex-row">
             <Advert
               title="The Best Platform for Car Rental"
