@@ -156,7 +156,7 @@ const CarCard: React.FC<CarCardProps> = ({
         </div>
       </motion.div>
       {showModal && (
-        <div className="absolute flex w-screen max-w-7xl items-center justify-center">
+        <div className="absolute flex w-screen max-w-7xl items-center justify-center xs:pr-14 lg:pr-0">
           {/* Type error of data will so away once dummyData is removed and lived data will be a string leading to the URL of the image */}
           <CarDetailsModalOne
             id={id}
