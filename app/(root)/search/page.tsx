@@ -15,7 +15,7 @@ const Page = () => {
       </div>
       <div className="flex flex-col lg:flex-row">
         <SearchWithFiltering />
-        <div className="flex grow flex-col bg-white200 px-6 pb-[3.75rem] pt-6 sm:pb-0">
+        <div className="flex grow flex-col bg-white200 px-6 pb-[3.75rem] pt-6 dark:bg-gray950 sm:pb-0">
           <PickUpDropOffCard />
           <div
             className="mt-[3.75rem] grid grid-rows-1 gap-5 xs:flex-col xs:items-center xs:justify-center sm:grid-cols-2 md:mt-9 

@@ -81,7 +81,7 @@ const DesktopFilteringContent = () => {
         step={1}
         onValueChange={setPrice}
       />
-      <span className="text-[1rem] font-semibold not-italic leading-[1.4rem] tracking-[-0.02rem] text-gray700">
+      <span className="text-[1rem] font-semibold not-italic leading-[1.4rem] tracking-[-0.02rem] text-gray700 dark:text-white0">
         {`${isMax} $${price}`}
       </span>
     </div>

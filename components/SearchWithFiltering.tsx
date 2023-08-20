@@ -9,7 +9,7 @@ import DesktopFilteringContent from "./DesktopFilteringContent";
 
 const SearchWithFiltering = () => {
   return (
-    <div className="flex flex-row gap-4 px-6 pb-8 lg:w-[22.5rem] lg:flex-col lg:gap-[3.25rem] lg:px-8">
+    <div className="flex flex-row gap-4 bg-white0 px-6 pb-8 dark:bg-gray900 lg:w-[22.5rem] lg:flex-col lg:gap-[3.25rem] lg:px-8">
       <SearchForm />
       <DesktopFilteringContent />
       <Dialog>
