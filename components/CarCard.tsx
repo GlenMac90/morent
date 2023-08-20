@@ -3,6 +3,8 @@
 import Image from "next/image";
 import React, { useState } from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
 import CarDetailsModalOne from "./CarDetailsModalOne";
 import { dummyData } from "@/utils/dummyCarData";
@@ -14,6 +16,7 @@ import {
   redHeart,
   transmission,
   editSymbol,
+  editSymbolDarkMode,
 } from "../public/svg-icons/index";
 
 interface CarCardProps {
@@ -27,16 +30,28 @@ const CarCard: React.FC<CarCardProps> = ({
   isPopularCar = false,
   canEdit = false,
 }) => {
+  const { theme } = useTheme();
   const [isFavourited, setIsFavourited] = useState(dummyData.isFavourited);
   const [showModal, setShowModal] = useState(false);
+  const [motionKey, setMotionKey] = useState(0);
+
+  const handleButtonClick = () => {
+    setIsFavourited((prev) => !prev);
+    setMotionKey((prevKey) => prevKey + 1); // Increment the key
+  };
 
   return (
     <>
-      <div
-        className={`flex w-full flex-col rounded-lg
-        bg-white p-4 shadow hover:translate-y-[-1px] hover:shadow-lg xs:max-w-[28rem] sm:w-auto sm:max-w-full ${
-          isPopularCar && "min-w-[16rem]"
-        }`}
+      <motion.div
+        animate={{ scale: 1, y: 0 }}
+        initial={{ scale: 0, y: 500, opacity: 0 }}
+        whileHover={{ scale: 1.1 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        className={`flex w-full flex-col rounded-lg bg-white
+        p-4 shadow hover:shadow-xl dark:bg-gray850 ${
+          isPopularCar ? "min-w-[18rem]" : "xs:max-w-[28rem]"
+        } sm:w-auto sm:max-w-full`}
       >
         <div className="flex w-full justify-between">
           <div className="flex flex-col">
@@ -46,16 +61,25 @@ const CarCard: React.FC<CarCardProps> = ({
             </p>
           </div>
           {!canEdit ? (
-            <Image
-              src={isFavourited ? redHeart : heart}
-              alt="heart button"
-              className="h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6"
-              onClick={() => setIsFavourited((prev) => !prev)}
-            />
+            <motion.div
+              key={motionKey}
+              className="flex"
+              animate={{ scale: isFavourited ? [1.6, 1] : [1, 1] }}
+              transition={{ duration: 0.7 }}
+            >
+              <Image
+                src={isFavourited ? redHeart : heart}
+                alt="heart button"
+                className={`h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6 ${
+                  isFavourited && "heart_animation"
+                }`}
+                onClick={handleButtonClick}
+              />
+            </motion.div>
           ) : (
             <Link href={`/car/${dummyData.id}`}>
               <Image
-                src={editSymbol}
+                src={theme === "light" ? editSymbol : editSymbolDarkMode}
                 alt="edit button"
                 className="h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6"
               />
@@ -67,18 +91,20 @@ const CarCard: React.FC<CarCardProps> = ({
             isPopularCar ? "flex-col" : "sm:flex-col"
           }`}
         >
-          <Image
-            src={dummyData.mainPicture}
-            alt="car picture"
-            className={`mb-1 ml-4 h-[3.3rem] w-[11rem] self-end xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[4.5rem] sm:w-[236px] sm:self-center ${
-              isPopularCar ? "self-center" : "self-end sm:self-center"
-            }`}
-          />
+          <div className="flex w-full justify-center">
+            <Image
+              src={dummyData.mainPicture}
+              alt="car picture"
+              className={`mb-1 ml-0 h-[3.3rem] w-[11rem] self-end dark:bg-gray850 xs:ml-4 xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[4.5rem] sm:w-[236px] sm:self-center ${
+                isPopularCar ? "self-center" : "self-end sm:self-center"
+              }`}
+            />
+          </div>
           <div
-            className={`flex gap-3 xs:mt-4 sm:mt-6 ${
+            className={`flex gap-3 xs:mt-4  sm:mt-6  ${
               isPopularCar
-                ? "mt-3 flex-row justify-between"
-                : "flex-col sm:flex-row"
+                ? "mt-3 flex-row justify-evenly"
+                : "w-1/3 flex-col sm:w-auto sm:flex-row"
             } sm:justify-evenly`}
           >
             <div className="flex">
@@ -128,9 +154,9 @@ const CarCard: React.FC<CarCardProps> = ({
             More Info
           </button>
         </div>
-      </div>
+      </motion.div>
       {showModal && (
-        <div className="absolute flex w-screen max-w-7xl items-center justify-center">
+        <div className="absolute flex w-screen max-w-7xl items-center justify-center xs:pr-14 xl:justify-self-center xl:pr-0">
           {/* Type error of data will so away once dummyData is removed and lived data will be a string leading to the URL of the image */}
           <CarDetailsModalOne
             id={id}

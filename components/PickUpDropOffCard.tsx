@@ -10,6 +10,7 @@ import { DateRange } from "react-day-picker";
 import { format, addDays } from "date-fns";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
+import { motion } from "framer-motion";
 import {
   Popover,
   PopoverContent,
@@ -37,7 +38,7 @@ const PickUpDropOffCard = () => {
   });
 
   const isSearchPage = pathname === "/search";
-  const searchPageDiv = isSearchPage ? "xl:px-6" : "xl:px-9";
+  const searchPageDiv = isSearchPage ? "xl:px-7" : "xl:px-6";
 
   const searchPageLocation =
     isSearchPage && "xl:max-w-[10.75rem] 2xl:max-w-none";
@@ -47,8 +48,10 @@ const PickUpDropOffCard = () => {
     : "flex h-12 grow flex-row gap-[0.38rem] xl:h-14 xl:max-w-[10rem]";
 
   return (
-    <div
-      className={`flex flex-col gap-5 dark:text-white0 xl:mx-0 xl:max-w-none xl:flex-row xl:gap-4 xl:rounded-[0.625rem] xl:bg-white0 dark:xl:bg-gray850 ${searchPageDiv}`}
+    <motion.div
+      animate={{ scale: 1 }}
+      initial={{ scale: 0 }}
+      className={`flex w-full flex-col gap-5 dark:text-white0 xl:mx-0 xl:max-w-none xl:flex-row xl:gap-4 xl:rounded-[0.625rem] xl:bg-white0 dark:xl:bg-gray850 ${searchPageDiv}`}
     >
       <Card className="border-0 bg-none shadow-none xl:shrink-0 xl:grow">
         <CardContent
@@ -210,7 +213,7 @@ const PickUpDropOffCard = () => {
           </span>
         </Button>
       )}
-    </div>
+    </motion.div>
   );
 };
 
