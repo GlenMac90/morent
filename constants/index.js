@@ -1,4 +1,4 @@
-export const Adverts = [
+export const adverts = [
   {
     title: "The Best Platform for Car Rental",
     description:
