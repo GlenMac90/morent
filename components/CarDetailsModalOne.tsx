@@ -49,8 +49,10 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         key={motionKey}
         animate={{ scale: 1 }}
         initial={{ scale: 0 }}
-        className={`fixed inset-x-2 top-10 z-50 flex flex-col rounded-lg bg-white p-4 dark:bg-gray850 xs:inset-x-auto sm:top-40 sm:-translate-x-7 md:flex-row 
-        ${!showModalScreen2 && "max-w-[25rem] md:max-w-[45rem]"}`}
+        className={`fixed inset-x-2 top-10 z-50 flex flex-col rounded-lg bg-white p-4 dark:bg-gray850 xs:inset-x-auto sm:top-40  md:flex-row 
+        ${!showModalScreen2 && "max-w-[25rem] md:max-w-[45rem]"} ${
+          !isPopular && "xs:-mr-14 sm:mr-0"
+        }`}
       >
         {showModalScreen2 && (
           <CarDetailsModalTwo setShowModal={setShowModal} id={id} />

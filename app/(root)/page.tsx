@@ -67,7 +67,7 @@ const Home = () => {
         <p className="ml-5 mt-5 self-start font-medium text-gray400 xs:mt-0 xl:mx-10">
           Recommended cars
         </p>
-        <div className="mt-5 flex w-full flex-col items-center gap-5 px-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="mt-5 flex w-full flex-col items-center justify-center gap-5 px-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           {/* Change id to match id of card once live data is passed */}
           {[0, 1, 2, 3, 4, 5, 6, 7].map((card) => (
             <CarCard key={card} id={"123"} />
