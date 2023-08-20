@@ -1,30 +1,31 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
-import { useForm, Controller } from 'react-hook-form';
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import '@uploadthing/react/styles.css';
+import { Props } from "next/script";
 
-import { useToast } from '@/components/ui/use-toast';
-import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
-import { CarValidation } from '@/lib/validations/car';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { isBase64Image } from '@/lib/utils';
-import { useUploadThing } from '@/lib/uploadthing';
-import { createCar, deleteCar, editCar } from '@/lib/actions/car.actions';
-import DragDrop from './DragDrop';
-import { CarParams } from '@/lib/interfaces';
+import React, { useState } from "react";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { useForm, Controller } from "react-hook-form";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { useToast } from "@/components/ui/use-toast";
+import { Form, FormControl, FormItem, FormLabel } from "@/components/ui/form";
+import { CarValidation } from "@/lib/validations/car";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { isBase64Image } from "@/lib/utils";
+import { useUploadThing } from "@/lib/uploadthing";
+import { createCar, deleteCar, editCar } from "@/lib/actions/car.actions";
+import DragDrop from "./DragDrop";
+import { CarParams } from "@/lib/interfaces";
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
 interface Props {
   userId?: string;
@@ -37,7 +38,7 @@ interface FileWithPreview extends File {
 }
 
 const CarForm: React.FC<Props> = ({ userId, car }) => {
-  const { startUpload } = useUploadThing('media');
+  const { startUpload } = useUploadThing("media");
   const router = useRouter();
   const pathname = usePathname();
   const [dragDropFiles, setDragDropFiles] = useState<FileWithPreview[]>([]);
@@ -56,16 +57,16 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
   const form = useForm({
     resolver: zodResolver(CarValidation),
     defaultValues: {
-      carTitle: car?.carTitle || '',
-      carType: car?.carType || '',
-      rentPrice: car?.rentPrice || '',
+      carTitle: car?.carTitle || "",
+      carType: car?.carType || "",
+      rentPrice: car?.rentPrice || "",
       capacity: car?.capacity || 1,
-      transmission: car?.transmission || '',
-      location: car?.location || '',
+      transmission: car?.transmission || "",
+      location: car?.location || "",
       fuelCapacity: car?.fuelCapacity || 0,
-      shortDescription: car?.shortDescription || '',
-      carImageMain: car?.carImageMain || '',
-      path: car?.path || '',
+      shortDescription: car?.shortDescription || "",
+      carImageMain: car?.carImageMain || "",
+      path: car?.path || "",
     },
   });
 
@@ -91,20 +92,20 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
 
     if (Object.keys(form.formState.errors).length > 0) {
       const errorFields = Object.keys(form.formState.errors);
-      const errorMessage = `Errors in: ${errorFields.join(', ')}`;
+      const errorMessage = `Errors in: ${errorFields.join(", ")}`;
       toast({
-        title: 'Validation Error',
+        title: "Validation Error",
         description: errorMessage,
       });
       setIsLoading(false);
       return;
     }
 
-    if (dragDropFiles.length === 0 && pathname === '/cars/new') {
+    if (dragDropFiles.length === 0 && pathname === "/cars/new") {
       toast({
-        variant: 'destructive',
-        title: 'Not so quick!',
-        description: 'Please add an image before submitting the form.',
+        variant: "destructive",
+        title: "Not so quick!",
+        description: "Please add an image before submitting the form.",
       });
       setIsLoading(false);
       return;
@@ -113,7 +114,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
     try {
       const uploadedUrls = await uploadImages(imagePreviews, dragDropFiles);
       if (!uploadedUrls) {
-        throw new Error('Failed to upload image.');
+        throw new Error("Failed to upload image.");
       }
 
       if (uploadedUrls.length > 0) {
@@ -121,14 +122,14 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       }
       const carData = {
         userId,
-        carTitle: values.carTitle || '',
-        carType: values.carType || '',
-        rentPrice: values.rentPrice || '',
+        carTitle: values.carTitle || "",
+        carType: values.carType || "",
+        rentPrice: values.rentPrice || "",
         capacity: values.capacity || 1,
-        transmission: values.transmission || '',
-        location: values.location || '',
+        transmission: values.transmission || "",
+        location: values.location || "",
         fuelCapacity: values.fuelCapacity || 1,
-        shortDescription: values.shortDescription || '',
+        shortDescription: values.shortDescription || "",
         carImageMain: values.carImageMain,
       };
 
@@ -144,26 +145,26 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       }
 
       toast({
-        variant: 'success',
-        title: 'Success',
-        description: 'Car registered successfully',
+        variant: "success",
+        title: "Success",
+        description: "Car registered successfully",
       });
 
-      if (pathname === '/cars/new') {
+      if (pathname === "/cars/new") {
         router.back();
       } else {
-        router.push('/');
+        router.push("/");
       }
     } catch (error) {
       let errorMessage = car?._id
-        ? 'There was an issue while updating the car.'
-        : 'There was an issue while creating the car.';
+        ? "There was an issue while updating the car."
+        : "There was an issue while creating the car.";
 
       if (error instanceof Error) {
         errorMessage += ` Detail: ${error.message}`;
         console.error({ error, message: error.message });
       } else {
-        console.error({ error, message: 'An unknown error occurred' });
+        console.error({ error, message: "An unknown error occurred" });
       }
 
       setError(errorMessage);
@@ -194,11 +195,11 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       .then((allFileData) => {
         setImagePreviews(allFileData);
         if (allFileData.length > 0) {
-          form.setValue('carImageMain', allFileData[0] || '');
+          form.setValue("carImageMain", allFileData[0] || "");
         }
       })
       .catch((error) => {
-        console.error('Error reading one or more files:', error);
+        console.error("Error reading one or more files:", error);
       });
   };
 
@@ -208,16 +209,16 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       await deleteCar(carId);
 
       toast({
-        title: 'Success',
-        description: 'Car deleted successfully.',
+        title: "Success",
+        description: "Car deleted successfully.",
       });
 
-      router.push('/');
+      router.push("/");
     } catch (error) {
-      console.error('Failed to delete car:', error);
+      console.error("Failed to delete car:", error);
       toast({
-        title: 'Error',
-        description: 'Failed to delete car. Please try again.',
+        title: "Error",
+        description: "Failed to delete car. Please try again.",
       });
     } finally {
       setIsLoading(false);
@@ -228,7 +229,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full max-w-4xl flex-col items-center gap-5 bg-white0 px-6 py-12"
+        className="flex w-full max-w-4xl flex-col items-center gap-5 rounded-xl bg-white px-6 py-12 dark:bg-gray850"
       >
         {isLoading && <div>Loading...</div>}
         {error && <div className="text-red-500">{error}</div>}
@@ -237,13 +238,13 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
         )}
 
         <div className="flex w-full flex-col justify-start">
-          {pathname === '/cars/new' ? (
+          {pathname === "/cars/new" ? (
             <h1 className="text-xl font-semibold ">Add a Car for Rent</h1>
           ) : (
             <div className="flex w-full items-center justify-between">
               <h1 className="text-xl font-semibold ">Edit Car Details</h1>
               <Image
-                src={car?.carImageMain || ''}
+                src={car?.carImageMain || ""}
                 width={100}
                 height={50}
                 alt="Car Image"
@@ -251,7 +252,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             </div>
           )}
 
-          <p className="mt-2.5  text-sm text-gray400">
+          <p className="mt-2.5 text-sm text-gray400">
             Please enter your car info
           </p>
           <div className="mt-4 flex space-x-4">
@@ -277,7 +278,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
                 <FormLabel>Car Title</FormLabel>
                 <FormControl>
                   <Input
-                    className="h-11 bg-white200 md:h-14 "
+                    className="h-11 bg-white200 dark:bg-gray800 md:h-14 "
                     type="text"
                     {...field}
                     placeholder="Your title"
@@ -300,7 +301,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
                     value={field.value}
                     onValueChange={(value) => field.onChange(value)}
                   >
-                    <SelectTrigger className="h-11 bg-white200 md:h-14">
+                    <SelectTrigger className="h-11 bg-white200 dark:bg-gray800 md:h-14">
                       <SelectValue placeholder="Car Type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -329,7 +330,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
                 <FormLabel>Rent Price</FormLabel>
                 <FormControl>
                   <Input
-                    className="h-11 bg-white200 md:h-14 "
+                    className="h-11 bg-white200 dark:bg-gray800 md:h-14 "
                     type="text"
                     {...field}
                     placeholder="Price"
@@ -350,7 +351,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
                     value={String(field.value)}
                     onValueChange={(value) => field.onChange(Number(value))}
                   >
-                    <SelectTrigger className="h-11 bg-white200 md:h-14">
+                    <SelectTrigger className="h-11 bg-white200 dark:bg-gray800 md:h-14">
                       <SelectValue placeholder="Capacity in persons" />
                     </SelectTrigger>
                     <SelectContent>
@@ -378,7 +379,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
                     value={field.value}
                     onValueChange={(value) => field.onChange(value)}
                   >
-                    <SelectTrigger className="h-11 bg-white200 md:h-14">
+                    <SelectTrigger className="h-11 bg-white200 dark:bg-gray800 md:h-14">
                       <SelectValue placeholder="Car Type" />
                     </SelectTrigger>
                     <SelectContent>
@@ -403,7 +404,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
                 <FormLabel>Location</FormLabel>
                 <FormControl>
                   <Input
-                    className="h-11 bg-white200 md:h-14 "
+                    className="h-11 bg-white200 dark:bg-gray800 md:h-14 "
                     type="text"
                     {...field}
                     placeholder="Select your city"
@@ -425,7 +426,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
                     value={String(field.value)}
                     onValueChange={(value) => field.onChange(Number(value))}
                   >
-                    <SelectTrigger className="h-11 bg-white200 md:h-14">
+                    <SelectTrigger className="h-11 bg-white200 dark:bg-gray800 md:h-14">
                       <SelectValue placeholder="Fuel Capacity" />
                     </SelectTrigger>
                     <SelectContent>
@@ -448,7 +449,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
                 <FormLabel>Short Description</FormLabel>
                 <FormControl>
                   <Input
-                    className="h-11 bg-white200 md:h-14 "
+                    className="h-11 bg-white200 dark:bg-gray800 md:h-14 "
                     {...field}
                     placeholder="Enter a short description"
                   />
@@ -458,23 +459,29 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
           />
         </div>
 
+        <p className="self-start font-semibold text-gray900 dark:text-white">
+          Upload Images
+        </p>
+
         <DragDrop handleFilesChange={handleFilesChange} />
 
-        <div className="flex space-x-4 self-end">
+        <div className="flex w-full justify-end space-x-4 self-end">
           {pathname === `/cars/${carIdFromPath}` && carIdFromPath && (
             <>
               {isConfirmingDelete ? (
                 <div className="flex space-x-4">
-                  <Button
-                    className="flex w-full self-end bg-red-500 p-5 text-white md:w-auto"
-                    onClick={async () => {
-                      setIsLoading(true);
-                      await handleDelete(carIdFromPath);
-                      setIsConfirmingDelete(false);
-                    }}
-                  >
-                    Confirm Delete
-                  </Button>
+                  <div className="flex w-full">
+                    <Button
+                      className="flex self-end bg-red-500 p-5 text-white sm:w-auto"
+                      onClick={async () => {
+                        setIsLoading(true);
+                        await handleDelete(carIdFromPath);
+                        setIsConfirmingDelete(false);
+                      }}
+                    >
+                      Confirm Delete
+                    </Button>
+                  </div>
                   <Button
                     className="flex w-full self-end bg-gray-500 p-5 text-white md:w-auto"
                     onClick={() => {
@@ -499,7 +506,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
                 type="submit"
                 disabled={isLoading}
               >
-                {isLoading ? 'Updating...' : 'Update Car'}
+                {isLoading ? "Updating..." : "Update Car"}
               </Button>
             </>
           )}
@@ -509,7 +516,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
               type="submit"
               disabled={isLoading}
             >
-              {isLoading ? 'Registering...' : 'Register Car'}
+              {isLoading ? "Registering..." : "Register Car"}
             </Button>
           )}
         </div>

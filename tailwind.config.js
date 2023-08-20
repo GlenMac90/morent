@@ -8,14 +8,6 @@ module.exports = {
     "./src/**/*.{ts,tsx}",
   ],
   theme: {
-    screens: {
-      xs: "400px",
-      sm: "640px",
-      md: "768px",
-      lg: "1024px",
-      xl: "1280px",
-      '2xl': "1536px"
-    },
     fontFamily: {
       plusJakartaSans: ["var(--plus-jakarta-sans)"],
     },
@@ -27,6 +19,10 @@ module.exports = {
       },
     },
     extend: {
+      screens: {
+        xs: "400px",
+        xl: "1280px",
+      },
       colors: {
         blue50: "#C3D4E9",
         blue100: "#94A7CB",
@@ -64,5 +60,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  // plugins: [require("tailwindcss-animate")],
 };

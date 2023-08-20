@@ -2,8 +2,10 @@
 
 import React, { useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
 
-import { cross } from "../public/svg-icons/index";
+import { cross, whiteCross } from "../public/svg-icons/index";
 import CarDetailsModalTwo from "./CarDetailsModalTwo";
 
 interface CarData {
@@ -30,14 +32,27 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
   setShowModal,
   isPopular,
 }) => {
+  const { theme } = useTheme();
   const [displayPicture, setDisplayPicture] = useState(data.pictures[0]);
   const [showModalScreen2, setShowModalScreen2] = useState(false);
+  const [changePicture, setChangePicture] = useState(true);
+  const [motionKey, setMotionKey] = useState(0);
+
+  const handleButtonClick = () => {
+    setShowModalScreen2(true);
+    setMotionKey((prevKey) => prevKey + 1);
+  };
 
   return (
     <>
-      <div
-        className={`fixed inset-x-2 top-10 z-50 flex flex-col rounded-lg bg-white p-4 xs:inset-x-auto sm:top-40 sm:-translate-x-7 md:flex-row 
-        ${!showModalScreen2 && "max-w-[25rem] md:max-w-[45rem]"}`}
+      <motion.div
+        key={motionKey}
+        animate={{ scale: 1 }}
+        initial={{ scale: 0 }}
+        className={`fixed inset-x-2 top-10 z-50 flex flex-col rounded-lg bg-white p-4 dark:bg-gray850 xs:inset-x-auto sm:top-40  md:flex-row 
+        ${!showModalScreen2 && "max-w-[25rem] md:max-w-[45rem]"} ${
+          !isPopular && "xs:-mr-14 sm:mr-0"
+        }`}
       >
         {showModalScreen2 && (
           <CarDetailsModalTwo setShowModal={setShowModal} id={id} />
@@ -47,9 +62,9 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             showModalScreen2 && "hidden"
           }`}
         >
-          <div className="absolute -top-4 right-2 rounded-sm bg-white">
+          <div className="absolute -top-4 right-2 rounded-sm bg-white dark:bg-gray850">
             <Image
-              src={cross}
+              src={theme === "light" ? cross : whiteCross}
               height={20}
               width={20}
               alt="close modal"
@@ -58,13 +73,19 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             />
           </div>
           <div className="flex flex-col">
-            <div className="flex h-[12rem] items-center justify-center rounded-lg">
+            <motion.div
+              animate={{ opacity: changePicture ? 100 : 0 }}
+              initial={{ opacity: 0 }}
+              transition={{ duration: changePicture ? 0.08 : 0 }}
+              whileHover={{ scale: 1.2 }}
+              className="flex h-[12rem] items-center justify-center rounded-lg"
+            >
               <Image
                 src={displayPicture}
                 alt="main display picture"
                 className="h-full w-full rounded-lg"
               />
-            </div>
+            </motion.div>
             <div className="no_scrollbar mt-5 flex gap-5 overflow-x-auto">
               {data.pictures.map((picture: string) => (
                 <div className="w-1/3 rounded-lg" key={picture}>
@@ -75,7 +96,13 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
                       displayPicture === picture &&
                       "border border-blue-600 p-[1px]"
                     }`}
-                    onClick={() => setDisplayPicture(picture)}
+                    onClick={() => {
+                      setChangePicture(false);
+                      setDisplayPicture(picture);
+                      setTimeout(() => {
+                        setChangePicture(true);
+                      }, 80); // Adding a short delay to let the component fade out before starting to fade in again
+                    }}
                   />
                 </div>
               ))}
@@ -86,25 +113,27 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             <div className="flex justify-between">
               <p className="text-xl font-medium">{data.brand}</p>
               <Image
-                src={cross}
+                src={theme === "light" ? cross : whiteCross}
                 height={20}
                 width={20}
                 alt="close modal"
                 onClick={() => setShowModal(false)}
-                className="hidden cursor-pointer self-start md:flex"
+                className="hidden cursor-pointer self-start dark:text-white200 md:flex"
               />
             </div>
-            <p className="mt-2 text-xs leading-6 text-gray700">
+            <p className="mt-2 text-xs leading-6 text-gray700 dark:text-white200">
               {data.shortDescription}
             </p>
             <div className="mt-4 flex justify-between gap-8">
               <div className="flex w-1/2 justify-between">
                 <p className="text-xs text-gray400">Type Car</p>
-                <p className="text-xs text-gray700">{data.type}</p>
+                <p className="text-xs text-gray700 dark:text-white200">
+                  {data.type}
+                </p>
               </div>
               <div className="flex w-1/2 justify-between">
                 <p className="text-xs text-gray400">Capacity</p>
-                <p className="text-xs text-gray700">
+                <p className="text-xs text-gray700 dark:text-white200">
                   {data.capacity} {data.capacity === 1 ? "person" : "people"}
                 </p>
               </div>
@@ -112,11 +141,15 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             <div className="mt-4 flex justify-between gap-8">
               <div className="flex w-1/2 justify-between">
                 <p className="text-xs text-gray400">Transm.</p>
-                <p className="text-xs text-gray700">{data.transmission}</p>
+                <p className="text-xs text-gray700 dark:text-white200">
+                  {data.transmission}
+                </p>
               </div>
               <div className="flex w-1/2 justify-between">
                 <p className="text-xs text-gray400">Gasoline</p>
-                <p className="text-xs text-gray700">{data.fuelCapacity}L</p>
+                <p className="text-xs text-gray700 dark:text-white200">
+                  {data.fuelCapacity}L
+                </p>
               </div>
             </div>
             <div className="mt-8 flex w-full justify-between">
@@ -126,16 +159,16 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
               </p>
               <button
                 className="rounded bg-blue500 px-6 py-2 font-medium text-white"
-                onClick={() => setShowModalScreen2(true)}
+                onClick={handleButtonClick}
               >
                 Rent Now
               </button>
             </div>
           </div>
         </div>
-      </div>
+      </motion.div>
       <div
-        className="fixed inset-0 z-10 h-screen w-screen bg-black opacity-30 dark:bg-white dark:opacity-10"
+        className="fixed inset-0 z-40 h-screen w-screen bg-black opacity-50 dark:bg-gray900 dark:opacity-70"
         onClick={() => setShowModal(false)}
       ></div>
     </>
