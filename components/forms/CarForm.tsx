@@ -8,7 +8,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useForm, Controller } from "react-hook-form";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-// import "@uploadthing/react/styles.css";
 
 import { useToast } from "@/components/ui/use-toast";
 import { Form, FormControl, FormItem, FormLabel } from "@/components/ui/form";
