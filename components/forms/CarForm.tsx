@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { useForm, Controller, Control } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -16,7 +16,13 @@ import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing';
 import { createCar, deleteCar, editCar } from '@/lib/actions/car.actions';
 import DragDrop from './DragDrop';
-import { CarParams } from '@/lib/interfaces';
+import {
+  InputControllerProps,
+  CarFormButtonsProps,
+  Props,
+  FileWithPreview,
+  SelectInputProps,
+} from '@/lib/interfaces';
 import {
   Select,
   SelectTrigger,
@@ -25,15 +31,12 @@ import {
   SelectItem,
 } from '@/components/ui/select';
 
-interface Props {
-  userId?: string;
-  carId?: string | null;
-  car?: CarParams | null;
-}
-
-interface FileWithPreview extends File {
-  preview?: string;
-}
+import {
+  carTypes,
+  capacities,
+  transmissionOptions,
+  fuelCapacityOptions,
+} from '@/constants';
 
 const CarForm: React.FC<Props> = ({ userId, car }) => {
   const { startUpload } = useUploadThing('media');
@@ -371,75 +374,6 @@ const CarFormHeader: React.FC<CarFormHeaderProps> = ({
   </div>
 );
 
-type FormData = {
-  carTitle: string;
-  carType: string;
-  rentPrice: string;
-  capacity: number;
-  transmission: string;
-  location: string;
-  fuelCapacity: number;
-  shortDescription: string;
-  carImageMain: string;
-  path: string;
-};
-
-type FieldNames =
-  | 'carTitle'
-  | 'carType'
-  | 'rentPrice'
-  | 'capacity'
-  | 'transmission'
-  | 'location'
-  | 'fuelCapacity'
-  | 'shortDescription'
-  | 'carImageMain'
-  | 'path';
-
-const carTypes = [
-  { value: 'sport', label: 'Sport' },
-  { value: 'suv', label: 'SUV' },
-  { value: 'mpv', label: 'MPV' },
-  { value: 'sedan', label: 'Sedan' },
-  { value: 'coupe', label: 'Coupe' },
-  { value: 'hatchback', label: 'Hatchback' },
-];
-
-const capacities = [
-  { value: '2', label: '2 Person' },
-  { value: '4', label: '4 Person' },
-  { value: '6', label: '6 Person' },
-  { value: '8', label: '8 or more' },
-];
-
-const transmissionOptions = [
-  { value: 'manual', label: 'Manual' },
-  { value: 'automatic', label: 'Automatic' },
-  { value: 'semi-automatic', label: 'Semi-automatic' },
-  { value: 'cvt', label: 'CVT' },
-];
-
-const fuelCapacityOptions = [
-  { value: '40', label: '40 litres' },
-  { value: '50', label: '50 litres' },
-  { value: '60', label: '60 litres' },
-  { value: '80', label: '80 litres or more' },
-];
-
-type SelectItems = {
-  value: string;
-  label: string;
-};
-
-interface SelectInputProps {
-  control: Control<FormData>;
-  name: FieldNames;
-  label: string;
-  placeholder: string;
-  items: SelectItems[];
-  isNumeric: boolean;
-}
-
 const SelectInput: React.FC<SelectInputProps> = ({
   control,
   name,
@@ -483,14 +417,6 @@ const SelectInput: React.FC<SelectInputProps> = ({
   );
 };
 
-interface InputControllerProps {
-  control: Control<FormData>;
-  name: FieldNames;
-  label: string;
-  placeholder: string;
-  type?: string;
-}
-
 const InputController: React.FC<InputControllerProps> = ({
   control,
   name,
@@ -523,16 +449,6 @@ const InputController: React.FC<InputControllerProps> = ({
     </>
   );
 };
-
-interface CarFormButtonsProps {
-  pathname: string;
-  carIdFromPath: string | null;
-  handleDelete: (carId: string) => Promise<void>;
-  setIsConfirmingDelete: (val: boolean) => void;
-  setIsLoading: (val: boolean) => void;
-  isLoading: boolean;
-  isConfirmingDelete: boolean;
-}
 
 const CarFormButtons: React.FC<CarFormButtonsProps> = ({
   pathname,

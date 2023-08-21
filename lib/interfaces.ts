@@ -1,3 +1,5 @@
+import { Control } from 'react-hook-form';
+
 export interface DateRange {
   start: Date;
   end: Date;
@@ -34,4 +36,71 @@ export interface UserParams {
   onboarded?: boolean;
   path: string;
   cars?: CarParams[];
+}
+
+export type FormData = {
+  carTitle: string;
+  carType: string;
+  rentPrice: string;
+  capacity: number;
+  transmission: string;
+  location: string;
+  fuelCapacity: number;
+  shortDescription: string;
+  carImageMain: string;
+  path: string;
+};
+
+export type FieldNames =
+  | 'carTitle'
+  | 'carType'
+  | 'rentPrice'
+  | 'capacity'
+  | 'transmission'
+  | 'location'
+  | 'fuelCapacity'
+  | 'shortDescription'
+  | 'carImageMain'
+  | 'path';
+
+export type SelectItems = {
+  value: string;
+  label: string;
+};
+
+export interface SelectInputProps {
+  control: Control<FormData>;
+  name: FieldNames;
+  label: string;
+  placeholder: string;
+  items: SelectItems[];
+  isNumeric: boolean;
+}
+
+export interface InputControllerProps {
+  control: Control<FormData>;
+  name: FieldNames;
+  label: string;
+  placeholder: string;
+  type?: string;
+}
+
+export interface CarFormButtonsProps {
+  pathname: string;
+  carIdFromPath: string | null;
+  handleDelete: (carId: string) => Promise<void>;
+  setIsConfirmingDelete: (val: boolean) => void;
+  setIsLoading: (val: boolean) => void;
+  isLoading: boolean;
+  isConfirmingDelete: boolean;
+}
+
+export interface Props {
+  userId?: string;
+  carId?: string | null;
+  car?: CarParams | null;
+}
+
+export interface FileWithPreview extends File {
+  preview?: string;
 }
