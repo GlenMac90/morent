@@ -463,64 +463,96 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
 
         <DragDrop handleFilesChange={handleFilesChange} />
 
-        <div className="flex w-full justify-end space-x-4 self-end">
-          {pathname === `/cars/${carIdFromPath}` && carIdFromPath && (
-            <>
-              {isConfirmingDelete ? (
-                <div className="flex space-x-4">
-                  <div className="flex w-full">
-                    <Button
-                      className="flex self-end bg-red-500 p-5 text-white sm:w-auto"
-                      onClick={async () => {
-                        setIsLoading(true);
-                        await handleDelete(carIdFromPath);
-                        setIsConfirmingDelete(false);
-                      }}
-                    >
-                      Confirm Delete
-                    </Button>
-                  </div>
-                  <Button
-                    className="flex w-full self-end bg-gray-500 p-5 text-white md:w-auto"
-                    onClick={() => {
-                      setIsConfirmingDelete(false);
-                    }}
-                  >
-                    Cancel Delete
-                  </Button>
-                </div>
-              ) : (
-                <Button
-                  className="flex w-full self-end bg-red-500 p-5 text-white md:w-auto"
-                  onClick={() => {
-                    setIsConfirmingDelete(true);
-                  }}
-                >
-                  Delete Car
-                </Button>
-              )}
-              <Button
-                className="flex w-full  bg-blue500 p-5 text-white md:w-auto"
-                type="submit"
-                disabled={isLoading}
-              >
-                {isLoading ? 'Updating...' : 'Update Car'}
-              </Button>
-            </>
-          )}
-          {pathname === `/cars/new` && (
-            <Button
-              className="flex w-full  bg-blue500 p-5 text-white md:w-auto"
-              type="submit"
-              disabled={isLoading}
-            >
-              {isLoading ? 'Registering...' : 'Register Car'}
-            </Button>
-          )}
-        </div>
+        <CarFormButtons
+          pathname={pathname}
+          carIdFromPath={carIdFromPath}
+          isConfirmingDelete={isConfirmingDelete}
+          setIsConfirmingDelete={setIsConfirmingDelete}
+          handleDelete={handleDelete}
+          isLoading={isLoading}
+          setIsLoading={setIsLoading}
+        />
       </form>
     </Form>
   );
 };
 
 export default CarForm;
+
+interface CarFormButtonsProps {
+  pathname: string;
+  carIdFromPath: string | null;
+  handleDelete: (carId: string) => Promise<void>;
+  setIsConfirmingDelete: (val: boolean) => void;
+  setIsLoading: (val: boolean) => void;
+  isLoading: boolean;
+  isConfirmingDelete: boolean;
+}
+
+const CarFormButtons: React.FC<CarFormButtonsProps> = ({
+  pathname,
+  carIdFromPath,
+  handleDelete,
+  setIsConfirmingDelete,
+  isConfirmingDelete,
+  setIsLoading,
+  isLoading,
+}) => {
+  return (
+    <div className="flex w-full justify-end space-x-4 self-end">
+      {pathname === `/cars/${carIdFromPath}` && carIdFromPath && (
+        <>
+          {isConfirmingDelete ? (
+            <div className="flex space-x-4">
+              <div className="flex w-full">
+                <Button
+                  className="flex self-end bg-red-500 p-5 text-white sm:w-auto"
+                  onClick={async () => {
+                    setIsLoading(true);
+                    await handleDelete(carIdFromPath);
+                    setIsConfirmingDelete(false);
+                  }}
+                >
+                  Confirm Delete
+                </Button>
+              </div>
+              <Button
+                className="flex w-full self-end bg-gray-500 p-5 text-white md:w-auto"
+                onClick={() => {
+                  setIsConfirmingDelete(false);
+                }}
+              >
+                Cancel Delete
+              </Button>
+            </div>
+          ) : (
+            <Button
+              className="flex w-full self-end bg-red-500 p-5 text-white md:w-auto"
+              onClick={() => {
+                setIsConfirmingDelete(true);
+              }}
+            >
+              Delete Car
+            </Button>
+          )}
+          <Button
+            className="flex w-full  bg-blue500 p-5 text-white md:w-auto"
+            type="submit"
+            disabled={isLoading}
+          >
+            {isLoading ? 'Updating...' : 'Update Car'}
+          </Button>
+        </>
+      )}
+      {pathname === `/cars/new` && (
+        <Button
+          className="flex w-full  bg-blue500 p-5 text-white md:w-auto"
+          type="submit"
+          disabled={isLoading}
+        >
+          {isLoading ? 'Registering...' : 'Register Car'}
+        </Button>
+      )}
+    </div>
+  );
+};
