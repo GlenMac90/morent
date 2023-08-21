@@ -146,6 +146,7 @@ const NavBar = () => {
             <div className="mt-12 flex flex-col gap-2">
               {buttons.map((navButton) => (
                 <Link
+                  onClick={() => setShowNavMenu(false)}
                   key={navButton.path}
                   href={navButton.path}
                   className={`flex rounded p-3 ${
