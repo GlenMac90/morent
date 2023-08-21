@@ -24,6 +24,7 @@ import {
   SelectContent,
   SelectItem,
 } from '@/components/ui/select';
+import Location from '../Location';
 
 interface Props {
   userId?: string;
@@ -201,6 +202,10 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       });
   };
 
+  const handleLocationSelected = (location: string) => {
+    form.setValue('location', location);
+  };
+
   const handleDelete = async (carId: string) => {
     try {
       setIsLoading(true);
@@ -234,7 +239,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
         {success && (
           <div className="text-green-500">Car registered successfully!</div>
         )}
-
         <div className="flex w-full flex-col justify-start">
           {pathname === '/cars/new' ? (
             <h1 className="text-xl font-semibold ">Add a Car for Rent</h1>
@@ -364,7 +368,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             )}
           />
         </div>
-
         <div className="flex w-full flex-col gap-8 md:flex-row">
           <Controller
             control={form.control}
@@ -401,17 +404,15 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
               <FormItem className="flex w-full flex-col justify-start">
                 <FormLabel>Location</FormLabel>
                 <FormControl>
-                  <Input
-                    className="h-11 bg-white200 dark:bg-gray800 md:h-14 "
-                    type="text"
-                    {...field}
-                    placeholder="Select your city"
-                  />
+                  <div className=" flex h-11 items-center rounded-md bg-white200 dark:bg-gray800 md:h-14">
+                    <Location handleLocationSelected={handleLocationSelected} />
+                  </div>
                 </FormControl>
               </FormItem>
             )}
           />
         </div>
+
         <div className="flex w-full flex-col gap-8 md:flex-row">
           <Controller
             control={form.control}
@@ -456,13 +457,10 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             )}
           />
         </div>
-
         <p className="self-start font-semibold text-gray900 dark:text-white">
           Upload Images
         </p>
-
         <DragDrop handleFilesChange={handleFilesChange} />
-
         <div className="flex w-full justify-end space-x-4 self-end">
           {pathname === `/cars/${carIdFromPath}` && carIdFromPath && (
             <>

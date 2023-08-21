@@ -1,31 +1,31 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { Card, CardContent } from "./ui/card";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import SelectYourTime from "./SelectYourTime";
-import { useState } from "react";
-import { DateRange } from "react-day-picker";
-import { format, addDays } from "date-fns";
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar";
-import { motion } from "framer-motion";
+import Image from 'next/image';
+import { Card, CardContent } from './ui/card';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import SelectYourTime from './SelectYourTime';
+import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
+import { format, addDays } from 'date-fns';
+import { cn } from '@/lib/utils';
+import { Calendar } from '@/components/ui/calendar';
+import { motion } from 'framer-motion';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import "@geoapify/geocoder-autocomplete/styles/round-borders.css";
-import Location from "./Location";
-import { usePathname } from "next/navigation";
+} from '@/components/ui/popover';
+import '@geoapify/geocoder-autocomplete/styles/round-borders.css';
+import Location from './Location';
+import { usePathname } from 'next/navigation';
 import {
   arrowDown,
   calendar,
   ellipse,
   search,
   darkModeArrowDown,
-} from "@/public/svg-icons";
+} from '@/public/svg-icons';
 
 const PickUpDropOffCard = () => {
   const pathname = usePathname();
@@ -37,15 +37,15 @@ const PickUpDropOffCard = () => {
     to: addDays(twoDaysFromNow, 3),
   });
 
-  const isSearchPage = pathname === "/search";
-  const searchPageDiv = isSearchPage ? "xl:px-7" : "xl:px-6";
+  const isSearchPage = pathname === '/search';
+  const searchPageDiv = isSearchPage ? 'xl:px-7' : 'xl:px-6';
 
   const searchPageLocation =
-    isSearchPage && "xl:max-w-[10.75rem] 2xl:max-w-none";
+    isSearchPage && 'xl:max-w-[10.75rem] 2xl:max-w-none';
 
   const searchPageButton = isSearchPage
-    ? "h-14 w-[3.75rem] xl:flex hidden"
-    : "flex h-12 grow flex-row gap-[0.38rem] xl:h-14 xl:max-w-[10rem]";
+    ? 'h-14 w-[3.75rem] xl:flex hidden'
+    : 'flex h-12 grow flex-row gap-[0.38rem] xl:h-14 xl:max-w-[10rem]';
 
   return (
     <motion.div
@@ -84,14 +84,14 @@ const PickUpDropOffCard = () => {
                 </div>
                 <PopoverTrigger asChild id="availabilityFrom">
                   <Button
-                    variant={"outline"}
+                    variant={'outline'}
                     className={cn(
-                      "bg-white200 dark:bg-gray800 w-full justify-between border-0 text-left font-normal py-[0.69rem] px-[0.62rem] xl:pl-[1.13rem] xl:h-14",
-                      !date && "text-muted-foreground"
+                      'bg-white200 dark:bg-gray800 w-full justify-between border-0 text-left font-normal py-[0.69rem] px-[0.62rem] xl:pl-[1.13rem] xl:h-14',
+                      !date && 'text-muted-foreground'
                     )}
                   >
                     {date?.from ? (
-                      format(date.from, "LLL dd, y")
+                      format(date.from, 'LLL dd, y')
                     ) : (
                       <>
                         <span className="text-[0.625rem] font-normal leading-5 text-gray-400">
@@ -118,7 +118,7 @@ const PickUpDropOffCard = () => {
               </div>
               <PopoverContent className="w-auto p-0">
                 <Calendar
-                  mode={"range"}
+                  mode={'range'}
                   selected={date}
                   onSelect={setDate}
                   numberOfMonths={2}
@@ -126,7 +126,7 @@ const PickUpDropOffCard = () => {
                 />
               </PopoverContent>
             </Popover>
-            <SelectYourTime pickUpOrDropOff={"Availability Time from"} />
+            <SelectYourTime pickUpOrDropOff={'Availability Time from'} />
           </div>
 
           <div className="flex flex-row gap-3 xl:grow xl:gap-4">
@@ -145,14 +145,14 @@ const PickUpDropOffCard = () => {
                 </div>
                 <PopoverTrigger asChild id="availabilityTo">
                   <Button
-                    variant={"outline"}
+                    variant={'outline'}
                     className={cn(
-                      "bg-white200 w-full dark:bg-gray800 justify-between border-0 text-left font-normal py-[0.69rem] px-[0.62rem] xl:pl-[1.13rem] xl:h-14",
-                      !date && "text-muted-foreground"
+                      'bg-white200 w-full dark:bg-gray800 justify-between border-0 text-left font-normal py-[0.69rem] px-[0.62rem] xl:pl-[1.13rem] xl:h-14',
+                      !date && 'text-muted-foreground'
                     )}
                   >
                     {date?.to ? (
-                      format(date.to, "LLL dd, y")
+                      format(date.to, 'LLL dd, y')
                     ) : (
                       <>
                         <span className="text-[0.625rem] font-normal leading-5 text-gray-400">
@@ -179,7 +179,7 @@ const PickUpDropOffCard = () => {
               </div>
               <PopoverContent className="w-auto p-0">
                 <Calendar
-                  mode={"range"}
+                  mode={'range'}
                   selected={date}
                   onSelect={setDate}
                   numberOfMonths={2}
@@ -187,7 +187,7 @@ const PickUpDropOffCard = () => {
                 />
               </PopoverContent>
             </Popover>
-            <SelectYourTime pickUpOrDropOff={"Availability Time to"} />
+            <SelectYourTime pickUpOrDropOff={'Availability Time to'} />
           </div>
         </CardContent>
       </Card>
@@ -197,14 +197,14 @@ const PickUpDropOffCard = () => {
       >
         <Image src={search} width={14} height={14} alt="Search" />
         <span className="text-[0.875rem] font-semibold not-italic leading-[1.6625rem] text-white0 xl:text-[1rem] xl:font-medium xl:leading-[1.6rem]">
-          {isSearchPage ? "" : "Search"}
+          {isSearchPage ? '' : 'Search'}
         </span>
       </Button>
       {/* Search button on search Page */}
       {isSearchPage && (
         <Button
           className={`${
-            isSearchPage ? "xl:hidden" : "xl:max-w-[10rem]"
+            isSearchPage ? 'xl:hidden' : 'xl:max-w-[10rem]'
           } flex h-12 grow flex-row gap-[0.38rem] rounded-[0.625rem] bg-blue500 xl:mt-[3.26rem] xl:h-14`}
         >
           <Image src={search} width={14} height={14} alt="Search" />
