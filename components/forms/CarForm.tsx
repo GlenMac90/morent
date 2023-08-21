@@ -39,6 +39,8 @@ import {
   fuelCapacityOptions,
 } from '@/constants';
 
+import Location from '../Location';
+
 const CarForm: React.FC<Props> = ({ userId, car }) => {
   const { startUpload } = useUploadThing('media');
   const router = useRouter();
@@ -205,6 +207,10 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       });
   };
 
+  const handleLocationSelected = (location: string) => {
+    form.setValue('location', location);
+  };
+
   const handleDelete = async (carId: string) => {
     try {
       setIsLoading(true);
@@ -289,12 +295,14 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             isNumeric={false}
           />
 
-          <InputController
-            control={form.control}
-            name="location"
-            label="Location"
-            placeholder="Select your city"
-          />
+          <FormItem className=" flex w-full flex-col justify-start">
+            <FormLabel>Location</FormLabel>
+            <FormControl>
+              <div className=" flex h-11 items-center rounded-md bg-white200 dark:bg-gray800 md:h-14">
+                <Location handleLocationSelected={handleLocationSelected} />
+              </div>
+            </FormControl>
+          </FormItem>
         </div>
         <div className="flex w-full flex-col gap-8 md:flex-row">
           <SelectInput
