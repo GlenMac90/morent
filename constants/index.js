@@ -69,3 +69,18 @@ export const typeFilters = [
 export const capacityFilters = [
   '2 Person', '4 Person', '6 Person', '8 or More'
 ]
+
+export const FilterData = [
+  {
+    label: 'type',
+    payload: typeFilters,
+  },
+  {
+    label: 'capacity',
+    payload: capacityFilters
+  },
+  {
+    label: 'price',
+    payload: null
+  }
+]

@@ -1,13 +1,13 @@
 "use client";
 
+import { useState } from "react";
+
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
-
 import CarCard from "@/components/CarCard";
 
 const ShowMoreCars = () => {

@@ -1,29 +1,24 @@
-import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import Image from "next/image";
-
-import { filter } from "@/public/svg-icons";
+import { Button } from "@/components/ui/button";
 import SearchForm from "./SearchForm";
 import FilteringContent from "./FilteringContent";
-import DesktopFilteringContent from "./DesktopFilteringContent";
 
 const SearchWithFiltering = () => {
   return (
     <div className="flex flex-row gap-4 bg-white0 px-6 pb-8 dark:bg-gray900 lg:w-[22.5rem] lg:flex-col lg:gap-[3.25rem] lg:px-8">
       <SearchForm />
-      <DesktopFilteringContent />
+      <FilteringContent desktopView={true} />
       <Dialog>
         <DialogTrigger asChild>
           <Button
             variant="outline"
-            className="h-12 w-12 shrink-0 border border-gray450 data-[state=open]:border-blue500 lg:hidden"
+            className="h-12 w-12 shrink-0 border border-gray450 bg-[url('/svg-icons/filter.svg')] bg-center bg-no-repeat 
+              data-[state=open]:border-blue500 dark:border-gray800 dark:bg-[url('/svg-icons/darkFilter.svg')] lg:hidden"
             size="icon"
-          >
-            <Image src={filter} width="24" height="24" alt="Filter" />
-          </Button>
+          />
         </DialogTrigger>
         <DialogContent className="max-w-[22.5rem]">
-          <FilteringContent />
+          <FilteringContent desktopView={false} />
         </DialogContent>
       </Dialog>
     </div>
