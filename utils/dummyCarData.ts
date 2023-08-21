@@ -1,5 +1,4 @@
 import {
-  carTestPicture,
   carInteriorOne,
   carInteriorTwo,
   carExterior,
@@ -20,4 +19,6 @@ export const dummyData = {
   rentPrice: "96.00",
   mainPicture: advertSilverCar,
   pictures: [carExterior, carInteriorOne, carInteriorTwo],
+  rating: 4.3,
+  numberOfReviews: 97,
 };

@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
+import { motion } from "framer-motion";
 
 import {
   darkModeIcon,
@@ -124,7 +125,11 @@ const NavBar = () => {
             className="fixed z-40 flex h-screen w-screen justify-center bg-black opacity-50 dark:bg-gray900 dark:opacity-70 md:hidden"
             onClick={() => setShowNavMenu(false)}
           />
-          <div className="fixed inset-x-3 top-6 z-50 flex flex-col rounded-xl bg-white100 p-6 opacity-100 dark:bg-gray850 md:hidden">
+          <motion.div
+            animate={{ scale: 1 }}
+            initial={{ scale: 0 }}
+            className="fixed inset-x-3 top-6 z-50 flex flex-col rounded-xl bg-white100 p-6 opacity-100 dark:bg-gray850 md:hidden"
+          >
             <div className="flex justify-between">
               <p className="font-plusJakartaSans text-xl font-semibold text-blue500 md:text-3xl">
                 MORENT
@@ -190,7 +195,7 @@ const NavBar = () => {
                 Logout
               </button>
             </div>
-          </div>
+          </motion.div>
         </>
       )}
     </>

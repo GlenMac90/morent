@@ -23,3 +23,6 @@ export { default as lightModePlus } from "./lightModePlus.svg";
 export { default as darkModeSearch } from "./darkModeSearch.svg";
 export { default as darkModePlus } from "./darkModePlus.svg";
 export { default as darkModeHome } from "./darkModeHome.svg";
+export { default as goldStar } from "./goldStar.svg";
+export { default as emptyStar } from "./emptyStar.svg";
+export { default as emptyStarDarkMode } from "./emptyStarDarkMode.svg";
