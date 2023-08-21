@@ -1,12 +1,10 @@
 'use client';
 
-import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 import CarCard from '@/components/CarCard';
 import Advert from '@/components/Advert';
 import PickUpDropOffCard from '@/components/PickUpDropOffCard';
-import { seedCars } from '@/utils/seedCars';
 
 const adverts = [
   {
@@ -28,12 +26,6 @@ const adverts = [
 ];
 
 const Home = () => {
-  useEffect(() => {
-    if (!localStorage.getItem('seededCars')) {
-      seedCars(30);
-      localStorage.setItem('seededCars', 'true');
-    }
-  }, []);
   return (
     <motion.div
       className="flex flex-col items-center bg-white200 p-2 dark:bg-gray900"
