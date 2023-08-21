@@ -27,17 +27,18 @@ export const StarRating: React.FC<StarRatingProps> = ({ rating, reviews }) => {
   const goldPartialStarPercentage = rating % 1;
   const blankPartialStarPercentage = 1 - goldPartialStarPercentage;
 
-  const partialGoldenStarBoxWidth =
-    "w-[" + Math.round(20 * goldPartialStarPercentage) + "px]";
-
-  const partialBlankStarBoxWidth =
-    "w-[" + Math.round(20 * blankPartialStarPercentage) + "px]";
+  const partialGoldenStarBoxWidth = {
+    width: `${Math.round(20 * goldPartialStarPercentage)}px`,
+  };
+  const partialBlankStarBoxWidth = {
+    width: `${Math.round(20 * blankPartialStarPercentage)}px`,
+  };
   return (
     <div className="mt-2.5 flex">
       {Array.from({ length: goldenStars }).map((star, index) => (
         <Image key={index} src={goldStar} alt="golden-star" />
       ))}
-      <div className={`flex ${partialGoldenStarBoxWidth} overflow-hidden`}>
+      <div style={partialGoldenStarBoxWidth} className={`flex overflow-hidden`}>
         <Image
           src={goldStar}
           alt="golden-partial-star"
@@ -48,7 +49,8 @@ export const StarRating: React.FC<StarRatingProps> = ({ rating, reviews }) => {
         />
       </div>
       <div
-        className={`flex ${partialBlankStarBoxWidth} ${
+        style={partialBlankStarBoxWidth}
+        className={`flex ${
           goldenStars === 5 && "hidden"
         } justify-end overflow-hidden`}
       >
