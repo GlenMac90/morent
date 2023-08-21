@@ -168,26 +168,31 @@ const NavBar = () => {
                   <p className="ml-1.5 text-sm">{navButton.title}</p>
                 </Link>
               ))}
-              <button className="mt-5 flex w-full items-center justify-center rounded border-blue50 bg-white py-3.5 text-sm font-semibold text-blue500 dark:bg-gray700 dark:text-blue300">
-                <Image
-                  src={profilePic}
-                  height={20}
-                  width={20}
-                  alt="profile pic"
-                  className={`${
-                    userId ? "mr-1.5 flex min-h-[20px] rounded-full" : "hidden"
-                  }`}
-                />
-                <Link
-                  href={
-                    userId
-                      ? "/profile/id"
-                      : "/sign-in?redirect_url=http%3A%2F%2Flocalhost%3A3000%2F"
-                  }
-                >
+              <Link
+                onClick={() => setShowNavMenu(false)}
+                href={
+                  userId
+                    ? "/profile/id"
+                    : "/sign-in?redirect_url=http%3A%2F%2Flocalhost%3A3000%2F"
+                }
+                className="mt-5 rounded"
+              >
+                <button className="flex w-full items-center justify-center rounded border-blue50 bg-white py-3.5 text-sm font-semibold text-blue500 dark:bg-gray700 dark:text-blue300">
+                  <Image
+                    src={profilePic}
+                    height={20}
+                    width={20}
+                    alt="profile pic"
+                    className={`${
+                      userId
+                        ? "mr-1.5 flex min-h-[20px] rounded-full"
+                        : "hidden"
+                    }`}
+                  />
+
                   <p>{userId ? "My Profile" : "Login"}</p>
-                </Link>
-              </button>
+                </button>
+              </Link>
               <button
                 className={`${
                   userId ? "flex" : "hidden"
