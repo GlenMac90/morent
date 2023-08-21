@@ -298,9 +298,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
           <FormItem className=" flex w-full flex-col justify-start">
             <FormLabel>Location</FormLabel>
             <FormControl>
-              <div className=" flex h-11 items-center rounded-md bg-white200 dark:bg-gray800 md:h-14">
-                <Location handleLocationSelected={handleLocationSelected} />
-              </div>
+              <Location handleLocationSelected={handleLocationSelected} />
             </FormControl>
           </FormItem>
         </div>
