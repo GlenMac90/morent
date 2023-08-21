@@ -13,7 +13,7 @@
 }
 
 .advert_background {
-  background-image: url("../public/testCarPictures/carAdBackground.png");
+  background-image: url('../public/testCarPictures/carAdBackground.png');
   background-size: 100%;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .black_car_ad {
-  background-image: url("../public/pngs/car-ad-background.png");
+  background-image: url('../public/pngs/car-ad-background.png');
   background-size: 100% 100%;
 }
 
@@ -204,7 +204,7 @@
   animation: showStars 5s linear infinite;
 }
 .shooting_star::before {
-  content: "";
+  content: '';
   position: absolute;
   width: 150px;
   height: 1px;
@@ -271,7 +271,7 @@
   animation: moveCloud 5s linear infinite;
 }
 .cloud:before {
-  content: "";
+  content: '';
   position: absolute;
   top: -15px;
   left: 15px;
@@ -281,7 +281,7 @@
   border-radius: 50%;
 }
 .cloud:after {
-  content: "";
+  content: '';
   position: absolute;
   top: -20px;
   right: 15px;
@@ -370,7 +370,7 @@
   }
 }
 .geoapify-autocomplete-input {
-  @apply dark:placeholder:text-white200 dark:text-white0 bg-white200 dark:bg-gray800 flex-shrink xl:inline-flex px-[1.12rem] xl:h-14 w-full not-italic truncate border-0 rounded-md xl:py-[0.87rem] !important;
+  @apply dark:placeholder:text-white200 sm:h-[3.5rem] h-[2.875rem] dark:text-white0 bg-white200 dark:bg-gray800 flex-shrink xl:inline-flex px-[1.12rem] xl:h-14 w-full not-italic truncate border-0 rounded-md xl:py-[0.87rem] !important;
 }
 
 .geoapify-autocomplete-items {
