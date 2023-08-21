@@ -1,24 +1,25 @@
 'use client';
 
+import { useState } from 'react';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { motion } from 'framer-motion';
+import { DateRange } from 'react-day-picker';
+import { format, addDays } from 'date-fns';
+import '@geoapify/geocoder-autocomplete/styles/round-borders.css';
+
 import { Card, CardContent } from './ui/card';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import SelectYourTime from './SelectYourTime';
-import { useState } from 'react';
-import { DateRange } from 'react-day-picker';
-import { format, addDays } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Calendar } from '@/components/ui/calendar';
-import { motion } from 'framer-motion';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import '@geoapify/geocoder-autocomplete/styles/round-borders.css';
 import Location from './Location';
-import { usePathname } from 'next/navigation';
 import {
   arrowDown,
   calendar,
