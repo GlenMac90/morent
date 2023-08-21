@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, Controller, Control } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -268,25 +268,11 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
           <h3 className="mt-8 text-lg font-bold text-blue500">CAR INFO</h3>
         </div>
         <div className="flex w-full flex-col gap-8 md:flex-row ">
-          <Controller
+          <InputController
             control={form.control}
             name="carTitle"
-            render={({ field, fieldState }) => (
-              <FormItem className="flex w-full flex-col justify-start">
-                <FormLabel>Car Title</FormLabel>
-                <FormControl>
-                  <Input
-                    className="h-11 bg-white200 dark:bg-gray800 md:h-14 "
-                    type="text"
-                    {...field}
-                    placeholder="Your title"
-                  />
-                </FormControl>
-                {fieldState.invalid && (
-                  <span className="text-red-500">Car title is required!</span>
-                )}
-              </FormItem>
-            )}
+            label="Car Title"
+            placeholder="Your title"
           />
           <Controller
             control={form.control}
@@ -320,22 +306,11 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
           />
         </div>
         <div className="flex w-full flex-col gap-8 md:flex-row">
-          <Controller
+          <InputController
             control={form.control}
             name="rentPrice"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col justify-start">
-                <FormLabel>Rent Price</FormLabel>
-                <FormControl>
-                  <Input
-                    className="h-11 bg-white200 dark:bg-gray800 md:h-14 "
-                    type="text"
-                    {...field}
-                    placeholder="Price"
-                  />
-                </FormControl>
-              </FormItem>
-            )}
+            label="Rent Price"
+            placeholder="Price"
           />
 
           <Controller
@@ -394,22 +369,11 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             )}
           />
 
-          <Controller
+          <InputController
             control={form.control}
             name="location"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col justify-start">
-                <FormLabel>Location</FormLabel>
-                <FormControl>
-                  <Input
-                    className="h-11 bg-white200 dark:bg-gray800 md:h-14 "
-                    type="text"
-                    {...field}
-                    placeholder="Select your city"
-                  />
-                </FormControl>
-              </FormItem>
-            )}
+            label="Location"
+            placeholder="Select your city"
           />
         </div>
         <div className="flex w-full flex-col gap-8 md:flex-row">
@@ -439,21 +403,11 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             )}
           />
 
-          <Controller
+          <InputController
             control={form.control}
             name="shortDescription"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col justify-start">
-                <FormLabel>Short Description</FormLabel>
-                <FormControl>
-                  <Input
-                    className="h-11 bg-white200 dark:bg-gray800 md:h-14 "
-                    {...field}
-                    placeholder="Enter a short description"
-                  />
-                </FormControl>
-              </FormItem>
-            )}
+            label="Short Description"
+            placeholder="Enter a short description"
           />
         </div>
 
@@ -478,6 +432,72 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
 };
 
 export default CarForm;
+
+type FormData = {
+  carTitle: string;
+  carType: string;
+  rentPrice: string;
+  capacity: number;
+  transmission: string;
+  location: string;
+  fuelCapacity: number;
+  shortDescription: string;
+  carImageMain: string;
+  path: string;
+};
+
+type FieldNames =
+  | 'carTitle'
+  | 'carType'
+  | 'rentPrice'
+  | 'capacity'
+  | 'transmission'
+  | 'location'
+  | 'fuelCapacity'
+  | 'shortDescription'
+  | 'carImageMain'
+  | 'path';
+
+interface InputControllerProps {
+  control: Control<FormData>;
+  name: FieldNames;
+  label: string;
+  placeholder: string;
+  type?: string;
+}
+
+const InputController: React.FC<InputControllerProps> = ({
+  control,
+  name,
+  label,
+  placeholder,
+  type,
+}) => {
+  return (
+    <>
+      <Controller
+        control={control}
+        name={name}
+        render={({ field, fieldState }) => (
+          <FormItem className="flex w-full flex-col justify-start">
+            <FormLabel>{label}</FormLabel>
+            <FormControl>
+              <Input
+                className="h-11 bg-white200 dark:bg-gray800 md:h-14 "
+                {...field}
+                placeholder={placeholder}
+                type={type}
+              />
+            </FormControl>
+            {fieldState.invalid && (
+              <span className="text-red-500">{`${label} is required!`}</span>
+            )}
+          </FormItem>
+        )}
+      />
+    </>
+  );
+};
 
 interface CarFormButtonsProps {
   pathname: string;
