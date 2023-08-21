@@ -274,35 +274,13 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             label="Car Title"
             placeholder="Your title"
           />
-          <Controller
+          <SelectInput
             control={form.control}
             name="carType"
-            render={({ field, fieldState }) => (
-              <FormItem className="flex w-full flex-col justify-start">
-                <FormLabel>Car Type</FormLabel>
-                <FormControl>
-                  <Select
-                    value={field.value}
-                    onValueChange={(value) => field.onChange(value)}
-                  >
-                    <SelectTrigger className="h-11 bg-white200 dark:bg-gray800 md:h-14">
-                      <SelectValue placeholder="Car Type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="sport">Sport</SelectItem>
-                      <SelectItem value="suv">SUV</SelectItem>
-                      <SelectItem value="mpv">MPV</SelectItem>
-                      <SelectItem value="sedan">Sedan</SelectItem>
-                      <SelectItem value="coupe">Coupe</SelectItem>
-                      <SelectItem value="hatchback">Hatchback</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-                {fieldState.invalid && (
-                  <span className="text-red-500">Car type is required!</span>
-                )}
-              </FormItem>
-            )}
+            label="Car Type"
+            placeholder="Car Type"
+            items={carTypes}
+            isNumeric={false}
           />
         </div>
         <div className="flex w-full flex-col gap-8 md:flex-row">
@@ -313,60 +291,24 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             placeholder="Price"
           />
 
-          <Controller
+          <SelectInput
             control={form.control}
             name="capacity"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col justify-start">
-                <FormLabel>Capacity</FormLabel>
-                <FormControl>
-                  <Select
-                    value={String(field.value)}
-                    onValueChange={(value) => field.onChange(Number(value))}
-                  >
-                    <SelectTrigger className="h-11 bg-white200 dark:bg-gray800 md:h-14">
-                      <SelectValue placeholder="Capacity in persons" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="2">2 Person</SelectItem>
-                      <SelectItem value="4">4 Person</SelectItem>
-                      <SelectItem value="6">6 Person</SelectItem>
-                      <SelectItem value="8">8 or more</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-              </FormItem>
-            )}
+            label="Capacity"
+            placeholder="Capacity in persons"
+            items={capacities}
+            isNumeric={true}
           />
         </div>
 
         <div className="flex w-full flex-col gap-8 md:flex-row">
-          <Controller
+          <SelectInput
             control={form.control}
             name="transmission"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col justify-start">
-                <FormLabel>Transmission</FormLabel>
-                <FormControl>
-                  <Select
-                    value={field.value}
-                    onValueChange={(value) => field.onChange(value)}
-                  >
-                    <SelectTrigger className="h-11 bg-white200 dark:bg-gray800 md:h-14">
-                      <SelectValue placeholder="Car Type" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="manual">Manual</SelectItem>
-                      <SelectItem value="automatic">Automatic</SelectItem>
-                      <SelectItem value="semi-automatic">
-                        Semi-automatic
-                      </SelectItem>
-                      <SelectItem value="cvt">CVT</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-              </FormItem>
-            )}
+            label="Transmission"
+            placeholder="Transmission Type"
+            items={transmissionOptions}
+            isNumeric={false}
           />
 
           <InputController
@@ -377,32 +319,14 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
           />
         </div>
         <div className="flex w-full flex-col gap-8 md:flex-row">
-          <Controller
+          <SelectInput
             control={form.control}
             name="fuelCapacity"
-            render={({ field }) => (
-              <FormItem className="flex w-full flex-col justify-start">
-                <FormLabel>Fuel Capacity</FormLabel>
-                <FormControl>
-                  <Select
-                    value={String(field.value)}
-                    onValueChange={(value) => field.onChange(Number(value))}
-                  >
-                    <SelectTrigger className="h-11 bg-white200 dark:bg-gray800 md:h-14">
-                      <SelectValue placeholder="Fuel Capacity" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="40">40 litres</SelectItem>
-                      <SelectItem value="50">50 litres</SelectItem>
-                      <SelectItem value="60">60 litres</SelectItem>
-                      <SelectItem value="80">80 litres or more</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormControl>
-              </FormItem>
-            )}
+            label="Fuel Capacity"
+            placeholder="Fuel Capacity"
+            items={fuelCapacityOptions}
+            isNumeric={true}
           />
-
           <InputController
             control={form.control}
             name="shortDescription"
@@ -457,6 +381,93 @@ type FieldNames =
   | 'shortDescription'
   | 'carImageMain'
   | 'path';
+
+const carTypes = [
+  { value: 'sport', label: 'Sport' },
+  { value: 'suv', label: 'SUV' },
+  { value: 'mpv', label: 'MPV' },
+  { value: 'sedan', label: 'Sedan' },
+  { value: 'coupe', label: 'Coupe' },
+  { value: 'hatchback', label: 'Hatchback' },
+];
+
+const capacities = [
+  { value: '2', label: '2 Person' },
+  { value: '4', label: '4 Person' },
+  { value: '6', label: '6 Person' },
+  { value: '8', label: '8 or more' },
+];
+
+const transmissionOptions = [
+  { value: 'manual', label: 'Manual' },
+  { value: 'automatic', label: 'Automatic' },
+  { value: 'semi-automatic', label: 'Semi-automatic' },
+  { value: 'cvt', label: 'CVT' },
+];
+
+const fuelCapacityOptions = [
+  { value: '40', label: '40 litres' },
+  { value: '50', label: '50 litres' },
+  { value: '60', label: '60 litres' },
+  { value: '80', label: '80 litres or more' },
+];
+
+type SelectItems = {
+  value: string;
+  label: string;
+};
+
+interface SelectInputProps {
+  control: Control<FormData>;
+  name: FieldNames;
+  label: string;
+  placeholder: string;
+  items: SelectItems[];
+  isNumeric: boolean;
+}
+
+const SelectInput: React.FC<SelectInputProps> = ({
+  control,
+  name,
+  label,
+  placeholder,
+  items,
+  isNumeric,
+}) => {
+  return (
+    <Controller
+      control={control}
+      name={name}
+      render={({ field, fieldState }) => (
+        <FormItem className="flex w-full flex-col justify-start">
+          <FormLabel>{label}</FormLabel>
+          <FormControl>
+            <Select
+              value={String(field.value)}
+              onValueChange={(value) =>
+                field.onChange(isNumeric ? Number(value) : value)
+              }
+            >
+              <SelectTrigger className="h-11 bg-white200 dark:bg-gray800 md:h-14">
+                <SelectValue placeholder={placeholder} />
+              </SelectTrigger>
+              <SelectContent>
+                {items.map((item) => (
+                  <SelectItem key={item.value} value={item.value}>
+                    {item.label}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </FormControl>
+          {fieldState.invalid && (
+            <span className="text-red-500">Car type is required!</span>
+          )}
+        </FormItem>
+      )}
+    />
+  );
+};
 
 interface InputControllerProps {
   control: Control<FormData>;
