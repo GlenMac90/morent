@@ -41,9 +41,9 @@ const Page = () => {
   };
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center bg-gray-100 py-[18rem]">
+    <div className="flex h-[23rem] flex-col items-center justify-center bg-gray-300 py-[20rem]">
       <h1 className="mb-4 text-center text-2xl font-bold text-red-500 underline">
-        Data Base Administration page
+        Data Base Administration Page
       </h1>
       <p className="mb-6 text-[2rem] text-black">
         This page is for administration purposes only.
