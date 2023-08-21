@@ -11,7 +11,9 @@ const ErrorPage = () => {
   const { theme } = useTheme();
   return (
     <div className="fixed flex h-screen w-screen flex-col items-center justify-center bg-white200 p-2 dark:bg-gray900">
-      <p className="text-3xl font-semibold">Uh oh something went wrong...</p>
+      <p className="mt-28 text-3xl font-semibold">
+        Uh oh something went wrong...
+      </p>
       <div className="flex flex-col items-center justify-center gap-12 rounded-xl p-8">
         <div
           className={`flex justify-center rounded-t-full ${
