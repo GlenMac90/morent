@@ -22,6 +22,7 @@ import {
   Props,
   FileWithPreview,
   SelectInputProps,
+  CarFormHeaderProps,
 } from '@/lib/interfaces';
 import {
   Select,
@@ -333,14 +334,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
 };
 
 export default CarForm;
-
-type CarFormHeaderProps = {
-  pathname: string;
-  car?: {
-    carImageMain?: string;
-  };
-  imagePreviews: string[];
-};
 
 const CarFormHeader: React.FC<CarFormHeaderProps> = ({
   pathname,

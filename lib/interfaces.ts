@@ -104,3 +104,11 @@ export interface Props {
 export interface FileWithPreview extends File {
   preview?: string;
 }
+
+export type CarFormHeaderProps = {
+  pathname: string;
+  car?: {
+    carImageMain?: string;
+  };
+  imagePreviews: string[];
+};
