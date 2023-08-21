@@ -117,7 +117,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             </div>
           </div>
 
-          <div className="mt-8 flex flex-col px-2 md:w-full lg:ml-10 lg:mt-0 lg:justify-between lg:px-0 lg:py-2">
+          <div className="mt-8 flex flex-col px-2 md:w-full lg:ml-10 lg:mt-0 lg:justify-between lg:p-6">
             <div className="flex flex-col">
               <div className="flex justify-between">
                 <p className="text-xl font-medium lg:text-3xl">{data.brand}</p>
