@@ -127,3 +127,34 @@ export const fuelCapacityOptions = [
   { value: '60', label: '60 litres' },
   { value: '80', label: '80 litres or more' },
 ];
+
+export const typeFilters = [
+  'Sport',
+  'SUV',
+  'MPV',
+  'Sedan',
+  'Coupe',
+  'Hatchback',
+];
+
+export const capacityFilters = [
+  '2 Person',
+  '4 Person',
+  '6 Person',
+  '8 or More',
+];
+
+export const FilterData = [
+  {
+    label: 'type',
+    payload: typeFilters,
+  },
+  {
+    label: 'capacity',
+    payload: capacityFilters,
+  },
+  {
+    label: 'price',
+    payload: null,
+  },
+];
