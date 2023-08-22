@@ -19,6 +19,6 @@ export const dummyData = {
   rentPrice: "96.00",
   mainPicture: advertSilverCar,
   pictures: [carExterior, carInteriorOne, carInteriorTwo],
-  rating: 4.765,
-  numberOfReviews: 97,
+  rating: 4.634567,
+  numberOfReviews: 1,
 };

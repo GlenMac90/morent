@@ -8,25 +8,15 @@ import { useTheme } from "next-themes";
 import { cross, whiteCross } from "../public/svg-icons/index";
 import CarDetailsModalTwo from "./CarDetailsModalTwo";
 import StarRating from "./StarRating";
-
-interface CarData {
-  pictures: string[];
-  brand: string;
-  shortDescription: string;
-  type: string;
-  capacity: number;
-  transmission: string;
-  fuelCapacity: number;
-  rentPrice: number;
-  rating: number;
-  numberOfReviews: number;
-}
+import ReviewForm from "./ReviewForm";
+import { CarData } from "@/constants/interfaces";
 
 interface CarDetailsModalOneProps {
   id: string;
   data: CarData;
   setShowModal: (show: boolean) => void;
   isPopular?: boolean;
+  canReview?: boolean;
 }
 
 const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
@@ -34,12 +24,14 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
   data,
   setShowModal,
   isPopular,
+  canReview,
 }) => {
   const { theme } = useTheme();
   const [displayPicture, setDisplayPicture] = useState(data.pictures[0]);
   const [showModalScreen2, setShowModalScreen2] = useState(false);
   const [changePicture, setChangePicture] = useState(true);
   const [motionKey, setMotionKey] = useState(0);
+  const [showReviewScreen, setShowReviewScreen] = useState(false);
 
   const handleButtonClick = () => {
     setShowModalScreen2(true);
@@ -64,7 +56,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         )}
         <div
           className={`flex flex-col lg:flex-row ${
-            showModalScreen2 && "hidden"
+            showModalScreen2 || (showReviewScreen && "hidden")
           }`}
         >
           <div className="absolute -top-4 right-2 rounded-sm bg-white dark:bg-gray850">
@@ -130,7 +122,20 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
                   className="hidden cursor-pointer self-start dark:text-white200 lg:flex"
                 />
               </div>
-              <StarRating rating={data.rating} reviews={data.numberOfReviews} />
+              <div className={`flex w-full ${canReview && "justify-between"}`}>
+                <StarRating
+                  rating={data.rating}
+                  reviews={data.numberOfReviews}
+                />
+                <p
+                  className={`${
+                    !canReview && "hidden"
+                  } cursor-pointer self-center`}
+                  onClick={() => setShowReviewScreen(true)}
+                >
+                  Review
+                </p>
+              </div>
             </div>
             <p className="mt-2 text-xs font-light leading-6 text-gray700 dark:text-white200 lg:text-lg lg:leading-10">
               {data.shortDescription}
@@ -182,7 +187,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
                 className="rounded bg-blue500 px-6 py-2 font-medium text-white"
                 onClick={handleButtonClick}
               >
-                Rent Now
+                {canReview ? "Rent Again" : "Rent Now"}
               </button>
             </div>
           </div>
@@ -192,6 +197,13 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         className="fixed inset-0 z-40 h-screen w-screen bg-black opacity-50 dark:bg-gray900 dark:opacity-70"
         onClick={() => setShowModal(false)}
       ></div>
+      {showReviewScreen && (
+        <ReviewForm
+          setShowReviewScreen={setShowReviewScreen}
+          data={data}
+          id={data.id}
+        />
+      )}
     </>
   );
 };
