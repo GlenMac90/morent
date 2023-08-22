@@ -57,6 +57,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     setReview(values.review);
+    console.log(starRating);
+    console.log(review);
   }
 
   return (

@@ -48,6 +48,10 @@ const NavBar = () => {
       path: "/cars/new",
       images: [lightModePlus, darkModePlus],
     },
+    {
+      title: "Profile",
+      path: `/profile`,
+    },
   ];
 
   useEffect(() => {
@@ -106,9 +110,9 @@ const NavBar = () => {
             onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
             className="cursor-pointer"
           />
-          <Link href="/profile/id" className="mx-3 md:hidden">
+          <div className="mx-3 md:hidden">
             <UserButton afterSignOutUrl="/" />
-          </Link>
+          </div>
           <Image
             src={burgerMenu}
             height={24}
@@ -144,7 +148,7 @@ const NavBar = () => {
               />
             </div>
             <div className="mt-12 flex flex-col gap-2">
-              {buttons.map((navButton) => (
+              {buttons.slice(0, 3).map((navButton) => (
                 <Link
                   onClick={() => setShowNavMenu(false)}
                   key={navButton.path}
@@ -157,9 +161,11 @@ const NavBar = () => {
                 >
                   <Image
                     src={
-                      navButton.path === pathname || theme !== "light"
-                        ? navButton.images[1]
-                        : navButton.images[0]
+                      navButton.images
+                        ? navButton.path === pathname || theme !== "light"
+                          ? navButton.images[1]
+                          : navButton.images[0]
+                        : darkModeHome
                     }
                     width={16}
                     height={16}

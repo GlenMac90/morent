@@ -4,6 +4,7 @@ export interface CarData {
   brand: string;
   shortDescription: string;
   type: string;
+  isFavourited: boolean;
   capacity: number;
   transmission: string;
   fuelCapacity: number;

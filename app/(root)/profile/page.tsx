@@ -61,9 +61,11 @@ const Page = () => {
                 </p>
               </div>
             </div>
-            <button className="mb-5 mr-2.5 self-end rounded-lg bg-blue500 px-6 py-3 text-xs font-semibold text-white md:mb-8 md:mr-12 md:text-sm">
-              Edit Profile
-            </button>
+            <Link href="/profile/edit" className="flex">
+              <button className="mb-5 mr-2.5 self-end rounded-lg bg-blue500 px-6 py-3 text-xs font-semibold text-white md:mb-8 md:mr-12 md:text-sm">
+                Edit Profile
+              </button>
+            </Link>
           </div>
         </section>
         <p className="mt-10 font-medium text-gray400">Rented Cars</p>

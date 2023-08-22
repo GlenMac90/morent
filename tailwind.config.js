@@ -39,10 +39,7 @@ module.exports = {
         gray800: "#424B5C",
         gray850: "#293346",
         gray900: "#1A202C",
-<<<<<<< HEAD
-=======
         gray950: "#1E2430",
->>>>>>> main
         red400: "#ED3F3F",
         yellow400: "#FBAD39",
         white0: "#FFFFFF",

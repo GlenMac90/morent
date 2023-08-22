@@ -56,8 +56,8 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         )}
         <div
           className={`flex flex-col lg:flex-row ${
-            showModalScreen2 || (showReviewScreen && "hidden")
-          }`}
+            showModalScreen2 && "hidden"
+          } ${showReviewScreen && "hidden"}`}
         >
           <div className="absolute -top-4 right-2 rounded-sm bg-white dark:bg-gray850">
             <Image
@@ -87,8 +87,8 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
               />
             </motion.div>
             <div className="no_scrollbar mt-5 flex gap-5 overflow-x-auto">
-              {data.pictures.map((picture: string) => (
-                <div className="w-1/3 rounded-lg" key={picture}>
+              {data.pictures.map((picture: string, index) => (
+                <div className="w-1/3 rounded-lg" key={index}>
                   <Image
                     src={picture}
                     alt="car pictures"
@@ -198,11 +198,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         onClick={() => setShowModal(false)}
       ></div>
       {showReviewScreen && (
-        <ReviewForm
-          setShowReviewScreen={setShowReviewScreen}
-          data={data}
-          id={data.id}
-        />
+        <ReviewForm setShowReviewScreen={setShowReviewScreen} data={data} />
       )}
     </>
   );

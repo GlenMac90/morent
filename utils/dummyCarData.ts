@@ -7,7 +7,7 @@ import {
 import { advertSilverCar } from "@/public/pngs";
 
 export const dummyData = {
-  id: 12345,
+  id: "12345",
   brand: "Rolls-Royce",
   type: "Sedan",
   capacity: 4,
