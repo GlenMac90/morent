@@ -18,8 +18,7 @@ const PickUpDropOffCard = () => {
   const isSearchPage = pathname === "/search";
   const searchPageDiv = isSearchPage ? "xl:px-7" : "xl:px-6";
 
-  const searchPageLocation =
-    isSearchPage && "xl:max-w-[10.75rem] 2xl:max-w-none";
+  const searchPageLocation = isSearchPage && "xl:max-w-[17rem] 2xl:max-w-none";
 
   const searchPageButton = isSearchPage
     ? "h-14 w-[3.75rem] xl:flex hidden"
