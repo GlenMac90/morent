@@ -112,3 +112,9 @@ export type CarFormHeaderProps = {
   };
   imagePreviews: string[];
 };
+
+export type GeocodeResult = {
+  properties: {
+    name: string;
+  };
+};
