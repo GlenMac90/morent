@@ -23,8 +23,9 @@ const carSchema = new mongoose.Schema({
       },
     ],
   },
-
-  rentPrice: String,
+  carRented: Number,
+  starRating: Number,
+  rentPrice: Number,
   capacity: Number,
   transmission: String,
   location: String,

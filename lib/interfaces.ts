@@ -8,7 +8,9 @@ export interface CarParams {
   _id?: string;
   carTitle: string;
   carType: string;
-  rentPrice?: string;
+  carRented: Number;
+  starRating?: Number;
+  rentPrice?: Number;
   capacity?: number;
   transmission?: string;
   location?: string;
