@@ -90,9 +90,9 @@ export interface CarFormButtonsProps {
   carIdFromPath: string | null;
   handleDelete: (carId: string) => Promise<void>;
   setIsConfirmingDelete: (val: boolean) => void;
+  isConfirmingDelete: boolean;
   setIsLoading: (val: boolean) => void;
   isLoading: boolean;
-  isConfirmingDelete: boolean;
 }
 
 export interface Props {

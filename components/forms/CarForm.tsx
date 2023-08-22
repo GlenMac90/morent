@@ -3,34 +3,18 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import { useToast } from '@/components/ui/use-toast';
 import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
 import { CarValidation } from '@/lib/validations/car';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing';
 import { createCar, deleteCar, editCar } from '@/lib/actions/car.actions';
 import DragDrop from './DragDrop';
-import {
-  InputControllerProps,
-  CarFormButtonsProps,
-  Props,
-  FileWithPreview,
-  SelectInputProps,
-  CarFormHeaderProps,
-} from '@/lib/interfaces';
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from '@/components/ui/select';
+import { Props, FileWithPreview, CarFormHeaderProps } from '@/lib/interfaces';
 
 import {
   carTypes,
@@ -40,6 +24,9 @@ import {
 } from '@/constants';
 
 import Location from '../Location';
+import SelectInput from './components/SelectInput';
+import InputController from './components/InputController';
+import CarFormButtons from './components/CarFormButtons';
 
 const CarForm: React.FC<Props> = ({ userId, car }) => {
   const { startUpload } = useUploadThing('media');
@@ -372,147 +359,3 @@ const CarFormHeader: React.FC<CarFormHeaderProps> = ({
     <h3 className="mt-8 text-lg font-bold text-blue500">CAR INFO</h3>
   </div>
 );
-
-const SelectInput: React.FC<SelectInputProps> = ({
-  control,
-  name,
-  label,
-  placeholder,
-  items,
-  isNumeric,
-}) => {
-  return (
-    <Controller
-      control={control}
-      name={name}
-      render={({ field, fieldState }) => (
-        <FormItem className="flex w-full flex-col justify-start">
-          <FormLabel>{label}</FormLabel>
-          <FormControl>
-            <Select
-              value={String(field.value)}
-              onValueChange={(value) =>
-                field.onChange(isNumeric ? Number(value) : value)
-              }
-            >
-              <SelectTrigger className="h-11 bg-white200 dark:bg-gray800 md:h-14">
-                <SelectValue placeholder={placeholder} />
-              </SelectTrigger>
-              <SelectContent>
-                {items.map((item) => (
-                  <SelectItem key={item.value} value={item.value}>
-                    {item.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </FormControl>
-          {fieldState.invalid && (
-            <span className="text-red-500">Car type is required!</span>
-          )}
-        </FormItem>
-      )}
-    />
-  );
-};
-
-const InputController: React.FC<InputControllerProps> = ({
-  control,
-  name,
-  label,
-  placeholder,
-  type,
-}) => {
-  return (
-    <>
-      <Controller
-        control={control}
-        name={name}
-        render={({ field, fieldState }) => (
-          <FormItem className="flex w-full flex-col justify-start">
-            <FormLabel>{label}</FormLabel>
-            <FormControl>
-              <Input
-                className="h-11 bg-white200 dark:bg-gray800 md:h-14 "
-                {...field}
-                placeholder={placeholder}
-                type={type}
-              />
-            </FormControl>
-            {fieldState.invalid && (
-              <span className="text-red-500">{`${label} is required!`}</span>
-            )}
-          </FormItem>
-        )}
-      />
-    </>
-  );
-};
-
-const CarFormButtons: React.FC<CarFormButtonsProps> = ({
-  pathname,
-  carIdFromPath,
-  handleDelete,
-  setIsConfirmingDelete,
-  isConfirmingDelete,
-  setIsLoading,
-  isLoading,
-}) => {
-  return (
-    <div className="flex w-full justify-end space-x-4 self-end">
-      {pathname === `/cars/${carIdFromPath}` && carIdFromPath && (
-        <>
-          {isConfirmingDelete ? (
-            <div className="flex space-x-4">
-              <div className="flex w-full">
-                <Button
-                  className="flex self-end bg-red-500 p-5 text-white sm:w-auto"
-                  onClick={async () => {
-                    setIsLoading(true);
-                    await handleDelete(carIdFromPath);
-                    setIsConfirmingDelete(false);
-                  }}
-                >
-                  Confirm Delete
-                </Button>
-              </div>
-              <Button
-                className="flex w-full self-end bg-gray-500 p-5 text-white md:w-auto"
-                onClick={() => {
-                  setIsConfirmingDelete(false);
-                }}
-              >
-                Cancel Delete
-              </Button>
-            </div>
-          ) : (
-            <Button
-              className="flex w-full self-end bg-red-500 p-5 text-white md:w-auto"
-              onClick={() => {
-                setIsConfirmingDelete(true);
-              }}
-            >
-              Delete Car
-            </Button>
-          )}
-          <Button
-            className="flex w-full  bg-blue500 p-5 text-white md:w-auto"
-            type="submit"
-            disabled={isLoading}
-          >
-            {isLoading ? 'Updating...' : 'Update Car'}
-          </Button>
-        </>
-      )}
-      {pathname === `/cars/new` && (
-        <Button
-          className="flex w-full  bg-blue500 p-5 text-white md:w-auto"
-          type="submit"
-          disabled={isLoading}
-        >
-          {isLoading ? 'Registering...' : 'Register Car'}
-        </Button>
-      )}
-    </div>
-  );
-};
