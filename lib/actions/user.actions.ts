@@ -28,7 +28,7 @@ export async function fetchUserWithCars(
     console.warn('User not found.');
     return null;
   }
-
+  console.log(userWithCars.toObject());
   return userWithCars.toObject();
 }
 
@@ -49,7 +49,6 @@ export async function updateUser(params: UserParams): Promise<void> {
       },
       { upsert: true }
     );
-
     if (path === `/profile/${userId}`) {
       revalidatePath(path);
     }

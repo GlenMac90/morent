@@ -69,7 +69,7 @@ export async function seedCars(numCars: number): Promise<void> {
       carImageMain: faker.image.imageUrl(640, 480),
       liked: faker.datatype.boolean(),
     };
-
+    console.log('Car Details to be Saved:', carDetails);
     const car = new Car(carDetails);
     try {
       await car.save();
