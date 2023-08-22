@@ -10,7 +10,7 @@ const Page = () => {
 
   const handleSeedClick = () => {
     if (isConfirmingSeed) {
-      seedCars(30);
+      seedCars(1);
       setIsConfirmingSeed(false);
     } else {
       setIsConfirmingSeed(true);
@@ -67,6 +67,7 @@ const Page = () => {
       <div className="flex space-x-12">
         <button
           onClick={handleDeleteClick}
+          disabled={true}
           className="bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
         >
           {isConfirmingDelete ? 'Confirm Delete' : 'Delete All Cars'}
