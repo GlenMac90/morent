@@ -12,7 +12,10 @@ export async function fetchAllUsers(): Promise<UserParams[]> {
   const userDocuments = await User.find();
   if (userDocuments.length === 0) {
     console.log('No user documents retrieved from the DB.');
+  } else {
+    console.log(`Retrieved ${userDocuments.length} user(s) from the DB.`);
   }
+
   const usersArray = userDocuments.map((userDoc) => userDoc.toObject());
   return usersArray;
 }
@@ -28,7 +31,10 @@ export async function seedCars(numCars: number): Promise<void> {
   const userIds = users.map((user) => user._id);
 
   if (userIds.length === 0) {
+    console.error('No users found to assign cars to.');
     throw new Error('No users found to assign cars to.');
+  } else {
+    console.warn(`Found ${userIds.length} user IDs to assign cars to.`);
   }
 
   for (let i = 0; i < numCars; i++) {
@@ -63,7 +69,17 @@ export async function seedCars(numCars: number): Promise<void> {
     };
 
     const car = new Car(carDetails);
-    await car.save();
+    try {
+      await car.save();
+
+      await User.findByIdAndUpdate(randomUserId, {
+        $push: { cars: car._id },
+      });
+    } catch (error) {
+      console.error(
+        `Error while saving car for user ID: ${randomUserId}`,
+        error
+      );
+    }
   }
-  console.log(`Seeding completed for ${numCars} cars.`);
 }

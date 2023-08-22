@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import { seedCars } from '@/utils/seedCars';
-import { deleteAllCars } from '@/utils/deleteAllCars';
+import { deleteAllCars } from '@/lib/actions/car.actions';
 
 const Page = () => {
   const [isConfirmingSeed, setIsConfirmingSeed] = useState(false);

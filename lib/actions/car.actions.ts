@@ -72,3 +72,21 @@ export async function fetchCarById(carId: string): Promise<CarParams | null> {
     throw new Error(`Failed to fetch car by ID: ${error.message}`);
   }
 }
+
+export async function deleteAllCars(): Promise<void> {
+  try {
+    connectToDB();
+
+    const cars = await Car.find().exec();
+
+    for (const car of cars) {
+      await User.findByIdAndUpdate(car.userId, {
+        $pull: { cars: car._id },
+      });
+    }
+
+    await Car.deleteMany({});
+  } catch (error: any) {
+    throw new Error(`Failed to delete all cars: ${error.message}`);
+  }
+}
