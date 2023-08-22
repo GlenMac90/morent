@@ -30,12 +30,19 @@ module.exports = {
         blue400: "rgba(92, 175, 252, 0.30)",
         blue450: "rgba(53, 99, 233, 0.30)",
         blue500: "#3563E9",
+        gray300: "rgba(102, 102, 102, 0.25)",
         gray400: "#90A3BF",
+        gray450: "rgba(195, 212, 233, 0.40)",
         gray500: "rgba(19, 19, 19, 0.6)",
+        gray600: "rgba(26, 32, 44, 0.60);",
         gray700: "#3D5278",
         gray800: "#424B5C",
         gray850: "#293346",
         gray900: "#1A202C",
+<<<<<<< HEAD
+=======
+        gray950: "#1E2430",
+>>>>>>> main
         red400: "#ED3F3F",
         yellow400: "#FBAD39",
         white0: "#FFFFFF",
