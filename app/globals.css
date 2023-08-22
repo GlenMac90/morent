@@ -38,57 +38,71 @@
   background-color: rgb(190, 190, 190);
   border-radius: 50%;
 }
+
 .smoke_list:nth-child(even) {
   animation: animateEven 1s linear infinite;
 }
+
 .smoke_list:nth-child(odd) {
   animation: animateOdd 1s linear infinite;
 }
+
 @keyframes animateEven {
   0% {
     transform: translate(0, 0) scale(1);
     opacity: 0.8;
     filter: blur(1px);
   }
+
   100% {
     transform: translate(-75px, -100px) scale(3);
     opacity: 0;
     filter: blur(3px);
   }
 }
+
 @keyframes animateOdd {
   0% {
     transform: translate(0, 0) scale(1);
     opacity: 0.8;
     filter: blur(1px);
   }
+
   100% {
     transform: translate(-100px, -100px) scale(3);
     opacity: 0;
     filter: blur(3px);
   }
 }
+
 .smoke_list:nth-child(1) {
   animation-delay: 0s;
 }
+
 .smoke_list:nth-child(2) {
   animation-delay: 0.1s;
 }
+
 .smoke_list:nth-child(3) {
   animation-delay: 0.2s;
 }
+
 .smoke_list:nth-child(4) {
   animation-delay: 0.3s;
 }
+
 .smoke_list:nth-child(5) {
   animation-delay: 0.4s;
 }
+
 .smoke_list:nth-child(6) {
   animation-delay: 0.5s;
 }
+
 .smoke_list:nth-child(7) {
   animation-delay: 0.6s;
 }
+
 .smoke_list:nth-child(8) {
   animation-delay: 0.7s;
 }
@@ -101,15 +115,19 @@
   0% {
     background-color: #030338;
   }
+
   40% {
     background-color: #87ceeb;
   }
+
   50% {
     background-color: #87ceeb;
   }
+
   90% {
     background-color: #030338;
   }
+
   100% {
     background-color: #030338;
   }
@@ -128,66 +146,80 @@
     background-color: white;
     filter: blur(2px);
   }
+
   20% {
     transform: translate(-100px, 100px);
     background-color: white;
     filter: blur(2px);
   }
+
   21% {
     transform: translate(-100px, 100px);
     background-color: yellow;
     filter: blur(2px);
   }
+
   40% {
     transform: translate(100px, -200px);
     background-color: yellow;
     filter: blur(2px);
   }
+
   50% {
     transform: translate(100px, -200px);
     background-color: yellow;
     filter: blur(2px);
   }
+
   51% {
     transform: translate(100px, -200px);
     background-color: yellow;
     filter: blur(2px);
   }
+
   71% {
     transform: translate(-100px, 100px);
     background-color: yellow;
     filter: blur(2px);
   }
+
   72% {
     transform: translate(-100px, 100px);
     background-color: white;
     filter: blur(2px);
   }
+
   90% {
     transform: translate(100px, -200px);
     background-color: white;
     filter: blur(2px);
   }
+
   100% {
     transform: translate(100px, -200px);
     background-color: white;
     filter: blur(2px);
   }
 }
+
 .car_bounce {
   animation: carBounce 0.5s linear infinite;
 }
+
 @keyframes carBounce {
   0% {
     transform: translate(0, 5px);
   }
+
   50% {
     transform: translate(0, 8px);
   }
+
   100% {
     transform: translate(0, 5px);
   }
 }
+
 .shooting_star {
   width: 4px;
   height: 4px;
@@ -200,9 +232,11 @@
     0 0 20px rgba(255, 255, 255, 1);
   animation: animateStars 0.5s linear infinite;
 }
+
 .star_container {
   animation: showStars 5s linear infinite;
 }
+
 .shooting_star::before {
   content: "";
   position: absolute;
@@ -210,14 +244,17 @@
   height: 1px;
   background: linear-gradient(90deg, white, transparent);
 }
+
 @keyframes animateStars {
   0% {
     transform: rotate(315deg) translateX(0);
     opacity: 0.6;
   }
+
   70% {
     opacity: 0.6;
   }
+
   100% {
     transform: rotate(315deg) translateX(-100px);
     opacity: 0;
@@ -228,40 +265,49 @@
   animation-delay: 0;
   animation-duration: 0.5s;
 }
+
 .shooting_star:nth-child(2) {
   animation-delay: 0.2;
   left: 80px;
   animation-duration: 1s;
 }
+
 .shooting_star:nth-child(3) {
   animation-delay: 0.4;
   right: 30px;
   animation-duration: 1.2s;
 }
+
 .shooting_star:nth-child(4) {
   animation-delay: 0.6;
   left: 60px;
   animation-duration: 0.6s;
 }
+
 .shooting_star:nth-child(5) {
   animation-delay: 0.8;
   left: 150px;
   animation-duration: 0.6s;
 }
+
 @keyframes showStars {
   0% {
     opacity: 1;
   }
+
   20% {
     opacity: 0;
   }
+
   75% {
     opacity: 0;
   }
+
   100% {
     opacity: 1;
   }
 }
+
 .cloud {
   width: 100px;
   height: 40px;
@@ -270,6 +316,7 @@
   opacity: 0.6;
   animation: moveCloud 5s linear infinite;
 }
+
 .cloud:before {
   content: "";
   position: absolute;
@@ -280,6 +327,7 @@
   height: 40px;
   border-radius: 50%;
 }
+
 .cloud:after {
   content: "";
   position: absolute;
@@ -290,85 +338,108 @@
   height: 45px;
   border-radius: 50%;
 }
+
 .cloud:nth-child(1) {
   right: 10px;
   top: 20px;
   animation-duration: 10s;
 }
+
 .cloud:nth-child(2) {
   left: 150px;
   animation-duration: 7s;
 }
+
 .cloud:nth-child(3) {
   left: 20px;
   top: 0px;
   animation-duration: 6s;
 }
+
 @keyframes moveCloud {
   0% {
     transform: translate(0, 0);
   }
+
   50% {
     transform: translate(100px, 0);
   }
+
   100% {
     transform: translate(0, 0);
   }
 }
+
 .cloud_container {
   animation: showClouds 5s linear infinite;
 }
+
 @keyframes showClouds {
   0% {
     opacity: 0;
   }
+
   25% {
     opacity: 0;
   }
+
   40% {
     opacity: 1;
   }
+
   50% {
     opacity: 1;
   }
+
   70% {
     opacity: 0;
   }
+
   100% {
     opacity: 0;
   }
 }
+
 .heart_animation {
   animation: heartGrow 1s;
 }
+
 @keyframes heartGrow {
   0% {
     width: 25px;
     height: 25px;
     border-radius: 50%;
     background-color: rgba(255, 0, 0, 0.5);
-    box-shadow: 0 0 15px red; /* Red shadow */
+    box-shadow: 0 0 15px red;
+    /* Red shadow */
   }
+
   100% {
     border-radius: 50%;
     background-color: transparent;
-    box-shadow: none; /* No shadow */
+    box-shadow: none;
+    /* No shadow */
   }
 }
+
 .loading_text {
   animation: animateText 0.5s linear infinite;
 }
+
 @keyframes animateText {
   0% {
     transform: translateY(0px);
   }
+
   50% {
     transform: translateY(2px);
   }
+
   100% {
     transform: translateY(0px);
   }
 }
+
 .geoapify-autocomplete-input {
   @apply dark:placeholder:text-white200 h-[2.875rem] sm:h-[3.5rem] dark:text-white0 bg-white200 dark:bg-gray800 flex-shrink xl:inline-flex px-[1.12rem] xl:h-14 w-full not-italic truncate border-0 rounded-md xl:py-[0.87rem] !important;
 }
@@ -396,23 +467,61 @@
 .geoapify-close-button {
   @apply hidden !important;
 }
+
 .car_animation {
   animation: driveAway 4s;
 }
+
 @keyframes driveAway {
   0% {
     transform: translateX(0);
   }
+
   50% {
     transform: translateX(0);
   }
+
   75% {
     transform: translateX(1000px);
   }
+
   76% {
     transform: translateX(-1000px);
   }
+
   100% {
     transform: translateX(0);
+  }
+}
+
+.CollapsibleContent {
+  overflow: hidden;
+}
+
+.CollapsibleContent[data-state="open"] {
+  animation: slideDown 300ms ease-out;
+}
+
+.CollapsibleContent[data-state="closed"] {
+  animation: slideUp 300ms ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    height: 0;
+  }
+
+  to {
+    height: var(--radix-collapsible-content-height);
+  }
+}
+
+@keyframes slideUp {
+  from {
+    height: var(--radix-collapsible-content-height);
+  }
+
+  to {
+    height: 0;
   }
 }
