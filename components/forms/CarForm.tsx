@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -44,6 +44,10 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
   const carIdFromPath = match ? match[1] : null;
 
   const { toast } = useToast();
+
+  useEffect(() => {
+    handleFilesChange(dragDropFiles);
+  }, [dragDropFiles]);
 
   const form = useForm({
     resolver: zodResolver(CarValidation),
@@ -165,10 +169,8 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
     }
   };
 
-  const handleFilesChange = (files: FileWithPreview[]) => {
-    setDragDropFiles(files);
-
-    const fileReadPromises = files.map((file) => {
+  const handleFilesChange = (dragDropFiles: FileWithPreview[]) => {
+    const fileReadPromises = dragDropFiles.map((file) => {
       return new Promise<string>((resolve, reject) => {
         const fileReader = new FileReader();
         fileReader.readAsDataURL(file);
@@ -310,7 +312,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
           Upload Images
         </p>
 
-        <DragDrop handleFilesChange={handleFilesChange} />
+        <DragDrop setDragDropFiles={setDragDropFiles} />
 
         <CarFormButtons
           pathname={pathname}

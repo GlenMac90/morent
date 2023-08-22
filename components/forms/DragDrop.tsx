@@ -8,20 +8,20 @@ interface FileWithPreview extends File {
 }
 
 interface DragDropProps {
-  handleFilesChange: (files: FileWithPreview[]) => void;
+  setDragDropFiles: (files: FileWithPreview[]) => void;
 }
 
 // https://innocentanyaele.medium.com/create-a-drag-and-drop-file-component-in-reactjs-nextjs-tailwind-6ae70ba06e4b
 // Drag and Drop component from medium article
 
-const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
+const DragDrop: React.FC<DragDropProps> = ({ setDragDropFiles }) => {
   const [dragActive, setDragActive] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    handleFilesChange(files);
+    setDragDropFiles(files);
     setIsMounted(true);
   }, [files]);
 
