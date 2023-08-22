@@ -1,30 +1,54 @@
-"use client";
+'use client';
 
-import { motion } from "framer-motion";
-import CarCard from "@/components/CarCard";
-import Advert from "@/components/Advert";
-import PickUpDropOffCard from "@/components/PickUpDropOffCard";
+import React, { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
+
+import CarCard from '@/components/CarCard';
+import Advert from '@/components/Advert';
+import PickUpDropOffCard from '@/components/PickUpDropOffCard';
+import { fetchAllCars } from '@/lib/actions/car.actions';
+import { CarParams } from '@/lib/interfaces';
 
 const adverts = [
   {
-    title: "The Best Platform for Car Rental",
+    title: 'The Best Platform for Car Rental',
     description:
-      "Ease of doing a car rental safely and reliably. Of course at a low price.",
-    imageSrc: "/pngs/advertWhiteCar.png",
-    additionalStyles: "white_car_ad",
+      'Ease of doing a car rental safely and reliably. Of course at a low price.',
+    imageSrc: '/pngs/advertWhiteCar.png',
+    additionalStyles: 'white_car_ad',
     whiteCar: true,
   },
   {
-    title: "Easy way to rent a car at a low price",
+    title: 'Easy way to rent a car at a low price',
     description:
-      "Providing cheap car rental services and safe and comfortable facilities.",
-    imageSrc: "/pngs/advertSilverCar.png",
-    additionalStyles: "black_car_ad hidden lg:flex",
+      'Providing cheap car rental services and safe and comfortable facilities.',
+    imageSrc: '/pngs/advertSilverCar.png',
+    additionalStyles: 'black_car_ad hidden lg:flex',
     whiteCar: false,
   },
 ];
 
 const Home = () => {
+  const [carData, setCarData] = useState<CarParams[] | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await fetchAllCars();
+        setCarData(result);
+        console.log('Fetched car data:', result);
+      } catch (error) {
+        console.error('Failed to fetch car data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!carData) {
+    return null;
+  }
+
   return (
     <motion.div
       className="flex flex-col items-center bg-white200 p-2 dark:bg-gray900"
@@ -59,7 +83,7 @@ const Home = () => {
 
           {/* Change id to match id of card once live data is passed */}
           {[0, 1, 2, 3, 4].map((card) => (
-            <CarCard key={card} isPopularCar={true} id={"123"} />
+            <CarCard key={card} isPopularCar={true} id={'123'} />
           ))}
           {/* Change id to match id of card once live data is passed */}
         </div>
@@ -69,7 +93,7 @@ const Home = () => {
         <div className="mt-5 flex w-full flex-col items-center justify-center gap-5 px-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           {/* Change id to match id of card once live data is passed */}
           {[0, 1, 2, 3, 4, 5, 6, 7].map((card) => (
-            <CarCard key={card} id={"123"} />
+            <CarCard key={card} id={'123'} />
           ))}
           {/* Change id to match id of card once live data is passed */}
         </div>

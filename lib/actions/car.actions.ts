@@ -72,3 +72,16 @@ export async function fetchCarById(carId: string): Promise<CarParams | null> {
     throw new Error(`Failed to fetch car by ID: ${error.message}`);
   }
 }
+
+export async function fetchAllCars(): Promise<CarParams[] | null> {
+  try {
+    connectToDB();
+    const cars = await Car.find().exec();
+    if (!cars || cars.length === 0) {
+      throw new Error('No cars found.');
+    }
+    return cars.map((car) => car.toObject());
+  } catch (error: any) {
+    throw new Error(`Failed to fetch all cars: ${error.message}`);
+  }
+}
