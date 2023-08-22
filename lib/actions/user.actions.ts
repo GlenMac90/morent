@@ -79,7 +79,7 @@ export async function fetchReviewsByUser(
 
   try {
     const userReviews = await Review.find({ userId })
-      .populate('carId', 'carTitle')
+      .populate('carId', 'carTitle', 'carImageMain')
       .exec();
 
     if (!userReviews || userReviews.length === 0) {

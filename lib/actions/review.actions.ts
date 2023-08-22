@@ -100,3 +100,5 @@ export async function getAllReviewsByUser(
     throw new Error(`Failed to fetch reviews for the user: ${error.message}`);
   }
 }
+
+// associate review with car

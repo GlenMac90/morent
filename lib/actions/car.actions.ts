@@ -104,7 +104,7 @@ export async function getAllReviewsForCar(
     connectToDB();
 
     const reviews = await Review.find({ carId })
-      .populate('userId', 'username')
+      .populate('userId', 'username', 'image')
       .exec();
 
     if (!reviews) {
