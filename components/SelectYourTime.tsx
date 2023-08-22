@@ -17,13 +17,11 @@ const SelectYourTime = ({ pickUpOrDropOff }: { pickUpOrDropOff: string }) => {
       <div className="flex w-full flex-col gap-3.5">
         <div className="flex flex-row items-center gap-[0.38rem]">
           <Image src={clock} width={14} height={14} alt="Clock" />
-          <Label className="truncate" htmlFor="timeSelect">
-            {pickUpOrDropOff}
-          </Label>
+          <Label htmlFor="timeSelect">{pickUpOrDropOff}</Label>
         </div>
         <SelectTrigger
           id="timeSelect"
-          className="border-0 bg-white200 text-sm font-normal dark:bg-gray800 xl:h-14 xl:pl-[1.13rem]"
+          className="h-[2.875rem] border-0 bg-white200 text-sm font-normal dark:bg-gray800 sm:h-[3.5rem] xl:h-14 xl:pl-[1.13rem]"
         >
           <SelectValue placeholder="Select your time" />
         </SelectTrigger>
