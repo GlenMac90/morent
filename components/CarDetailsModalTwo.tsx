@@ -74,33 +74,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
           Pick-Up Location
         </p>
       </div>
-      {/* <input
-        className="mt-3 w-full rounded-lg bg-white200 py-3.5 pl-6 text-sm dark:bg-gray800 dark:placeholder:text-white200"
-        placeholder="Location Address"
-      /> */}
       <Location />
-      {/* <div className="mt-6 flex flex-col sm:flex-row sm:gap-2.5">
-        <div className="flex w-full flex-col">
-          <div className="flex">
-            <Image src={calendar} alt="calender-icon" height={16} width={16} />
-            <p className="ml-1.5">Availability From</p>
-          </div>
-          <input
-            className="mt-3 w-full rounded-lg bg-white200 py-3.5 pl-6 text-sm dark:bg-gray800 dark:placeholder:text-white200"
-            placeholder="Select your date"
-          />
-        </div>
-        <div className="flex w-full flex-col">
-          <div className="mt-2 flex sm:mt-0">
-            <Image src={calendar} alt="calender-icon" height={16} width={16} />
-            <p className="ml-1.5">Availability To</p>
-          </div>
-          <input
-            className="mt-3 w-full rounded-lg bg-white200 py-3.5 pl-6 text-sm dark:bg-gray800 dark:placeholder:text-white200"
-            placeholder="Select your date"
-          />
-        </div>
-      </div> */}
       <div className="mt-6 flex flex-row gap-3 xl:grow xl:gap-4">
         <Popover>
           <div className={`flex w-full flex-col gap-3.5`}>
