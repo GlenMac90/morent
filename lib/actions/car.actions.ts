@@ -3,7 +3,9 @@
 import { connectToDB } from '../mongoose';
 import User from '../models/user.model';
 import Car from '../models/car.model';
-import { CarParams } from '../interfaces';
+import Review from '../models/reviews.model';
+import { CarParams, ReviewDocument } from '../interfaces';
+import mongoose from 'mongoose';
 
 export async function createCar(carData: CarParams): Promise<CarParams> {
   try {
@@ -50,13 +52,17 @@ export async function deleteCar(carId: string): Promise<void> {
       throw new Error('Car not found.');
     }
 
+    await Review.deleteMany({ carId });
+
     await User.findByIdAndUpdate(car.userId, {
       $pull: { cars: carId },
     });
 
     await Car.findByIdAndRemove(carId);
   } catch (error: any) {
-    throw new Error(`Failed to delete car: ${error.message}`);
+    throw new Error(
+      `Failed to delete car and its associated reviews: ${error.message}`
+    );
   }
 }
 
@@ -70,5 +76,43 @@ export async function fetchCarById(carId: string): Promise<CarParams | null> {
     return car.toObject();
   } catch (error: any) {
     throw new Error(`Failed to fetch car by ID: ${error.message}`);
+  }
+}
+
+export async function deleteAllCars(): Promise<void> {
+  try {
+    connectToDB();
+
+    const cars = await Car.find().exec();
+
+    for (const car of cars) {
+      await User.findByIdAndUpdate(car.userId, {
+        $pull: { cars: car._id },
+      });
+    }
+
+    await Car.deleteMany({});
+  } catch (error: any) {
+    throw new Error(`Failed to delete all cars: ${error.message}`);
+  }
+}
+
+export async function getAllReviewsForCar(
+  carId: mongoose.Types.ObjectId
+): Promise<ReviewDocument[]> {
+  try {
+    connectToDB();
+
+    const reviews = await Review.find({ carId })
+      .populate('userId', 'username', 'image')
+      .exec();
+
+    if (!reviews) {
+      throw new Error('No reviews found for the specified car.');
+    }
+
+    return reviews as ReviewDocument[];
+  } catch (error: any) {
+    throw new Error(`Failed to fetch reviews for the car: ${error.message}`);
   }
 }
