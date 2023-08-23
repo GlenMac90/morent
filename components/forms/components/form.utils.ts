@@ -26,3 +26,36 @@ export const uploadImages = async (
   const uploadedUrls: (string | null)[] = await Promise.all(uploadPromises);
   return uploadedUrls.filter((url) => url !== null) as string[];
 };
+
+export const handleFilesChange = (
+  dragDropFiles: FileWithPreview[],
+  form: UseFormReturn<FormData>,
+  setImagePreviews: (images: string[]) => void
+) => {
+  const fileReadPromises = dragDropFiles.map((file) => {
+    return new Promise<string>((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(file);
+      fileReader.onload = () => {
+        const result = fileReader.result as string;
+        resolve(result);
+      };
+      fileReader.onerror = () => {
+        reject(fileReader.error);
+      };
+    });
+  });
+
+  Promise.all(fileReadPromises)
+    .then((allFileData) => {
+      setImagePreviews(allFileData);
+      if (allFileData.length > 0) {
+        form.setValue('carImageMain', allFileData[0] || '');
+      }
+    })
+    .catch((error) => {
+      console.error('Error reading one or more files:', error);
+    });
+};
+
+

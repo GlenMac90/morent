@@ -30,8 +30,9 @@ import CarFormButtons from './components/CarFormButtons';
 import CarFormHeader from './components/CarFormHeader';
 
 import {
-  handleLocationSelected as handleLocationSelectedUtil,
   uploadImages,
+  handleFilesChange,
+  handleLocationSelected,
 } from './components/form.utils';
 
 const CarForm: React.FC<Props> = ({ userId, car }) => {
@@ -52,7 +53,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
   const { toast } = useToast();
 
   useEffect(() => {
-    handleFilesChange(dragDropFiles);
+    handleFilesChange(dragDropFiles, form, setImagePreviews);
   }, [dragDropFiles]);
 
   const form = useForm({
@@ -153,33 +154,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
     }
   };
 
-  const handleFilesChange = (dragDropFiles: FileWithPreview[]) => {
-    const fileReadPromises = dragDropFiles.map((file) => {
-      return new Promise<string>((resolve, reject) => {
-        const fileReader = new FileReader();
-        fileReader.readAsDataURL(file);
-        fileReader.onload = () => {
-          const result = fileReader.result as string;
-          resolve(result);
-        };
-        fileReader.onerror = () => {
-          reject(fileReader.error);
-        };
-      });
-    });
-
-    Promise.all(fileReadPromises)
-      .then((allFileData) => {
-        setImagePreviews(allFileData);
-        if (allFileData.length > 0) {
-          form.setValue('carImageMain', allFileData[0] || '');
-        }
-      })
-      .catch((error) => {
-        console.error('Error reading one or more files:', error);
-      });
-  };
-
   const handleDelete = async (carId: string) => {
     try {
       setIsLoading(true);
@@ -269,7 +243,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             <FormControl>
               <Location
                 handleLocationSelected={(location: string) =>
-                  handleLocationSelectedUtil(location, form)
+                  handleLocationSelected(location, form)
                 }
               />
             </FormControl>
