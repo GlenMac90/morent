@@ -68,7 +68,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     >
       <div
         onClick={handleChildClick}
-        className="fixed top-40 z-50 flex max-h-[40rem] w-full max-w-2xl flex-col overflow-y-auto rounded-xl bg-white200 p-5 dark:bg-gray900"
+        className="fixed top-40 z-50 flex max-h-[40rem] w-full max-w-2xl flex-col overflow-y-auto rounded-xl bg-white200 p-5 dark:bg-gray900 "
       >
         <div className="flex w-full justify-between">
           <p className="text-2xl font-semibold ">{data.brand}</p>
@@ -107,6 +107,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
                       placeholder="Type your review here"
                       {...field}
                       autoComplete="off"
+                      className="bg-white dark:bg-gray800 dark:placeholder:text-white"
                     />
                   </FormControl>
                   <FormMessage />
