@@ -20,7 +20,6 @@ import {
   capacities,
   transmissionOptions,
   fuelCapacityOptions,
-  carData,
 } from '@/constants';
 
 import Location from '../Location';
@@ -28,12 +27,20 @@ import SelectInput from './components/SelectInput';
 import InputController from './components/InputController';
 import CarFormButtons from './components/CarFormButtons';
 import CarFormHeader from './components/CarFormHeader';
+import FormState from './components/FormState';
 
 import {
   uploadImages,
   handleFilesChange,
   handleLocationSelected,
 } from './components/form.utils';
+
+import {
+  showValidationError,
+  showImageError,
+  showSuccessMessage,
+  showError,
+} from '@/lib/toastHandler';
 
 const CarForm: React.FC<Props> = ({ userId, car }) => {
   const { startUpload } = useUploadThing('media');
@@ -75,24 +82,31 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
   const onSubmit = async (values: z.infer<typeof CarValidation>) => {
     setIsLoading(true);
     setError(null);
-
+    const carData = {
+      userId,
+      carTitle: values.carTitle || '',
+      carType: values.carType || '',
+      rentPrice: values.rentPrice || '',
+      capacity: values.capacity || 1,
+      transmission: values.transmission || '',
+      location: values.location || '',
+      fuelCapacity: values.fuelCapacity || 1,
+      shortDescription: values.shortDescription || '',
+      carImageMain: values.carImageMain,
+    };
     if (Object.keys(form.formState.errors).length > 0) {
       const errorFields = Object.keys(form.formState.errors);
-      const errorMessage = `Errors in: ${errorFields.join(', ')}`;
-      toast({
-        title: 'Validation Error',
-        description: errorMessage,
-      });
+      showValidationError(toast, 'Validation Error', errorFields);
       setIsLoading(false);
       return;
     }
 
     if (dragDropFiles.length === 0 && pathname === '/cars/new') {
-      toast({
-        variant: 'destructive',
-        title: 'Not so quick!',
-        description: 'Please add an image before submitting the form.',
-      });
+      showImageError(
+        toast,
+        'Not so quick!',
+        'Please add an image before submitting the form.'
+      );
       setIsLoading(false);
       return;
     }
@@ -124,11 +138,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
         setSuccess(true);
       }
 
-      toast({
-        variant: 'success',
-        title: 'Success',
-        description: 'Car registered successfully',
-      });
+      showSuccessMessage(toast, 'Success', 'Car registered successfully');
 
       if (pathname === '/cars/new') {
         router.back();
@@ -147,7 +157,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
         console.error({ error, message: 'An unknown error occurred' });
       }
 
-      setError(errorMessage);
+      showError(toast, 'Error', errorMessage);
     } finally {
       setSuccess(false);
       setIsLoading(false);
@@ -159,18 +169,12 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       setIsLoading(true);
       await deleteCar(carId);
 
-      toast({
-        title: 'Success',
-        description: 'Car deleted successfully.',
-      });
+      showSuccessMessage(toast, 'Success', 'Car deleted successfully');
 
       router.push('/');
     } catch (error) {
       console.error('Failed to delete car:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to delete car. Please try again.',
-      });
+      showError(toast, 'Error', 'Failed to delete car. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -182,11 +186,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="flex w-full max-w-4xl flex-col items-center gap-5 rounded-xl bg-white px-6 py-12 dark:bg-gray850"
       >
-        {isLoading && <div>Loading...</div>}
-        {error && <div className="text-red-500">{error}</div>}
-        {success && (
-          <div className="text-green-500">Car registered successfully!</div>
-        )}
+        <FormState isLoading={isLoading} error={error} success={success} />
 
         <CarFormHeader
           pathname={pathname}

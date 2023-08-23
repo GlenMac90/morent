@@ -57,5 +57,3 @@ export const handleFilesChange = (
       console.error('Error reading one or more files:', error);
     });
 };
-
-

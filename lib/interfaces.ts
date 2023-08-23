@@ -1,7 +1,6 @@
 import { Control } from 'react-hook-form';
 import { UploadFileResponse } from 'uploadthing/client';
 
-
 export interface DateRange {
   start: Date;
   end: Date;
@@ -115,7 +114,20 @@ export type CarFormHeaderProps = {
   imagePreviews: string[];
 };
 
-
 export type UploadFunction = (
   files: FileWithPreview[]
 ) => Promise<UploadFileResponse[] | undefined>;
+
+export interface FeedbackMessageProps {
+  isLoading: boolean;
+  error?: string | null;
+  success?: boolean;
+}
+
+export interface ToastOptions {
+  title: string;
+  description: string;
+  variant?: 'destructive' | 'success';
+}
+
+export type ToastFunction = (options: ToastOptions) => void;
