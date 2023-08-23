@@ -1,24 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import React, { useState } from "react";
-import Link from "next/link";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 
 import CarDetailsModalOne from "./CarDetailsModalOne";
+import CarCardMainContent from "./CarCardMainContent";
 import { CarData } from "@/constants/interfaces";
-
-import {
-  heart,
-  litres,
-  peopleCapacity,
-  redHeart,
-  transmission,
-  editSymbol,
-  editSymbolDarkMode,
-} from "../../public/svg-icons/index";
 
 interface CarCardProps {
   carData: CarData;
@@ -59,93 +48,15 @@ const CarCard: React.FC<CarCardProps> = ({
           isPopularCar ? "min-w-[18rem]" : "xs:max-w-[28rem]"
         } sm:w-auto sm:max-w-full`}
       >
-        <div className="flex w-full justify-between">
-          <div className="flex flex-col">
-            <p className="font-medium xs:text-xl">{carData.brand}</p>
-            <p className="mt-1 text-xs font-semibold text-gray400 xs:text-sm">
-              {carData.type}
-            </p>
-          </div>
-          {!canEdit ? (
-            <motion.div
-              key={motionKey}
-              className="flex"
-              animate={{ scale: isFavourited ? [1.6, 1] : [1, 1] }}
-              transition={{ duration: 0.7 }}
-            >
-              <Image
-                src={isFavourited ? redHeart : heart}
-                alt="heart button"
-                className={`h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6 ${
-                  isFavourited && "heart_animation"
-                }`}
-                onClick={handleButtonClick}
-              />
-            </motion.div>
-          ) : (
-            <Link href={`/cars/${carData.id}`}>
-              <Image
-                src={theme === "light" ? editSymbol : editSymbolDarkMode}
-                alt="edit button"
-                className="h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6"
-              />
-            </Link>
-          )}
-        </div>
-        <div
-          className={`mt-3 flex justify-between ${
-            isPopularCar ? "flex-col" : "sm:flex-col"
-          }`}
-        >
-          <div className="flex w-full justify-center">
-            <Image
-              src={carData.mainPicture}
-              alt="car picture"
-              className={`mb-1 ml-0 h-[3.3rem] w-[11rem] self-end dark:bg-gray850 xs:ml-4 xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[4.5rem] sm:w-[236px] sm:self-center ${
-                isPopularCar ? "self-center" : "self-end sm:self-center"
-              }`}
-            />
-          </div>
-          <div
-            className={`flex gap-3 xs:mt-4  sm:mt-6  ${
-              isPopularCar
-                ? "mt-3 flex-row justify-evenly"
-                : "w-1/3 flex-col sm:w-auto sm:flex-row"
-            } sm:justify-evenly`}
-          >
-            <div className="flex">
-              <Image
-                src={litres}
-                alt="engine literage"
-                className="h-3.5 w-3.5 xs:h-5 xs:w-5"
-              />
-              <p className="ml-1 self-center text-xs text-gray400 xs:ml-1.5 xs:text-sm">
-                {carData.fuelCapacity}L
-              </p>
-            </div>
-            <div className="flex">
-              <Image
-                src={transmission}
-                alt="transmission"
-                className="h-3.5 w-3.5 xs:h-5 xs:w-5"
-              />
-              <p className="ml-1 self-center text-xs text-gray400 xs:text-sm sm:ml-1.5">
-                {carData.transmission}
-              </p>
-            </div>
-            <div className="flex">
-              <Image
-                src={peopleCapacity}
-                alt="people capacity"
-                className="h-3.5 w-3.5 xs:h-5 xs:w-5"
-              />
-              <p className="ml-1 self-center text-xs text-gray400 xs:text-sm sm:ml-1.5">
-                {carData.capacity}{" "}
-                {carData.capacity === 1 ? "person" : "people"}
-              </p>
-            </div>
-          </div>
-        </div>
+        <CarCardMainContent
+          carData={carData}
+          canEdit={canEdit}
+          motionKey={motionKey}
+          isFavourited={isFavourited}
+          theme={theme}
+          isPopularCar={isPopularCar}
+          handleButtonClick={handleButtonClick}
+        />
         <div className="mt-6 flex w-full justify-between">
           <p className="self-center font-medium">
             ${carData.rentPrice}/

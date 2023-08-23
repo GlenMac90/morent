@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 import CarCard from "@/components/carCardComponents/CarCard";
+import { dummyData } from "@/utils/dummyCarData";
 
 const ShowMoreCars = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,10 +26,10 @@ const ShowMoreCars = () => {
     >
       <CollapsibleContent
         className={`${isClickedAddMarginBottom} CollapsibleContent mt-5 grid grid-rows-1 gap-5 xs:flex-col xs:items-center 
-          xs:justify-center sm:grid-cols-2 md:mt-9 md:gap-8 xl:grid-cols-3 2xl:grid-cols-4`}
+          xs:justify-center sm:grid-cols-2 md:mt-9 md:gap-8 xl:grid-cols-3`}
       >
         {Array.from({ length: 6 }).map((_, i) => (
-          <CarCard key={i} id={i.toString()} />
+          <CarCard key={i} id={i.toString()} carData={dummyData} />
         ))}
       </CollapsibleContent>
       <div className="flex items-center justify-center space-x-4 px-4">
