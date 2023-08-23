@@ -1,29 +1,29 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import Image from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
-import { useForm, Controller, Control } from 'react-hook-form';
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import React, { useState } from "react";
+import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
+import { useForm, Controller, Control } from "react-hook-form";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useToast } from '@/components/ui/use-toast';
-import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
-import { CarValidation } from '@/lib/validations/car';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { isBase64Image } from '@/lib/utils';
-import { useUploadThing } from '@/lib/uploadthing';
-import { createCar, deleteCar, editCar } from '@/lib/actions/car.actions';
-import DragDrop from './DragDrop';
-import { CarParams } from '@/lib/interfaces';
+import { useToast } from "@/components/ui/use-toast";
+import { Form, FormControl, FormItem, FormLabel } from "@/components/ui/form";
+import { CarValidation } from "@/lib/validations/car";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { isBase64Image } from "@/lib/utils";
+import { useUploadThing } from "@/lib/uploadthing";
+import { createCar, deleteCar, editCar } from "@/lib/actions/car.actions";
+import DragDrop from "./DragDrop";
+import { CarParams } from "@/lib/interfaces";
 import {
   Select,
   SelectTrigger,
   SelectValue,
   SelectContent,
   SelectItem,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
 interface Props {
   userId?: string;
@@ -76,13 +76,13 @@ const CarFormHeader: React.FC<CarFormHeaderProps> = ({
   imagePreviews,
 }) => (
   <div className="flex w-full flex-col justify-start">
-    {pathname === '/cars/new' ? (
+    {pathname === "/cars/new" ? (
       <h1 className="text-xl font-semibold ">Add a Car for Rent</h1>
     ) : (
       <div className="flex w-full items-center justify-between">
         <h1 className="text-xl font-semibold ">Edit Car Details</h1>
         <Image
-          src={car?.carImageMain || ''}
+          src={car?.carImageMain || ""}
           width={100}
           height={50}
           alt="Car Image"
@@ -151,7 +151,7 @@ const CarFormButtons: React.FC<CarFormButtonsProps> = ({
             type="submit"
             disabled={isLoading}
           >
-            {isLoading ? 'Updating...' : 'Update Car'}
+            {isLoading ? "Updating..." : "Update Car"}
           </Button>
         </>
       )}
@@ -161,7 +161,7 @@ const CarFormButtons: React.FC<CarFormButtonsProps> = ({
           type="submit"
           disabled={isLoading}
         >
-          {isLoading ? 'Registering...' : 'Register Car'}
+          {isLoading ? "Registering..." : "Register Car"}
         </Button>
       )}
     </>
@@ -186,33 +186,33 @@ interface InputControllerProps {
 }
 
 const carTypes = [
-  { value: 'sport', label: 'Sport' },
-  { value: 'suv', label: 'SUV' },
-  { value: 'mpv', label: 'MPV' },
-  { value: 'sedan', label: 'Sedan' },
-  { value: 'coupe', label: 'Coupe' },
-  { value: 'hatchback', label: 'Hatchback' },
+  { value: "sport", label: "Sport" },
+  { value: "suv", label: "SUV" },
+  { value: "mpv", label: "MPV" },
+  { value: "sedan", label: "Sedan" },
+  { value: "coupe", label: "Coupe" },
+  { value: "hatchback", label: "Hatchback" },
 ];
 
 const capacities = [
-  { value: '2', label: '2 Person' },
-  { value: '4', label: '4 Person' },
-  { value: '6', label: '6 Person' },
-  { value: '8', label: '8 or more' },
+  { value: "2", label: "2 Person" },
+  { value: "4", label: "4 Person" },
+  { value: "6", label: "6 Person" },
+  { value: "8", label: "8 or more" },
 ];
 
 const transmissionOptions = [
-  { value: 'manual', label: 'Manual' },
-  { value: 'automatic', label: 'Automatic' },
-  { value: 'semi-automatic', label: 'Semi-automatic' },
-  { value: 'cvt', label: 'CVT' },
+  { value: "manual", label: "Manual" },
+  { value: "automatic", label: "Automatic" },
+  { value: "semi-automatic", label: "Semi-automatic" },
+  { value: "cvt", label: "CVT" },
 ];
 
 const fuelCapacityOptions = [
-  { value: '40', label: '40 litres' },
-  { value: '50', label: '50 litres' },
-  { value: '60', label: '60 litres' },
-  { value: '80', label: '80 litres or more' },
+  { value: "40", label: "40 litres" },
+  { value: "50", label: "50 litres" },
+  { value: "60", label: "60 litres" },
+  { value: "80", label: "80 litres or more" },
 ];
 
 const SelectController: React.FC<SelectControllerProps> = ({
@@ -261,7 +261,7 @@ const InputController: React.FC<InputControllerProps> = ({
   name,
   label,
   placeholder,
-  type = 'text',
+  type = "text",
 }) => (
   <Controller
     control={control}
@@ -286,7 +286,7 @@ const InputController: React.FC<InputControllerProps> = ({
 );
 
 const CarForm: React.FC<Props> = ({ userId, car }) => {
-  const { startUpload } = useUploadThing('media');
+  const { startUpload } = useUploadThing("media");
   const router = useRouter();
   const pathname = usePathname();
   const [dragDropFiles, setDragDropFiles] = useState<FileWithPreview[]>([]);
@@ -305,16 +305,16 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
   const form = useForm<FormData>({
     resolver: zodResolver(CarValidation),
     defaultValues: {
-      carTitle: car?.carTitle || '',
-      carType: car?.carType || '',
-      rentPrice: car?.rentPrice || '',
+      carTitle: car?.carTitle || "",
+      carType: car?.carType || "",
+      rentPrice: car?.rentPrice || "",
       capacity: car?.capacity || 1,
-      transmission: car?.transmission || '',
-      location: car?.location || '',
+      transmission: car?.transmission || "",
+      location: car?.location || "",
       fuelCapacity: car?.fuelCapacity || 0,
-      shortDescription: car?.shortDescription || '',
-      carImageMain: car?.carImageMain || '',
-      path: car?.path || '',
+      shortDescription: car?.shortDescription || "",
+      carImageMain: car?.carImageMain || "",
+      path: car?.path || "",
     },
   });
 
@@ -340,20 +340,20 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
 
     if (Object.keys(form.formState.errors).length > 0) {
       const errorFields = Object.keys(form.formState.errors);
-      const errorMessage = `Errors in: ${errorFields.join(', ')}`;
+      const errorMessage = `Errors in: ${errorFields.join(", ")}`;
       toast({
-        title: 'Validation Error',
+        title: "Validation Error",
         description: errorMessage,
       });
       setIsLoading(false);
       return;
     }
 
-    if (dragDropFiles.length === 0 && pathname === '/cars/new') {
+    if (dragDropFiles.length === 0 && pathname === "/cars/new") {
       toast({
-        variant: 'destructive',
-        title: 'Not so quick!',
-        description: 'Please add an image before submitting the form.',
+        variant: "destructive",
+        title: "Not so quick!",
+        description: "Please add an image before submitting the form.",
       });
       setIsLoading(false);
       return;
@@ -362,7 +362,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
     try {
       const uploadedUrls = await uploadImages(imagePreviews, dragDropFiles);
       if (!uploadedUrls) {
-        throw new Error('Failed to upload image.');
+        throw new Error("Failed to upload image.");
       }
 
       if (uploadedUrls.length > 0) {
@@ -370,14 +370,14 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       }
       const carData = {
         userId,
-        carTitle: values.carTitle || '',
-        carType: values.carType || '',
-        rentPrice: values.rentPrice || '',
+        carTitle: values.carTitle || "",
+        carType: values.carType || "",
+        rentPrice: values.rentPrice || "",
         capacity: values.capacity || 1,
-        transmission: values.transmission || '',
-        location: values.location || '',
+        transmission: values.transmission || "",
+        location: values.location || "",
         fuelCapacity: values.fuelCapacity || 1,
-        shortDescription: values.shortDescription || '',
+        shortDescription: values.shortDescription || "",
         carImageMain: values.carImageMain,
       };
 
@@ -393,26 +393,26 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       }
 
       toast({
-        variant: 'success',
-        title: 'Success',
-        description: 'Car registered successfully',
+        variant: "success",
+        title: "Success",
+        description: "Car registered successfully",
       });
 
-      if (pathname === '/cars/new') {
+      if (pathname === "/cars/new") {
         router.back();
       } else {
-        router.push('/');
+        router.push("/");
       }
     } catch (error) {
       let errorMessage = car?._id
-        ? 'There was an issue while updating the car.'
-        : 'There was an issue while creating the car.';
+        ? "There was an issue while updating the car."
+        : "There was an issue while creating the car.";
 
       if (error instanceof Error) {
         errorMessage += ` Detail: ${error.message}`;
         console.error({ error, message: error.message });
       } else {
-        console.error({ error, message: 'An unknown error occurred' });
+        console.error({ error, message: "An unknown error occurred" });
       }
 
       setError(errorMessage);
@@ -443,11 +443,11 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       .then((allFileData) => {
         setImagePreviews(allFileData);
         if (allFileData.length > 0) {
-          form.setValue('carImageMain', allFileData[0] || '');
+          form.setValue("carImageMain", allFileData[0] || "");
         }
       })
       .catch((error) => {
-        console.error('Error reading one or more files:', error);
+        console.error("Error reading one or more files:", error);
       });
   };
 
@@ -457,16 +457,16 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       await deleteCar(carId);
 
       toast({
-        title: 'Success',
-        description: 'Car deleted successfully.',
+        title: "Success",
+        description: "Car deleted successfully.",
       });
 
-      router.push('/');
+      router.push("/");
     } catch (error) {
-      console.error('Failed to delete car:', error);
+      console.error("Failed to delete car:", error);
       toast({
-        title: 'Error',
-        description: 'Failed to delete car. Please try again.',
+        title: "Error",
+        description: "Failed to delete car. Please try again.",
       });
     } finally {
       setIsLoading(false);

@@ -1,5 +1,5 @@
-import { fetchCarById } from '@/lib/actions/car.actions';
-import CarForm from '@/components/forms/CarForm';
+import { fetchCarById } from "@/lib/actions/car.actions";
+import CarForm from "@/components/forms/CarForm";
 
 interface EditCarPageProps {
   params: {

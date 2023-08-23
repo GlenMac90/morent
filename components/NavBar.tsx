@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
+import { motion } from "framer-motion";
 
 import {
   darkModeIcon,
@@ -46,6 +47,10 @@ const NavBar = () => {
       title: "Add Car",
       path: "/cars/new",
       images: [lightModePlus, darkModePlus],
+    },
+    {
+      title: "Profile",
+      path: `/profile`,
     },
   ];
 
@@ -105,9 +110,9 @@ const NavBar = () => {
             onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
             className="cursor-pointer"
           />
-          <Link href="/profile/id" className="mx-3 md:hidden">
+          <div className="mx-3 md:hidden">
             <UserButton afterSignOutUrl="/" />
-          </Link>
+          </div>
           <Image
             src={burgerMenu}
             height={24}
@@ -124,7 +129,11 @@ const NavBar = () => {
             className="fixed z-40 flex h-screen w-screen justify-center bg-black opacity-50 dark:bg-gray900 dark:opacity-70 md:hidden"
             onClick={() => setShowNavMenu(false)}
           />
-          <div className="fixed inset-x-3 top-6 z-50 flex flex-col rounded-xl bg-white100 p-6 opacity-100 dark:bg-gray850 md:hidden">
+          <motion.div
+            animate={{ scale: 1 }}
+            initial={{ scale: 0 }}
+            className="fixed inset-x-3 top-6 z-50 flex flex-col rounded-xl bg-white100 p-6 opacity-100 dark:bg-gray850 md:hidden"
+          >
             <div className="flex justify-between">
               <p className="font-plusJakartaSans text-xl font-semibold text-blue500 md:text-3xl">
                 MORENT
@@ -139,8 +148,9 @@ const NavBar = () => {
               />
             </div>
             <div className="mt-12 flex flex-col gap-2">
-              {buttons.map((navButton) => (
+              {buttons.slice(0, 3).map((navButton) => (
                 <Link
+                  onClick={() => setShowNavMenu(false)}
                   key={navButton.path}
                   href={navButton.path}
                   className={`flex rounded p-3 ${
@@ -151,9 +161,11 @@ const NavBar = () => {
                 >
                   <Image
                     src={
-                      navButton.path === pathname || theme !== "light"
-                        ? navButton.images[1]
-                        : navButton.images[0]
+                      navButton.images
+                        ? navButton.path === pathname || theme !== "light"
+                          ? navButton.images[1]
+                          : navButton.images[0]
+                        : darkModeHome
                     }
                     width={16}
                     height={16}
@@ -162,26 +174,31 @@ const NavBar = () => {
                   <p className="ml-1.5 text-sm">{navButton.title}</p>
                 </Link>
               ))}
-              <button className="mt-5 flex w-full items-center justify-center rounded border-blue50 bg-white py-3.5 text-sm font-semibold text-blue500 dark:bg-gray700 dark:text-blue300">
-                <Image
-                  src={profilePic}
-                  height={20}
-                  width={20}
-                  alt="profile pic"
-                  className={`${
-                    userId ? "mr-1.5 flex min-h-[20px] rounded-full" : "hidden"
-                  }`}
-                />
-                <Link
-                  href={
-                    userId
-                      ? "/profile/id"
-                      : "/sign-in?redirect_url=http%3A%2F%2Flocalhost%3A3000%2F"
-                  }
-                >
+              <Link
+                onClick={() => setShowNavMenu(false)}
+                href={
+                  userId
+                    ? "/profile/id"
+                    : "/sign-in?redirect_url=http%3A%2F%2Flocalhost%3A3000%2F"
+                }
+                className="mt-5 rounded"
+              >
+                <button className="flex w-full items-center justify-center rounded border-blue50 bg-white py-3.5 text-sm font-semibold text-blue500 dark:bg-gray700 dark:text-blue300">
+                  <Image
+                    src={profilePic}
+                    height={20}
+                    width={20}
+                    alt="profile pic"
+                    className={`${
+                      userId
+                        ? "mr-1.5 flex min-h-[20px] rounded-full"
+                        : "hidden"
+                    }`}
+                  />
+
                   <p>{userId ? "My Profile" : "Login"}</p>
-                </Link>
-              </button>
+                </button>
+              </Link>
               <button
                 className={`${
                   userId ? "flex" : "hidden"
@@ -190,7 +207,7 @@ const NavBar = () => {
                 Logout
               </button>
             </div>
-          </div>
+          </motion.div>
         </>
       )}
     </>
