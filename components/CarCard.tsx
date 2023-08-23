@@ -23,12 +23,14 @@ interface CarCardProps {
   id: string;
   isPopularCar?: boolean;
   canEdit?: boolean;
+  canReview?: boolean;
 }
 
 const CarCard: React.FC<CarCardProps> = ({
   id,
   isPopularCar = false,
   canEdit = false,
+  canReview = false,
 }) => {
   const { theme } = useTheme();
   const [isFavourited, setIsFavourited] = useState(dummyData.isFavourited);
@@ -77,7 +79,7 @@ const CarCard: React.FC<CarCardProps> = ({
               />
             </motion.div>
           ) : (
-            <Link href={`/car/${dummyData.id}`}>
+            <Link href={`/cars/${dummyData.id}`}>
               <Image
                 src={theme === "light" ? editSymbol : editSymbolDarkMode}
                 alt="edit button"
@@ -163,6 +165,7 @@ const CarCard: React.FC<CarCardProps> = ({
             data={dummyData}
             setShowModal={setShowModal}
             isPopular={isPopularCar}
+            canReview={canReview}
           />
           {/* Type error of data will so away once dummyData is removed and lived data will be a string leading to the URL of the image */}
         </div>

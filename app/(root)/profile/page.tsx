@@ -1,16 +1,32 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
 import CarCard from "@/components/CarCard";
 import { dummyUserData } from "@/utils/dummyUserData";
+import ReviewList from "@/components/ReviewList";
 
 const Page = () => {
+  const [showReviews, setShowReviews] = useState(false);
   return (
     <div className="flex w-full justify-center self-center bg-white200 dark:bg-gray900">
       <div className="mt-20 flex w-full max-w-[90rem] flex-col p-6 md:mt-40">
-        <p className="text-xl font-semibold text-gray900 dark:text-white">
-          My Profile
-        </p>
+        <div className="flex justify-between">
+          <p className="text-xl font-semibold text-gray900 dark:text-white200">
+            My Profile
+          </p>
+          <p
+            onClick={() => setShowReviews((prev) => !prev)}
+            className="cursor-pointer text-xl font-semibold text-gray900 dark:text-white200"
+          >
+            Show Reviews
+          </p>
+          {showReviews && (
+            <ReviewList id={dummyUserData.id} setShowReviews={setShowReviews} />
+          )}
+        </div>
         <section className="mt-6 flex h-auto w-full flex-col rounded-xl bg-white dark:bg-gray850">
           <div className="relative flex h-40 md:h-48">
             <Image
@@ -45,15 +61,17 @@ const Page = () => {
                 </p>
               </div>
             </div>
-            <button className="mb-5 mr-2.5 self-end rounded-lg bg-blue500 px-6 py-3 text-xs font-semibold text-white md:mb-8 md:mr-12 md:text-sm">
-              Edit Profile
-            </button>
+            <Link href="/profile/edit" className="flex">
+              <button className="mb-5 mr-2.5 self-end rounded-lg bg-blue500 px-6 py-3 text-xs font-semibold text-white md:mb-8 md:mr-12 md:text-sm">
+                Edit Profile
+              </button>
+            </Link>
           </div>
         </section>
         <p className="mt-10 font-medium text-gray400">Rented Cars</p>
         <section className="mt-7 flex flex-col items-center gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {dummyUserData.carsHired.map((id) => (
-            <CarCard key={id} id={id} />
+            <CarCard key={id} id={id} canReview={true} />
           ))}
         </section>
         <p className="mt-10 font-medium text-gray400">My Cars for Rent</p>

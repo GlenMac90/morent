@@ -441,7 +441,7 @@
 }
 
 .geoapify-autocomplete-input {
-  @apply dark:placeholder:text-white200 sm:h-[3.5rem] h-[2.875rem] dark:text-white0 bg-white200 dark:bg-gray800 flex-shrink xl:inline-flex px-[1.12rem] xl:h-14 w-full not-italic truncate border-0 rounded-md xl:py-[0.87rem] !important;
+  @apply dark:placeholder:text-white200 h-[2.875rem] sm:h-[3.5rem] dark:text-white0 bg-white200 dark:bg-gray800 flex-shrink xl:inline-flex px-[1.12rem] xl:h-14 w-full not-italic truncate border-0 rounded-md xl:py-[0.87rem] !important;
 }
 
 .geoapify-autocomplete-items {
@@ -498,11 +498,11 @@
   overflow: hidden;
 }
 
-.CollapsibleContent[data-state="open"] {
+.CollapsibleContent[data-state='open'] {
   animation: slideDown 300ms ease-out;
 }
 
-.CollapsibleContent[data-state="closed"] {
+.CollapsibleContent[data-state='closed'] {
   animation: slideUp 300ms ease-out;
 }
 
