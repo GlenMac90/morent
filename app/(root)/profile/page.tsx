@@ -33,6 +33,9 @@ const Page = () => {
     return null;
   }
 
+  // more info - car modal
+  // review
+
   return (
     <div className="flex w-full justify-center self-center bg-white200 dark:bg-gray900">
       <div className="mt-20 flex w-full max-w-[90rem] flex-col p-6 md:mt-40">

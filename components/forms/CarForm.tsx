@@ -28,6 +28,8 @@ import InputController from './components/InputController';
 import CarFormButtons from './components/CarFormButtons';
 import CarFormHeader from './components/CarFormHeader';
 
+import { handleLocationSelected as handleLocationSelectedUtil } from './components/form.utils';
+
 const CarForm: React.FC<Props> = ({ userId, car }) => {
   const { startUpload } = useUploadThing('media');
   const router = useRouter();
@@ -196,10 +198,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       });
   };
 
-  const handleLocationSelected = (location: string) => {
-    form.setValue('location', location);
-  };
-
   const handleDelete = async (carId: string) => {
     try {
       setIsLoading(true);
@@ -287,7 +285,11 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
           <FormItem className=" flex w-full flex-col justify-start">
             <FormLabel>Location</FormLabel>
             <FormControl>
-              <Location handleLocationSelected={handleLocationSelected} />
+              <Location
+                handleLocationSelected={(location: string) =>
+                  handleLocationSelectedUtil(location, form)
+                }
+              />
             </FormControl>
           </FormItem>
         </div>
