@@ -1,6 +1,8 @@
 import { UseFormReturn } from 'react-hook-form';
 
 import { FormData, FileWithPreview, UploadFunction } from '@/lib/interfaces';
+import { CarValidation } from '@/lib/validations/car';
+import { z } from 'zod';
 
 export const handleLocationSelected = (
   location: string,
@@ -63,3 +65,19 @@ export const getCarIdFromPath = (pathname: string) => {
   const match = pathname.match(carIdPattern);
   return match ? match[1] : null;
 };
+
+export const formatCarData = (
+  values: z.infer<typeof CarValidation>,
+  userId: string | undefined
+) => ({
+  userId,
+  carTitle: values.carTitle || '',
+  carType: values.carType || '',
+  rentPrice: values.rentPrice || '',
+  capacity: values.capacity || 1,
+  transmission: values.transmission || '',
+  location: values.location || '',
+  fuelCapacity: values.fuelCapacity || 1,
+  shortDescription: values.shortDescription || '',
+  carImageMain: values.carImageMain,
+});
