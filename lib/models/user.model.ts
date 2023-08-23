@@ -28,10 +28,24 @@ const userSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    cars: [
+    carsAdded: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Car',
+      },
+    ],
+    carsHired: [
+      {
+        car: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Car',
+          required: true,
+        },
+        reviewId: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: 'Review',
+          required: false,
+        },
       },
     ],
   },

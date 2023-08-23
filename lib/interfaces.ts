@@ -1,3 +1,5 @@
+import mongoose from 'mongoose';
+
 export interface DateRange {
   start: Date;
   end: Date;
@@ -8,7 +10,9 @@ export interface CarParams {
   _id?: string;
   carTitle: string;
   carType: string;
-  rentPrice?: string;
+  carRented?: Number;
+  starRating?: Number;
+  rentPrice?: Number;
   capacity?: number;
   transmission?: string;
   location?: string;
@@ -34,4 +38,13 @@ export interface UserParams {
   onboarded?: boolean;
   path: string;
   cars?: CarParams[];
+}
+
+export interface ReviewDocument extends mongoose.Document {
+  userId: mongoose.Types.ObjectId;
+  carId: mongoose.Types.ObjectId;
+  rating: number;
+  title: string;
+  content: string;
+  datePosted?: Date;
 }
