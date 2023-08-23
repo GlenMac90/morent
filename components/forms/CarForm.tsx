@@ -14,29 +14,26 @@ import { useUploadThing } from '@/lib/uploadthing';
 import { createCar, deleteCar, editCar } from '@/lib/actions/car.actions';
 import DragDrop from './DragDrop';
 import { Props, FileWithPreview } from '@/lib/interfaces';
-
 import {
   carTypes,
   capacities,
   transmissionOptions,
   fuelCapacityOptions,
 } from '@/constants';
-
 import Location from '../Location';
 import SelectInput from './components/SelectInput';
 import InputController from './components/InputController';
 import CarFormButtons from './components/CarFormButtons';
 import CarFormHeader from './components/CarFormHeader';
 import FormState from './components/FormState';
-
 import {
   uploadImages,
   handleFilesChange,
   handleLocationSelected,
   getCarIdFromPath,
   formatCarData,
+  handleServerError,
 } from './components/form.utils';
-
 import {
   showValidationError,
   showImageError,
@@ -122,10 +119,11 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
         await editCar({
           ...carData,
           _id: car?._id,
+          carImageMain: values.carImageMain,
         });
         setSuccess(true);
       } else {
-        await createCar(carData);
+        await createCar({ ...carData, carImageMain: values.carImageMain });
         setSuccess(true);
       }
 
@@ -137,18 +135,8 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
         router.push('/');
       }
     } catch (error) {
-      let errorMessage = car?._id
-        ? 'There was an issue while updating the car.'
-        : 'There was an issue while creating the car.';
-
-      if (error instanceof Error) {
-        errorMessage += ` Detail: ${error.message}`;
-        console.error({ error, message: error.message });
-      } else {
-        console.error({ error, message: 'An unknown error occurred' });
-      }
-
-      showError(toast, 'Error', errorMessage);
+      console.error('Error occurred during onSubmit:', error);
+      handleServerError(error, toast, !!car?._id);
     } finally {
       setSuccess(false);
       setIsLoading(false);

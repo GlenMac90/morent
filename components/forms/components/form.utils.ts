@@ -3,6 +3,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { FormData, FileWithPreview, UploadFunction } from '@/lib/interfaces';
 import { CarValidation } from '@/lib/validations/car';
 import { z } from 'zod';
+import { showError } from '@/lib/toastHandler';
 
 export const handleLocationSelected = (
   location: string,
@@ -22,7 +23,8 @@ export const uploadImages = async (
     if (!isImage) return null;
 
     const imgRes = await startUpload([files[index]]);
-    return imgRes?.[0]?.fileUrl || null;
+
+    return imgRes?.[0]?.url || null;
   });
 
   const uploadedUrls: (string | null)[] = await Promise.all(uploadPromises);
@@ -81,3 +83,22 @@ export const formatCarData = (
   shortDescription: values.shortDescription || '',
   carImageMain: values.carImageMain,
 });
+
+export const handleServerError = (
+  error: any,
+  toast: any,
+  updating: boolean
+) => {
+  let errorMessage = updating
+    ? 'There was an issue while updating the car.'
+    : 'There was an issue while creating the car.';
+
+  if (error instanceof Error) {
+    errorMessage += ` Detail: ${error.message}`;
+    console.error({ error, message: error.message });
+  } else {
+    console.error({ error, message: 'An unknown error occurred' });
+  }
+
+  showError(toast, 'Error', errorMessage);
+};
