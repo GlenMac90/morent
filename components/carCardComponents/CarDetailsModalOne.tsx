@@ -8,9 +8,10 @@ import { usePathname } from "next/navigation";
 
 import { cross, whiteCross } from "../../public/svg-icons/index";
 import CarDetailsModalTwo from "./CarDetailsModalTwo";
-import StarRating from "../reviewComponents/StarRating";
 import ReviewForm from "../reviewComponents/ReviewForm";
 import { CarData } from "@/constants/interfaces";
+import ModalImageGallery from "./ModalImageGallery";
+import ModalCarDetails from "./ModalCarDetails";
 
 interface CarDetailsModalOneProps {
   id: string;
@@ -72,131 +73,21 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
               className="flex cursor-pointer self-start lg:hidden"
             />
           </div>
-          <div className="flex flex-col justify-between md:w-full">
-            <motion.div
-              animate={{ opacity: changePicture ? 100 : 0 }}
-              initial={{ opacity: 0 }}
-              transition={{ duration: changePicture ? 0.08 : 0 }}
-              whileHover={{ scale: 1.2 }}
-              className="flex h-[15rem] w-full max-w-full items-center justify-center rounded-lg md:max-w-full lg:min-h-[22.5rem]"
-            >
-              <Image
-                src={displayPicture}
-                alt="main display picture"
-                style={{
-                  objectFit: "cover",
-                }}
-                className="h-full w-full rounded-lg"
-              />
-            </motion.div>
-            <div className="no_scrollbar mt-5 flex gap-5 overflow-x-auto">
-              {carData.pictures.map((picture: string, index) => (
-                <div className="w-1/3 rounded-lg" key={index}>
-                  <Image
-                    src={picture}
-                    alt="car pictures"
-                    className={`h-full cursor-pointer rounded-lg p-[3px] ${
-                      displayPicture === picture &&
-                      "border border-blue-600 p-[1px]"
-                    }`}
-                    onClick={() => {
-                      setChangePicture(false);
-                      setDisplayPicture(picture);
-                      setTimeout(() => {
-                        setChangePicture(true);
-                      }, 80); // Adding a short delay to let the component fade out before starting to fade in again
-                    }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="mt-8 flex flex-col px-2 md:w-full lg:ml-10 lg:mt-0 lg:justify-between lg:p-6">
-            <div className="flex flex-col">
-              <div className="flex justify-between">
-                <p className="text-xl font-medium lg:text-3xl">
-                  {carData.brand}
-                </p>
-                <Image
-                  src={theme === "light" ? cross : whiteCross}
-                  height={20}
-                  width={20}
-                  alt="close modal"
-                  onClick={() => setShowModal(false)}
-                  className="hidden cursor-pointer self-start dark:text-white200 lg:flex"
-                />
-              </div>
-              <div className={`flex w-full ${canReview && "justify-between"}`}>
-                <StarRating
-                  rating={carData.rating}
-                  reviews={carData.numberOfReviews}
-                />
-                <button
-                  className={`${
-                    !canReview && "hidden"
-                  } cursor-pointer self-center rounded border border-gray300 bg-white200 px-3 py-2 font-light hover:bg-blue500 hover:text-white dark:bg-white/50`}
-                  onClick={() => setShowReviewScreen(true)}
-                >
-                  Review
-                </button>
-              </div>
-            </div>
-            <p className="mt-2 text-xs font-light leading-6 text-gray700 dark:text-white200 lg:text-lg lg:leading-10">
-              {carData.shortDescription}
-            </p>
-            <div>
-              <div className="mt-4 flex justify-between gap-8">
-                <div className="flex w-1/2 justify-between">
-                  <p className="text-xs text-gray400 sm:text-lg lg:text-xl">
-                    Type Car
-                  </p>
-                  <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
-                    {carData.type}
-                  </p>
-                </div>
-                <div className="flex w-1/2 justify-between">
-                  <p className="text-xs text-gray400 sm:text-lg lg:text-xl">
-                    Capacity
-                  </p>
-                  <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
-                    {carData.capacity}{" "}
-                    {carData.capacity === 1 ? "person" : "people"}
-                  </p>
-                </div>
-              </div>
-              <div className="mt-4 flex justify-between gap-8">
-                <div className="flex w-1/2 justify-between">
-                  <p className="text-xs text-gray400 sm:text-lg lg:text-xl">
-                    Transm.
-                  </p>
-                  <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
-                    {carData.transmission}
-                  </p>
-                </div>
-                <div className="flex w-1/2 justify-between">
-                  <p className="text-xs text-gray400 sm:text-lg lg:text-xl">
-                    Gasoline
-                  </p>
-                  <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
-                    {carData.fuelCapacity}L
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="mt-8 flex w-full justify-between">
-              <p className="self-center font-medium sm:text-2xl">
-                ${carData.rentPrice}/
-                <span className="text-xs text-gray-400 sm:text-base"> day</span>
-              </p>
-              <button
-                className="rounded bg-blue500 px-6 py-2 font-medium text-white"
-                onClick={handleButtonClick}
-              >
-                {canReview ? "Rent Again" : "Rent Now"}
-              </button>
-            </div>
-          </div>
+          <ModalImageGallery
+            changePicture={changePicture}
+            carData={carData}
+            displayPicture={displayPicture}
+            setChangePicture={setChangePicture}
+            setDisplayPicture={setDisplayPicture}
+          />
+          <ModalCarDetails
+            carData={carData}
+            theme={theme}
+            canReview={canReview}
+            setShowModal={setShowModal}
+            setShowReviewScreen={setShowReviewScreen}
+            handleButtonClick={handleButtonClick}
+          />
         </div>
       </motion.div>
       <div
