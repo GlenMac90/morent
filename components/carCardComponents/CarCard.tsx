@@ -5,9 +5,10 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 
 import CarDetailsModalOne from "./CarDetailsModalOne";
-import { dummyData } from "@/utils/dummyCarData";
+import { CarData } from "@/constants/interfaces";
 
 import {
   heart,
@@ -17,9 +18,10 @@ import {
   transmission,
   editSymbol,
   editSymbolDarkMode,
-} from "../public/svg-icons/index";
+} from "../../public/svg-icons/index";
 
 interface CarCardProps {
+  carData: CarData;
   id: string;
   isPopularCar?: boolean;
   canEdit?: boolean;
@@ -27,19 +29,21 @@ interface CarCardProps {
 }
 
 const CarCard: React.FC<CarCardProps> = ({
+  carData,
   id,
   isPopularCar = false,
   canEdit = false,
   canReview = false,
 }) => {
+  const pathname = usePathname();
   const { theme } = useTheme();
-  const [isFavourited, setIsFavourited] = useState(dummyData.isFavourited);
+  const [isFavourited, setIsFavourited] = useState(carData.isFavourited);
   const [showModal, setShowModal] = useState(false);
   const [motionKey, setMotionKey] = useState(0);
 
   const handleButtonClick = () => {
     setIsFavourited((prev) => !prev);
-    setMotionKey((prevKey) => prevKey + 1); // Increment the key
+    setMotionKey((prevKey) => prevKey + 1);
   };
 
   return (
@@ -57,9 +61,9 @@ const CarCard: React.FC<CarCardProps> = ({
       >
         <div className="flex w-full justify-between">
           <div className="flex flex-col">
-            <p className="font-medium xs:text-xl">{dummyData.brand}</p>
+            <p className="font-medium xs:text-xl">{carData.brand}</p>
             <p className="mt-1 text-xs font-semibold text-gray400 xs:text-sm">
-              {dummyData.type}
+              {carData.type}
             </p>
           </div>
           {!canEdit ? (
@@ -79,7 +83,7 @@ const CarCard: React.FC<CarCardProps> = ({
               />
             </motion.div>
           ) : (
-            <Link href={`/cars/${dummyData.id}`}>
+            <Link href={`/cars/${carData.id}`}>
               <Image
                 src={theme === "light" ? editSymbol : editSymbolDarkMode}
                 alt="edit button"
@@ -95,7 +99,7 @@ const CarCard: React.FC<CarCardProps> = ({
         >
           <div className="flex w-full justify-center">
             <Image
-              src={dummyData.mainPicture}
+              src={carData.mainPicture}
               alt="car picture"
               className={`mb-1 ml-0 h-[3.3rem] w-[11rem] self-end dark:bg-gray850 xs:ml-4 xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[4.5rem] sm:w-[236px] sm:self-center ${
                 isPopularCar ? "self-center" : "self-end sm:self-center"
@@ -116,7 +120,7 @@ const CarCard: React.FC<CarCardProps> = ({
                 className="h-3.5 w-3.5 xs:h-5 xs:w-5"
               />
               <p className="ml-1 self-center text-xs text-gray400 xs:ml-1.5 xs:text-sm">
-                {dummyData.fuelCapacity}L
+                {carData.fuelCapacity}L
               </p>
             </div>
             <div className="flex">
@@ -126,7 +130,7 @@ const CarCard: React.FC<CarCardProps> = ({
                 className="h-3.5 w-3.5 xs:h-5 xs:w-5"
               />
               <p className="ml-1 self-center text-xs text-gray400 xs:text-sm sm:ml-1.5">
-                {dummyData.transmission}
+                {carData.transmission}
               </p>
             </div>
             <div className="flex">
@@ -136,15 +140,15 @@ const CarCard: React.FC<CarCardProps> = ({
                 className="h-3.5 w-3.5 xs:h-5 xs:w-5"
               />
               <p className="ml-1 self-center text-xs text-gray400 xs:text-sm sm:ml-1.5">
-                {dummyData.capacity}{" "}
-                {dummyData.capacity === 1 ? "person" : "people"}
+                {carData.capacity}{" "}
+                {carData.capacity === 1 ? "person" : "people"}
               </p>
             </div>
           </div>
         </div>
         <div className="mt-6 flex w-full justify-between">
           <p className="self-center font-medium">
-            ${dummyData.rentPrice}/
+            ${carData.rentPrice}/
             <span className="text-xs text-gray400">day</span>
           </p>
           <button
@@ -158,11 +162,17 @@ const CarCard: React.FC<CarCardProps> = ({
         </div>
       </motion.div>
       {showModal && (
-        <div className="absolute flex w-screen max-w-7xl items-center justify-center xs:pr-14 xl:justify-self-center xl:pr-0">
+        <div
+          className={`absolute flex ${
+            pathname === "/search"
+              ? "h-screen w-screen lg:left-5 xl:left-0"
+              : "w-screen max-w-7xl"
+          } w-screen items-center justify-center xs:pr-14 xl:justify-self-center xl:pr-0`}
+        >
           {/* Type error of data will so away once dummyData is removed and lived data will be a string leading to the URL of the image */}
           <CarDetailsModalOne
             id={id}
-            data={dummyData}
+            carData={carData}
             setShowModal={setShowModal}
             isPopular={isPopularCar}
             canReview={canReview}

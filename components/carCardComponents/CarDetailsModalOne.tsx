@@ -4,16 +4,17 @@ import React, { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 
-import { cross, whiteCross } from "../public/svg-icons/index";
+import { cross, whiteCross } from "../../public/svg-icons/index";
 import CarDetailsModalTwo from "./CarDetailsModalTwo";
-import StarRating from "./StarRating";
-import ReviewForm from "./ReviewForm";
+import StarRating from "../reviewComponents/StarRating";
+import ReviewForm from "../reviewComponents/ReviewForm";
 import { CarData } from "@/constants/interfaces";
 
 interface CarDetailsModalOneProps {
   id: string;
-  data: CarData;
+  carData: CarData;
   setShowModal: (show: boolean) => void;
   isPopular?: boolean;
   canReview?: boolean;
@@ -21,13 +22,14 @@ interface CarDetailsModalOneProps {
 
 const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
   id,
-  data,
+  carData,
   setShowModal,
   isPopular,
   canReview,
 }) => {
+  const pathname = usePathname();
   const { theme } = useTheme();
-  const [displayPicture, setDisplayPicture] = useState(data.pictures[0]);
+  const [displayPicture, setDisplayPicture] = useState(carData.pictures[0]);
   const [showModalScreen2, setShowModalScreen2] = useState(false);
   const [changePicture, setChangePicture] = useState(true);
   const [motionKey, setMotionKey] = useState(0);
@@ -49,7 +51,8 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
           !showModalScreen2
             ? "max-w-[30rem] lg:max-w-[65.9rem]"
             : "h-auto max-w-[31.25rem]"
-        } ${!isPopular && "xs:-mr-14 sm:mr-0"}`}
+        } ${!isPopular && "xs:-mr-14 sm:mr-0"}
+        ${pathname === "/search" && "xs:ml-3 xs:mr-1 sm:mr-4 lg:ml-6"}`}
       >
         {showModalScreen2 && (
           <CarDetailsModalTwo setShowModal={setShowModal} id={id} />
@@ -87,7 +90,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
               />
             </motion.div>
             <div className="no_scrollbar mt-5 flex gap-5 overflow-x-auto">
-              {data.pictures.map((picture: string, index) => (
+              {carData.pictures.map((picture: string, index) => (
                 <div className="w-1/3 rounded-lg" key={index}>
                   <Image
                     src={picture}
@@ -112,7 +115,9 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
           <div className="mt-8 flex flex-col px-2 md:w-full lg:ml-10 lg:mt-0 lg:justify-between lg:p-6">
             <div className="flex flex-col">
               <div className="flex justify-between">
-                <p className="text-xl font-medium lg:text-3xl">{data.brand}</p>
+                <p className="text-xl font-medium lg:text-3xl">
+                  {carData.brand}
+                </p>
                 <Image
                   src={theme === "light" ? cross : whiteCross}
                   height={20}
@@ -124,8 +129,8 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
               </div>
               <div className={`flex w-full ${canReview && "justify-between"}`}>
                 <StarRating
-                  rating={data.rating}
-                  reviews={data.numberOfReviews}
+                  rating={carData.rating}
+                  reviews={carData.numberOfReviews}
                 />
                 <p
                   className={`${
@@ -138,7 +143,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
               </div>
             </div>
             <p className="mt-2 text-xs font-light leading-6 text-gray700 dark:text-white200 lg:text-lg lg:leading-10">
-              {data.shortDescription}
+              {carData.shortDescription}
             </p>
             <div>
               <div className="mt-4 flex justify-between gap-8">
@@ -147,7 +152,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
                     Type Car
                   </p>
                   <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
-                    {data.type}
+                    {carData.type}
                   </p>
                 </div>
                 <div className="flex w-1/2 justify-between">
@@ -155,7 +160,8 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
                     Capacity
                   </p>
                   <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
-                    {data.capacity} {data.capacity === 1 ? "person" : "people"}
+                    {carData.capacity}{" "}
+                    {carData.capacity === 1 ? "person" : "people"}
                   </p>
                 </div>
               </div>
@@ -165,7 +171,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
                     Transm.
                   </p>
                   <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
-                    {data.transmission}
+                    {carData.transmission}
                   </p>
                 </div>
                 <div className="flex w-1/2 justify-between">
@@ -173,14 +179,14 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
                     Gasoline
                   </p>
                   <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
-                    {data.fuelCapacity}L
+                    {carData.fuelCapacity}L
                   </p>
                 </div>
               </div>
             </div>
             <div className="mt-8 flex w-full justify-between">
               <p className="self-center font-medium sm:text-2xl">
-                ${data.rentPrice}/
+                ${carData.rentPrice}/
                 <span className="text-xs text-gray-400 sm:text-base"> day</span>
               </p>
               <button
@@ -194,11 +200,11 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         </div>
       </motion.div>
       <div
-        className="fixed inset-0 z-40 h-screen w-screen bg-black opacity-50 dark:bg-gray900 dark:opacity-70"
+        className="fixed inset-0 z-40 h-full w-full bg-black opacity-50 dark:bg-gray900 dark:opacity-70"
         onClick={() => setShowModal(false)}
       ></div>
       {showReviewScreen && (
-        <ReviewForm setShowReviewScreen={setShowReviewScreen} data={data} />
+        <ReviewForm setShowReviewScreen={setShowReviewScreen} data={carData} />
       )}
     </>
   );

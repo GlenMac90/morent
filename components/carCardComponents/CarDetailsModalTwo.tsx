@@ -7,7 +7,7 @@ import { useTheme } from "next-themes";
 import { DateRange } from "react-day-picker";
 import { format, addDays } from "date-fns";
 
-import SelectYourTime from "./SelectYourTime";
+import SelectYourTime from "../searchFormComponents/SelectYourTime";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -15,8 +15,8 @@ import {
   calendar,
   whiteCross,
   ellipse,
-} from "../public/svg-icons/index";
-import Location from "./Location";
+} from "../../public/svg-icons/index";
+import Location from "../Location";
 import {
   Popover,
   PopoverContent,
@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import ArrowDown from "./ArrowDown";
+import ArrowDown from "../ArrowDown";
 
 interface CarDetailsModalTwoProps {
   id: string;

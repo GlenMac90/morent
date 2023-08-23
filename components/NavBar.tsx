@@ -26,6 +26,7 @@ const NavBar = () => {
   const { user } = useUser();
   const userImage = user?.profileImageUrl;
   const { userId } = useAuth();
+  console.log(userId);
   const [showNavMenu, setShowNavMenu] = useState(false);
   const { systemTheme, theme, setTheme } = useTheme();
   const currentTheme = theme === "system" ? systemTheme : theme;

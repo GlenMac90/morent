@@ -1,14 +1,15 @@
 export interface CarData {
   id: string;
-  pictures: string[];
   brand: string;
-  shortDescription: string;
   type: string;
-  isFavourited: boolean;
   capacity: number;
   transmission: string;
   fuelCapacity: number;
-  rentPrice: number;
+  isFavourited: boolean;
+  shortDescription: string;
+  rentPrice: string;
+  mainPicture: string;
+  pictures: string[];
   rating: number;
   numberOfReviews: number;
 }

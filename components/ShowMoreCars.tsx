@@ -8,7 +8,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
-import CarCard from "@/components/CarCard";
+import CarCard from "@/components/carCardComponents/CarCard";
 
 const ShowMoreCars = () => {
   const [isOpen, setIsOpen] = useState(false);

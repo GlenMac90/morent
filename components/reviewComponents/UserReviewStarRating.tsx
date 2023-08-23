@@ -1,9 +1,8 @@
 import React from "react";
 import Image from "next/image";
 
-import { goldStar, emptyStar } from "../public/svg-icons/index";
+import { goldStar, emptyStar } from "../../public/svg-icons/index";
 
-// Define the props type
 interface UserReviewStarRatingProps {
   rating: number;
 }
