@@ -1,42 +1,23 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
-import { DateRange } from "react-day-picker";
 import { format, addDays } from "date-fns";
+import Image from "next/image";
+import { DateRange } from "react-day-picker";
 
-import SelectYourTime from "./SelectYourTime";
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar";
-import {
-  cross,
-  calendar,
-  whiteCross,
-  ellipse,
-} from "../public/svg-icons/index";
-import Location from "./Location";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { cn } from "@/lib/utils";
+import { calendar } from "@/public/svg-icons";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import ArrowDown from "./ArrowDown";
 
-interface CarDetailsModalTwoProps {
-  id: string;
-  setShowModal: (show: boolean) => void;
-}
-
-const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
-  id,
-  setShowModal,
-}) => {
-  const { theme } = useTheme();
-
+const AvailabilityFromTo = () => {
   const today = new Date();
   const twoDaysFromNow = addDays(today, 2);
 
@@ -45,49 +26,21 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
     to: addDays(twoDaysFromNow, 3),
   });
   return (
-    <motion.section
-      animate={{ scale: 1 }}
-      initial={{ scale: 0 }}
-      className="w-full flex-1 flex-col self-center py-6 xs:min-w-[22rem] sm:w-[31.25rem] sm:p-2"
-    >
-      <div className="flex justify-between">
-        <div className="flex flex-col">
-          <p className="text-xl font-semibold text-gray900 dark:text-white">
-            Add Pickup & Drop-Off Info
-          </p>
-          <p className="mt-2.5 text-sm text-gray400">Please enter your info</p>
-        </div>
-        <Image
-          src={theme === "light" ? cross : whiteCross}
-          alt="close modal"
-          onClick={() => setShowModal(false)}
-          className="flex h-6 w-6 -translate-y-6 cursor-pointer self-start sm:h-8 sm:w-8 sm:-translate-y-0"
-        />
-      </div>
-      {/* <p className="mt-10 text-lg font-bold text-blue500">PICKUP INFO</p> */}
-      <div className="mb-3 mt-[1.88rem] flex flex-row items-center gap-2">
-        <div className="flex h-4 w-4 items-center justify-center rounded-[4.375rem] bg-blue450">
-          <Image src={ellipse} width={8} height={8} alt="Ellipse" />
-        </div>
-        <p className="font-medium text-gray900 dark:text-white">
-          Pick-Up Location
-        </p>
-      </div>
-      <Location />
-      <div className="mt-6 flex flex-row gap-3 xl:grow xl:gap-4">
+    <>
+      <div className="flex flex-row gap-3 xl:grow xl:gap-4">
         <Popover>
           <div className={`flex w-full flex-col gap-3.5`}>
             <div className="flex flex-row">
               <div className="flex flex-row items-center gap-[0.38rem]">
                 <Image src={calendar} width={14} height={14} alt="calendar" />
-                <Label htmlFor="Pick-Up Date">Pick-Up Date</Label>
+                <Label htmlFor="availabilityFrom">Availability from</Label>
               </div>
             </div>
-            <PopoverTrigger asChild id="Pick-Up Date">
+            <PopoverTrigger asChild id="availabilityFrom">
               <Button
                 variant={"outline"}
                 className={cn(
-                  "bg-white200 dark:bg-gray800 h-[2.875rem] sm:h-[3.5rem] w-full justify-between border-0 text-left font-normal py-[0.69rem] px-[0.62rem] xl:pl-[1.13rem] xl:h-14",
+                  "bg-white200 dark:bg-gray800 w-full h-[2.875rem] sm:h-[3.5rem] justify-between border-0 text-left font-normal py-[0.69rem] pl-4 pr-[1.13rem] xl:px-5 xl:h-14",
                   !date && "text-muted-foreground"
                 )}
               >
@@ -114,23 +67,22 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
             />
           </PopoverContent>
         </Popover>
-        <SelectYourTime pickUpOrDropOff={"Pick-Up Time"} />
       </div>
 
-      <div className="mt-6 flex flex-row gap-3 xl:grow xl:gap-4">
+      <div className="flex flex-row gap-3 xl:grow xl:gap-4">
         <Popover>
           <div className={`flex w-full flex-col gap-3.5`}>
             <div className="flex flex-row">
               <div className="flex flex-row items-center gap-[0.38rem]">
                 <Image src={calendar} width={14} height={14} alt="calender" />
-                <Label htmlFor="Drop-Off Date">Drop-Off Date</Label>
+                <Label htmlFor="availabilityTo">Availability to</Label>
               </div>
             </div>
-            <PopoverTrigger asChild id="Drop-Off Date">
+            <PopoverTrigger asChild id="availabilityTo">
               <Button
                 variant={"outline"}
                 className={cn(
-                  "bg-white200 w-full dark:bg-gray800 h-[2.875rem] sm:h-[3.5rem] justify-between border-0 text-left font-normal py-[0.69rem] px-[0.62rem] xl:pl-[1.13rem] xl:h-14",
+                  "bg-white200 w-full dark:bg-gray800 h-[2.875rem] sm:h-[3.5rem] justify-between border-0 text-left font-normal py-[0.69rem] xl:px-5 pl-4 pr-[1.13rem] xl:h-14",
                   !date && "text-muted-foreground"
                 )}
               >
@@ -157,13 +109,9 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
             />
           </PopoverContent>
         </Popover>
-        <SelectYourTime pickUpOrDropOff={"Drop-Off Time"} />
       </div>
-      <button className="mt-7 w-full rounded-xl bg-blue500 py-4 font-semibold text-white">
-        Rent Now
-      </button>
-    </motion.section>
+    </>
   );
 };
 
-export default CarDetailsModalTwo;
+export default AvailabilityFromTo;
