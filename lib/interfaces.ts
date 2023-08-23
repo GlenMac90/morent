@@ -1,4 +1,6 @@
 import { Control } from 'react-hook-form';
+import { UploadFileResponse } from 'uploadthing/client';
+
 
 export interface DateRange {
   start: Date;
@@ -112,3 +114,8 @@ export type CarFormHeaderProps = {
   };
   imagePreviews: string[];
 };
+
+
+export type UploadFunction = (
+  files: FileWithPreview[]
+) => Promise<UploadFileResponse[] | undefined>;

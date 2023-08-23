@@ -20,6 +20,7 @@ import {
   capacities,
   transmissionOptions,
   fuelCapacityOptions,
+  carData,
 } from '@/constants';
 
 import Location from '../Location';
@@ -28,7 +29,10 @@ import InputController from './components/InputController';
 import CarFormButtons from './components/CarFormButtons';
 import CarFormHeader from './components/CarFormHeader';
 
-import { handleLocationSelected as handleLocationSelectedUtil } from './components/form.utils';
+import {
+  handleLocationSelected as handleLocationSelectedUtil,
+  uploadImages,
+} from './components/form.utils';
 
 const CarForm: React.FC<Props> = ({ userId, car }) => {
   const { startUpload } = useUploadThing('media');
@@ -67,22 +71,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
     },
   });
 
-  const uploadImages = async (
-    imagePreviews: string[],
-    files: FileWithPreview[]
-  ): Promise<string[]> => {
-    const uploadPromises = imagePreviews.map(async (blob, index) => {
-      const isImage = isBase64Image(blob);
-      if (!isImage) return null;
-
-      const imgRes = await startUpload([files[index]]);
-      return imgRes?.[0]?.fileUrl || null;
-    });
-
-    const uploadedUrls: (string | null)[] = await Promise.all(uploadPromises);
-    return uploadedUrls.filter((url) => url !== null) as string[];
-  };
-
   const onSubmit = async (values: z.infer<typeof CarValidation>) => {
     setIsLoading(true);
     setError(null);
@@ -109,7 +97,13 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
     }
 
     try {
-      const uploadedUrls = await uploadImages(imagePreviews, dragDropFiles);
+      const uploadedUrls = await uploadImages(
+        imagePreviews,
+        dragDropFiles,
+        isBase64Image,
+        startUpload
+      );
+
       if (!uploadedUrls) {
         throw new Error('Failed to upload image.');
       }
@@ -117,18 +111,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       if (uploadedUrls.length > 0) {
         values.carImageMain = uploadedUrls[0];
       }
-      const carData = {
-        userId,
-        carTitle: values.carTitle || '',
-        carType: values.carType || '',
-        rentPrice: values.rentPrice || '',
-        capacity: values.capacity || 1,
-        transmission: values.transmission || '',
-        location: values.location || '',
-        fuelCapacity: values.fuelCapacity || 1,
-        shortDescription: values.shortDescription || '',
-        carImageMain: values.carImageMain,
-      };
 
       if (car?._id) {
         await editCar({

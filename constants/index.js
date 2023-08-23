@@ -158,3 +158,16 @@ export const FilterData = [
     payload: null,
   },
 ];
+
+export const carData = {
+  userId,
+  carTitle: values.carTitle || '',
+  carType: values.carType || '',
+  rentPrice: values.rentPrice || '',
+  capacity: values.capacity || 1,
+  transmission: values.transmission || '',
+  location: values.location || '',
+  fuelCapacity: values.fuelCapacity || 1,
+  shortDescription: values.shortDescription || '',
+  carImageMain: values.carImageMain,
+};
