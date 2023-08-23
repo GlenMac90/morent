@@ -68,7 +68,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     >
       <div
         onClick={handleChildClick}
-        className="fixed top-40 z-50 flex max-h-[40rem] w-full max-w-2xl flex-col overflow-y-auto rounded-xl bg-white200 p-5 dark:bg-gray900 "
+        className="fixed top-[12.75rem] z-50 flex max-h-[40rem] w-full max-w-[30rem] flex-col overflow-y-auto rounded-xl bg-white200 p-5 dark:bg-gray900  "
       >
         <div className="flex w-full justify-between">
           <p className="text-2xl font-semibold ">{data.brand}</p>
@@ -81,13 +81,13 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
             className="cursor-pointer self-start dark:text-white200"
           />
         </div>
-
         <Image
           src={data?.pictures[0]}
           alt="car-picture"
-          height={350}
-          width={350}
-          className="mt-4 rounded-xl"
+          style={{
+            objectFit: "cover",
+          }}
+          className="mt-3 h-full w-full rounded-xl"
         />
         <ReviewFormStarRating setStarRating={setStarRating} />
         <Form {...form}>

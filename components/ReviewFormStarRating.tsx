@@ -37,10 +37,17 @@ const ReviewFormStarRating: React.FC<ReviewFormStarRatingProps> = ({
                 : emptyStar
             }
             alt="star"
+            height={30}
+            width={30}
+            className="cursor-pointer"
           />
         </div>
       ))}
-      <p className={`ml-2 self-center ${selectedStar === -1 && "hidden"}`}>
+      <p
+        className={`ml-2 self-center text-lg font-semibold ${
+          selectedStar === -1 && "hidden"
+        }`}
+      >
         {selectedStar + 1} {selectedStar + 1 === 1 ? "star" : "stars"}
       </p>
     </div>
