@@ -37,7 +37,7 @@ const Review: React.FC<ReviewProps> = ({ reviewData, carData }) => {
           </p>
         </div>
         <button
-          className="rounded bg-slate-300/50 px-3 py-2"
+          className="rounded border border-gray300 bg-white200 px-3 py-2 font-light hover:bg-blue500 hover:text-white dark:bg-white/50"
           onClick={() => setShowEditReview(true)}
         >
           Edit Review

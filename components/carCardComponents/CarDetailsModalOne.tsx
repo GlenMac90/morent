@@ -132,14 +132,14 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
                   rating={carData.rating}
                   reviews={carData.numberOfReviews}
                 />
-                <p
+                <button
                   className={`${
                     !canReview && "hidden"
-                  } cursor-pointer self-center`}
+                  } cursor-pointer self-center rounded border border-gray300 bg-white200 px-3 py-2 font-light hover:bg-blue500 hover:text-white dark:bg-white/50`}
                   onClick={() => setShowReviewScreen(true)}
                 >
                   Review
-                </p>
+                </button>
               </div>
             </div>
             <p className="mt-2 text-xs font-light leading-6 text-gray700 dark:text-white200 lg:text-lg lg:leading-10">
