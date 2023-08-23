@@ -5,9 +5,9 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-
 import { useToast } from '@/components/ui/use-toast';
 import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
+
 import { CarValidation } from '@/lib/validations/car';
 import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing';
@@ -21,11 +21,14 @@ import {
   fuelCapacityOptions,
 } from '@/constants';
 import Location from '../Location';
-import SelectInput from './components/SelectInput';
-import InputController from './components/InputController';
-import CarFormButtons from './components/CarFormButtons';
-import CarFormHeader from './components/CarFormHeader';
-import FormState from './components/FormState';
+import {
+  SelectInput,
+  InputController,
+  CarFormButtons,
+  CarFormHeader,
+  FormState,
+} from './components/index';
+
 import {
   uploadImages,
   handleFilesChange,
