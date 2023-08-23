@@ -69,10 +69,10 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       carTitle: car?.carTitle || '',
       carType: car?.carType || '',
       rentPrice: car?.rentPrice || '',
-      capacity: car?.capacity || 1,
+      capacity: car?.capacity || '',
       transmission: car?.transmission || '',
       location: car?.location || '',
-      fuelCapacity: car?.fuelCapacity || 0,
+      fuelCapacity: car?.fuelCapacity || '',
       shortDescription: car?.shortDescription || '',
       carImageMain: car?.carImageMain || '',
       path: car?.path || '',
@@ -166,7 +166,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full max-w-4xl flex-col items-center gap-5 rounded-xl bg-white px-6 py-12 dark:bg-gray850"
+        className="dark:bg-gray850 flex w-full max-w-4xl flex-col items-center gap-5 rounded-xl bg-white px-6 py-12"
       >
         <FormState isLoading={isLoading} error={error} success={success} />
 
@@ -248,7 +248,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
           />
         </div>
 
-        <p className="self-start font-semibold text-gray900 dark:text-white">
+        <p className="text-gray900 self-start font-semibold dark:text-white">
           Upload Images
         </p>
 

@@ -4,3 +4,6 @@ export { default as carInteriorTwo } from "./carInteriorTwo.jpg";
 export { default as carInteriorThree } from "./carInteriorThree.jpg";
 export { default as carAdBackground } from "./carAdBackground.png";
 export { default as carExterior } from "./carExterior.jpg";
+export { default as fordRangerImage } from "./fordRangerImage.jpg";
+export { default as skodaOctaviaImage } from "./skodaOctaviaImage.jpg";
+export { default as trabantImage } from "./trabantImage.jpg";

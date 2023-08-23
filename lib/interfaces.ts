@@ -1,5 +1,6 @@
 import { Control } from 'react-hook-form';
 import { UploadFileResponse } from 'uploadthing/client';
+import mongoose from 'mongoose';
 
 export interface DateRange {
   start: Date;
@@ -11,11 +12,13 @@ export interface CarParams {
   _id?: string;
   carTitle: string;
   carType: string;
+  carRented?: number;
+  starRating?: number;
   rentPrice?: string;
-  capacity?: number;
+  capacity?: string;
   transmission?: string;
   location?: string;
-  fuelCapacity?: number;
+  fuelCapacity?: string;
   shortDescription?: string;
   carImageMain?: string;
   disabledDates?: {
@@ -43,26 +46,16 @@ export type FormData = {
   carTitle: string;
   carType: string;
   rentPrice: string;
-  capacity: number;
+  capacity: string;
   transmission: string;
   location: string;
-  fuelCapacity: number;
+  fuelCapacity: string;
   shortDescription: string;
   carImageMain: string;
   path: string;
 };
 
-export type FieldNames =
-  | 'carTitle'
-  | 'carType'
-  | 'rentPrice'
-  | 'capacity'
-  | 'transmission'
-  | 'location'
-  | 'fuelCapacity'
-  | 'shortDescription'
-  | 'carImageMain'
-  | 'path';
+export type FieldNames = keyof FormData;
 
 export type SelectItems = {
   value: string;
@@ -131,3 +124,11 @@ export interface ToastOptions {
 }
 
 export type ToastFunction = (options: ToastOptions) => void;
+export interface ReviewDocument extends mongoose.Document {
+  userId: mongoose.Types.ObjectId;
+  carId: mongoose.Types.ObjectId;
+  rating: number;
+  title: string;
+  content: string;
+  datePosted?: Date;
+}

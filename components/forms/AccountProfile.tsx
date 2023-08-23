@@ -1,29 +1,27 @@
-'use client';
+"use client";
 
-import React, { ChangeEvent, useState } from 'react';
-import Image from 'next/image';
-import { useForm } from 'react-hook-form';
+import React, { ChangeEvent, useState } from "react";
+import Image from "next/image";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { UserValidation } from '@/lib/validations/user';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '../ui/textarea';
-import * as z from 'zod';
-import ImageWithFallback from '@/utils/ImageWithFallback';
-import { isBase64Image } from '@/lib/utils';
+} from "@/components/ui/form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { UserValidation } from "@/lib/validations/user";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "../ui/textarea";
+import * as z from "zod";
+import ImageWithFallback from "@/utils/ImageWithFallback";
+import { isBase64Image } from "@/lib/utils";
 
-import '@uploadthing/react/styles.css';
-
-import { useUploadThing } from '@/lib/uploadthing';
-import { updateUser } from '@/lib/actions/user.actions';
-import { usePathname, useRouter } from 'next/navigation';
+import { useUploadThing } from "@/lib/uploadthing";
+import { updateUser } from "@/lib/actions/user.actions";
+import { usePathname, useRouter } from "next/navigation";
 
 interface Props {
   user: string;
@@ -31,7 +29,7 @@ interface Props {
 
 const AccountProfile: React.FC<Props> = ({ user }) => {
   const [files, setFiles] = useState<File[]>([]);
-  const { startUpload } = useUploadThing('media');
+  const { startUpload } = useUploadThing("media");
 
   const router = useRouter();
   const pathname = usePathname();
@@ -41,10 +39,10 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
   const form = useForm({
     resolver: zodResolver(UserValidation),
     defaultValues: {
-      name: userData?.name || '',
-      username: userData?.username || '',
-      bio: userData?.bio || '',
-      profile_photo: userData?.image || '',
+      name: userData?.name || "",
+      username: userData?.username || "",
+      bio: userData?.bio || "",
+      profile_photo: userData?.image || "",
     },
   });
 
@@ -66,14 +64,14 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
       image: values.profile_photo,
       path: pathname,
       onboarded: true,
-      id: '',
+      id: "",
       _id: undefined,
     });
 
-    if (pathname === '/profile/edit') {
+    if (pathname === "/profile/edit") {
       router.back();
     } else {
-      router.push('/');
+      router.push("/");
     }
   };
 
@@ -89,11 +87,11 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
       const file = e.target.files[0];
       setFiles(Array.from(e.target.files));
 
-      if (!file.type.includes('image')) return;
+      if (!file.type.includes("image")) return;
 
       fileReader.readAsDataURL(file);
       fileReader.onload = () => {
-        fieldChange((fileReader.result as string) || '');
+        fieldChange((fileReader.result as string) || "");
       };
     }
   };
@@ -102,7 +100,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex flex-col justify-start gap-5"
+        className="flex w-full flex-col gap-5 self-center"
       >
         <FormField
           control={form.control}
@@ -111,14 +109,16 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
             <FormItem className="flex flex-col justify-start">
               <FormLabel className="ml-1 p-4 pl-0">
                 {field.value ? (
-                  <ImageWithFallback
-                    src={field.value}
-                    alt="profile photo"
-                    width={96}
-                    height={96}
-                    priority
-                    className=" rounded-full object-contain"
-                  />
+                  <div className="flex h-24 w-24">
+                    <ImageWithFallback
+                      src={field.value}
+                      alt="profile photo"
+                      width={96}
+                      height={96}
+                      priority
+                      className=" rounded-full"
+                    />
+                  </div>
                 ) : (
                   <Image
                     src="/profile.svg"
@@ -129,7 +129,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
                   />
                 )}
               </FormLabel>
-              <FormControl className="">
+              <FormControl className="bg-white200 dark:bg-gray800">
                 <Input
                   type="file"
                   accept="image/*"
@@ -147,8 +147,8 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
           name="name"
           render={({ field }) => (
             <FormItem className="flex flex-col justify-start">
-              <FormLabel className="ml-1 p-4 pl-0">Name</FormLabel>
-              <FormControl className="">
+              <FormLabel className="ml-1 pl-0 text-lg">Name</FormLabel>
+              <FormControl className="bg-white200 dark:bg-gray800">
                 <Input type="text" className="" {...field} />
               </FormControl>
             </FormItem>
@@ -159,8 +159,8 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
           name="username"
           render={({ field }) => (
             <FormItem className="flex flex-col justify-start">
-              <FormLabel className="ml-1 p-4 pl-0">Username</FormLabel>
-              <FormControl className="">
+              <FormLabel className="ml-1 pl-0 text-lg">Username</FormLabel>
+              <FormControl className="bg-white200 dark:bg-gray800">
                 <Input type="text" className="" {...field} />
               </FormControl>
             </FormItem>
@@ -171,14 +171,14 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
           name="bio"
           render={({ field }) => (
             <FormItem className="flex flex-col justify-start">
-              <FormLabel className="ml-1 p-4 pl-0">Bio</FormLabel>
-              <FormControl className="">
+              <FormLabel className="ml-1 pl-0 text-lg">Bio</FormLabel>
+              <FormControl className="bg-white200 dark:bg-gray800">
                 <Textarea rows={10} className="" {...field} />
               </FormControl>
             </FormItem>
           )}
         />
-        <Button className="bg-blue500 text-white" type="submit">
+        <Button className="mt-4 bg-blue500 text-white" type="submit">
           Submit
         </Button>
       </form>

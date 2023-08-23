@@ -10,7 +10,7 @@ const Loader = () => {
     <div className="fixed z-10 flex h-screen w-screen flex-col items-center justify-center bg-white200 dark:bg-gray900">
       <div className="flex w-full items-center justify-center">
         <div className="z-20 h-full w-full bg-white200 dark:bg-gray900"></div>
-        <div className="sky_animation mt-40 flex flex-col overflow-hidden rounded-t-full px-80 pt-72">
+        <div className="sky_animation mt-44 flex flex-col overflow-hidden rounded-t-full px-80 pt-72">
           <div className="sun_moon absolute"></div>
           <div className="star_container absolute -translate-x-24 -translate-y-52">
             {[0, 1, 2, 3, 4].map((star) => (

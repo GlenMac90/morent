@@ -76,10 +76,10 @@ export const formatCarData = (
   carTitle: values.carTitle || '',
   carType: values.carType || '',
   rentPrice: values.rentPrice || '',
-  capacity: values.capacity || 1,
+  capacity: values.capacity || '',
   transmission: values.transmission || '',
   location: values.location || '',
-  fuelCapacity: values.fuelCapacity || 1,
+  fuelCapacity: values.fuelCapacity || '',
   shortDescription: values.shortDescription || '',
   carImageMain: values.carImageMain,
 });
