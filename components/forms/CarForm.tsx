@@ -33,6 +33,7 @@ import {
   uploadImages,
   handleFilesChange,
   handleLocationSelected,
+  getCarIdFromPath,
 } from './components/form.utils';
 
 import {
@@ -53,9 +54,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
 
-  const carIdPattern = /^\/cars\/(?!new$)([a-zA-Z0-9]+)$/;
-  const match = pathname.match(carIdPattern);
-  const carIdFromPath = match ? match[1] : null;
+  const carIdFromPath = getCarIdFromPath(pathname);
 
   const { toast } = useToast();
 
@@ -82,6 +81,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
   const onSubmit = async (values: z.infer<typeof CarValidation>) => {
     setIsLoading(true);
     setError(null);
+
     const carData = {
       userId,
       carTitle: values.carTitle || '',

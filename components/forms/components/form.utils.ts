@@ -57,3 +57,9 @@ export const handleFilesChange = (
       console.error('Error reading one or more files:', error);
     });
 };
+
+export const getCarIdFromPath = (pathname: string) => {
+  const carIdPattern = /^\/cars\/(?!new$)([a-zA-Z0-9]+)$/;
+  const match = pathname.match(carIdPattern);
+  return match ? match[1] : null;
+};
