@@ -15,8 +15,6 @@ import {
   calendar,
   whiteCross,
   ellipse,
-  arrowDown,
-  darkModeArrowDown,
 } from "../public/svg-icons/index";
 import Location from "./Location";
 import {
@@ -26,6 +24,7 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import ArrowDown from "./ArrowDown";
 
 interface CarDetailsModalTwoProps {
   id: string;
@@ -99,20 +98,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
                     <span className="text-[0.625rem] font-normal leading-5 text-gray-400">
                       Select your date
                     </span>
-                    <Image
-                      className="dark:hidden"
-                      src={arrowDown}
-                      width="12"
-                      height="12"
-                      alt="Arrow Down"
-                    />
-                    <Image
-                      className="hidden dark:block"
-                      src={darkModeArrowDown}
-                      width="12"
-                      height="12"
-                      alt="Arrow Down"
-                    />
+                    <ArrowDown />
                   </>
                 )}
               </Button>
@@ -155,20 +141,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
                     <span className="text-[0.625rem] font-normal leading-5 text-gray-400">
                       Select your date
                     </span>
-                    <Image
-                      className="dark:hidden"
-                      src={arrowDown}
-                      width="12"
-                      height="12"
-                      alt="Arrow Down"
-                    />
-                    <Image
-                      className="hidden dark:block"
-                      src={darkModeArrowDown}
-                      width="12"
-                      height="12"
-                      alt="Arrow Down"
-                    />
+                    <ArrowDown />
                   </>
                 )}
               </Button>

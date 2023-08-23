@@ -12,9 +12,10 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
-import { arrowDown, calendar, darkModeArrowDown } from "@/public/svg-icons";
+import { calendar } from "@/public/svg-icons";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
+import ArrowDown from "./ArrowDown";
 
 const AvailabilityFromTo = () => {
   const today = new Date();
@@ -39,7 +40,7 @@ const AvailabilityFromTo = () => {
               <Button
                 variant={"outline"}
                 className={cn(
-                  "bg-white200 dark:bg-gray800 w-full h-[2.875rem] sm:h-[3.5rem] justify-between border-0 text-left font-normal py-[0.69rem] px-[0.62rem] xl:pl-[1.13rem] xl:h-14",
+                  "bg-white200 dark:bg-gray800 w-full h-[2.875rem] sm:h-[3.5rem] justify-between border-0 text-left font-normal py-[0.69rem] pl-4 pr-[1.13rem] xl:px-5 xl:h-14",
                   !date && "text-muted-foreground"
                 )}
               >
@@ -50,20 +51,7 @@ const AvailabilityFromTo = () => {
                     <span className="text-[0.625rem] font-normal leading-5 text-gray-400">
                       Select your date
                     </span>
-                    <Image
-                      className="dark:hidden"
-                      src={arrowDown}
-                      width="12"
-                      height="12"
-                      alt="Arrow Down"
-                    />
-                    <Image
-                      className="hidden dark:block"
-                      src={darkModeArrowDown}
-                      width="12"
-                      height="12"
-                      alt="Arrow Down"
-                    />
+                    <ArrowDown />
                   </>
                 )}
               </Button>
@@ -94,7 +82,7 @@ const AvailabilityFromTo = () => {
               <Button
                 variant={"outline"}
                 className={cn(
-                  "bg-white200 w-full dark:bg-gray800 h-[2.875rem] sm:h-[3.5rem] justify-between border-0 text-left font-normal py-[0.69rem] px-[0.62rem] xl:pl-[1.13rem] xl:h-14",
+                  "bg-white200 w-full dark:bg-gray800 h-[2.875rem] sm:h-[3.5rem] justify-between border-0 text-left font-normal py-[0.69rem] xl:px-5 pl-4 pr-[1.13rem] xl:h-14",
                   !date && "text-muted-foreground"
                 )}
               >
@@ -105,20 +93,7 @@ const AvailabilityFromTo = () => {
                     <span className="text-[0.625rem] font-normal leading-5 text-gray-400">
                       Select your date
                     </span>
-                    <Image
-                      className="dark:hidden"
-                      src={arrowDown}
-                      width="12"
-                      height="12"
-                      alt="Arrow Down"
-                    />
-                    <Image
-                      className="hidden dark:block"
-                      src={darkModeArrowDown}
-                      width="12"
-                      height="12"
-                      alt="Arrow Down"
-                    />
+                    <ArrowDown />
                   </>
                 )}
               </Button>
