@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -15,14 +15,14 @@ import AvailabilityFromTo from "./AvailabilityFromTo";
 const PickUpDropOffCard = () => {
   const pathname = usePathname();
 
-  const isSearchPage = pathname === "/search";
-  const searchPageDiv = isSearchPage ? "xl:px-7" : "xl:px-6";
+  const isSearchPage = pathname === '/search';
+  const searchPageDiv = isSearchPage ? 'xl:px-7' : 'xl:px-6';
 
   const searchPageLocation = isSearchPage && "xl:max-w-[17rem] 2xl:max-w-none";
 
   const searchPageButton = isSearchPage
-    ? "h-14 w-[3.75rem] xl:flex hidden"
-    : "flex h-12 grow flex-row gap-[0.38rem] xl:h-14 xl:max-w-[10rem]";
+    ? 'h-14 w-[3.75rem] xl:flex hidden'
+    : 'flex h-12 grow flex-row gap-[0.38rem] xl:h-14 xl:max-w-[10rem]';
 
   return (
     <motion.div
@@ -53,14 +53,14 @@ const PickUpDropOffCard = () => {
       >
         <Image src={search} width={14} height={14} alt="Search" />
         <span className="text-[0.875rem] font-semibold not-italic leading-[1.6625rem] text-white0 xl:text-[1rem] xl:font-medium xl:leading-[1.6rem]">
-          {isSearchPage ? "" : "Search"}
+          {isSearchPage ? '' : 'Search'}
         </span>
       </Button>
       {/* Search button on search Page */}
       {isSearchPage && (
         <Button
           className={`${
-            isSearchPage ? "xl:hidden" : "xl:max-w-[10rem]"
+            isSearchPage ? 'xl:hidden' : 'xl:max-w-[10rem]'
           } flex h-12 grow flex-row gap-[0.38rem] rounded-[0.625rem] bg-blue500 xl:mt-[3.26rem] xl:h-14`}
         >
           <Image src={search} width={14} height={14} alt="Search" />

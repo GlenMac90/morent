@@ -5,10 +5,10 @@ export interface CarData {
   shortDescription: string;
   type: string;
   isFavourited: boolean;
-  capacity: number;
+  capacity: string;
   transmission: string;
-  fuelCapacity: number;
-  rentPrice: number;
+  fuelCapacity: string;
+  rentPrice: string;
   rating: number;
   numberOfReviews: number;
 }
