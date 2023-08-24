@@ -6,6 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useTheme } from "next-themes";
+import { useMediaQuery } from "@uidotdev/usehooks";
 
 import { darkModeIcon, lightModeIcon, burgerMenu } from "@/public/svg-icons";
 import { navButtons } from "@/constants";
@@ -20,16 +21,13 @@ const NavBar = () => {
   const currentTheme = theme === "system" ? systemTheme : theme;
   const pathname = usePathname();
 
+  const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
+
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth > 768) {
-        setShowNavMenu(false);
-      }
-    };
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+    if (!isSmallDevice) {
+      setShowNavMenu(false);
+    }
+  }, [isSmallDevice]);
 
   return (
     <>
