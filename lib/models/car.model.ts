@@ -1,9 +1,9 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const carSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true,
   },
   carTitle: {
@@ -36,6 +36,6 @@ const carSchema = new mongoose.Schema({
   liked: Boolean,
 });
 
-const Car = mongoose?.models?.Car || mongoose.model('Car', carSchema);
+const Car = mongoose?.models?.Car || mongoose.model("Car", carSchema);
 
 export default Car;

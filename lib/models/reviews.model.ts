@@ -1,15 +1,24 @@
-import mongoose from 'mongoose';
-import { ReviewDocument } from '../interfaces';
+import mongoose from "mongoose";
+import { ReviewDocument } from "../interfaces";
 
 const reviewSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+    ref: "User",
     required: true,
   },
   carId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Car',
+    ref: "Car",
+    required: true,
+  },
+  userImage: {
+    type: String,
+    required: false,
+  },
+  username: {
+    type: String,
+    unique: true,
     required: true,
   },
   rating: {
@@ -17,6 +26,10 @@ const reviewSchema = new mongoose.Schema({
     required: true,
     min: 1,
     max: 5,
+  },
+  carImage: {
+    type: String,
+    required: true,
   },
   title: {
     type: String,
@@ -34,6 +47,6 @@ const reviewSchema = new mongoose.Schema({
 
 const Review =
   mongoose.models.Review ||
-  mongoose.model<ReviewDocument>('Review', reviewSchema);
+  mongoose.model<ReviewDocument>("Review", reviewSchema);
 
 export default Review;

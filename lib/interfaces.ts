@@ -1,6 +1,6 @@
-import { Control } from 'react-hook-form';
-import { UploadFileResponse } from 'uploadthing/client';
-import mongoose from 'mongoose';
+import { Control } from "react-hook-form";
+import { UploadFileResponse } from "uploadthing/client";
+import mongoose from "mongoose";
 
 export interface DateRange {
   start: Date;
@@ -120,14 +120,17 @@ export interface FeedbackMessageProps {
 export interface ToastOptions {
   title: string;
   description: string;
-  variant?: 'destructive' | 'success';
+  variant?: "destructive" | "success";
 }
 
 export type ToastFunction = (options: ToastOptions) => void;
 export interface ReviewDocument extends mongoose.Document {
   userId: mongoose.Types.ObjectId;
   carId: mongoose.Types.ObjectId;
+  userImage: string;
+  username: string;
   rating: number;
+  carImage: string;
   title: string;
   content: string;
   datePosted?: Date;

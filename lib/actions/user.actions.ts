@@ -1,17 +1,17 @@
-'use server';
+"use server";
 
-import { revalidatePath } from 'next/cache';
-import { connectToDB } from '../mongoose';
-import User from '../models/user.model';
-import Car from '../models/car.model';
-import Review from '../models/reviews.model';
-import { UserParams } from '../interfaces';
+import { revalidatePath } from "next/cache";
+import { connectToDB } from "../mongoose";
+import User from "../models/user.model";
+import Car from "../models/car.model";
+import Review from "../models/reviews.model";
+import { UserParams } from "../interfaces";
 
 export async function userFromDB(userId: string): Promise<UserParams | null> {
   connectToDB();
   const userDocument = await User.findOne({ id: userId });
   if (!userDocument) {
-    console.warn('User not found.');
+    console.warn("User not found.");
     return null;
   }
   return userDocument.toObject();
@@ -22,11 +22,11 @@ export async function fetchUserWithCars(
 ): Promise<UserParams | null> {
   connectToDB();
   const userWithCars = await User.findOne({ id: userId })
-    .populate('cars')
+    .populate("cars")
     .exec();
 
   if (!userWithCars) {
-    console.warn('User not found.');
+    console.warn("User not found.");
     return null;
   }
   console.log(userWithCars.toObject());
@@ -79,11 +79,11 @@ export async function fetchReviewsByUser(
 
   try {
     const userReviews = await Review.find({ userId })
-      .populate('carId', 'carTitle', 'carImageMain')
+      .populate("carId", "carTitle", "carImageMain")
       .exec();
 
     if (!userReviews || userReviews.length === 0) {
-      console.warn('No reviews found for this user.');
+      console.warn("No reviews found for this user.");
       return null;
     }
 

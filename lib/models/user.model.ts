@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
@@ -31,19 +31,19 @@ const userSchema = new mongoose.Schema(
     carsAdded: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Car',
+        ref: "Car",
       },
     ],
     carsHired: [
       {
         car: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Car',
+          ref: "Car",
           required: true,
         },
         reviewId: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Review',
+          ref: "Review",
           required: false,
         },
       },
@@ -54,6 +54,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose?.models?.User || mongoose.model('User', userSchema);
+const User = mongoose?.models?.User || mongoose.model("User", userSchema);
 
 export default User;

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { Types } from "mongoose";
 import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -19,6 +20,9 @@ import { motion } from "framer-motion";
 import { CarData } from "@/constants/interfaces";
 import ReviewFormStarRating from "./ReviewFormStarRating";
 import { cross, whiteCross } from "@/public/svg-icons";
+import { createReview } from "@/lib/actions/review.actions";
+import { formatReviewData } from "../forms/components/form.utils";
+import currentUserId from "@/lib/hooks/currentUserId";
 
 interface ReviewFormProps {
   setShowReviewScreen: (value: boolean) => void;
@@ -29,6 +33,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   setShowReviewScreen,
   data,
 }) => {
+  currentUserId();
   const { theme } = useTheme();
   const [starRating, setStarRating] = useState<number | null>(null);
   const handleBackgroundClick = () => {
@@ -55,9 +60,33 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(starRating);
-    console.log(values.review);
+  type UserDetails = {
+    id: Types.ObjectId;
+    image: string;
+    username: string;
+  };
+
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const datePosted = new Date();
+
+    const userDetails = (await currentUserId()) as UserDetails;
+    if (starRating !== null && values.review !== "[empty string]") {
+      const reviewData = formatReviewData({
+        userId: userDetails.id,
+        carId: data.id,
+        userImage: userDetails.image,
+        username: userDetails.username,
+        rating: starRating,
+        carImage: data.mainPicture,
+        title: data.brand,
+        content: values.review,
+        datePosted,
+      });
+      // await createReview({ reviewData });
+      console.log(reviewData);
+    } else {
+      console.log("invalid rating or review");
+    }
   }
 
   return (

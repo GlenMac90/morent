@@ -1,33 +1,33 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
-import { useForm } from 'react-hook-form';
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useToast } from '@/components/ui/use-toast';
-import { Form, FormControl, FormItem, FormLabel } from '@/components/ui/form';
+import React, { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useToast } from "@/components/ui/use-toast";
+import { Form, FormControl, FormItem, FormLabel } from "@/components/ui/form";
 
-import { CarValidation } from '@/lib/validations/car';
-import { isBase64Image } from '@/lib/utils';
-import { useUploadThing } from '@/lib/uploadthing';
-import { createCar, deleteCar, editCar } from '@/lib/actions/car.actions';
-import DragDrop from './DragDrop';
-import { Props, FileWithPreview } from '@/lib/interfaces';
+import { CarValidation } from "@/lib/validations/car";
+import { isBase64Image } from "@/lib/utils";
+import { useUploadThing } from "@/lib/uploadthing";
+import { createCar, deleteCar, editCar } from "@/lib/actions/car.actions";
+import DragDrop from "./DragDrop";
+import { Props, FileWithPreview } from "@/lib/interfaces";
 import {
   carTypes,
   capacities,
   transmissionOptions,
   fuelCapacityOptions,
-} from '@/constants';
-import Location from '../Location';
+} from "@/constants";
+import Location from "../Location";
 import {
   SelectInput,
   InputController,
   CarFormButtons,
   CarFormHeader,
   FormState,
-} from './components/index';
+} from "./components/index";
 
 import {
   uploadImages,
@@ -36,16 +36,16 @@ import {
   getCarIdFromPath,
   formatCarData,
   handleServerError,
-} from './components/form.utils';
+} from "./components/form.utils";
 import {
   showValidationError,
   showImageError,
   showSuccessMessage,
   showError,
-} from '@/lib/toastHandler';
+} from "@/lib/toastHandler";
 
 const CarForm: React.FC<Props> = ({ userId, car }) => {
-  const { startUpload } = useUploadThing('media');
+  const { startUpload } = useUploadThing("media");
   const router = useRouter();
   const pathname = usePathname();
   const [dragDropFiles, setDragDropFiles] = useState<FileWithPreview[]>([]);
@@ -66,16 +66,16 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
   const form = useForm({
     resolver: zodResolver(CarValidation),
     defaultValues: {
-      carTitle: car?.carTitle || '',
-      carType: car?.carType || '',
-      rentPrice: car?.rentPrice || '',
-      capacity: car?.capacity || '',
-      transmission: car?.transmission || '',
-      location: car?.location || '',
-      fuelCapacity: car?.fuelCapacity || '',
-      shortDescription: car?.shortDescription || '',
-      carImageMain: car?.carImageMain || '',
-      path: car?.path || '',
+      carTitle: car?.carTitle || "",
+      carType: car?.carType || "",
+      rentPrice: car?.rentPrice || "",
+      capacity: car?.capacity || "",
+      transmission: car?.transmission || "",
+      location: car?.location || "",
+      fuelCapacity: car?.fuelCapacity || "",
+      shortDescription: car?.shortDescription || "",
+      carImageMain: car?.carImageMain || "",
+      path: car?.path || "",
     },
   });
 
@@ -87,16 +87,16 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
 
     if (Object.keys(form.formState.errors).length > 0) {
       const errorFields = Object.keys(form.formState.errors);
-      showValidationError(toast, 'Validation Error', errorFields);
+      showValidationError(toast, "Validation Error", errorFields);
       setIsLoading(false);
       return;
     }
 
-    if (dragDropFiles.length === 0 && pathname === '/cars/new') {
+    if (dragDropFiles.length === 0 && pathname === "/cars/new") {
       showImageError(
         toast,
-        'Not so quick!',
-        'Please add an image before submitting the form.'
+        "Not so quick!",
+        "Please add an image before submitting the form."
       );
       setIsLoading(false);
       return;
@@ -111,7 +111,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       );
 
       if (!uploadedUrls) {
-        throw new Error('Failed to upload image.');
+        throw new Error("Failed to upload image.");
       }
 
       if (uploadedUrls.length > 0) {
@@ -130,15 +130,15 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
         setSuccess(true);
       }
 
-      showSuccessMessage(toast, 'Success', 'Car registered successfully');
+      showSuccessMessage(toast, "Success", "Car registered successfully");
 
-      if (pathname === '/cars/new') {
+      if (pathname === "/cars/new") {
         router.back();
       } else {
-        router.push('/');
+        router.push("/");
       }
     } catch (error) {
-      console.error('Error occurred during onSubmit:', error);
+      console.error("Error occurred during onSubmit:", error);
       handleServerError(error, toast, !!car?._id);
     } finally {
       setSuccess(false);
@@ -151,12 +151,12 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       setIsLoading(true);
       await deleteCar(carId);
 
-      showSuccessMessage(toast, 'Success', 'Car deleted successfully');
+      showSuccessMessage(toast, "Success", "Car deleted successfully");
 
-      router.push('/');
+      router.push("/");
     } catch (error) {
-      console.error('Failed to delete car:', error);
-      showError(toast, 'Error', 'Failed to delete car. Please try again.');
+      console.error("Failed to delete car:", error);
+      showError(toast, "Error", "Failed to delete car. Please try again.");
     } finally {
       setIsLoading(false);
     }
