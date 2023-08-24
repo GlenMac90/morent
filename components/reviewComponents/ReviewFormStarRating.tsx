@@ -3,6 +3,8 @@ import Image from "next/image";
 
 import { goldStar, emptyStar } from "@/public/svg-icons";
 
+const ratingEmojis = ["😡", "😒", "🙂", "😀", "🤩"];
+
 interface ReviewFormStarRatingProps {
   setStarRating: (rating: number) => void;
 }
@@ -48,8 +50,9 @@ const ReviewFormStarRating: React.FC<ReviewFormStarRatingProps> = ({
           selectedStar === -1 && "hidden"
         }`}
       >
-        {selectedStar + 1} {selectedStar + 1 === 1 ? "star" : "stars"}
+        {selectedStar + 1} {selectedStar + 1 === 1 ? "star" : "stars"}{" "}
       </p>
+      <span className="ml-2 text-3xl">{ratingEmojis[selectedStar]}</span>
     </div>
   );
 };

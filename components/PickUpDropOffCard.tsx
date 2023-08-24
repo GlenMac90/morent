@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
-import "@geoapify/geocoder-autocomplete/styles/round-borders.css";
+// import "@geoapify/geocoder-autocomplete/styles/round-borders.css";
 import { usePathname } from "next/navigation";
 
 import { Card, CardContent } from "./ui/card";

@@ -6,8 +6,8 @@ import {
 
 export const dummyReviewList = [
   {
-    id: 123,
-    ownerId: 321,
+    id: "123",
+    ownerId: "321",
     title: "Skoda Octavia",
     imageUrl: skodaOctaviaImage,
     rating: 4,
@@ -17,8 +17,8 @@ export const dummyReviewList = [
     date: "22/12/90",
   },
   {
-    id: 234,
-    ownerId: 432,
+    id: "234",
+    ownerId: "432",
     title: "Ford Ranger",
     imageUrl: fordRangerImage,
     rating: 2,
@@ -28,8 +28,8 @@ export const dummyReviewList = [
     date: "1/9/2020",
   },
   {
-    id: 345,
-    ownerId: 543,
+    id: "345",
+    ownerId: "543",
     title: "Trabant",
     imageUrl: trabantImage,
     rating: 5,
