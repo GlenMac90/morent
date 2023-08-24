@@ -56,7 +56,7 @@ export async function seedCars(numCars: number): Promise<void> {
       carRented: getRandomItemFromArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
       starRating: getRandomItemFromArray([1, 2, 3, 4, 5]),
       rentPrice: faker.finance.amount(),
-      capacity: getRandomItemFromArray([2, 4, 6, 8]),
+      capacity: getRandomItemFromArray(['2', '4', '6', '8']),
       transmission: getRandomItemFromArray([
         'manual',
         'automatic',
@@ -64,7 +64,7 @@ export async function seedCars(numCars: number): Promise<void> {
         'cvt',
       ]),
       location: faker.address.city(),
-      fuelCapacity: getRandomItemFromArray([40, 50, 60, 80]),
+      fuelCapacity: getRandomItemFromArray(['40', '50', '60', '80']),
       shortDescription: faker.lorem.sentence(),
       carImageMain: faker.image.imageUrl(640, 480),
       liked: faker.datatype.boolean(),

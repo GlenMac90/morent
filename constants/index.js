@@ -88,6 +88,36 @@ export const timeOptions = [
   "11:30 PM",
 ];
 
+export const carTypes = [
+  { value: "sport", label: "Sport" },
+  { value: "suv", label: "SUV" },
+  { value: "mpv", label: "MPV" },
+  { value: "sedan", label: "Sedan" },
+  { value: "coupe", label: "Coupe" },
+  { value: "hatchback", label: "Hatchback" },
+];
+
+export const capacities = [
+  { value: "2", label: "2 Person" },
+  { value: "4", label: "4 Person" },
+  { value: "6", label: "6 Person" },
+  { value: "8", label: "8 or more" },
+];
+
+export const transmissionOptions = [
+  { value: "manual", label: "Manual" },
+  { value: "automatic", label: "Automatic" },
+  { value: "semi-automatic", label: "Semi-automatic" },
+  { value: "cvt", label: "CVT" },
+];
+
+export const fuelCapacityOptions = [
+  { value: "40", label: "40 litres" },
+  { value: "50", label: "50 litres" },
+  { value: "60", label: "60 litres" },
+  { value: "80", label: "80 litres or more" },
+];
+
 export const typeFilters = [
   "Sport",
   "SUV",
