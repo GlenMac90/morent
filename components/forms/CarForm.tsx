@@ -166,7 +166,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="dark:bg-gray850 flex w-full max-w-4xl flex-col items-center gap-5 rounded-xl bg-white px-6 py-12"
+        className="flex w-full max-w-4xl flex-col items-center gap-5 rounded-xl bg-white px-6 py-12 dark:bg-gray850"
       >
         <FormState isLoading={isLoading} error={error} success={success} />
 
@@ -248,7 +248,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
           />
         </div>
 
-        <p className="text-gray900 self-start font-semibold dark:text-white">
+        <p className="self-start font-semibold text-gray900 dark:text-white">
           Upload Images
         </p>
 

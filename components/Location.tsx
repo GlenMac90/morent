@@ -3,12 +3,14 @@ import {
   GeoapifyContext,
 } from '@geoapify/react-geocoder-autocomplete';
 
+import { GeocodeResult } from '@/lib/interfaces';
+
 type LocationProps = {
   handleLocationSelected?: (location: string) => void;
 };
 
 const Location: React.FC<LocationProps> = ({ handleLocationSelected }) => {
-  const onPlaceSelect = (value: any) => {
+  const onPlaceSelect = (value: GeocodeResult) => {
     if (handleLocationSelected) handleLocationSelected(value.properties.name);
   };
   return (
