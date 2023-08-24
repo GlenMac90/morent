@@ -15,7 +15,6 @@ async function Page() {
     bio: userInfo ? userInfo?.bio : "",
     image: userInfo ? userInfo?.image : user.imageUrl,
   };
-  console.log(user);
 
   return (
     <>
