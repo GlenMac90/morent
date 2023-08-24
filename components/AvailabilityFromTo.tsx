@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { format, addDays } from "date-fns";
+import { format, addDays, addYears } from "date-fns";
 import Image from "next/image";
 import { DateRange } from "react-day-picker";
 
@@ -59,6 +59,8 @@ const AvailabilityFromTo = () => {
           </div>
           <PopoverContent className="w-auto p-0">
             <Calendar
+              fromDate={today}
+              toDate={addYears(today, 1)}
               mode={"range"}
               selected={date}
               onSelect={setDate}
@@ -101,6 +103,8 @@ const AvailabilityFromTo = () => {
           </div>
           <PopoverContent className="w-auto p-0">
             <Calendar
+              fromDate={today}
+              toDate={addYears(today, 1)}
               mode={"range"}
               selected={date}
               onSelect={setDate}
