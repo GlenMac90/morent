@@ -10,7 +10,7 @@ const Home = async () => {
   const data = await fetchAllCars();
 
   return (
-    <motion.div
+    <div
       className="flex flex-col items-center bg-white200 p-2 dark:bg-gray900"
       animate={{ scale: 1 }}
       initial={{ scale: 0 }}
@@ -55,7 +55,7 @@ const Home = async () => {
           Show More Cars
         </button>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
