@@ -84,21 +84,12 @@ export const formatCarData = (
   carImageMain: values.carImageMain,
 });
 
-export const handleServerError = (
-  error: any,
-  toast: any,
-  updating: boolean
-) => {
-  let errorMessage = updating
-    ? 'There was an issue while updating the car.'
-    : 'There was an issue while creating the car.';
-
+export const handleServerError = (error: any, toast: any) => {
   if (error instanceof Error) {
-    errorMessage += ` Detail: ${error.message}`;
     console.error({ error, message: error.message });
+    showError(toast, 'Error', error.message);
   } else {
     console.error({ error, message: 'An unknown error occurred' });
+    showError(toast, 'Error', 'An unknown error occurred');
   }
-
-  showError(toast, 'Error', errorMessage);
 };

@@ -1,13 +1,9 @@
-'use client';
-
-import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 
 import CarCard from '@/components/CarCard';
 import Advert from '@/components/Advert';
 import PickUpDropOffCard from '@/components/PickUpDropOffCard';
 import { fetchAllCars } from '@/lib/actions/car.actions';
-import { CarParams } from '@/lib/interfaces';
 
 const adverts = [
   {
@@ -28,26 +24,8 @@ const adverts = [
   },
 ];
 
-const Home = () => {
-  const [carData, setCarData] = useState<CarParams[] | null>(null);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const result = await fetchAllCars();
-        setCarData(result);
-        console.log('Fetched car data:', result);
-      } catch (error) {
-        console.error('Failed to fetch car data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  if (!carData) {
-    return null;
-  }
+const Home = async () => {
+  const data = await fetchAllCars();
 
   return (
     <motion.div

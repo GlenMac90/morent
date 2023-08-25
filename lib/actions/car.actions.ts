@@ -4,12 +4,12 @@ import { connectToDB } from '../mongoose';
 import User from '../models/user.model';
 import Car from '../models/car.model';
 import Review from '../models/reviews.model';
-import { CarParams } from '../interfaces';
+import { CarParams, ReviewDocument } from '../interfaces';
 import mongoose from 'mongoose';
 
 export async function createCar(carData: CarParams): Promise<CarParams> {
   try {
-    connectToDB();
+    await connectToDB();
     const car = new Car(carData);
     await car.save();
 
@@ -29,7 +29,7 @@ export async function editCar(carData: CarParams): Promise<CarParams> {
   }
 
   try {
-    connectToDB();
+    await connectToDB();
     const updatedCar = await Car.findByIdAndUpdate(carData._id!, carData, {
       new: true,
     });
@@ -46,7 +46,7 @@ export async function editCar(carData: CarParams): Promise<CarParams> {
 
 export async function deleteCar(carId: string): Promise<void> {
   try {
-    connectToDB();
+    await connectToDB();
     const car = await Car.findById(carId);
     if (!car) {
       throw new Error('Car not found.');
@@ -68,7 +68,7 @@ export async function deleteCar(carId: string): Promise<void> {
 
 export async function fetchCarById(carId: string): Promise<CarParams | null> {
   try {
-    connectToDB();
+    await connectToDB();
     const car = await Car.findById(carId).exec();
     if (!car) {
       throw new Error('Car not found.');
@@ -81,7 +81,7 @@ export async function fetchCarById(carId: string): Promise<CarParams | null> {
 
 export async function fetchAllCars(): Promise<CarParams[] | null> {
   try {
-    connectToDB();
+    await connectToDB();
     const cars = await Car.find().exec();
     if (!cars || cars.length === 0) {
       throw new Error('No cars found.');
@@ -93,7 +93,7 @@ export async function fetchAllCars(): Promise<CarParams[] | null> {
 }
 export async function deleteAllCars(): Promise<void> {
   try {
-    connectToDB();
+    await connectToDB();
 
     const cars = await Car.find().exec();
 
@@ -113,7 +113,7 @@ export async function getAllReviewsForCar(
   carId: mongoose.Types.ObjectId
 ): Promise<ReviewDocument[]> {
   try {
-    connectToDB();
+    await connectToDB();
 
     const reviews = await Review.find({ carId })
       .populate('userId', 'username', 'image')
