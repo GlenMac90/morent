@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-import { goldStar, emptyStar } from "../public/svg-icons/index";
+import { goldStar, emptyStar } from "../../public/svg-icons/index";
 
 interface StarRatingProps {
   rating: number;
@@ -36,7 +36,13 @@ export const StarRating: React.FC<StarRatingProps> = ({ rating, reviews }) => {
   return (
     <div className="mt-2.5 flex">
       {Array.from({ length: goldenStars }).map((star, index) => (
-        <Image key={index} src={goldStar} alt="golden-star" />
+        <Image
+          key={index}
+          src={goldStar}
+          alt="golden-star"
+          height={20}
+          width={20}
+        />
       ))}
       <div style={partialGoldenStarBoxWidth} className={`flex overflow-hidden`}>
         <Image
@@ -64,7 +70,13 @@ export const StarRating: React.FC<StarRatingProps> = ({ rating, reviews }) => {
         />
       </div>
       {Array.from({ length: blankStars }).map((star, index) => (
-        <Image key={index} src={emptyStar} alt="blank-star" />
+        <Image
+          key={index}
+          src={emptyStar}
+          alt="blank-star"
+          width={20}
+          height={20}
+        />
       ))}
       <p className="ml-2">
         {reviewCount}

@@ -5,11 +5,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from '@clerk/nextjs';
 
-import CarCard from '@/components/CarCard';
-import { dummyUserData } from '@/utils/dummyUserData';
-import ReviewList from '@/components/ReviewList';
 import { fetchUserWithCars } from '@/lib/actions/user.actions';
 import { UserParams } from '@/lib/interfaces';
+import CarCard from '@/components/carCardComponents/CarCard';
+import { dummyData } from '@/utils/dummyCarData';
+import { dummyUserData } from '@/utils/dummyUserData';
+import ReviewList from '@/components/reviewComponents/ReviewList';
 
 const Page = () => {
   const { userId } = useAuth();
@@ -96,13 +97,13 @@ const Page = () => {
         <p className="mt-10 font-medium text-gray400">Rented Cars</p>
         <section className="mt-7 flex flex-col items-center gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {dummyUserData.carsHired.map((id) => (
-            <CarCard key={id} id={id} canReview={true} />
+            <CarCard carData={dummyData} key={id} id={id} canReview={true} />
           ))}
         </section>
         <p className="mt-10 font-medium text-gray400">My Cars for Rent</p>
         <section className="mt-7 flex flex-col items-center gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
           {dummyUserData.cars.map((id) => (
-            <CarCard key={id} canEdit={true} id={id} />
+            <CarCard carData={dummyData} key={id} canEdit={true} id={id} />
           ))}
         </section>
         <Link href="/cars/new" className="self-center">

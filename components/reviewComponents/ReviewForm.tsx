@@ -10,10 +10,18 @@ import {
   FormField,
   FormItem,
   FormMessage,
+<<<<<<< HEAD:components/ReviewForm.tsx
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import Image from 'next/image';
 import { useTheme } from 'next-themes';
+=======
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import Image from "next/image";
+import { useTheme } from "next-themes";
+import { motion } from "framer-motion";
+>>>>>>> main:components/reviewComponents/ReviewForm.tsx
 
 import { CarData } from '@/constants/interfaces';
 import ReviewFormStarRating from './ReviewFormStarRating';
@@ -30,7 +38,10 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 }) => {
   const { theme } = useTheme();
   const [starRating, setStarRating] = useState<number | null>(null);
+<<<<<<< HEAD:components/ReviewForm.tsx
   const [review, setReview] = useState('');
+=======
+>>>>>>> main:components/reviewComponents/ReviewForm.tsx
   const handleBackgroundClick = () => {
     setShowReviewScreen(false);
   };
@@ -56,24 +67,37 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+<<<<<<< HEAD:components/ReviewForm.tsx
     setReview(values.review);
+=======
+    console.log(starRating);
+    console.log(values.review);
+>>>>>>> main:components/reviewComponents/ReviewForm.tsx
   }
 
   return (
-    <div
+    <motion.div
+      animate={{ scale: 1 }}
+      initial={{ scale: 0 }}
       className="fixed inset-0 z-50 flex justify-center"
       onClick={handleBackgroundClick}
     >
       <div
         onClick={handleChildClick}
-        className="fixed top-[12.75rem] z-50 flex max-h-[40rem] w-full max-w-[30rem] flex-col overflow-y-auto rounded-xl bg-white200 p-5 dark:bg-gray900  "
+        className="fixed top-44 z-50 flex max-h-[40rem] w-full max-w-[30rem] flex-col overflow-y-auto rounded-xl bg-white200 p-5 dark:bg-gray850  "
       >
         <div className="flex w-full justify-between">
           <p className="text-2xl font-semibold ">{data.brand}</p>
           <Image
+<<<<<<< HEAD:components/ReviewForm.tsx
             src={theme === 'light' ? cross : whiteCross}
             height={25}
             width={25}
+=======
+            src={theme === "light" ? cross : whiteCross}
+            height={30}
+            width={30}
+>>>>>>> main:components/reviewComponents/ReviewForm.tsx
             alt="close modal"
             onClick={handleBackgroundClick}
             className="cursor-pointer self-start dark:text-white200"
@@ -121,7 +145,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
           </form>
         </Form>
       </div>
-    </div>
+    </motion.div>
   );
 };
 
