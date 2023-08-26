@@ -39,12 +39,6 @@ const userSchema = new mongoose.Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Car',
         },
-        reviews: [
-          {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Review',
-          },
-        ],
       },
     ],
 
@@ -54,11 +48,6 @@ const userSchema = new mongoose.Schema(
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Car',
           required: true,
-        },
-        reviewId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Review',
-          required: false,
         },
       },
     ],

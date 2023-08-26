@@ -1,9 +1,10 @@
 'use server';
 
 import { faker } from '@faker-js/faker';
-import Car from '../lib/models/car.model';
+
+import Car from '@/lib/models/car.model';
 import { UserParams } from '@/lib/interfaces';
-import User from '../lib/models/user.model';
+import User from '@/lib/models/user.model';
 import { connectToDB } from '@/lib/mongoose';
 
 export async function fetchAllUsers(): Promise<UserParams[]> {
@@ -69,13 +70,12 @@ export async function seedCars(numCars: number): Promise<void> {
       carImageMain: faker.image.imageUrl(640, 480),
       liked: faker.datatype.boolean(),
     };
-    console.log('Car Details to be Saved:', carDetails);
     const car = new Car(carDetails);
     try {
       await car.save();
 
       await User.findByIdAndUpdate(randomUserId, {
-        $push: { cars: car._id },
+        $push: { carsAdded: { car: car._id } },
       });
     } catch (error) {
       console.error(

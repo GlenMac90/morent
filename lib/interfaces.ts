@@ -78,6 +78,7 @@ export type EditUserFormFields = {
   username: string;
   bio?: string;
   image: string;
+  email?: string;
 };
 
 type FieldNames = keyof FormData;

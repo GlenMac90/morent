@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { connectToDB } from '../mongoose';
 import User from '../models/user.model';
 import Car from '../models/car.model';
-import Review from '../models/reviews.model';
+import Review from '../models/review.model';
 import { UserParams } from '../interfaces';
 
 export async function userFromDB(clerkId: string): Promise<UserParams | null> {
@@ -17,7 +17,7 @@ export async function userFromDB(clerkId: string): Promise<UserParams | null> {
   return userDocument.toObject();
 }
 
-export async function fetchUserWithCarsAdded(
+export async function fetchUserCars(
   clerkId: string
 ): Promise<UserParams | null> {
   connectToDB();
@@ -25,10 +25,18 @@ export async function fetchUserWithCarsAdded(
     .populate({
       path: 'carsAdded.car',
       model: 'Car',
+      populate: {
+        path: 'reviews',
+        model: 'Review',
+      },
     })
     .populate({
-      path: 'carsAdded.reviews',
-      model: 'Review',
+      path: 'carsRented.car',
+      model: 'Car',
+      populate: {
+        path: 'reviews',
+        model: 'Review',
+      },
     })
     .exec();
 
@@ -38,29 +46,6 @@ export async function fetchUserWithCarsAdded(
   }
   console.log(userWithCarsAdded.toObject());
   return userWithCarsAdded.toObject();
-}
-
-export async function fetchUserWithRentedCars(
-  clerkId: string
-): Promise<UserParams | null> {
-  connectToDB();
-  const userWithHiredCars = await User.findOne({ clerkId })
-    .populate({
-      path: 'carsRented.car',
-      model: 'Car',
-    })
-    .populate({
-      path: 'carsRented.reviewId',
-      model: 'Review',
-    })
-    .exec();
-
-  if (!userWithHiredCars) {
-    console.warn('User not found.');
-    return null;
-  }
-  console.log(userWithHiredCars.toObject());
-  return userWithHiredCars.toObject();
 }
 
 export async function updateUser(params: UserParams): Promise<void> {
@@ -89,17 +74,20 @@ export async function updateUser(params: UserParams): Promise<void> {
   }
 }
 
-export async function deleteUser(clerkId: string): Promise<void> {
+export async function deleteUserAndCars(clerkId: string): Promise<void> {
   try {
     connectToDB();
 
-    await Car.deleteMany({ clerkId });
-    await Review.deleteMany({ clerkId });
+    const user = await User.findOne({ clerkId });
+    if (!user) {
+      throw new Error('User not found.');
+    }
+
+    await Car.deleteMany({ userId: user._id });
+
     await User.findOneAndDelete({ clerkId });
   } catch (error: any) {
-    throw new Error(
-      `Failed to delete user, their cars, and their reviews: ${error.message}`
-    );
+    throw new Error(`Failed to delete user and their cars: ${error.message}`);
   }
 }
 
@@ -109,8 +97,17 @@ export async function fetchReviewsByUser(
   connectToDB();
 
   try {
-    const userReviews = await Review.find({ clerkId })
-      .populate({ path: 'carId', select: 'carTitle carImageMain' })
+    const user = await User.findOne({ clerkId });
+    if (!user) {
+      console.warn('User not found.');
+      return null;
+    }
+
+    const userReviews = await Review.find({ userId: user._id })
+      .populate({
+        path: 'carId',
+        select: 'carTitle carImages',
+      })
       .exec();
 
     if (!userReviews || userReviews.length === 0) {

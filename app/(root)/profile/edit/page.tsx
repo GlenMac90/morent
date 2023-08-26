@@ -7,6 +7,8 @@ async function Page() {
   const user = await currentUser();
   if (!user) return null;
 
+  console.log(user);
+
   const userInfo = await userFromDB(user.id);
 
   const userData = {

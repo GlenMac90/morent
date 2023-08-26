@@ -1,12 +1,12 @@
 import { Webhook, WebhookRequiredHeaders } from 'svix';
 import { IncomingHttpHeaders } from 'http';
 import { NextResponse } from 'next/server';
-import { deleteUser, updateUser } from '@/lib/actions/user.actions';
+import { deleteUserAndCars, updateUser } from '@/lib/actions/user.actions';
 import { headers } from 'next/headers';
 
 const webhookSecret = process.env.NEXT_CLERK_WEBHOOK_SECRET;
 
-type EventType = 'user.created' | 'user.updated' | 'user.deleted';
+type EventType = 'user.updated' | 'user.deleted';
 
 type Event = {
   data: {
@@ -18,8 +18,13 @@ type Event = {
 };
 
 export const POST = async (request: Request) => {
+  console.log('Received request');
   const payload = await request.json();
+  const payloadType: string = payload.type;
+  console.log('Payload:', payloadType);
 
+  console.log(payload.data);
+  console.log('Full payload:', JSON.stringify(payload));
   const header = headers();
 
   const heads = {
@@ -27,6 +32,8 @@ export const POST = async (request: Request) => {
     'svix-timestamp': header.get('svix-timestamp'),
     'svix-signature': header.get('svix-signature'),
   };
+
+  console.log('Headers:', heads);
 
   const wh = new Webhook(webhookSecret || '');
 
@@ -38,68 +45,41 @@ export const POST = async (request: Request) => {
       heads as IncomingHttpHeaders & WebhookRequiredHeaders
     ) as Event;
   } catch (err) {
+    console.error('Error in verification:', err);
     return NextResponse.json({ message: err }, { status: 400 });
   }
 
-  const eventType: EventType = evnt?.type!;
-
-  if (eventType === 'user.created') {
+  if (payloadType === 'user.updated') {
+    console.log('Handling user.updated event');
     const {
       image_url: image,
-      first_name: name,
-      id: userId,
-      last_name: username,
+      first_name: firstName,
+      id: clerkId,
+      last_name: lastName,
+      // eslint-disable-next-line camelcase
+      email_addresses,
+      username,
     } = evnt.data;
+
+    const name = `${firstName} ${lastName}`;
+    // @ts-ignore
+    // eslint-disable-next-line camelcase
+    const email = email_addresses[0]?.email_address;
+
     try {
       await updateUser({
         // @ts-ignore
         image,
-        // @ts-ignore
         name,
-        // @ts-ignore
-        userId,
+        email,
+        clerkId,
         // @ts-ignore
         username,
         bio: '',
         onboarded: false,
       });
 
-      return NextResponse.json(
-        {
-          message: 'User created successfully.',
-        },
-        { status: 201 }
-      );
-    } catch (err) {
-      console.error('Failed to update user:', err);
-      return NextResponse.json(
-        { message: 'Internal Server Error from Created Event' },
-        { status: 500 }
-      );
-    }
-  }
-
-  if (eventType === 'user.updated') {
-    const {
-      image_url: image,
-      first_name: name,
-      id: userId,
-      last_name: username,
-    } = evnt.data;
-    try {
-      await updateUser({
-        // @ts-ignore
-        image,
-        // @ts-ignore
-        name,
-        // @ts-ignore
-        userId,
-        // @ts-ignore
-        username,
-        bio: '',
-        onboarded: false,
-      });
-
+      console.log('User updated successfully');
       return NextResponse.json(
         {
           message: 'User updated successfully.',
@@ -115,11 +95,13 @@ export const POST = async (request: Request) => {
     }
   }
 
-  if (eventType === 'user.deleted') {
-    const { id: userId } = evnt.data;
-
+  if (payloadType === 'user.deleted') {
+    console.log('Handling user.deleted event');
+    const { id: clerkId } = evnt.data;
+    console.log(clerkId);
     try {
-      await deleteUser(userId);
+      await deleteUserAndCars(clerkId);
+      console.log('User deleted successfully');
       return NextResponse.json(
         {
           message: 'User deleted successfully.',
@@ -135,6 +117,7 @@ export const POST = async (request: Request) => {
     }
   }
 
+  console.log('Request processed successfully');
   return NextResponse.json(
     { message: 'Request processed successfully.' },
     { status: 200 }

@@ -7,6 +7,12 @@ const carSchema = new mongoose.Schema(
       ref: 'User',
       required: true,
     },
+    reviews: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Review',
+      },
+    ],
     carTitle: {
       type: String,
       required: true,

@@ -2,19 +2,35 @@
 
 import React, { useState } from 'react';
 import { seedCars } from '@/utils/seedCars';
+import { seedCarReviews } from '@/utils/seedCarReviews';
 import { deleteAllCars } from '@/lib/actions/car.actions';
 
 const Page = () => {
   const [isConfirmingSeed, setIsConfirmingSeed] = useState(false);
   const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
+  const [isConfirmingReviewsSeed, setIsConfirmingReviewsSeed] = useState(false);
 
   const handleSeedClick = () => {
     if (isConfirmingSeed) {
-      seedCars(1);
+      seedCars(10);
+
       setIsConfirmingSeed(false);
     } else {
       setIsConfirmingSeed(true);
     }
+  };
+
+  const handleReviewsSeedClick = async () => {
+    if (isConfirmingReviewsSeed) {
+      seedCarReviews();
+      setIsConfirmingReviewsSeed(false);
+    } else {
+      setIsConfirmingReviewsSeed(true);
+    }
+  };
+
+  const handleCancelReviewsSeedClick = () => {
+    setIsConfirmingReviewsSeed(false);
   };
 
   const handleCancelSeedClick = () => {
@@ -64,10 +80,26 @@ const Page = () => {
           </button>
         )}
       </div>
+      <div className="mb-4 flex space-x-12">
+        <button
+          onClick={handleReviewsSeedClick}
+          className="bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
+        >
+          {isConfirmingReviewsSeed ? 'Confirm Seed Reviews' : 'Seed Reviews'}
+        </button>
+        {isConfirmingReviewsSeed && (
+          <button
+            onClick={handleCancelReviewsSeedClick}
+            className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
+          >
+            Cancel Seed
+          </button>
+        )}
+      </div>
       <div className="flex space-x-12">
         <button
           onClick={handleDeleteClick}
-          disabled={true}
+          disabled={false}
           className="bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
         >
           {isConfirmingDelete ? 'Confirm Delete' : 'Delete All Cars'}

@@ -1,25 +1,48 @@
 'use server';
 
+import mongoose from 'mongoose';
+
 import { connectToDB } from '../mongoose';
 import User from '../models/user.model';
 import Car from '../models/car.model';
-import Review from '../models/reviews.model';
-import { CarParams } from '../interfaces';
-import mongoose from 'mongoose';
+import Review from '../models/review.model';
+import { CarParams, ReviewDocument } from '../interfaces';
 
 export async function createCar(carData: CarParams): Promise<CarParams> {
   try {
-    connectToDB();
+    await connectToDB();
     const car = new Car(carData);
     await car.save();
 
     await User.findByIdAndUpdate(carData.userId, {
-      $push: { cars: car._id },
+      $push: { carsAdded: { car: car._id } },
     });
 
     return car.toObject();
   } catch (error: any) {
     throw new Error(`Failed to create car: ${error.message}`);
+  }
+}
+
+export async function deleteCar(carId: string): Promise<void> {
+  try {
+    await connectToDB();
+    const car = await Car.findById(carId);
+    if (!car) {
+      throw new Error('Car not found.');
+    }
+
+    await Review.deleteMany({ carId });
+
+    await User.findByIdAndUpdate(car.userId, {
+      $pull: { carsAdded: { car: car._id } },
+    });
+
+    await Car.findByIdAndRemove(carId);
+  } catch (error: any) {
+    throw new Error(
+      `Failed to delete car and its associated reviews: ${error.message}`
+    );
   }
 }
 
@@ -29,7 +52,7 @@ export async function editCar(carData: CarParams): Promise<CarParams> {
   }
 
   try {
-    connectToDB();
+    await connectToDB();
     const updatedCar = await Car.findByIdAndUpdate(carData._id!, carData, {
       new: true,
     });
@@ -44,31 +67,9 @@ export async function editCar(carData: CarParams): Promise<CarParams> {
   }
 }
 
-export async function deleteCar(carId: string): Promise<void> {
-  try {
-    connectToDB();
-    const car = await Car.findById(carId);
-    if (!car) {
-      throw new Error('Car not found.');
-    }
-
-    await Review.deleteMany({ carId });
-
-    await User.findByIdAndUpdate(car.userId, {
-      $pull: { cars: carId },
-    });
-
-    await Car.findByIdAndRemove(carId);
-  } catch (error: any) {
-    throw new Error(
-      `Failed to delete car and its associated reviews: ${error.message}`
-    );
-  }
-}
-
 export async function fetchCarById(carId: string): Promise<CarParams | null> {
   try {
-    connectToDB();
+    await connectToDB();
     const car = await Car.findById(carId).exec();
     if (!car) {
       throw new Error('Car not found.');
@@ -81,19 +82,23 @@ export async function fetchCarById(carId: string): Promise<CarParams | null> {
 
 export async function deleteAllCars(): Promise<void> {
   try {
-    connectToDB();
+    await connectToDB();
 
     const cars = await Car.find().exec();
 
     for (const car of cars) {
+      await Review.deleteMany({ carId: car._id });
+
       await User.findByIdAndUpdate(car.userId, {
-        $pull: { cars: car._id },
+        $pull: { carsAdded: { car: car._id }, carsRented: { car: car._id } },
       });
     }
 
     await Car.deleteMany({});
   } catch (error: any) {
-    throw new Error(`Failed to delete all cars: ${error.message}`);
+    throw new Error(
+      `Failed to delete all cars and their associated reviews: ${error.message}`
+    );
   }
 }
 
@@ -101,10 +106,13 @@ export async function getAllReviewsForCar(
   carId: mongoose.Types.ObjectId
 ): Promise<ReviewDocument[]> {
   try {
-    connectToDB();
+    await connectToDB();
 
     const reviews = await Review.find({ carId })
-      .populate('userId', 'username', 'image')
+      .populate({
+        path: 'userId',
+        select: 'username image',
+      })
       .exec();
 
     if (!reviews) {

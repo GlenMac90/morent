@@ -3,7 +3,6 @@
 import { ChangeEvent, useState } from 'react';
 import Image from 'next/image';
 import { useForm } from 'react-hook-form';
-import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePathname, useRouter } from 'next/navigation';
 
@@ -14,7 +13,7 @@ import {
   FormItem,
   FormLabel,
 } from '@/components/ui/form';
-import { UserValidation } from '@/lib/validations/user';
+import { EditUserFormFieldsValidation } from '@/lib/validations/user';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '../ui/textarea';
@@ -38,12 +37,13 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
   const userData = JSON.parse(user);
 
   const form = useForm<EditUserFormFields>({
-    // resolver: zodResolver(UserValidation),
+    resolver: zodResolver(EditUserFormFieldsValidation),
     defaultValues: {
       name: userData?.name || '',
       username: userData?.username || '',
       bio: userData?.bio || '',
       image: userData?.image || '',
+      email: userData?.email || '',
     },
   });
 
