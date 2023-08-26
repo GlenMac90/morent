@@ -36,7 +36,9 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
             className="hidden cursor-pointer self-start dark:text-white200 lg:flex"
           />
         </div>
-        <div className={`flex w-full ${canReview && "justify-between"}`}>
+        <div
+          className={`flex w-full sm:mt-2 ${canReview && "justify-between"}`}
+        >
           <StarRating
             rating={carData.rating}
             reviews={carData.numberOfReviews}

@@ -7,14 +7,14 @@ import { useTheme } from "next-themes";
 
 import { advertWhiteCar, cityScapeCropped } from "@/public/pngs";
 
-const ErrorPage = () => {
+const ErrorPage = ({ errorMessage = "" }) => {
   const { theme } = useTheme();
   return (
     <div className="fixed flex h-screen w-screen flex-col items-center justify-center bg-white200 p-2 dark:bg-gray900">
       <p className="mt-28 text-3xl font-semibold">
         Uh oh something went wrong...
       </p>
-      <div className="flex flex-col items-center justify-center gap-12 rounded-xl p-8">
+      <div className="flex flex-col items-center justify-center gap-8 rounded-xl p-8">
         <div
           className={`flex justify-center rounded-t-full ${
             theme === "light" ? "bg-[#87ceeb]" : "bg-[#030338]"
@@ -63,6 +63,8 @@ const ErrorPage = () => {
             ))}
           </div>
         </div>
+        <p className="text-xl font-semibold">{errorMessage}</p>
+
         <Link href="/">
           <button className="rounded-lg bg-blue500 px-5 py-3 text-xl font-medium text-white">
             Let&apos;s go home

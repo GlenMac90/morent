@@ -1,8 +1,9 @@
-import { currentUser } from '@clerk/nextjs';
+import { currentUser } from "@clerk/nextjs";
 
-import CarForm from '@/components/forms/CarForm';
-import { userFromDB } from '@/lib/actions/user.actions';
-import { objectToStringId } from '@/utils/utility.functions';
+import CarForm from "@/components/forms/CarForm";
+import { userFromDB } from "@/lib/actions/user.actions";
+import { objectToStringId } from "@/utils/utility.functions";
+import ErrorPage from "@/components/transitionPages/ErrorPage";
 
 const Page = async () => {
   let user;
@@ -11,16 +12,22 @@ const Page = async () => {
 
   try {
     user = await currentUser();
-    if (!user) throw new Error('User not authenticated.');
+    if (!user) {
+      return <ErrorPage errorMessage="User not authenticated" />;
+    }
 
     userMongo = await userFromDB(user.id);
-    if (!userMongo) throw new Error('Failed to fetch user from MongoDB.');
+    if (!userMongo) {
+      return <ErrorPage errorMessage="Failed to fetch user from MongoDB." />;
+    }
 
     userIdString = objectToStringId(userMongo._id);
-    if (!userIdString) throw new Error('Error processing user ID.');
+    if (!userIdString) {
+      return <ErrorPage errorMessage="Error processing user ID." />;
+    }
   } catch (err) {
     console.error(err);
-    return <div>Error fetching data.</div>;
+    return <ErrorPage errorMessage="Error fetching data." />;
   }
 
   return (

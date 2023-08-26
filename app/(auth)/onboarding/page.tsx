@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 
-import { currentUser } from '@clerk/nextjs';
-import AccountProfile from '@/components/forms/AccountProfile';
-import { User } from '@clerk/nextjs/server';
+import { currentUser } from "@clerk/nextjs";
+import AccountProfile from "@/components/forms/AccountProfile";
+import { User } from "@clerk/nextjs/server";
 
 type ExtendedUser = User & {
   bio?: string;
@@ -13,31 +13,33 @@ const Page = async () => {
   if (!user) return null;
 
   const currentUserData = {
-    id: user?.id || '',
-    username: user?.username || '',
+    id: user?.id || "",
+    username: user?.username || "",
     name:
       `${user?.firstName} ${user?.lastName}` ||
       user?.firstName ||
       user?.lastName ||
-      '',
-    bio: user?.bio || '',
-    image: user.imageUrl || '',
+      "",
+    bio: user?.bio || "",
+    image: user.imageUrl || "",
     onboarded: true,
   };
 
   const currentUserDataString = JSON.stringify(currentUserData);
 
   return (
-    <main className="flex flex-col  px-12 py-20">
-      <h1 className="text-2xl font-semibold leading-7 text-gray-900">
-        All on board - let us complete your onboarding !!
-      </h1>
-      <p className="text-base font-normal leading-7">
-        Customize your profile for Morent
-      </p>
-      <section className="mt-8 bg-blue-50 p-10">
-        <AccountProfile user={currentUserDataString} />
-      </section>
+    <main className="flex flex-col justify-center bg-white200 px-12 py-20">
+      <div className="flex w-full max-w-5xl flex-col self-center">
+        <h1 className="text-2xl font-semibold leading-7 text-gray-900">
+          All on board - let us complete your onboarding !!
+        </h1>
+        <p className="text-base font-normal leading-7">
+          Customize your profile for Morent
+        </p>
+        <section className="mt-8 rounded-xl bg-white p-10 shadow-xl">
+          <AccountProfile user={currentUserDataString} />
+        </section>
+      </div>
     </main>
   );
 };

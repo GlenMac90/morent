@@ -78,7 +78,7 @@ export const StarRating: React.FC<StarRatingProps> = ({ rating, reviews }) => {
           height={20}
         />
       ))}
-      <p className="ml-2">
+      <p className="ml-2 self-center">
         {reviewCount}
         {reviews % 10 !== 0 && reviews > 9 && "+"}{" "}
         {reviews === 1 ? "Review" : "Reviews"}

@@ -81,7 +81,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
               height={20}
               width={20}
               alt="close modal"
-              onClick={() => setShowModal(false)}
+              onClick={handleCloseClick}
               className="flex cursor-pointer self-start lg:hidden"
             />
           </div>

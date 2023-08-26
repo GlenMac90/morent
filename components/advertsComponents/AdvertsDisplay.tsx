@@ -23,18 +23,20 @@ const adverts = [
 
 const AdvertsDisplay = () => {
   return (
-    <div className="flex w-full gap-8">
-      {adverts.map((advert) => (
-        <Advert
-          key={advert.title}
-          title={advert.title}
-          description={advert.description}
-          imageSrc={advert.imageSrc}
-          additionalStyles={advert.additionalStyles}
-          whiteCar={advert.whiteCar}
-        />
-      ))}
-    </div>
+    <section className="flex w-full max-w-[90rem] px-5">
+      <div className="flex w-full gap-8">
+        {adverts.map((advert) => (
+          <Advert
+            key={advert.title}
+            title={advert.title}
+            description={advert.description}
+            imageSrc={advert.imageSrc}
+            additionalStyles={advert.additionalStyles}
+            whiteCar={advert.whiteCar}
+          />
+        ))}
+      </div>
+    </section>
   );
 };
 

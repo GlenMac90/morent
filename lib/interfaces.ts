@@ -124,11 +124,10 @@ export interface ToastOptions {
 }
 
 export type ToastFunction = (options: ToastOptions) => void;
+
 export interface ReviewDocument extends mongoose.Document {
   userId: mongoose.Types.ObjectId;
   carId: mongoose.Types.ObjectId;
-  userImage: string;
-  username: string;
   rating: number;
   carImage: string;
   title: string;

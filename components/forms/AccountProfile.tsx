@@ -100,7 +100,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full flex-col gap-5 self-center"
+        className="flex w-full flex-col gap-5 self-center "
       >
         <FormField
           control={form.control}
@@ -129,7 +129,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
                   />
                 )}
               </FormLabel>
-              <FormControl className="bg-white200 dark:bg-gray800">
+              <FormControl className="bg-white200 placeholder:text-gray400 dark:bg-gray800">
                 <Input
                   type="file"
                   accept="image/*"
