@@ -130,7 +130,7 @@ const CarCard: React.FC<CarCardProps> = ({
             <Image
               width={176}
               height={52.8}
-              // TODO: Remove dummyData once live data is available
+              // TODO: Remove dummyData once live three image data is available
               src={carData?.carImageMain || dummyData.mainPicture}
               alt="car picture"
               className={`mb-1 ml-0 h-[3.3rem] w-[11rem] self-end dark:bg-gray850 xs:ml-4 xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[4.5rem] sm:w-[236px] sm:self-center ${

@@ -27,7 +27,7 @@ const SelectYourTime = ({ pickUpOrDropOff }: { pickUpOrDropOff: string }) => {
         </SelectTrigger>
       </div>
       <SelectContent>
-        <ScrollArea className="h-[550px]">
+        <ScrollArea className="h-[230px] xl:h-[270px]">
           {timeOptions.map((timeOption) => (
             <SelectItem key={timeOption} value={timeOption}>
               {timeOption}
