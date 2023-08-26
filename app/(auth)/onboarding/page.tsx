@@ -1,28 +1,30 @@
-import React from 'react';
-
 import { currentUser } from '@clerk/nextjs';
-import AccountProfile from '@/components/forms/AccountProfile';
 import { User } from '@clerk/nextjs/server';
+
+import AccountProfile from '@/components/forms/AccountProfile';
 
 type ExtendedUser = User & {
   bio?: string;
+  image?: string;
+  name?: string;
+  username?: string;
+  email?: string;
 };
 
 const Page = async () => {
   const user = (await currentUser()) as ExtendedUser;
   if (!user) return null;
 
+  console.log(user);
+
   const currentUserData = {
-    id: user?.id || '',
-    username: user?.username || '',
-    name:
-      `${user?.firstName} ${user?.lastName}` ||
-      user?.firstName ||
-      user?.lastName ||
-      '',
-    bio: user?.bio || '',
-    image: user.imageUrl || '',
-    onboarded: true,
+    clerkId: user.id,
+    username: user.username || '',
+    name: user.name || '',
+    email: user.email || '',
+    bio: user.bio || '',
+    image: user.image || user.imageUrl || '',
+    onboarded: Boolean,
   };
 
   const currentUserDataString = JSON.stringify(currentUserData);

@@ -24,9 +24,14 @@ const carSchema = new mongoose.Schema(
         },
       ],
     },
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+      },
+    ],
     carRented: Number,
-    starRating: [Number],
-    likes: Number,
+    averageRating: Number,
     rentPrice: String,
     capacity: String,
     transmission: String,
@@ -34,7 +39,6 @@ const carSchema = new mongoose.Schema(
     fuelCapacity: String,
     shortDescription: String,
     carImages: [String],
-    liked: Boolean,
   },
   {
     timestamps: true,

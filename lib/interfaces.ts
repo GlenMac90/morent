@@ -49,20 +49,38 @@ export type FormData = {
   path: string;
 };
 
+interface CarAddedParams {
+  car: mongoose.Types.ObjectId;
+  reviews?: mongoose.Types.ObjectId[];
+}
+
+interface CarRentedParams {
+  car: mongoose.Types.ObjectId;
+  reviewId?: mongoose.Types.ObjectId;
+}
+
 export interface UserParams {
-  id: string;
-  _id: any;
-  userId: string;
+  clerkId: string;
+  _id: mongoose.Types.ObjectId;
   username: string;
+  email?: string;
   name: string;
   image?: string;
   bio?: string;
   onboarded?: boolean;
   path: string;
-  cars?: CarParams[];
+  carsAdded?: CarAddedParams[];
+  carsRented?: CarRentedParams[];
 }
 
-export type FieldNames = keyof FormData;
+export type EditUserFormFields = {
+  name: string;
+  username: string;
+  bio?: string;
+  image: string;
+};
+
+type FieldNames = keyof FormData;
 
 export type SelectItems = {
   value: string;
@@ -124,6 +142,7 @@ export interface ToastOptions {
 }
 
 export type ToastFunction = (options: ToastOptions) => void;
+
 export interface ReviewDocument extends mongoose.Document {
   userId: mongoose.Types.ObjectId;
   carId: mongoose.Types.ObjectId;

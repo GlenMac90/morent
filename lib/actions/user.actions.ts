@@ -7,9 +7,9 @@ import Car from '../models/car.model';
 import Review from '../models/reviews.model';
 import { UserParams } from '../interfaces';
 
-export async function userFromDB(userId: string): Promise<UserParams | null> {
+export async function userFromDB(clerkId: string): Promise<UserParams | null> {
   connectToDB();
-  const userDocument = await User.findOne({ id: userId });
+  const userDocument = await User.findOne({ clerkId });
   if (!userDocument) {
     console.warn('User not found.');
     return null;
@@ -17,40 +17,71 @@ export async function userFromDB(userId: string): Promise<UserParams | null> {
   return userDocument.toObject();
 }
 
-export async function fetchUserWithCars(
-  userId: string
+export async function fetchUserWithCarsAdded(
+  clerkId: string
 ): Promise<UserParams | null> {
   connectToDB();
-  const userWithCars = await User.findOne({ id: userId })
-    .populate('cars')
+  const userWithCarsAdded = await User.findOne({ clerkId })
+    .populate({
+      path: 'carsAdded.car',
+      model: 'Car',
+    })
+    .populate({
+      path: 'carsAdded.reviews',
+      model: 'Review',
+    })
     .exec();
 
-  if (!userWithCars) {
+  if (!userWithCarsAdded) {
     console.warn('User not found.');
     return null;
   }
-  console.log(userWithCars.toObject());
-  return userWithCars.toObject();
+  console.log(userWithCarsAdded.toObject());
+  return userWithCarsAdded.toObject();
+}
+
+export async function fetchUserWithRentedCars(
+  clerkId: string
+): Promise<UserParams | null> {
+  connectToDB();
+  const userWithHiredCars = await User.findOne({ clerkId })
+    .populate({
+      path: 'carsRented.car',
+      model: 'Car',
+    })
+    .populate({
+      path: 'carsRented.reviewId',
+      model: 'Review',
+    })
+    .exec();
+
+  if (!userWithHiredCars) {
+    console.warn('User not found.');
+    return null;
+  }
+  console.log(userWithHiredCars.toObject());
+  return userWithHiredCars.toObject();
 }
 
 export async function updateUser(params: UserParams): Promise<void> {
-  const { userId, username, name, bio, image, onboarded, path } = params;
-
+  const { clerkId, username, name, bio, image, onboarded, path, email } =
+    params;
   try {
     connectToDB();
 
     await User.findOneAndUpdate(
-      { id: userId },
+      { clerkId },
       {
         username,
         name,
         bio,
         image,
         onboarded,
+        email,
       },
       { upsert: true }
     );
-    if (path === `/profile/${userId}`) {
+    if (path === `/profile/edit`) {
       revalidatePath(path);
     }
   } catch (error: any) {
@@ -58,13 +89,13 @@ export async function updateUser(params: UserParams): Promise<void> {
   }
 }
 
-export async function deleteUser(userId: string): Promise<void> {
+export async function deleteUser(clerkId: string): Promise<void> {
   try {
     connectToDB();
 
-    await Car.deleteMany({ userId });
-    await Review.deleteMany({ userId });
-    await User.findOneAndDelete({ id: userId });
+    await Car.deleteMany({ clerkId });
+    await Review.deleteMany({ clerkId });
+    await User.findOneAndDelete({ clerkId });
   } catch (error: any) {
     throw new Error(
       `Failed to delete user, their cars, and their reviews: ${error.message}`
@@ -73,13 +104,13 @@ export async function deleteUser(userId: string): Promise<void> {
 }
 
 export async function fetchReviewsByUser(
-  userId: string
+  clerkId: string
 ): Promise<any[] | null> {
   connectToDB();
 
   try {
-    const userReviews = await Review.find({ userId })
-      .populate('carId', 'carTitle', 'carImageMain')
+    const userReviews = await Review.find({ clerkId })
+      .populate({ path: 'carId', select: 'carTitle carImageMain' })
       .exec();
 
     if (!userReviews || userReviews.length === 0) {

@@ -1,20 +1,25 @@
-import { currentUser } from "@clerk/nextjs";
+import { currentUser } from '@clerk/nextjs';
 
-import { userFromDB } from "@/lib/actions/user.actions";
-import AccountProfile from "@/components/forms/AccountProfile";
+import { userFromDB } from '@/lib/actions/user.actions';
+import AccountProfile from '@/components/forms/AccountProfile';
 
 async function Page() {
   const user = await currentUser();
   if (!user) return null;
 
   const userInfo = await userFromDB(user.id);
+
   const userData = {
-    id: user.id,
-    username: userInfo ? userInfo?.username : user.username,
-    name: userInfo ? userInfo?.name : user.firstName ?? "",
-    bio: userInfo ? userInfo?.bio : "",
-    image: userInfo ? userInfo?.image : user.imageUrl,
+    clerkId: user.id,
+    username: userInfo?.username || user.username,
+    name: userInfo?.name || `${user.firstName} ${user.lastName}`.trim(),
+    email: userInfo?.email || user.emailAddresses[0]?.emailAddress || '',
+    bio: userInfo?.bio || '',
+    image: userInfo?.image || '',
+    onboarded: userInfo?.onboarded || false,
   };
+
+  console.log(userData);
 
   return (
     <>

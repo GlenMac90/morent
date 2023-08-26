@@ -1,27 +1,28 @@
-"use client";
+'use client';
 
-import React, { ChangeEvent, useState } from "react";
-import Image from "next/image";
-import { useForm } from "react-hook-form";
+import { ChangeEvent, useState } from 'react';
+import Image from 'next/image';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { usePathname, useRouter } from 'next/navigation';
+
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from "@/components/ui/form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { UserValidation } from "@/lib/validations/user";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "../ui/textarea";
-import * as z from "zod";
-import ImageWithFallback from "@/utils/ImageWithFallback";
-import { isBase64Image } from "@/lib/utils";
-
-import { useUploadThing } from "@/lib/uploadthing";
-import { updateUser } from "@/lib/actions/user.actions";
-import { usePathname, useRouter } from "next/navigation";
+} from '@/components/ui/form';
+import { UserValidation } from '@/lib/validations/user';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '../ui/textarea';
+import ImageWithFallback from '@/utils/ImageWithFallback';
+import { isBase64Image } from '@/lib/utils';
+import { useUploadThing } from '@/lib/uploadthing';
+import { updateUser } from '@/lib/actions/user.actions';
+import { EditUserFormFields } from '@/lib/interfaces';
 
 interface Props {
   user: string;
@@ -29,49 +30,47 @@ interface Props {
 
 const AccountProfile: React.FC<Props> = ({ user }) => {
   const [files, setFiles] = useState<File[]>([]);
-  const { startUpload } = useUploadThing("media");
+  const { startUpload } = useUploadThing('media');
 
   const router = useRouter();
   const pathname = usePathname();
 
   const userData = JSON.parse(user);
 
-  const form = useForm({
-    resolver: zodResolver(UserValidation),
+  const form = useForm<EditUserFormFields>({
+    // resolver: zodResolver(UserValidation),
     defaultValues: {
-      name: userData?.name || "",
-      username: userData?.username || "",
-      bio: userData?.bio || "",
-      profile_photo: userData?.image || "",
+      name: userData?.name || '',
+      username: userData?.username || '',
+      bio: userData?.bio || '',
+      image: userData?.image || '',
     },
   });
 
-  const onSubmit = async (values: z.infer<typeof UserValidation>) => {
-    const blob = values.profile_photo;
+  const onSubmit = async (values: EditUserFormFields) => {
+    const blob = values.image;
     const hasImageChanged = isBase64Image(blob);
 
     if (hasImageChanged) {
       const imgRes = await startUpload(files);
-      if (imgRes && imgRes[0].fileUrl) {
-        values.profile_photo = imgRes[0].fileUrl;
+      if (imgRes && imgRes[0].url) {
+        values.image = imgRes[0].url;
       }
     }
+
     await updateUser({
-      userId: userData.id,
+      ...userData,
       name: values.name,
       username: values.username,
-      bio: values.bio,
-      image: values.profile_photo,
+      bio: values.bio || '',
+      image: values.image,
       path: pathname,
-      onboarded: true,
-      id: "",
-      _id: undefined,
     });
 
-    if (pathname === "/profile/edit") {
+    if (pathname === '/profile/edit') {
       router.back();
     } else {
-      router.push("/");
+      router.push('/');
     }
   };
 
@@ -87,11 +86,11 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
       const file = e.target.files[0];
       setFiles(Array.from(e.target.files));
 
-      if (!file.type.includes("image")) return;
+      if (!file.type.includes('image')) return;
 
       fileReader.readAsDataURL(file);
       fileReader.onload = () => {
-        fieldChange((fileReader.result as string) || "");
+        fieldChange((fileReader.result as string) || '');
       };
     }
   };
@@ -104,7 +103,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
       >
         <FormField
           control={form.control}
-          name="profile_photo"
+          name="image"
           render={({ field }) => (
             <FormItem className="flex flex-col justify-start">
               <FormLabel className="ml-1 p-4 pl-0">
