@@ -51,6 +51,8 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
             transition={{ duration: 0.7 }}
           >
             <Image
+              width={16}
+              height={16}
               src={isFavourited ? redHeart : heart}
               alt="heart button"
               className={`h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6 ${
@@ -62,6 +64,8 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
         ) : (
           <Link href={`/cars/${carData?._id}`}>
             <Image
+              width={16}
+              height={16}
               src={theme === "light" ? editSymbol : editSymbolDarkMode}
               alt="edit button"
               className="h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6"
@@ -76,6 +80,8 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
       >
         <div className="flex w-full justify-center">
           <Image
+            width={176}
+            height={52.8}
             // TODO: Remove dummyData once live three image data is available
             src={carData?.carImageMain || dummyData.mainPicture}
             alt="car picture"
@@ -93,6 +99,8 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
         >
           <div className="flex">
             <Image
+              width={14}
+              height={14}
               src={litres}
               alt="engine literage"
               className="h-3.5 w-3.5 xs:h-5 xs:w-5"
@@ -103,6 +111,8 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
           </div>
           <div className="flex">
             <Image
+              width={14}
+              height={14}
               src={transmission}
               alt="transmission"
               className="h-3.5 w-3.5 xs:h-5 xs:w-5"
@@ -113,6 +123,8 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
           </div>
           <div className="flex">
             <Image
+              width={14}
+              height={14}
               src={peopleCapacity}
               alt="people capacity"
               className="h-3.5 w-3.5 xs:h-5 xs:w-5"
