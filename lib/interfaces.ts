@@ -16,6 +16,7 @@ export interface CarParams {
     singleDates?: Date[];
     dateRanges?: DateRange[];
   };
+  rentPrice?: string;
   carRented?: number;
   starRating?: number[];
   likes?: number;
@@ -29,6 +30,25 @@ export interface CarParams {
   path?: string;
 }
 
+export interface CarFormProps {
+  userId?: string;
+  carId?: string | null;
+  car?: CarParams | null;
+}
+
+export type FormData = {
+  carTitle: string;
+  carType: string;
+  rentPrice: string;
+  capacity: string;
+  transmission: string;
+  location: string;
+  fuelCapacity: string;
+  shortDescription: string;
+  carImages: string[];
+  path: string;
+};
+
 export interface UserParams {
   id: string;
   _id: any;
@@ -41,19 +61,6 @@ export interface UserParams {
   path: string;
   cars?: CarParams[];
 }
-
-export type FormData = {
-  carTitle: string;
-  carType: string;
-  rentPrice: string;
-  capacity: string;
-  transmission: string;
-  location: string;
-  fuelCapacity: string;
-  shortDescription: string;
-  carImageMain: string;
-  path: string;
-};
 
 export type FieldNames = keyof FormData;
 
@@ -88,12 +95,6 @@ export interface CarFormButtonsProps {
   isLoading: boolean;
 }
 
-export interface Props {
-  userId?: string;
-  carId?: string | null;
-  car?: CarParams | null;
-}
-
 export interface FileWithPreview extends File {
   preview?: string;
 }
@@ -101,7 +102,7 @@ export interface FileWithPreview extends File {
 export type CarFormHeaderProps = {
   pathname: string;
   car?: {
-    carImageMain?: string;
+    carImages?: string[];
   };
   imagePreviews: string[];
 };

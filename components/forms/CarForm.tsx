@@ -13,7 +13,7 @@ import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing';
 import { createCar, deleteCar, editCar } from '@/lib/actions/car.actions';
 import DragDrop from './DragDrop';
-import { Props, FileWithPreview } from '@/lib/interfaces';
+import { CarFormProps, FileWithPreview } from '@/lib/interfaces';
 import {
   carTypes,
   capacities,
@@ -44,7 +44,7 @@ import {
   showError,
 } from '@/lib/toastHandler';
 
-const CarForm: React.FC<Props> = ({ userId, car }) => {
+const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
   const { startUpload } = useUploadThing('media');
   const router = useRouter();
   const pathname = usePathname();
@@ -74,7 +74,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       location: car?.location || '',
       fuelCapacity: car?.fuelCapacity || '',
       shortDescription: car?.shortDescription || '',
-      carImageMain: car?.carImageMain || '',
+      carImages: car?.carImages || [],
       path: car?.path || '',
     },
   });
@@ -114,19 +114,17 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
         throw new Error('Failed to upload image.');
       }
 
-      if (uploadedUrls.length > 0) {
-        values.carImageMain = uploadedUrls[0];
-      }
+      values.carImages = uploadedUrls;
 
       if (car?._id) {
         await editCar({
           ...carData,
           _id: car?._id,
-          carImageMain: values.carImageMain,
+          carImages: values.carImages,
         });
         setSuccess(true);
       } else {
-        await createCar({ ...carData, carImageMain: values.carImageMain });
+        await createCar({ ...carData, carImages: values.carImages });
         setSuccess(true);
       }
 
