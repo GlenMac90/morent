@@ -19,6 +19,7 @@ interface CarDetailsModalOneProps {
   setShowModal: (show: boolean) => void;
   isPopular?: boolean;
   canReview?: boolean;
+  carAvailability: boolean;
 }
 
 const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
@@ -27,6 +28,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
   setShowModal,
   isPopular,
   canReview,
+  carAvailability,
 }) => {
   const pathname = usePathname();
   const { theme } = useTheme();
@@ -87,6 +89,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             setShowModal={setShowModal}
             setShowReviewScreen={setShowReviewScreen}
             handleButtonClick={handleButtonClick}
+            carAvailability={carAvailability}
           />
         </div>
       </motion.div>

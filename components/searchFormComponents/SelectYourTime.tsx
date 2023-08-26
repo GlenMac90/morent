@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 import {
   Select,
   SelectContent,
@@ -5,9 +7,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import Image from "next/image";
-import { Label } from "../ui/label";
-import { ScrollArea } from "../ui/scroll-area";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { clock } from "@/public/svg-icons";
 import { timeOptions } from "@/constants";
 

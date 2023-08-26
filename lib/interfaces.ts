@@ -1,6 +1,6 @@
-import { Control } from 'react-hook-form';
-import { UploadFileResponse } from 'uploadthing/client';
-import mongoose from 'mongoose';
+import { Control } from "react-hook-form";
+import { UploadFileResponse } from "uploadthing/client";
+import mongoose from "mongoose";
 
 export interface GeocodeResult {
   geometry: {
@@ -15,8 +15,8 @@ export interface GeocodeResult {
 }
 
 export interface DateRange {
-  start: Date;
-  end: Date;
+  from: Date;
+  to: Date;
 }
 
 export interface CarParams {
@@ -130,7 +130,7 @@ export interface FeedbackMessageProps {
 export interface ToastOptions {
   title: string;
   description: string;
-  variant?: 'destructive' | 'success';
+  variant?: "destructive" | "success";
 }
 
 export type ToastFunction = (options: ToastOptions) => void;
@@ -142,3 +142,9 @@ export interface ReviewDocument extends mongoose.Document {
   content: string;
   datePosted?: Date;
 }
+
+export type GeocodeResult = {
+  properties: {
+    name: string;
+  };
+};
