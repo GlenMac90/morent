@@ -14,11 +14,12 @@ import ModalCarDetails from "./ModalCarDetails";
 import { CarParams } from "@/lib/interfaces";
 
 interface CarDetailsModalOneProps {
-  id: string;
+  id: string | undefined;
   carData: CarParams;
   setShowModal: (show: boolean) => void;
   isPopular?: boolean;
   canReview?: boolean;
+  carAvailability: boolean;
 }
 
 const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
@@ -27,6 +28,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
   setShowModal,
   isPopular,
   canReview,
+  carAvailability,
 }) => {
   const pathname = usePathname();
   const { theme } = useTheme();
@@ -99,6 +101,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             setShowModal={handleCloseClick}
             setShowReviewScreen={setShowReviewScreen}
             handleButtonClick={handleShowModalTwo}
+            carAvailability={carAvailability}
           />
         </div>
       </motion.div>

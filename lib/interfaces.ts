@@ -3,8 +3,8 @@ import { UploadFileResponse } from "uploadthing/client";
 import mongoose from "mongoose";
 
 export interface DateRange {
-  start: Date;
-  end: Date;
+  from: Date;
+  to: Date;
 }
 
 export interface CarParams {
@@ -134,3 +134,9 @@ export interface ReviewDocument extends mongoose.Document {
   content: string;
   datePosted?: Date;
 }
+
+export type GeocodeResult = {
+  properties: {
+    name: string;
+  };
+};

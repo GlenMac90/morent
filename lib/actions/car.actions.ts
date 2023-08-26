@@ -6,6 +6,7 @@ import Car from "../models/car.model";
 import Review from "../models/reviews.model";
 import { CarParams, ReviewDocument } from "../interfaces";
 import mongoose from "mongoose";
+<<<<<<< HEAD
 
 export async function fetchRecommendedCars(): Promise<CarParams[] | null> {
   try {
@@ -36,6 +37,8 @@ export async function fetchPopularCars(): Promise<CarParams[] | null> {
     throw new Error(`Failed to fetch recommended cars: ${error.message}`);
   }
 }
+=======
+>>>>>>> main
 
 export async function createCar(carData: CarParams): Promise<CarParams> {
   try {
@@ -144,5 +147,24 @@ export async function getAllReviewsForCar(
     return reviews as ReviewDocument[];
   } catch (error: any) {
     throw new Error(`Failed to fetch reviews for the car: ${error.message}`);
+  }
+}
+
+export async function getCarsByLocation(
+  location: string
+): Promise<CarParams[] | null> {
+  try {
+    await connectToDB();
+
+    const cars = await Car.find({
+      location: { $regex: location, $options: "i" },
+    }).exec();
+
+    if (!cars) {
+      throw new Error("Cars not found.");
+    }
+    return cars.map((car) => car.toObject() as CarParams);
+  } catch (error: any) {
+    throw new Error(`Failed to get cars by location: ${error.message}`);
   }
 }

@@ -3,15 +3,16 @@ import Image from "next/image";
 
 import StarRating from "../reviewComponents/StarRating";
 import { cross, whiteCross } from "@/public/svg-icons";
-import { CarData } from "@/constants/interfaces";
+import { CarParams } from "@/lib/interfaces";
 
 interface ModalCarDetailsProps {
-  carData: CarData;
+  carData: CarParams;
   theme: string | undefined;
   canReview: boolean | undefined;
   setShowModal: (value: boolean) => void;
   setShowReviewScreen: (value: boolean) => void;
   handleButtonClick: () => void;
+  carAvailability: boolean;
 }
 
 const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
@@ -21,12 +22,15 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
   setShowModal,
   setShowReviewScreen,
   handleButtonClick,
+  carAvailability,
 }) => {
+  const availabilityColor = carAvailability ? "bg-blue500" : "bg-blue100";
+
   return (
     <div className="mt-8 flex flex-col px-2 md:w-full lg:ml-10 lg:mt-0 lg:justify-between lg:p-6">
       <div className="flex flex-col">
         <div className="flex justify-between">
-          <p className="text-xl font-medium lg:text-3xl">{carData.brand}</p>
+          <p className="text-xl font-medium lg:text-3xl">{carData.carTitle}</p>
           <Image
             src={theme === "light" ? cross : whiteCross}
             height={34}
@@ -40,8 +44,8 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
           className={`flex w-full sm:mt-2 ${canReview && "justify-between"}`}
         >
           <StarRating
-            rating={carData.rating}
-            reviews={carData.numberOfReviews}
+            rating={carData.starRating || 0} // Provide a default value, e.g., 0
+            reviews={carData.numberOfReviews || 100}
           />
           <button
             className={`${
@@ -63,7 +67,7 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
               Type Car
             </p>
             <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
-              {carData.type}
+              {carData.carType}
             </p>
           </div>
           <div className="flex w-1/2 justify-between">
@@ -71,7 +75,7 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
               Capacity
             </p>
             <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
-              {carData.capacity} {carData.capacity === 1 ? "person" : "people"}
+              {carData.capacity} people
             </p>
           </div>
         </div>
@@ -100,10 +104,15 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
           <span className="text-xs text-gray-400 sm:text-base"> day</span>
         </p>
         <button
-          className="rounded bg-blue500 px-6 py-2 font-medium text-white"
+          className={`${availabilityColor} rounded px-6 py-2 font-medium text-white`}
           onClick={handleButtonClick}
+          disabled={!carAvailability}
         >
-          {canReview ? "Rent Again" : "Rent Now"}
+          {!carAvailability
+            ? "Unavailable"
+            : canReview
+            ? "Rent Again"
+            : "Rent Now"}
         </button>
       </div>
     </div>
