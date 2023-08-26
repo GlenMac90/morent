@@ -6,7 +6,6 @@ import Car from "../models/car.model";
 import Review from "../models/reviews.model";
 import { CarParams, ReviewDocument } from "../interfaces";
 import mongoose from "mongoose";
-<<<<<<< HEAD
 
 export async function fetchRecommendedCars(): Promise<CarParams[] | null> {
   try {
@@ -37,8 +36,6 @@ export async function fetchPopularCars(): Promise<CarParams[] | null> {
     throw new Error(`Failed to fetch recommended cars: ${error.message}`);
   }
 }
-=======
->>>>>>> main
 
 export async function createCar(carData: CarParams): Promise<CarParams> {
   try {
