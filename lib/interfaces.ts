@@ -80,9 +80,7 @@ export interface SelectInputProps {
   label: string;
   placeholder: string;
   items: SelectItems[];
-  isNumeric: boolean;
 }
-
 export interface InputControllerProps {
   control: Control<FormData>;
   name: FieldNames;
