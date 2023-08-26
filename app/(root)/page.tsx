@@ -1,5 +1,3 @@
-"use client";
-
 import PickUpDropOffCard from "@/components/PickUpDropOffCard";
 import AdvertsDisplay from "@/components/advertsComponents/AdvertsDisplay";
 import PopularCars from "@/components/homepageComponents/PopularCars";
