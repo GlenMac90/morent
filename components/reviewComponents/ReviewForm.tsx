@@ -14,6 +14,7 @@ import {
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { motion } from "framer-motion";
 
 import { CarData } from "@/constants/interfaces";
 import ReviewFormStarRating from "./ReviewFormStarRating";
@@ -30,7 +31,6 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 }) => {
   const { theme } = useTheme();
   const [starRating, setStarRating] = useState<number | null>(null);
-  const [review, setReview] = useState("");
   const handleBackgroundClick = () => {
     setShowReviewScreen(false);
   };
@@ -56,26 +56,27 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    setReview(values.review);
     console.log(starRating);
-    console.log(review);
+    console.log(values.review);
   }
 
   return (
-    <div
+    <motion.div
+      animate={{ scale: 1 }}
+      initial={{ scale: 0 }}
       className="fixed inset-0 z-50 flex justify-center"
       onClick={handleBackgroundClick}
     >
       <div
         onClick={handleChildClick}
-        className="fixed top-[12.75rem] z-50 flex max-h-[40rem] w-full max-w-[30rem] flex-col overflow-y-auto rounded-xl bg-white200 p-5 dark:bg-gray900  "
+        className="fixed top-44 z-50 flex max-h-[40rem] w-full max-w-[30rem] flex-col overflow-y-auto rounded-xl bg-white200 p-5 dark:bg-gray850  "
       >
         <div className="flex w-full justify-between">
           <p className="text-2xl font-semibold ">{data.brand}</p>
           <Image
             src={theme === "light" ? cross : whiteCross}
-            height={25}
-            width={25}
+            height={30}
+            width={30}
             alt="close modal"
             onClick={handleBackgroundClick}
             className="cursor-pointer self-start dark:text-white200"
@@ -123,7 +124,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
           </form>
         </Form>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

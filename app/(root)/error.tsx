@@ -1,5 +1,7 @@
+"use client";
+
 import React from "react";
-import ErrorPage from "./components/ErrorPage";
+import ErrorPage from "../../components/transitionPages/ErrorPage";
 
 const Error = () => {
   return <ErrorPage />;

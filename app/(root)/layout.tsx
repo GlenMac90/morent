@@ -5,7 +5,7 @@ import { Plus_Jakarta_Sans } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 
 import Provider from "../providers/Provider";
-import NavBar from "@/components/NavBar";
+import NavBar from "@/components/navBarComponents/NavBar";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster";
 

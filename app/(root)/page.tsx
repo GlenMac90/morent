@@ -2,28 +2,10 @@
 
 import { motion } from "framer-motion";
 
-import CarCard from "@/components/CarCard";
-import Advert from "@/components/Advert";
+import CarCard from "@/components/carCardComponents/CarCard";
 import PickUpDropOffCard from "@/components/PickUpDropOffCard";
-
-const adverts = [
-  {
-    title: "The Best Platform for Car Rental",
-    description:
-      "Ease of doing a car rental safely and reliably. Of course at a low price.",
-    imageSrc: "/pngs/advertWhiteCar.png",
-    additionalStyles: "white_car_ad",
-    whiteCar: true,
-  },
-  {
-    title: "Easy way to rent a car at a low price",
-    description:
-      "Providing cheap car rental services and safe and comfortable facilities.",
-    imageSrc: "/pngs/advertSilverCar.png",
-    additionalStyles: "black_car_ad hidden lg:flex",
-    whiteCar: false,
-  },
-];
+import AdvertsDisplay from "@/components/advertsComponents/AdvertsDisplay";
+import { dummyData } from "@/utils/dummyCarData";
 
 const Home = () => {
   return (
@@ -34,18 +16,7 @@ const Home = () => {
     >
       <div className="mt-24 flex w-full max-w-[90rem] flex-col items-center pt-5">
         <section className="flex w-full max-w-[90rem] px-5">
-          <div className="flex w-full flex-col gap-8 lg:flex-row">
-            {adverts.map((advert) => (
-              <Advert
-                key={advert.title}
-                title={advert.title}
-                description={advert.description}
-                imageSrc={advert.imageSrc}
-                additionalStyles={advert.additionalStyles}
-                whiteCar={advert.whiteCar}
-              />
-            ))}
-          </div>
+          <AdvertsDisplay />
         </section>
         <div className="mt-7 flex w-full px-5">
           <PickUpDropOffCard />
@@ -60,8 +31,12 @@ const Home = () => {
 
           {/* Change id to match id of card once live data is passed */}
           {[0, 1, 2, 3, 4].map((card) => (
-            // TODO - Add popular car data
-            <CarCard key={card} isPopularCar={true} id={"123"} />
+            <CarCard
+              carData={dummyData}
+              key={card}
+              isPopularCar={true}
+              id={"123"}
+            />
           ))}
           {/* Change id to match id of card once live data is passed */}
         </div>
@@ -71,8 +46,7 @@ const Home = () => {
         <div className="mt-5 flex w-full flex-col items-center justify-center gap-5 px-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           {/* Change id to match id of card once live data is passed */}
           {[0, 1, 2, 3, 4, 5, 6, 7].map((card) => (
-            // TODO - Add Recommended car data
-            <CarCard key={card} id={"123"} />
+            <CarCard carData={dummyData} key={card} id={"123"} />
           ))}
           {/* Change id to match id of card once live data is passed */}
         </div>

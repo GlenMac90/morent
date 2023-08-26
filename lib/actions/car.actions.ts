@@ -4,7 +4,7 @@ import { connectToDB } from "../mongoose";
 import User from "../models/user.model";
 import Car from "../models/car.model";
 import Review from "../models/reviews.model";
-import { CarParams, ReviewDocument } from "../interfaces";
+import { CarParams } from "../interfaces";
 import mongoose from "mongoose";
 
 export async function createCar(carData: CarParams): Promise<CarParams> {

@@ -1,6 +1,5 @@
 import Image from "next/image";
 
-import { Label } from "./ui/label";
 import {
   Select,
   SelectContent,
@@ -8,6 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Label } from "./ui/label";
 import { ScrollArea } from "./ui/scroll-area";
 import { clock } from "@/public/svg-icons";
 import { timeOptions } from "@/constants";
@@ -28,7 +28,7 @@ const SelectYourTime = ({ pickUpOrDropOff }: { pickUpOrDropOff: string }) => {
         </SelectTrigger>
       </div>
       <SelectContent>
-        <ScrollArea className="h-[230px] xl:h-[270px]">
+        <ScrollArea className="h-[550px]">
           {timeOptions.map((timeOption) => (
             <SelectItem key={timeOption} value={timeOption}>
               {timeOption}

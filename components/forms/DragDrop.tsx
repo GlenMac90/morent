@@ -1,27 +1,27 @@
-"use client";
+'use client';
 
-import { useRef, useState, ChangeEvent, DragEvent, useEffect } from "react";
-import Image from "next/image";
+import { useRef, useState, ChangeEvent, DragEvent, useEffect } from 'react';
+import Image from 'next/image';
 
 interface FileWithPreview extends File {
   preview?: string;
 }
 
 interface DragDropProps {
-  handleFilesChange: (files: FileWithPreview[]) => void;
+  setDragDropFiles: (files: FileWithPreview[]) => void;
 }
 
 // https://innocentanyaele.medium.com/create-a-drag-and-drop-file-component-in-reactjs-nextjs-tailwind-6ae70ba06e4b
 // Drag and Drop component from medium article
 
-const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
+const DragDrop: React.FC<DragDropProps> = ({ setDragDropFiles }) => {
   const [dragActive, setDragActive] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    handleFilesChange(files);
+    setDragDropFiles(files);
     setIsMounted(true);
   }, [files]);
 
@@ -73,7 +73,7 @@ const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
 
   function openFileExplorer() {
     if (inputRef.current) {
-      inputRef.current.value = "";
+      inputRef.current.value = '';
       inputRef.current.click();
     }
   }
@@ -81,11 +81,11 @@ const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
   return (
     <div
       className={`${
-        dragActive ? "bg-blue-400" : "bg-blue-100"
+        dragActive ? 'bg-blue-400' : 'bg-blue-100'
       }  flex  w-full  flex-col items-center justify-center rounded-lg border border-dotted border-gray400 bg-white py-10  text-center  dark:bg-gray850`}
       style={{
-        borderWidth: "1px",
-        borderStyle: "dashed",
+        borderWidth: '1px',
+        borderStyle: 'dashed',
       }}
       onDragEnter={handleDragEnter}
       onDrop={handleDrop}
@@ -109,7 +109,7 @@ const DragDrop: React.FC<DragDropProps> = ({ handleFilesChange }) => {
       />
 
       <p className="mt-2.5 text-sm text-gray400">
-        Drag & Drop an image, or{" "}
+        Drag & Drop an image, or{' '}
         <span
           className="cursor-pointer font-bold text-blue500"
           onClick={openFileExplorer}
