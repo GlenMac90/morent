@@ -24,7 +24,7 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
   handleButtonClick,
   carAvailability,
 }) => {
-  const unavailableColor = !carAvailability ? "bg-blue100" : "bg-blue500";
+  const availabilityColor = carAvailability ? "bg-blue500" : "bg-blue100";
 
   return (
     <div className="mt-8 flex flex-col px-2 md:w-full lg:ml-10 lg:mt-0 lg:justify-between lg:p-6">
@@ -102,7 +102,7 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
           <span className="text-xs text-gray-400 sm:text-base"> day</span>
         </p>
         <button
-          className={`${unavailableColor} rounded px-6 py-2 font-medium text-white`}
+          className={`${availabilityColor} rounded px-6 py-2 font-medium text-white`}
           onClick={handleButtonClick}
           disabled={!carAvailability}
         >

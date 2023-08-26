@@ -54,10 +54,9 @@ const CarCard: React.FC<CarCardProps> = ({
     }) ?? true;
 
   const carAvailability = () => {
-    if (carAvailabilityBySingleDate === false) {
+    if (!carAvailabilityByRangeDate || !carAvailabilityBySingleDate)
       return false;
-    } else if (carAvailabilityByRangeDate === false) return false;
-    else return true;
+    return true;
   };
 
   return (

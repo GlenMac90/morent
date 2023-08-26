@@ -4,7 +4,7 @@ import { connectToDB } from "../mongoose";
 import User from "../models/user.model";
 import Car from "../models/car.model";
 import Review from "../models/reviews.model";
-import { CarParams } from "../interfaces";
+import { CarParams, ReviewDocument } from "../interfaces";
 import mongoose from "mongoose";
 
 export async function createCar(carData: CarParams): Promise<CarParams> {
@@ -123,8 +123,9 @@ export async function getCarsByLocation(
   try {
     await connectToDB();
 
-    const regexPattern = new RegExp(location, "i");
-    const cars = await Car.find({ location: { $regex: regexPattern } }).exec();
+    const cars = await Car.find({
+      location: { $regex: location, $options: "i" },
+    }).exec();
 
     if (!cars) {
       throw new Error("Cars not found.");

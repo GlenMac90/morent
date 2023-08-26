@@ -31,8 +31,8 @@ const PickUpDropOffCard = ({
   const [date, setDate] = useState<DateRange>();
 
   // if date is undefined, set default date to today and 2 days from now
-  const dateFrom = date?.from === undefined ? new Date() : date?.from;
-  const dateTo = date?.to === undefined ? addDays(new Date(), 2) : date?.to;
+  const dateFrom = date?.from ?? new Date();
+  const dateTo = date?.to ?? addDays(new Date(), 2);
 
   const handleUserInput = (input: string) => {
     setLocation(input);
