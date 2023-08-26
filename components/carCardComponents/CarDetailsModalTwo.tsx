@@ -27,7 +27,7 @@ import { Label } from "@/components/ui/label";
 import ArrowDown from "../ArrowDown";
 
 interface CarDetailsModalTwoProps {
-  id: string;
+  id: string | undefined;
   setShowModal: (show: boolean) => void;
 }
 
