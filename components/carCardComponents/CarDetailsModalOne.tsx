@@ -35,17 +35,25 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
   const [changePicture, setChangePicture] = useState(true);
   const [motionKey, setMotionKey] = useState(0);
   const [showReviewScreen, setShowReviewScreen] = useState(false);
+  const [closeModal, setCloseModal] = useState(false);
 
-  const handleButtonClick = () => {
+  const handleShowModalTwo = () => {
     setShowModalScreen2(true);
     setMotionKey((prevKey) => prevKey + 1);
+  };
+
+  const handleCloseClick = () => {
+    setCloseModal(true);
+    setTimeout(() => {
+      setShowModal(false);
+    }, 250);
   };
 
   return (
     <>
       <motion.div
         key={motionKey}
-        animate={{ scale: 1 }}
+        animate={{ scale: closeModal ? 0 : 1 }}
         initial={{ scale: 0 }}
         className={`fixed inset-x-2 top-[12.75rem] z-50 flex flex-col rounded-lg bg-white p-4 dark:bg-gray850 xs:inset-x-auto  sm:flex-row 
         ${
@@ -53,10 +61,14 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             ? "max-w-[30rem] lg:max-w-[65.9rem]"
             : "h-auto max-w-[31.25rem]"
         } ${!isPopular && "xs:-mr-14 sm:mr-0"}
-        ${pathname === "/search" && "xs:ml-3 xs:mr-1 sm:mr-4 lg:ml-6"}`}
+        ${pathname === "/search" && "xs:ml-3 xs:mr-1 sm:mr-4 lg:ml-6"}
+        ${
+          showReviewScreen &&
+          "bg-black opacity-50 dark:bg-gray900 dark:opacity-70"
+        }`}
       >
         {showModalScreen2 && (
-          <CarDetailsModalTwo setShowModal={setShowModal} id={id} />
+          <CarDetailsModalTwo setShowModal={handleCloseClick} id={id} />
         )}
         <div
           className={`flex flex-col lg:flex-row ${
@@ -84,15 +96,15 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             carData={carData}
             theme={theme}
             canReview={canReview}
-            setShowModal={setShowModal}
+            setShowModal={handleCloseClick}
             setShowReviewScreen={setShowReviewScreen}
-            handleButtonClick={handleButtonClick}
+            handleButtonClick={handleShowModalTwo}
           />
         </div>
       </motion.div>
       <div
         className="fixed inset-0 z-40 h-full w-full bg-black opacity-50 dark:bg-gray900 dark:opacity-70"
-        onClick={() => setShowModal(false)}
+        onClick={handleCloseClick}
       ></div>
       {showReviewScreen && (
         <ReviewForm setShowReviewScreen={setShowReviewScreen} data={carData} />

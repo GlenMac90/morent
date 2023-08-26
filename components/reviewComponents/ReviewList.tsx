@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import { motion } from "framer-motion";
@@ -15,10 +15,14 @@ interface ReviewListProps {
 }
 
 const ReviewList: React.FC<ReviewListProps> = ({ id, setShowReviews }) => {
+  const [animateClose, setAnimateClose] = useState(false);
   const { theme } = useTheme();
 
   const handleBackgroundClick = () => {
-    setShowReviews(false);
+    setAnimateClose(true);
+    setTimeout(() => {
+      setShowReviews(false);
+    }, 250);
   };
 
   const handleChildClick = (
@@ -33,7 +37,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ id, setShowReviews }) => {
       onClick={handleBackgroundClick}
     >
       <motion.div
-        animate={{ scale: 1 }}
+        animate={{ scale: animateClose ? 0 : 1 }}
         initial={{ scale: 0 }}
         onClick={handleChildClick}
         className="fixed top-44 z-50 mx-5 flex max-h-[35rem] w-full max-w-[30rem] flex-col overflow-y-auto rounded-xl bg-white200 p-4 dark:bg-gray900 md:p-5 "

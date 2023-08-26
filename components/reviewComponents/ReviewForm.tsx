@@ -36,8 +36,13 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   currentUserId();
   const { theme } = useTheme();
   const [starRating, setStarRating] = useState<number | null>(null);
+  const [animateClose, setAnimateClose] = useState(false);
+
   const handleBackgroundClick = () => {
-    setShowReviewScreen(false);
+    setAnimateClose(true);
+    setTimeout(() => {
+      setShowReviewScreen(false);
+    }, 250);
   };
 
   const handleChildClick = (
@@ -91,7 +96,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
 
   return (
     <motion.div
-      animate={{ scale: 1 }}
+      animate={{ scale: animateClose ? 0 : 1 }}
       initial={{ scale: 0 }}
       className="fixed inset-0 z-50 flex justify-center"
       onClick={handleBackgroundClick}

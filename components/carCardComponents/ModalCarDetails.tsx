@@ -29,8 +29,8 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
           <p className="text-xl font-medium lg:text-3xl">{carData.brand}</p>
           <Image
             src={theme === "light" ? cross : whiteCross}
-            height={20}
-            width={20}
+            height={34}
+            width={34}
             alt="close modal"
             onClick={() => setShowModal(false)}
             className="hidden cursor-pointer self-start dark:text-white200 lg:flex"

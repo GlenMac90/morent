@@ -1,9 +1,9 @@
-'use server';
+"use server";
 
-import { connectToDB } from '../mongoose';
-import Review from '../models/reviews.model';
-import { ReviewDocument } from '../interfaces';
-import mongoose from 'mongoose';
+import { connectToDB } from "../mongoose";
+import Review from "../models/reviews.model";
+import { ReviewDocument } from "../interfaces";
+import mongoose from "mongoose";
 
 export async function createReview(
   reviewData: ReviewDocument
@@ -22,7 +22,7 @@ export async function editReview(
   reviewData: ReviewDocument
 ): Promise<ReviewDocument> {
   if (!reviewData._id) {
-    throw new Error('Review ID is required to edit.');
+    throw new Error("Review ID is required to edit.");
   }
 
   try {
@@ -36,7 +36,7 @@ export async function editReview(
     );
 
     if (!updatedReview) {
-      throw new Error('Failed to find and update the review.');
+      throw new Error("Failed to find and update the review.");
     }
 
     return updatedReview.toObject();
@@ -50,7 +50,7 @@ export async function deleteReview(reviewId: string): Promise<void> {
     connectToDB();
     const review = await Review.findById(reviewId);
     if (!review) {
-      throw new Error('Review not found.');
+      throw new Error("Review not found.");
     }
     await Review.findByIdAndRemove(reviewId);
   } catch (error: any) {
@@ -65,7 +65,7 @@ export async function fetchReviewById(
     connectToDB();
     const review = await Review.findById(reviewId).exec();
     if (!review) {
-      throw new Error('Review not found.');
+      throw new Error("Review not found.");
     }
     return review.toObject();
   } catch (error: any) {
@@ -88,11 +88,11 @@ export async function getAllReviewsByUser(
   try {
     connectToDB();
     const reviews = await Review.find({ userId })
-      .populate('carId', 'carTitle')
+      .populate("carId", "carTitle")
       .exec();
 
     if (!reviews) {
-      throw new Error('No reviews found for the specified user.');
+      throw new Error("No reviews found for the specified user.");
     }
 
     return reviews as ReviewDocument[];
