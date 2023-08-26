@@ -4,14 +4,15 @@ import React from "react";
 import { motion } from "framer-motion";
 
 import CarCard from "../carCardComponents/CarCard";
-import { dummyData } from "@/utils/dummyCarData";
 import { CarParams } from "@/lib/interfaces";
 
-interface PopularCarsProps {
-  carData: CarParams;
+interface RecommendedCarsProps {
+  recommendedCars: CarParams[] | null;
 }
 
-const RecommendedCars: React.FC<PopularCarsProps> = ({ carData }) => {
+const RecommendedCars: React.FC<RecommendedCarsProps> = ({
+  recommendedCars,
+}) => {
   return (
     <motion.div
       animate={{ scale: 1 }}
@@ -23,8 +24,8 @@ const RecommendedCars: React.FC<PopularCarsProps> = ({ carData }) => {
       </p>
       <div className="mt-5 flex w-full flex-col items-center justify-center gap-5 px-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
         {/* Change id to match id of card once live data is passed */}
-        {[0, 1, 2, 3, 4, 5, 6, 7].map((card) => (
-          <CarCard carData={dummyData} key={card} id={"123"} />
+        {recommendedCars?.map((car) => (
+          <CarCard carData={car} key={car._id} id={"123"} />
         ))}
         {/* Change id to match id of card once live data is passed */}
       </div>

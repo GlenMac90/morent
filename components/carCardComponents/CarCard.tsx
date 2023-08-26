@@ -7,10 +7,10 @@ import { usePathname } from "next/navigation";
 
 import CarDetailsModalOne from "./CarDetailsModalOne";
 import CarCardMainContent from "./CarCardMainContent";
-import { CarData } from "@/constants/interfaces";
+import { CarParams } from "@/lib/interfaces";
 
 interface CarCardProps {
-  carData: CarData;
+  carData: CarParams;
   id: string;
   isPopularCar?: boolean;
   canEdit?: boolean;
@@ -24,9 +24,10 @@ const CarCard: React.FC<CarCardProps> = ({
   canEdit = false,
   canReview = false,
 }) => {
+  console.log(carData);
   const pathname = usePathname();
   const { theme } = useTheme();
-  const [isFavourited, setIsFavourited] = useState(carData.isFavourited);
+  const [isFavourited, setIsFavourited] = useState(carData.liked);
   const [showModal, setShowModal] = useState(false);
   const [motionKey, setMotionKey] = useState(0);
 

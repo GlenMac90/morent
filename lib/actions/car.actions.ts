@@ -7,6 +7,36 @@ import Review from "../models/reviews.model";
 import { CarParams, ReviewDocument } from "../interfaces";
 import mongoose from "mongoose";
 
+export async function fetchRecommendedCars(): Promise<CarParams[] | null> {
+  try {
+    connectToDB();
+
+    // Find cars with a rating of 4 and above
+    const cars = await Car.find({ starRating: { $gte: 4 } }).exec();
+
+    // Convert each car document to a plain JavaScript object
+    return cars.map((car) => car.toObject());
+  } catch (error: any) {
+    throw new Error(
+      `Failed to fetch cars with rating 4 and above: ${error.message}`
+    );
+  }
+}
+
+export async function fetchPopularCars(): Promise<CarParams[] | null> {
+  try {
+    connectToDB();
+
+    // Find cars with a carRented of over 4
+    const cars = await Car.find({ carRented: { $gt: 4 } }).exec();
+
+    // Convert each car document to a plain JavaScript object
+    return cars.map((car) => car.toObject());
+  } catch (error: any) {
+    throw new Error(`Failed to fetch recommended cars: ${error.message}`);
+  }
+}
+
 export async function createCar(carData: CarParams): Promise<CarParams> {
   try {
     connectToDB();

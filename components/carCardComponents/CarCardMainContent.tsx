@@ -12,13 +12,14 @@ import {
   peopleCapacity,
 } from "@/public/svg-icons";
 import { motion } from "framer-motion";
-import { CarData } from "@/constants/interfaces";
+import { CarParams } from "@/lib/interfaces";
+import { advertSilverCar } from "@/public/pngs";
 
 interface CarCardMainContentProps {
-  carData: CarData;
+  carData: CarParams;
   canEdit: boolean;
   motionKey: number;
-  isFavourited: boolean;
+  isFavourited?: boolean;
   theme: string | undefined;
   isPopularCar: boolean;
   handleButtonClick: () => void;
@@ -37,9 +38,9 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
     <>
       <div className="flex w-full justify-between">
         <div className="flex flex-col">
-          <p className="font-medium xs:text-xl">{carData.brand}</p>
+          <p className="font-medium xs:text-xl">{carData.carTitle}</p>
           <p className="mt-1 text-xs font-semibold text-gray400 xs:text-sm">
-            {carData.type}
+            {carData.carType}
           </p>
         </div>
         {!canEdit ? (
@@ -59,7 +60,7 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
             />
           </motion.div>
         ) : (
-          <Link href={`/cars/${carData.id}`}>
+          <Link href={`/cars/${carData._id}`}>
             <Image
               src={theme === "light" ? editSymbol : editSymbolDarkMode}
               alt="edit button"
@@ -75,7 +76,7 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
       >
         <div className="flex w-full justify-center">
           <Image
-            src={carData.mainPicture}
+            src={carData.carImageMain || advertSilverCar}
             alt="car picture"
             className={`mb-1 ml-0 h-[3.3rem] w-[11rem] self-end dark:bg-gray850 xs:ml-4 xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[4.5rem] sm:w-[236px] sm:self-center ${
               isPopularCar ? "self-center" : "self-end sm:self-center"
@@ -116,7 +117,7 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
               className="h-3.5 w-3.5 xs:h-5 xs:w-5"
             />
             <p className="ml-1 self-center text-xs text-gray400 xs:text-sm sm:ml-1.5">
-              {carData.capacity} {carData.capacity === 1 ? "person" : "people"}
+              {carData.capacity}
             </p>
           </div>
         </div>

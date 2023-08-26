@@ -7,10 +7,11 @@ import CarCard from "../carCardComponents/CarCard";
 import { CarParams } from "@/lib/interfaces";
 
 interface PopularCarsProps {
-  carData: CarParams;
+  popularCars: CarParams[] | null;
 }
 
-const PopularCars: React.FC<PopularCarsProps> = ({ carData }) => {
+const PopularCars: React.FC<PopularCarsProps> = ({ popularCars }) => {
+  console.log(popularCars);
   return (
     <motion.div
       animate={{ scale: 1 }}
@@ -26,13 +27,8 @@ const PopularCars: React.FC<PopularCarsProps> = ({ carData }) => {
         <div className="flex w-5 xs:hidden" />
 
         {/* Change id to match id of card once live data is passed */}
-        {[0, 1, 2, 3, 4].map((card) => (
-          <CarCard
-            carData={carData}
-            key={card}
-            isPopularCar={true}
-            id={"123"}
-          />
+        {popularCars?.map((car) => (
+          <CarCard carData={car} key={car._id} isPopularCar={true} id={"123"} />
         ))}
         {/* Change id to match id of card once live data is passed */}
       </div>

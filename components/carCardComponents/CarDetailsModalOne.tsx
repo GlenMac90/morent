@@ -9,13 +9,13 @@ import { usePathname } from "next/navigation";
 import { cross, whiteCross } from "../../public/svg-icons/index";
 import CarDetailsModalTwo from "./CarDetailsModalTwo";
 import ReviewForm from "../reviewComponents/ReviewForm";
-import { CarData } from "@/constants/interfaces";
 import ModalImageGallery from "./ModalImageGallery";
 import ModalCarDetails from "./ModalCarDetails";
+import { CarParams } from "@/lib/interfaces";
 
 interface CarDetailsModalOneProps {
   id: string;
-  carData: CarData;
+  carData: CarParams;
   setShowModal: (show: boolean) => void;
   isPopular?: boolean;
   canReview?: boolean;
@@ -30,7 +30,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
 }) => {
   const pathname = usePathname();
   const { theme } = useTheme();
-  const [displayPicture, setDisplayPicture] = useState(carData.pictures[0]);
+  const [displayPicture, setDisplayPicture] = useState(carData.carImageMain);
   const [showModalScreen2, setShowModalScreen2] = useState(false);
   const [changePicture, setChangePicture] = useState(true);
   const [motionKey, setMotionKey] = useState(0);

@@ -1,13 +1,13 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { CarParams } from "@/lib/interfaces";
+import { advertSilverCar } from "@/public/pngs";
 
 interface ModalImageGalleryProps {
   changePicture: boolean;
-  carData: {
-    pictures: string[];
-  };
-  displayPicture: string;
+  carData: CarParams;
+  displayPicture: string | undefined;
   setChangePicture: (value: boolean) => void;
   setDisplayPicture: (value: string) => void;
 }
@@ -28,14 +28,16 @@ const ModalImageGallery: React.FC<ModalImageGalleryProps> = ({
         whileHover={{ scale: 1.2 }}
         className="flex h-[15rem] w-full max-w-full items-center justify-center rounded-lg md:max-w-full lg:min-h-[22.5rem]"
       >
-        <Image
-          src={displayPicture}
-          alt="main display picture"
-          style={{
-            objectFit: "cover",
-          }}
-          className="h-full w-full rounded-lg"
-        />
+        {displayPicture && (
+          <Image
+            src={displayPicture || advertSilverCar}
+            alt="main display picture"
+            style={{
+              objectFit: "cover",
+            }}
+            className="h-full w-full rounded-lg"
+          />
+        )}
       </motion.div>
       <div className="no_scrollbar mt-5 flex gap-5 overflow-x-auto">
         {carData.pictures.map((picture: string, index: number) => (
