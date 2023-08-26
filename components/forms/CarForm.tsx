@@ -189,7 +189,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             label="Car Type"
             placeholder="Car Type"
             items={carTypes}
-            isNumeric={false}
           />
         </div>
         <div className="flex w-full flex-col gap-8 md:flex-row">
@@ -206,7 +205,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             label="Capacity"
             placeholder="Capacity in persons"
             items={capacities}
-            isNumeric={true}
           />
         </div>
 
@@ -217,7 +215,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             label="Transmission"
             placeholder="Transmission Type"
             items={transmissionOptions}
-            isNumeric={false}
           />
 
           <FormItem className=" flex w-full flex-col justify-start">
@@ -238,7 +235,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             label="Fuel Capacity"
             placeholder="Fuel Capacity"
             items={fuelCapacityOptions}
-            isNumeric={true}
           />
           <InputController
             control={form.control}

@@ -12,21 +12,21 @@ export interface CarParams {
   _id?: string;
   carTitle: string;
   carType: string;
+  disabledDates?: {
+    singleDates?: Date[];
+    dateRanges?: DateRange[];
+  };
   carRented?: number;
-  starRating?: number;
-  rentPrice?: string;
+  starRating?: number[];
+  likes?: number;
   capacity?: string;
   transmission?: string;
   location?: string;
   fuelCapacity?: string;
   shortDescription?: string;
-  carImageMain?: string;
-  disabledDates?: {
-    singleDates?: Date[];
-    dateRanges?: DateRange[];
-  };
-  path?: string;
+  carImages?: string[];
   liked?: boolean;
+  path?: string;
 }
 
 export interface UserParams {
