@@ -1,20 +1,22 @@
 "use client";
 
-import React, { useState } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
 
 import CarDetailsModalOne from "./CarDetailsModalOne";
 import CarCardMainContent from "./CarCardMainContent";
-import { CarData } from "@/constants/interfaces";
+import { CarParams } from "@/lib/interfaces";
 
 interface CarCardProps {
-  carData: CarData;
-  id: string;
+  carData: CarParams;
+  id: string | undefined;
   isPopularCar?: boolean;
   canEdit?: boolean;
   canReview?: boolean;
+  availabilityFrom: Date;
+  availabilityTo: Date;
 }
 
 const CarCard: React.FC<CarCardProps> = ({
@@ -23,6 +25,8 @@ const CarCard: React.FC<CarCardProps> = ({
   isPopularCar = false,
   canEdit = false,
   canReview = false,
+  availabilityFrom,
+  availabilityTo,
 }) => {
   const pathname = usePathname();
   const { theme } = useTheme();
@@ -33,6 +37,26 @@ const CarCard: React.FC<CarCardProps> = ({
   const handleButtonClick = () => {
     setIsFavourited((prev) => !prev);
     setMotionKey((prevKey) => prevKey + 1);
+  };
+
+  // Check if the car is available from database and user input by single date
+  const carAvailabilityBySingleDate =
+    carData?.disabledDates?.singleDates?.every((singleDate) => {
+      const newSingleDate = new Date(singleDate);
+      return availabilityFrom > newSingleDate || newSingleDate > availabilityTo;
+    }) ?? true;
+
+  // Check if the car is available from database and user input by range date
+  const carAvailabilityByRangeDate =
+    carData?.disabledDates?.dateRanges?.every((dateRange) => {
+      const { from, to } = dateRange;
+      return availabilityFrom > new Date(to) || availabilityTo < new Date(from);
+    }) ?? true;
+
+  const carAvailability = () => {
+    if (!carAvailabilityByRangeDate || !carAvailabilityBySingleDate)
+      return false;
+    return true;
   };
 
   return (
@@ -87,6 +111,7 @@ const CarCard: React.FC<CarCardProps> = ({
             setShowModal={setShowModal}
             isPopular={isPopularCar}
             canReview={canReview}
+            carAvailability={carAvailability()}
           />
           {/* Type error of data will so away once dummyData is removed and lived data will be a string leading to the URL of the image */}
         </div>
