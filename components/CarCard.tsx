@@ -5,7 +5,6 @@ import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
-import { DateRange } from "react-day-picker";
 
 import CarDetailsModalOne from "./CarDetailsModalOne";
 import { dummyData } from "@/utils/dummyCarData";
