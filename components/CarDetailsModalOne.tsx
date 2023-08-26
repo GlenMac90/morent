@@ -17,6 +17,7 @@ interface CarDetailsModalOneProps {
   setShowModal: (show: boolean) => void;
   isPopular?: boolean;
   canReview?: boolean;
+  carAvailability: boolean;
 }
 
 const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
@@ -25,6 +26,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
   setShowModal,
   isPopular,
   canReview,
+  carAvailability,
 }) => {
   const { theme } = useTheme();
   const [displayPicture, setDisplayPicture] = useState(data.pictures[0]);
@@ -184,10 +186,17 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
                 <span className="text-xs text-gray-400 sm:text-base"> day</span>
               </p>
               <button
-                className="rounded bg-blue500 px-6 py-2 font-medium text-white"
+                className={`${
+                  !carAvailability && "bg-blue100"
+                } rounded bg-blue500 px-6 py-2 font-medium text-white`}
                 onClick={handleButtonClick}
+                disabled={!carAvailability}
               >
-                {canReview ? "Rent Again" : "Rent Now"}
+                {!carAvailability
+                  ? "Unavailable"
+                  : canReview
+                  ? "Rent Again"
+                  : "Rent Now"}
               </button>
             </div>
           </div>

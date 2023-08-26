@@ -1,14 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import React, { useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
+import { DateRange } from "react-day-picker";
 
 import CarDetailsModalOne from "./CarDetailsModalOne";
 import { dummyData } from "@/utils/dummyCarData";
-
 import {
   heart,
   litres,
@@ -18,12 +18,16 @@ import {
   editSymbol,
   editSymbolDarkMode,
 } from "../public/svg-icons/index";
+import { CarParams } from "@/lib/interfaces";
 
 interface CarCardProps {
-  id: string;
+  id: string | undefined;
   isPopularCar?: boolean;
   canEdit?: boolean;
   canReview?: boolean;
+  carData: CarParams;
+  availabilityFrom: Date;
+  availabilityTo: Date;
 }
 
 const CarCard: React.FC<CarCardProps> = ({
@@ -31,8 +35,12 @@ const CarCard: React.FC<CarCardProps> = ({
   isPopularCar = false,
   canEdit = false,
   canReview = false,
+  carData,
+  availabilityFrom,
+  availabilityTo,
 }) => {
   const { theme } = useTheme();
+  // TODO: Remove dummyData once live data is available
   const [isFavourited, setIsFavourited] = useState(dummyData.isFavourited);
   const [showModal, setShowModal] = useState(false);
   const [motionKey, setMotionKey] = useState(0);
@@ -40,6 +48,27 @@ const CarCard: React.FC<CarCardProps> = ({
   const handleButtonClick = () => {
     setIsFavourited((prev) => !prev);
     setMotionKey((prevKey) => prevKey + 1); // Increment the key
+  };
+
+  // Check if the car is available from database and user input by single date
+  const carAvailabilityBySingleDate =
+    carData?.disabledDates?.singleDates?.every((singleDate) => {
+      const newSingleDate = new Date(singleDate);
+      return availabilityFrom > newSingleDate || newSingleDate > availabilityTo;
+    }) ?? true;
+
+  // Check if the car is available from database and user input by range date
+  const carAvailabilityByRangeDate =
+    carData?.disabledDates?.dateRanges?.every((dateRange) => {
+      const { from, to } = dateRange;
+      return availabilityFrom > new Date(to) || availabilityTo < new Date(from);
+    }) ?? true;
+
+  const carAvailability = () => {
+    if (carAvailabilityBySingleDate === false) {
+      return false;
+    } else if (carAvailabilityByRangeDate === false) return false;
+    else return true;
   };
 
   return (
@@ -57,9 +86,9 @@ const CarCard: React.FC<CarCardProps> = ({
       >
         <div className="flex w-full justify-between">
           <div className="flex flex-col">
-            <p className="font-medium xs:text-xl">{dummyData.brand}</p>
+            <p className="font-medium xs:text-xl">{carData?.carTitle}</p>
             <p className="mt-1 text-xs font-semibold text-gray400 xs:text-sm">
-              {dummyData.type}
+              {carData?.carType}
             </p>
           </div>
           {!canEdit ? (
@@ -70,6 +99,8 @@ const CarCard: React.FC<CarCardProps> = ({
               transition={{ duration: 0.7 }}
             >
               <Image
+                width={16}
+                height={16}
                 src={isFavourited ? redHeart : heart}
                 alt="heart button"
                 className={`h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6 ${
@@ -79,8 +110,10 @@ const CarCard: React.FC<CarCardProps> = ({
               />
             </motion.div>
           ) : (
-            <Link href={`/cars/${dummyData.id}`}>
+            <Link href={`/cars/${carData?._id}`}>
               <Image
+                width={16}
+                height={16}
                 src={theme === "light" ? editSymbol : editSymbolDarkMode}
                 alt="edit button"
                 className="h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6"
@@ -95,7 +128,10 @@ const CarCard: React.FC<CarCardProps> = ({
         >
           <div className="flex w-full justify-center">
             <Image
-              src={dummyData.mainPicture}
+              width={176}
+              height={52.8}
+              // TODO: Remove dummyData once live data is available
+              src={carData?.carImageMain || dummyData.mainPicture}
               alt="car picture"
               className={`mb-1 ml-0 h-[3.3rem] w-[11rem] self-end dark:bg-gray850 xs:ml-4 xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[4.5rem] sm:w-[236px] sm:self-center ${
                 isPopularCar ? "self-center" : "self-end sm:self-center"
@@ -111,40 +147,46 @@ const CarCard: React.FC<CarCardProps> = ({
           >
             <div className="flex">
               <Image
+                width={14}
+                height={14}
                 src={litres}
                 alt="engine literage"
                 className="h-3.5 w-3.5 xs:h-5 xs:w-5"
               />
               <p className="ml-1 self-center text-xs text-gray400 xs:ml-1.5 xs:text-sm">
-                {dummyData.fuelCapacity}L
+                {carData?.fuelCapacity}L
               </p>
             </div>
             <div className="flex">
               <Image
+                width={14}
+                height={14}
                 src={transmission}
                 alt="transmission"
                 className="h-3.5 w-3.5 xs:h-5 xs:w-5"
               />
               <p className="ml-1 self-center text-xs text-gray400 xs:text-sm sm:ml-1.5">
-                {dummyData.transmission}
+                {carData?.transmission}
               </p>
             </div>
             <div className="flex">
               <Image
+                width={14}
+                height={14}
                 src={peopleCapacity}
                 alt="people capacity"
                 className="h-3.5 w-3.5 xs:h-5 xs:w-5"
               />
               <p className="ml-1 self-center text-xs text-gray400 xs:text-sm sm:ml-1.5">
-                {dummyData.capacity}{" "}
-                {dummyData.capacity === 1 ? "person" : "people"}
+                {carData?.capacity}{" "}
+                {carData?.capacity === 1 ? "person" : "people"}
               </p>
             </div>
           </div>
         </div>
         <div className="mt-6 flex w-full justify-between">
           <p className="self-center font-medium">
-            ${dummyData.rentPrice}/
+            ${carData?.rentPrice && carData?.rentPrice.toString()}/
             <span className="text-xs text-gray400">day</span>
           </p>
           <button
@@ -166,6 +208,7 @@ const CarCard: React.FC<CarCardProps> = ({
             setShowModal={setShowModal}
             isPopular={isPopularCar}
             canReview={canReview}
+            carAvailability={carAvailability()}
           />
           {/* Type error of data will so away once dummyData is removed and lived data will be a string leading to the URL of the image */}
         </div>

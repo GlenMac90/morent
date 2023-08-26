@@ -17,7 +17,15 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import ArrowDown from "./ArrowDown";
 
-const AvailabilityFromTo = () => {
+const AvailabilityFromTo = ({
+  onSelectedDate,
+  availabilityFrom,
+  availabilityTo,
+}: {
+  onSelectedDate: (date: DateRange | undefined) => void;
+  availabilityFrom: Date | undefined;
+  availabilityTo: Date | undefined;
+}) => {
   const today = new Date();
   const twoDaysFromNow = addDays(today, 2);
 
@@ -25,6 +33,13 @@ const AvailabilityFromTo = () => {
     from: twoDaysFromNow,
     to: addDays(twoDaysFromNow, 3),
   });
+
+  // When a user click on a date, this function will be called
+  const handleOnSelectedDate = (date: DateRange | undefined) => {
+    setDate(date);
+    onSelectedDate(date);
+  };
+
   return (
     <>
       <div className="flex flex-row gap-3 xl:grow xl:gap-4">
@@ -40,11 +55,13 @@ const AvailabilityFromTo = () => {
               <Button
                 variant={"outline"}
                 className={cn(
-                  "bg-white200 dark:bg-gray800 w-full h-[2.875rem] sm:h-[3.5rem] justify-between border-0 text-left font-normal py-[0.69rem] pl-4 pr-[1.13rem] xl:px-5 xl:h-14",
+                  "bg-white200 dark:bg-gray800 rounded-[0.375rem] w-full h-[2.875rem] sm:h-[3.5rem] justify-between border-0 text-left font-normal py-[0.69rem] pl-4 pr-[1.13rem] xl:px-5 xl:h-14",
                   !date && "text-muted-foreground"
                 )}
               >
-                {date?.from ? (
+                {availabilityFrom ? (
+                  format(availabilityFrom, "LLL dd, y")
+                ) : date?.from ? (
                   format(date.from, "LLL dd, y")
                 ) : (
                   <>
@@ -63,7 +80,9 @@ const AvailabilityFromTo = () => {
               toDate={addYears(today, 1)}
               mode={"range"}
               selected={date}
-              onSelect={setDate}
+              onSelect={(newDate) => {
+                handleOnSelectedDate(newDate);
+              }}
               numberOfMonths={2}
               initialFocus
             />
@@ -84,11 +103,13 @@ const AvailabilityFromTo = () => {
               <Button
                 variant={"outline"}
                 className={cn(
-                  "bg-white200 w-full dark:bg-gray800 h-[2.875rem] sm:h-[3.5rem] justify-between border-0 text-left font-normal py-[0.69rem] xl:px-5 pl-4 pr-[1.13rem] xl:h-14",
+                  "bg-white200 w-full dark:bg-gray800 rounded-[0.375rem] h-[2.875rem] sm:h-[3.5rem] justify-between border-0 text-left font-normal py-[0.69rem] xl:px-5 pl-4 pr-[1.13rem] xl:h-14",
                   !date && "text-muted-foreground"
                 )}
               >
-                {date?.to ? (
+                {availabilityTo ? (
+                  format(availabilityTo, "LLL dd, y")
+                ) : date?.to ? (
                   format(date.to, "LLL dd, y")
                 ) : (
                   <>
@@ -107,7 +128,9 @@ const AvailabilityFromTo = () => {
               toDate={addYears(today, 1)}
               mode={"range"}
               selected={date}
-              onSelect={setDate}
+              onSelect={(newDate) => {
+                handleOnSelectedDate(newDate);
+              }}
               numberOfMonths={2}
               initialFocus
             />

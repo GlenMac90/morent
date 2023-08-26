@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 export interface DateRange {
-  start: Date;
-  end: Date;
+  from: Date;
+  to: Date;
 }
 
 export interface CarParams {

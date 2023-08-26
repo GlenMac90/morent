@@ -1,11 +1,11 @@
-'use server';
+"use server";
 
-import { connectToDB } from '../mongoose';
-import User from '../models/user.model';
-import Car from '../models/car.model';
-import Review from '../models/reviews.model';
-import { CarParams, ReviewDocument } from '../interfaces';
-import mongoose from 'mongoose';
+import { connectToDB } from "../mongoose";
+import User from "../models/user.model";
+import Car from "../models/car.model";
+import Review from "../models/reviews.model";
+import { CarParams, ReviewDocument } from "../interfaces";
+import mongoose from "mongoose";
 
 export async function createCar(carData: CarParams): Promise<CarParams> {
   try {
@@ -25,7 +25,7 @@ export async function createCar(carData: CarParams): Promise<CarParams> {
 
 export async function editCar(carData: CarParams): Promise<CarParams> {
   if (!carData._id) {
-    throw new Error('Car ID is required to edit.');
+    throw new Error("Car ID is required to edit.");
   }
 
   try {
@@ -35,7 +35,7 @@ export async function editCar(carData: CarParams): Promise<CarParams> {
     });
 
     if (!updatedCar) {
-      throw new Error('Failed to find and update the car.');
+      throw new Error("Failed to find and update the car.");
     }
 
     return updatedCar.toObject();
@@ -49,7 +49,7 @@ export async function deleteCar(carId: string): Promise<void> {
     connectToDB();
     const car = await Car.findById(carId);
     if (!car) {
-      throw new Error('Car not found.');
+      throw new Error("Car not found.");
     }
 
     await Review.deleteMany({ carId });
@@ -71,7 +71,7 @@ export async function fetchCarById(carId: string): Promise<CarParams | null> {
     connectToDB();
     const car = await Car.findById(carId).exec();
     if (!car) {
-      throw new Error('Car not found.');
+      throw new Error("Car not found.");
     }
     return car.toObject();
   } catch (error: any) {
@@ -104,15 +104,33 @@ export async function getAllReviewsForCar(
     connectToDB();
 
     const reviews = await Review.find({ carId })
-      .populate('userId', 'username', 'image')
+      .populate("userId", "username", "image")
       .exec();
 
     if (!reviews) {
-      throw new Error('No reviews found for the specified car.');
+      throw new Error("No reviews found for the specified car.");
     }
 
     return reviews as ReviewDocument[];
   } catch (error: any) {
     throw new Error(`Failed to fetch reviews for the car: ${error.message}`);
+  }
+}
+
+export async function getCarsByLocation(
+  location: string
+): Promise<CarParams[] | null> {
+  try {
+    await connectToDB();
+
+    const regexPattern = new RegExp(location, "i");
+    const cars = await Car.find({ location: { $regex: regexPattern } }).exec();
+
+    if (!cars) {
+      throw new Error("Cars not found.");
+    }
+    return cars.map((car) => car.toObject() as CarParams);
+  } catch (error: any) {
+    throw new Error(`Failed to get cars by location: ${error.message}`);
   }
 }
