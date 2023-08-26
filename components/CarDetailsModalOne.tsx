@@ -35,6 +35,8 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
   const [motionKey, setMotionKey] = useState(0);
   const [showReviewScreen, setShowReviewScreen] = useState(false);
 
+  const UnavailableColor = !carAvailability ? "bg-blue100" : "bg-blue500";
+
   const handleButtonClick = () => {
     setShowModalScreen2(true);
     setMotionKey((prevKey) => prevKey + 1);
@@ -186,9 +188,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
                 <span className="text-xs text-gray-400 sm:text-base"> day</span>
               </p>
               <button
-                className={`${
-                  !carAvailability && "bg-blue100"
-                } rounded bg-blue500 px-6 py-2 font-medium text-white`}
+                className={`${UnavailableColor} rounded  px-6 py-2 font-medium text-white`}
                 onClick={handleButtonClick}
                 disabled={!carAvailability}
               >
