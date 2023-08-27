@@ -12,6 +12,7 @@ interface ModalCarDetailsProps {
   setShowModal: (value: boolean) => void;
   setShowReviewScreen: (value: boolean) => void;
   handleButtonClick: () => void;
+  carAvailability: boolean;
 }
 
 const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
@@ -21,7 +22,10 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
   setShowModal,
   setShowReviewScreen,
   handleButtonClick,
+  carAvailability,
 }) => {
+  const availabilityColor = carAvailability ? "bg-blue500" : "bg-blue100";
+
   return (
     <div className="mt-8 flex flex-col px-2 md:w-full lg:ml-10 lg:mt-0 lg:justify-between lg:p-6">
       <div className="flex flex-col">
@@ -98,10 +102,15 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
           <span className="text-xs text-gray-400 sm:text-base"> day</span>
         </p>
         <button
-          className="rounded bg-blue500 px-6 py-2 font-medium text-white"
+          className={`${availabilityColor} rounded px-6 py-2 font-medium text-white`}
           onClick={handleButtonClick}
+          disabled={!carAvailability}
         >
-          {canReview ? "Rent Again" : "Rent Now"}
+          {!carAvailability
+            ? "Unavailable"
+            : canReview
+            ? "Rent Again"
+            : "Rent Now"}
         </button>
       </div>
     </div>

@@ -66,7 +66,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
       </div>
       {/* <p className="mt-10 text-lg font-bold text-blue500">PICKUP INFO</p> */}
       <div className="mb-3 mt-[1.88rem] flex flex-row items-center gap-2">
-        <div className="flex h-4 w-4 items-center justify-center rounded-[4.375rem] bg-blue450">
+        <div className="flex h-[17px] w-[17px] items-center justify-center rounded-[4.375rem] bg-blue450">
           <Image src={ellipse} width={8} height={8} alt="Ellipse" />
         </div>
         <p className="font-medium text-gray900 dark:text-white">
