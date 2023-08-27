@@ -37,6 +37,52 @@ export async function fetchPopularCars(): Promise<CarParams[] | null> {
   }
 }
 
+export async function fetchCarsAddedByUser(
+  userId: string
+): Promise<CarParams[] | null> {
+  try {
+    connectToDB();
+
+    // Find cars with the matching userId
+    const cars = await Car.find({ userId }).exec();
+
+    // Convert each car document to a plain JavaScript object
+    return cars.map((car) => car.toObject());
+  } catch (error: any) {
+    throw new Error(
+      `Failed to fetch cars added by user with ID ${userId}: ${error.message}`
+    );
+  }
+}
+
+export async function fetchCarsRentedByUser(
+  userId: string
+): Promise<CarParams[] | null> {
+  try {
+    connectToDB();
+
+    // Find the user by their ID
+    const user = await User.findById(userId).exec();
+
+    // If user doesn't exist or doesn't have carsRented array, return null
+    if (!user || !user.carsRented || user.carsRented.length === 0) {
+      return null;
+    }
+
+    // Find cars with IDs that match the ids in the user's carsRented array
+    const cars = await Car.find({
+      _id: { $in: user.carsRented },
+    }).exec();
+
+    // Convert each car document to a plain JavaScript object
+    return cars.map((car) => car.toObject());
+  } catch (error: any) {
+    throw new Error(
+      `Failed to fetch cars rented by user with ID ${userId}: ${error.message}`
+    );
+  }
+}
+
 export async function createCar(carData: CarParams): Promise<CarParams> {
   try {
     connectToDB();

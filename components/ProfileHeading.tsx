@@ -6,8 +6,15 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 import ReviewList from "./reviewComponents/ReviewList";
+import { profileDefaultCover } from "@/public/pngs";
+import { UserParams } from "@/lib/interfaces";
 
-const ProfileHeading = ({ userData }) => {
+type ProfileHeadingProps = {
+  userData: UserParams;
+};
+
+const ProfileHeading: React.FC<ProfileHeadingProps> = ({ userData }) => {
+  console.log(userData);
   const [showReviews, setShowReviews] = useState(false);
   return (
     <motion.div animate={{ scale: 1 }} initial={{ scale: 0 }}>
@@ -22,13 +29,13 @@ const ProfileHeading = ({ userData }) => {
           Show Reviews
         </p>
         {showReviews && (
-          <ReviewList id={userData.id} setShowReviews={setShowReviews} />
+          <ReviewList id={userData._id} setShowReviews={setShowReviews} />
         )}
       </div>
       <section className="mt-6 flex h-auto w-full flex-col rounded-xl bg-white dark:bg-gray850">
         <div className="relative flex h-40 md:h-48">
           <Image
-            src={userData.coverImage}
+            src={userData.coverImage || profileDefaultCover}
             alt="cover-picture"
             layout="fill"
             style={{
@@ -43,13 +50,15 @@ const ProfileHeading = ({ userData }) => {
         </div>
         <div className="ml-3.5 flex flex-col justify-between md:ml-8 md:flex-row">
           <div className="flex flex-col md:flex-row">
-            <Image
-              src={userData.profileImage}
-              alt="profile pic"
-              height={70}
-              width={70}
-              className="absolute translate-y-[-35px] md:h-[10rem] md:w-[10rem] md:translate-y-[-63px]"
-            />
+            {userData.image && (
+              <Image
+                src={userData.image}
+                alt="profile pic"
+                height={70}
+                width={70}
+                className="absolute translate-y-[-35px] rounded-full md:h-[10rem] md:w-[10rem] md:translate-y-[-63px]"
+              />
+            )}
             <div className="mt-10 flex flex-col md:mb-8 md:ml-48 md:mt-4">
               <p className="mt-2.5 text-xl font-semibold">{userData.name}</p>
               <p className="mt-2 w-3/5 text-sm text-gray400 sm:w-full">
