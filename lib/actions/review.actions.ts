@@ -9,7 +9,7 @@ export async function createReview(
   reviewData: ReviewDocument
 ): Promise<ReviewDocument> {
   try {
-    connectToDB();
+    await connectToDB();
     const review = new Review(reviewData);
     await review.save();
     return review.toObject();
@@ -26,7 +26,7 @@ export async function editReview(
   }
 
   try {
-    connectToDB();
+    await connectToDB();
     const updatedReview = await Review.findByIdAndUpdate(
       reviewData._id!,
       reviewData,
@@ -47,7 +47,7 @@ export async function editReview(
 
 export async function deleteReview(reviewId: string): Promise<void> {
   try {
-    connectToDB();
+    await connectToDB();
     const review = await Review.findById(reviewId);
     if (!review) {
       throw new Error('Review not found.');
@@ -62,7 +62,7 @@ export async function fetchReviewById(
   reviewId: string
 ): Promise<ReviewDocument | null> {
   try {
-    connectToDB();
+    await connectToDB();
     const review = await Review.findById(reviewId).exec();
     if (!review) {
       throw new Error('Review not found.');
@@ -75,7 +75,7 @@ export async function fetchReviewById(
 
 export async function deleteAllReviews(): Promise<void> {
   try {
-    connectToDB();
+    await connectToDB();
     await Review.deleteMany({});
   } catch (error: any) {
     throw new Error(`Failed to delete all reviews: ${error.message}`);
@@ -86,7 +86,7 @@ export async function getAllReviewsByUser(
   userId: mongoose.Types.ObjectId
 ): Promise<ReviewDocument[]> {
   try {
-    connectToDB();
+    await connectToDB();
     const reviews = await Review.find({ userId })
       .populate('carId', 'carTitle')
       .exec();
@@ -100,5 +100,3 @@ export async function getAllReviewsByUser(
     throw new Error(`Failed to fetch reviews for the user: ${error.message}`);
   }
 }
-
-// associate review with car

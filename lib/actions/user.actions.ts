@@ -8,7 +8,7 @@ import Review from '../models/reviews.model';
 import { UserParams } from '../interfaces';
 
 export async function userFromDB(userId: string): Promise<UserParams | null> {
-  connectToDB();
+  await connectToDB();
   const userDocument = await User.findOne({ id: userId });
   if (!userDocument) {
     console.warn('User not found.');
@@ -20,7 +20,7 @@ export async function userFromDB(userId: string): Promise<UserParams | null> {
 export async function fetchUserWithCars(
   userId: string
 ): Promise<UserParams | null> {
-  connectToDB();
+  await connectToDB();
   const userWithCars = await User.findOne({ id: userId })
     .populate('cars')
     .exec();
@@ -29,7 +29,7 @@ export async function fetchUserWithCars(
     console.warn('User not found.');
     return null;
   }
-  console.log(userWithCars.toObject());
+
   return userWithCars.toObject();
 }
 
@@ -37,7 +37,7 @@ export async function updateUser(params: UserParams): Promise<void> {
   const { userId, username, name, bio, image, onboarded, path } = params;
 
   try {
-    connectToDB();
+    await connectToDB();
 
     await User.findOneAndUpdate(
       { id: userId },
@@ -60,7 +60,7 @@ export async function updateUser(params: UserParams): Promise<void> {
 
 export async function deleteUser(userId: string): Promise<void> {
   try {
-    connectToDB();
+    await connectToDB();
 
     await Car.deleteMany({ userId });
     await Review.deleteMany({ userId });
@@ -75,7 +75,7 @@ export async function deleteUser(userId: string): Promise<void> {
 export async function fetchReviewsByUser(
   userId: string
 ): Promise<any[] | null> {
-  connectToDB();
+  await connectToDB();
 
   try {
     const userReviews = await Review.find({ userId })

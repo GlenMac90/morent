@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
 import {
   Form,
@@ -11,14 +11,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "../ui/input";
-import { Label } from "../ui/label";
-import { Button } from "../ui/button";
+} from '@/components/ui/form';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
+import { Button } from '../ui/button';
 
 const FormSchema = z.object({
   search: z.string().trim().min(2, {
-    message: "Search must be at least 2 characters.",
+    message: 'Search must be at least 2 characters.',
   }),
 });
 

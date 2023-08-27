@@ -1,15 +1,16 @@
-"use client";
+import { motion } from 'framer-motion';
 
-import { motion } from "framer-motion";
+import CarCard from '@/components/carCardComponents/CarCard';
+import PickUpDropOffCard from '@/components/PickUpDropOffCard';
+import AdvertsDisplay from '@/components/advertsComponents/AdvertsDisplay';
+import { dummyData } from '@/utils/dummyCarData';
+import { fetchAllCars } from '@/lib/actions/car.actions';
 
-import CarCard from "@/components/carCardComponents/CarCard";
-import PickUpDropOffCard from "@/components/PickUpDropOffCard";
-import AdvertsDisplay from "@/components/advertsComponents/AdvertsDisplay";
-import { dummyData } from "@/utils/dummyCarData";
+const Home = async () => {
+  const data = await fetchAllCars();
 
-const Home = () => {
   return (
-    <motion.div
+    <div
       className="flex flex-col items-center bg-white200 p-2 dark:bg-gray900"
       animate={{ scale: 1 }}
       initial={{ scale: 0 }}
@@ -35,7 +36,7 @@ const Home = () => {
               carData={dummyData}
               key={card}
               isPopularCar={true}
-              id={"123"}
+              id={'123'}
             />
           ))}
           {/* Change id to match id of card once live data is passed */}
@@ -46,7 +47,7 @@ const Home = () => {
         <div className="mt-5 flex w-full flex-col items-center justify-center gap-5 px-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
           {/* Change id to match id of card once live data is passed */}
           {[0, 1, 2, 3, 4, 5, 6, 7].map((card) => (
-            <CarCard carData={dummyData} key={card} id={"123"} />
+            <CarCard carData={dummyData} key={card} id={'123'} />
           ))}
           {/* Change id to match id of card once live data is passed */}
         </div>
@@ -54,7 +55,7 @@ const Home = () => {
           Show More Cars
         </button>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
