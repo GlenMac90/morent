@@ -130,7 +130,7 @@ export async function getAllReviewsForCar(
 }
 
 export async function getCarsByLocation(
-  location: string
+  location: string = ""
 ): Promise<CarParams[] | null> {
   try {
     await connectToDB();
