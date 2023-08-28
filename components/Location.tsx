@@ -8,7 +8,7 @@ import { GeocodeResult } from "@/lib/interfaces";
 type LocationProps = {
   handleLocationSelected?: (location: string) => void;
   onUserInput?: (input: string) => void;
-  searchLocation?: string;
+  searchLocation?: string | null;
 };
 
 const Location: React.FC<LocationProps> = ({
@@ -27,7 +27,7 @@ const Location: React.FC<LocationProps> = ({
         lang={"en"}
         debounceDelay={500}
         onUserInput={onUserInput}
-        value={searchLocation}
+        value={searchLocation ?? ""}
         placeSelect={onPlaceSelect}
       />
     </GeoapifyContext>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { UserButton, useAuth, useUser } from "@clerk/nextjs";
 import Link from "next/link";
 import Image from "next/image";
@@ -11,6 +11,7 @@ import { useMediaQuery } from "@uidotdev/usehooks";
 import { darkModeIcon, lightModeIcon, burgerMenu } from "@/public/svg-icons";
 import { navButtons } from "@/constants";
 import MobileNavBar from "./MobileNavBar";
+import { clearLocalStorageItems } from "@/utils/utility.functions";
 
 const NavBar = () => {
   const { user } = useUser();
@@ -35,12 +36,17 @@ const NavBar = () => {
         <Link
           href="/"
           className="text-2xl font-semibold text-blue500 md:text-3xl"
+          onClick={clearLocalStorageItems}
         >
           MORENT
         </Link>
         <div className="flex items-center">
           {navButtons.map((button) => (
-            <Link key={button.path} href={button.path}>
+            <Link
+              key={button.path}
+              href={button.path}
+              onClick={clearLocalStorageItems}
+            >
               <p
                 className={`${
                   pathname === button.path

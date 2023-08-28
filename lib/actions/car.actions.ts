@@ -80,6 +80,18 @@ export async function fetchCarById(carId: string): Promise<CarParams | null> {
   }
 }
 
+export async function fetchAllCars(): Promise<CarParams[] | null> {
+  try {
+    await connectToDB();
+    const cars = await Car.find().exec();
+    if (!cars || cars.length === 0) {
+      throw new Error('No cars found.');
+    }
+    return cars.map((car) => car.toObject());
+  } catch (error: any) {
+    throw new Error(`Failed to fetch all cars: ${error.message}`);
+  }
+}
 export async function deleteAllCars(): Promise<void> {
   try {
     await connectToDB();
@@ -126,7 +138,7 @@ export async function getAllReviewsForCar(
 }
 
 export async function getCarsByLocation(
-  location: string
+  location: string = ''
 ): Promise<CarParams[] | null> {
   try {
     await connectToDB();
@@ -142,18 +154,4 @@ export async function getCarsByLocation(
   } catch (error: any) {
     throw new Error(`Failed to get cars by location: ${error.message}`);
   }
-}
-
-export async function fetchAllCars(): Promise<CarParams[]> {
-  await connectToDB();
-
-  const carDocuments = await Car.find();
-  if (carDocuments.length === 0) {
-    console.log('No car documents retrieved from the DB.');
-  } else {
-    console.log(`Retrieved ${carDocuments.length} car(s) from the DB.`);
-  }
-
-  const carsArray = carDocuments.map((carDoc) => carDoc.toObject());
-  return carsArray;
 }
