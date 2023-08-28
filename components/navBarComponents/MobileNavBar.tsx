@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import Image from "next/image";
@@ -10,6 +10,7 @@ import {
   darkModeHome,
   darkModeIcon,
 } from "@/public/svg-icons";
+import { clearLocalStorageItems } from "@/utils/utility.functions";
 
 interface MobileNavBarProps {
   theme: string | undefined;
@@ -30,6 +31,7 @@ const MobileNavBar: FC<MobileNavBarProps> = ({
   if (userImage) {
     profilePic = userImage;
   }
+
   return (
     <motion.div
       animate={{ scale: 1 }}
@@ -52,7 +54,10 @@ const MobileNavBar: FC<MobileNavBarProps> = ({
       <div className="mt-12 flex flex-col gap-2">
         {navButtons.slice(0, 3).map((navButton) => (
           <Link
-            onClick={() => setShowNavMenu(false)}
+            onClick={() => {
+              setShowNavMenu(false);
+              clearLocalStorageItems();
+            }}
             key={navButton.path}
             href={navButton.path}
             className={`flex rounded p-3 ${
@@ -85,7 +90,10 @@ const MobileNavBar: FC<MobileNavBarProps> = ({
           }
           className="mt-5 rounded"
         >
-          <button className="flex w-full items-center justify-center rounded border-blue50 bg-white py-3.5 text-sm font-semibold text-blue500 dark:bg-gray700 dark:text-blue300">
+          <button
+            className="flex w-full items-center justify-center rounded border-blue50 bg-white py-3.5 text-sm font-semibold text-blue500 dark:bg-gray700 dark:text-blue300"
+            onClick={clearLocalStorageItems}
+          >
             <Image
               src={profilePic}
               height={20}
