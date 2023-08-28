@@ -1,13 +1,15 @@
+import { NextResponse } from 'next/server';
+
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const calculateOrderAmount = (items) => {
   // Replace with calculation of the order's amount once tests with hardcoded data work
-  return 1400;
+  return 1500;
 };
 
-export default async function handler(req, res) {
-  const { items } = req.body;
-
+export async function POST(req, res) {
+  const { items } = await req.json();
+  console.log(items);
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
     amount: calculateOrderAmount(items),
@@ -17,7 +19,7 @@ export default async function handler(req, res) {
     },
   });
 
-  res.send({
+  return NextResponse.json({
     clientSecret: paymentIntent.client_secret,
   });
 }
