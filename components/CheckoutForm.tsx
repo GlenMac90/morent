@@ -83,15 +83,24 @@ export default function CheckoutForm() {
   };
 
   return (
-    <div className='flex flex-col pt-[6rem] lg:flex-row'>
-      <h1>Checkout</h1>
+    <div className=' flex w-full items-center justify-center bg-white200 pb-10 pt-[8rem]'>
       <form id='payment-form' onSubmit={handleSubmit}>
-        <LinkAuthenticationElement
-          id='link-authentication-element'
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <PaymentElement id='payment-element' options={paymentElementOptions} />
-        <button disabled={isLoading || !stripe || !elements} id='submit'>
+        <h1 className='text-base font-extrabold text-blue500'>Card Details</h1>
+        <section className='py-8'>
+          <LinkAuthenticationElement
+            id='link-authentication-element'
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <PaymentElement
+            id='payment-element'
+            options={paymentElementOptions}
+          />
+        </section>
+        <button
+          className='w-full rounded-lg bg-blue500 py-4 text-white'
+          disabled={isLoading || !stripe || !elements}
+          id='submit'
+        >
           <span id='button-text'>
             {isLoading ? (
               <div className='spinner' id='spinner'></div>
