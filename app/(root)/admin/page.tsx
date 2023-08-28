@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
+
 import { seedCars } from '@/utils/seedCars';
 import { seedCarReviews } from '@/utils/seedCarReviews';
 import { deleteAllCars } from '@/lib/actions/car.actions';
+import { Button } from '@/components/ui/button';
 
 const Page = () => {
   const [isConfirmingSeed, setIsConfirmingSeed] = useState(false);
@@ -65,52 +67,52 @@ const Page = () => {
         This page is for administration purposes only.
       </p>
       <div className="mb-4 flex space-x-12">
-        <button
+        <Button
           onClick={handleSeedClick}
           className="bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
         >
           {isConfirmingSeed ? 'Confirm Seed' : 'Seed Cars'}
-        </button>
+        </Button>
         {isConfirmingSeed && (
-          <button
+          <Button
             onClick={handleCancelSeedClick}
             className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
           >
             Cancel Seed
-          </button>
+          </Button>
         )}
       </div>
       <div className="mb-4 flex space-x-12">
-        <button
+        <Button
           onClick={handleReviewsSeedClick}
           className="bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
         >
           {isConfirmingReviewsSeed ? 'Confirm Seed Reviews' : 'Seed Reviews'}
-        </button>
+        </Button>
         {isConfirmingReviewsSeed && (
-          <button
+          <Button
             onClick={handleCancelReviewsSeedClick}
             className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
           >
             Cancel Seed
-          </button>
+          </Button>
         )}
       </div>
       <div className="flex space-x-12">
-        <button
+        <Button
           onClick={handleDeleteClick}
           disabled={false}
           className="bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
         >
           {isConfirmingDelete ? 'Confirm Delete' : 'Delete All Cars'}
-        </button>
+        </Button>
         {isConfirmingDelete && (
-          <button
+          <Button
             onClick={handleCancelDeleteClick}
             className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
           >
             Cancel Delete
-          </button>
+          </Button>
         )}
       </div>
     </div>

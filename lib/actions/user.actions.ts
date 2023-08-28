@@ -120,3 +120,17 @@ export async function fetchReviewsByUser(
     throw new Error(`Failed to fetch reviews by user: ${error.message}`);
   }
 }
+
+export async function fetchAllUsers(): Promise<UserParams[]> {
+  await connectToDB();
+
+  const userDocuments = await User.find();
+  if (userDocuments.length === 0) {
+    console.log('No user documents retrieved from the DB.');
+  } else {
+    console.log(`Retrieved ${userDocuments.length} user(s) from the DB.`);
+  }
+
+  const usersArray = userDocuments.map((userDoc) => userDoc.toObject());
+  return usersArray;
+}

@@ -3,27 +3,10 @@
 import { faker } from '@faker-js/faker';
 
 import Car from '@/lib/models/car.model';
-import { UserParams } from '@/lib/interfaces';
 import User from '@/lib/models/user.model';
 import { connectToDB } from '@/lib/mongoose';
-
-export async function fetchAllUsers(): Promise<UserParams[]> {
-  await connectToDB();
-
-  const userDocuments = await User.find();
-  if (userDocuments.length === 0) {
-    console.log('No user documents retrieved from the DB.');
-  } else {
-    console.log(`Retrieved ${userDocuments.length} user(s) from the DB.`);
-  }
-
-  const usersArray = userDocuments.map((userDoc) => userDoc.toObject());
-  return usersArray;
-}
-
-function getRandomItemFromArray<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+import { fetchAllUsers } from '@/lib/actions/user.actions';
+import { getRandomItemFromArray } from './utility.functions';
 
 export async function seedCars(numCars: number): Promise<void> {
   await connectToDB();

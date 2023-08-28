@@ -143,3 +143,17 @@ export async function getCarsByLocation(
     throw new Error(`Failed to get cars by location: ${error.message}`);
   }
 }
+
+export async function fetchAllCars(): Promise<CarParams[]> {
+  await connectToDB();
+
+  const carDocuments = await Car.find();
+  if (carDocuments.length === 0) {
+    console.log('No car documents retrieved from the DB.');
+  } else {
+    console.log(`Retrieved ${carDocuments.length} car(s) from the DB.`);
+  }
+
+  const carsArray = carDocuments.map((carDoc) => carDoc.toObject());
+  return carsArray;
+}

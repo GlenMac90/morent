@@ -5,25 +5,9 @@ import { faker } from '@faker-js/faker';
 import Car from '@/lib/models/car.model';
 import Review from '@/lib/models/review.model';
 import { connectToDB } from '@/lib/mongoose';
-import { fetchAllUsers } from './seedCars';
-
-export async function fetchAllCars(): Promise<any[]> {
-  await connectToDB();
-
-  const carDocuments = await Car.find();
-  if (carDocuments.length === 0) {
-    console.log('No car documents retrieved from the DB.');
-  } else {
-    console.log(`Retrieved ${carDocuments.length} car(s) from the DB.`);
-  }
-
-  const carsArray = carDocuments.map((carDoc) => carDoc.toObject());
-  return carsArray;
-}
-
-function getRandomItemFromArray<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+import { fetchAllUsers } from '@/lib/actions/user.actions';
+import { fetchAllCars } from '@/lib/actions/car.actions';
+import { getRandomItemFromArray } from '@/utils/utility.functions';
 
 export async function seedCarReviews(): Promise<void> {
   await connectToDB();

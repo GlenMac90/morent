@@ -18,13 +18,9 @@ type Event = {
 };
 
 export const POST = async (request: Request) => {
-  console.log('Received request');
   const payload = await request.json();
   const payloadType: string = payload.type;
-  console.log('Payload:', payloadType);
 
-  console.log(payload.data);
-  console.log('Full payload:', JSON.stringify(payload));
   const header = headers();
 
   const heads = {
@@ -32,8 +28,6 @@ export const POST = async (request: Request) => {
     'svix-timestamp': header.get('svix-timestamp'),
     'svix-signature': header.get('svix-signature'),
   };
-
-  console.log('Headers:', heads);
 
   const wh = new Webhook(webhookSecret || '');
 
@@ -50,7 +44,6 @@ export const POST = async (request: Request) => {
   }
 
   if (payloadType === 'user.updated') {
-    console.log('Handling user.updated event');
     const {
       image_url: image,
       first_name: firstName,
@@ -79,7 +72,6 @@ export const POST = async (request: Request) => {
         onboarded: false,
       });
 
-      console.log('User updated successfully');
       return NextResponse.json(
         {
           message: 'User updated successfully.',
@@ -96,12 +88,9 @@ export const POST = async (request: Request) => {
   }
 
   if (payloadType === 'user.deleted') {
-    console.log('Handling user.deleted event');
     const { id: clerkId } = evnt.data;
-    console.log(clerkId);
     try {
       await deleteUserAndCars(clerkId);
-      console.log('User deleted successfully');
       return NextResponse.json(
         {
           message: 'User deleted successfully.',
@@ -117,7 +106,6 @@ export const POST = async (request: Request) => {
     }
   }
 
-  console.log('Request processed successfully');
   return NextResponse.json(
     { message: 'Request processed successfully.' },
     { status: 200 }
