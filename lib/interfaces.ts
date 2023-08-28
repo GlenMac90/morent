@@ -2,6 +2,18 @@ import { Control } from "react-hook-form";
 import { UploadFileResponse } from "uploadthing/client";
 import mongoose from "mongoose";
 
+export interface GeocodeResult {
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
+  properties: {
+    name: string;
+  };
+}
+
 export interface DateRange {
   from: Date;
   to: Date;
@@ -95,7 +107,6 @@ export interface SelectInputProps {
   placeholder: string;
   items: SelectItems[];
 }
-
 export interface InputControllerProps {
   control: Control<FormData>;
   name: FieldNames;

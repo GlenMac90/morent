@@ -11,14 +11,10 @@ export async function createReview(
   reviewData: ReviewDocument
 ): Promise<ReviewDocument> {
   try {
-    connectToDB();
+    await connectToDB();
 
     const review = new Review(reviewData);
     await review.save();
-
-    await User.findByIdAndUpdate(reviewData.userId, {
-      $push: { reviewsWritten: review._id },
-    });
 
     await Car.findByIdAndUpdate(reviewData.carId, {
       $push: { reviews: review._id },
@@ -63,42 +59,7 @@ export async function editReview(
   }
 
   try {
-    connectToDB();
-
-    const existingReview = await Review.findById(reviewData._id);
-    if (!existingReview) {
-      throw new Error('Review not found.');
-    }
-
-    const userExists = await User.exists({ _id: reviewData.userId });
-    const carExists = await Car.exists({ _id: reviewData.carId });
-
-    if (!userExists || !carExists) {
-      throw new Error('Associated user or car does not exist.');
-    }
-
-    if (existingReview.userId.toString() !== reviewData.userId.toString()) {
-      await User.updateOne(
-        { _id: existingReview.userId },
-        { $pull: { reviews: reviewData._id } }
-      );
-      await User.updateOne(
-        { _id: reviewData.userId },
-        { $push: { reviews: reviewData._id } }
-      );
-    }
-
-    if (existingReview.carId.toString() !== reviewData.carId.toString()) {
-      await Car.updateOne(
-        { _id: existingReview.carId },
-        { $pull: { reviews: reviewData._id } }
-      );
-      await Car.updateOne(
-        { _id: reviewData.carId },
-        { $push: { reviews: reviewData._id } }
-      );
-    }
-
+    await connectToDB();
     const updatedReview = await Review.findByIdAndUpdate(
       reviewData._id,
       reviewData,
@@ -137,11 +98,25 @@ export async function fetchReviewById(
   }
 }
 
+export async function deleteAllReviews(): Promise<void> {
+  try {
+    await connectToDB();
+
+    await Review.deleteMany({});
+
+    await User.updateMany({}, { $set: { reviewsWritten: [] } });
+
+    await Car.updateMany({}, { $set: { reviews: [] } });
+  } catch (error: any) {
+    throw new Error(`Failed to delete all reviews: ${error.message}`);
+  }
+}
+
 export async function getAllReviewsByUser(
   userId: mongoose.Types.ObjectId
 ): Promise<ReviewDocument[]> {
   try {
-    connectToDB();
+    await connectToDB();
     const reviews = await Review.find({ userId })
       .populate('carId', 'carTitle')
       .populate('userId', 'username image')

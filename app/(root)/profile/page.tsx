@@ -1,16 +1,41 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useAuth } from '@clerk/nextjs';
 
-import CarCard from "@/components/carCardComponents/CarCard";
-import { dummyData } from "@/utils/dummyCarData";
-import { dummyUserData } from "@/utils/dummyUserData";
-import ReviewList from "@/components/reviewComponents/ReviewList";
+import { fetchUserWithCars } from '@/lib/actions/user.actions';
+import { UserParams } from '@/lib/interfaces';
+import CarCard from '@/components/carCardComponents/CarCard';
+import { dummyData } from '@/utils/dummyCarData';
+import { dummyUserData } from '@/utils/dummyUserData';
+import ReviewList from '@/components/reviewComponents/ReviewList';
 
 const Page = () => {
+  const { userId } = useAuth();
+  const [userData, setUserData] = useState<UserParams | null>(null);
   const [showReviews, setShowReviews] = useState(false);
+
+  useEffect(() => {
+    if (userId) {
+      const fetchData = async () => {
+        try {
+          const result = await fetchUserWithCars(userId);
+          setUserData(result);
+        } catch (error) {
+          console.error('Failed to fetch user data:', error);
+        }
+      };
+
+      fetchData();
+    }
+  }, [userId]);
+
+  if (!userData) {
+    return null;
+  }
+
   return (
     <div className="flex w-full justify-center self-center bg-white200 dark:bg-gray900">
       <div className="mt-20 flex w-full max-w-[90rem] flex-col p-6 md:mt-40">
@@ -35,8 +60,8 @@ const Page = () => {
               alt="cover-picture"
               layout="fill"
               style={{
-                objectFit: "cover",
-                objectPosition: "center 80%",
+                objectFit: 'cover',
+                objectPosition: 'center 80%',
               }}
               className="rounded-t-xl"
             />
