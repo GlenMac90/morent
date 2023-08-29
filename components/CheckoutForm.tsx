@@ -101,13 +101,7 @@ export default function CheckoutForm() {
           disabled={isLoading || !stripe || !elements}
           id='submit'
         >
-          <span id='button-text'>
-            {isLoading ? (
-              <div className='spinner' id='spinner'></div>
-            ) : (
-              'Pay now'
-            )}
-          </span>
+          <span id='button-text'>{isLoading ? <div></div> : 'Pay now'}</span>
         </button>
         {/* Show any error or success messages */}
         {message && <div id='payment-message'>{message}</div>}

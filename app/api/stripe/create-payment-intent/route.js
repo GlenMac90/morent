@@ -1,18 +1,18 @@
 import { NextResponse } from 'next/server';
 
+import { calculateOrderAmount } from '@/utils/utility.functions';
+
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-const calculateOrderAmount = (items) => {
-  // Replace with calculation of the order's amount once tests with hardcoded data work
-  return 1500;
-};
-
 export async function POST(req, res) {
-  const { items } = await req.json();
-  console.log(items);
+  const { data } = await req.json();
+  const { price, totalDays } = data;
+
+  const orderTotal = calculateOrderAmount(totalDays, price);
+
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount(items),
+    amount: orderTotal,
     currency: 'eur',
     automatic_payment_methods: {
       enabled: true,
