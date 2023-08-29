@@ -22,8 +22,6 @@ export default function CheckoutForm({
   const stripe = useStripe();
   const elements = useElements();
 
-  console.log(price, totalDays);
-
   const [email, setEmail] = React.useState('');
   const [message, setMessage] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -119,7 +117,7 @@ export default function CheckoutForm({
             {isLoading ? (
               <div></div>
             ) : (
-              `Pay ${calculateOrderAmount(totalDays, price)} now`
+              `Pay $${calculateOrderAmount(totalDays, price) / 100}`
             )}
           </span>
         </button>
