@@ -21,5 +21,7 @@ export async function POST(req, res) {
 
   return NextResponse.json({
     clientSecret: paymentIntent.client_secret,
+    price,
+    totalDays,
   });
 }

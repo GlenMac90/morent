@@ -6,9 +6,23 @@ import {
   useElements,
 } from '@stripe/react-stripe-js';
 
-export default function CheckoutForm() {
+import { calculateOrderAmount } from '@/utils/utility.functions';
+
+interface CheckoutFormProps {
+  clientSecret: string;
+  price: string;
+  totalDays: string;
+}
+
+export default function CheckoutForm({
+  clientSecret,
+  price,
+  totalDays,
+}: CheckoutFormProps) {
   const stripe = useStripe();
   const elements = useElements();
+
+  console.log(price, totalDays);
 
   const [email, setEmail] = React.useState('');
   const [message, setMessage] = React.useState(null);
@@ -43,7 +57,7 @@ export default function CheckoutForm() {
           break;
       }
     });
-  }, [stripe]);
+  }, [stripe, clientSecret]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -101,7 +115,13 @@ export default function CheckoutForm() {
           disabled={isLoading || !stripe || !elements}
           id='submit'
         >
-          <span id='button-text'>{isLoading ? <div></div> : 'Pay now'}</span>
+          <span id='button-text'>
+            {isLoading ? (
+              <div></div>
+            ) : (
+              `Pay ${calculateOrderAmount(totalDays, price)} now`
+            )}
+          </span>
         </button>
         {/* Show any error or success messages */}
         {message && <div id='payment-message'>{message}</div>}
