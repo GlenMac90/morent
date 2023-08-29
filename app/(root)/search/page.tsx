@@ -1,9 +1,23 @@
 import PickUpDropOffCard from "@/components/PickUpDropOffCard";
-import SearchWithFiltering from "@/components/SearchWithFiltering";
-import CarCard from "@/components/CarCard";
+import SearchWithFiltering from "@/components/searchFormComponents/SearchWithFiltering";
+import CarCard from "@/components/carCardComponents/CarCard";
 import ShowMoreCars from "@/components/ShowMoreCars";
+import { getCarsByLocation } from "@/lib/actions/car.actions";
+import { CarParams } from "@/lib/interfaces";
 
-const Page = () => {
+const SearchPage = async ({
+  searchParams,
+}: {
+  searchParams: { location: string; from: string; to: string };
+}) => {
+  const location = searchParams.location;
+  const availabilityFrom = new Date(searchParams.from);
+  const availabilityTo = new Date(searchParams.to);
+  const carData = await getCarsByLocation(location);
+  // NOTE: https://github.com/vercel/next.js/issues/47447,
+  // Warning: Only plain objects can be passed to Client Components from Server Components.
+  const cars = JSON.parse(JSON.stringify(carData));
+
   return (
     <div className="flex flex-col pt-[5.75rem] lg:flex-row">
       <SearchWithFiltering />
@@ -11,11 +25,18 @@ const Page = () => {
         <PickUpDropOffCard />
         <div
           className="mt-[3.75rem] grid grid-rows-1 gap-5 xs:flex-col xs:items-center xs:justify-center sm:grid-cols-2 md:mt-9 
-              md:gap-8 xl:grid-cols-3 2xl:grid-cols-4"
+              md:gap-8 xl:grid-cols-3"
         >
-          {Array.from({ length: 9 }).map((_, i) => (
-            <CarCard key={i} id={i.toString()} />
-          ))}
+          {cars &&
+            cars.map((car: CarParams) => (
+              <CarCard
+                key={car._id}
+                id={car._id}
+                carData={car}
+                availabilityFrom={availabilityFrom}
+                availabilityTo={availabilityTo}
+              />
+            ))}
         </div>
         <ShowMoreCars />
       </div>
@@ -23,4 +44,4 @@ const Page = () => {
   );
 };
 
-export default Page;
+export default SearchPage;

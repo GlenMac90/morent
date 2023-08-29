@@ -7,7 +7,7 @@ import { useTheme } from "next-themes";
 import { DateRange } from "react-day-picker";
 import { format, addDays } from "date-fns";
 
-import SelectYourTime from "./SelectYourTime";
+import SelectYourTime from "../searchFormComponents/SelectYourTime";
 import { cn } from "@/lib/utils";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -15,8 +15,8 @@ import {
   calendar,
   whiteCross,
   ellipse,
-} from "../public/svg-icons/index";
-import Location from "./Location";
+} from "../../public/svg-icons/index";
+import Location from "../Location";
 import {
   Popover,
   PopoverContent,
@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import ArrowDown from "./ArrowDown";
+import ArrowDown from "../ArrowDown";
 
 interface CarDetailsModalTwoProps {
   id: string;
@@ -66,7 +66,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
       </div>
       {/* <p className="mt-10 text-lg font-bold text-blue500">PICKUP INFO</p> */}
       <div className="mb-3 mt-[1.88rem] flex flex-row items-center gap-2">
-        <div className="flex h-4 w-4 items-center justify-center rounded-[4.375rem] bg-blue450">
+        <div className="flex h-[17px] w-[17px] items-center justify-center rounded-[4.375rem] bg-blue450">
           <Image src={ellipse} width={8} height={8} alt="Ellipse" />
         </div>
         <p className="font-medium text-gray900 dark:text-white">

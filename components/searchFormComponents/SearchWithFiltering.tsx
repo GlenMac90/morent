@@ -1,7 +1,7 @@
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import SearchForm from "./SearchForm";
-import FilteringContent from "./FilteringContent";
+import FilteringContent from "../FilteringContent";
 
 const SearchWithFiltering = () => {
   return (
