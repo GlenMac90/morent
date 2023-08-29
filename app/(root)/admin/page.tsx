@@ -6,20 +6,7 @@ import { seedCars } from '@/utils/seedCars';
 import { seedCarReviews } from '@/utils/seedCarReviews';
 import { deleteAllCars } from '@/lib/actions/car.actions';
 import { Button } from '@/components/ui/button';
-
-type State = {
-  isConfirmingSeed: boolean;
-  isConfirmingDelete: boolean;
-  isConfirmingReviewsSeed: boolean;
-};
-
-type Action =
-  | { type: 'TOGGLE_SEED_CONFIRMATION' }
-  | { type: 'CANCEL_SEED_CONFIRMATION' }
-  | { type: 'TOGGLE_REVIEWS_SEED_CONFIRMATION' }
-  | { type: 'CANCEL_REVIEWS_SEED_CONFIRMATION' }
-  | { type: 'TOGGLE_DELETE_CONFIRMATION' }
-  | { type: 'CANCEL_DELETE_CONFIRMATION' };
+import { State, Action } from '@/lib/interfaces';
 
 const initialState = {
   isConfirmingSeed: false,

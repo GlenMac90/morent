@@ -163,3 +163,17 @@ export interface ReviewDocument extends mongoose.Document {
   content: string;
   datePosted?: Date;
 }
+
+export type State = {
+  isConfirmingSeed: boolean;
+  isConfirmingDelete: boolean;
+  isConfirmingReviewsSeed: boolean;
+};
+
+export type Action =
+  | { type: 'TOGGLE_SEED_CONFIRMATION' }
+  | { type: 'CANCEL_SEED_CONFIRMATION' }
+  | { type: 'TOGGLE_REVIEWS_SEED_CONFIRMATION' }
+  | { type: 'CANCEL_REVIEWS_SEED_CONFIRMATION' }
+  | { type: 'TOGGLE_DELETE_CONFIRMATION' }
+  | { type: 'CANCEL_DELETE_CONFIRMATION' };
