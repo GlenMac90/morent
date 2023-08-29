@@ -4,19 +4,25 @@ import React, { useState } from "react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 import Review from "./Review";
 import { ReviewData } from "@/lib/interfaces";
 
 import { whiteCross, cross } from "@/public/svg-icons";
 
-interface ReviewListProps {
-  setShowReviews: (show: boolean) => void;
+type ReviewListProps = {
   reviews: ReviewData[];
-}
+  setShowReviews: (show: boolean) => void;
+  canEdit?: boolean;
+};
 
-const ReviewList: React.FC<ReviewListProps> = ({ setShowReviews, reviews }) => {
-  console.log(reviews);
+const ReviewList: React.FC<ReviewListProps> = ({
+  setShowReviews,
+  reviews,
+  canEdit = false,
+}) => {
+  const pathname = usePathname();
   const [animateClose, setAnimateClose] = useState(false);
   const { theme } = useTheme();
 
@@ -35,7 +41,9 @@ const ReviewList: React.FC<ReviewListProps> = ({ setShowReviews, reviews }) => {
 
   return (
     <div
-      className="fixed inset-0 z-40 flex justify-center "
+      className={`fixed inset-0 z-40 flex justify-center ${
+        pathname === "/profile" && "bg-black/40"
+      }`}
       onClick={handleBackgroundClick}
     >
       <motion.div
@@ -59,7 +67,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ setShowReviews, reviews }) => {
         </div>
         <div className="flex w-full flex-col gap-5">
           {reviews.map((review) => (
-            <Review key={review.id} reviewData={review} />
+            <Review key={review._id} reviewData={review} canEdit={canEdit} />
           ))}
         </div>
       </motion.div>

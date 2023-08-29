@@ -2,7 +2,7 @@ import { Control } from "react-hook-form";
 import { UploadFileResponse } from "uploadthing/client";
 import mongoose from "mongoose";
 
-export interface DateRange {
+export interface DateRangeCars {
   from: Date;
   to: Date;
 }
@@ -23,7 +23,7 @@ export interface CarParams {
   carImageMain?: string;
   disabledDates?: {
     singleDates?: Date[];
-    dateRanges?: DateRange[];
+    dateRanges?: DateRangeCars[];
   };
   path?: string;
   liked?: boolean;
@@ -36,10 +36,22 @@ export interface UserParams {
   username: string;
   name: string;
   image?: string;
+  coverImage?: string;
   bio?: string;
   onboarded?: boolean;
   path: string;
   cars?: CarParams[];
+}
+
+export interface UserParamsProfilePage {
+  _id: string;
+  userId: string;
+  carId: { _id: string; carTitle: number; carImages: string[] };
+  rating: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export type FormData = {
@@ -141,13 +153,89 @@ export type GeocodeResult = {
   };
 };
 
-export interface ReviewData {
-  id: string;
-  ownerId: string;
-  title: string;
-  imageUrl: string;
+export interface DateRange {
+  from: string;
+  to: string;
+  _id: string;
+}
+
+export interface DisabledDates {
+  singleDates: string[];
+  dateRanges: DateRange[];
+}
+
+export interface UserIdInReview {
+  _id: string;
+  image: string;
+  username: string;
+}
+
+export interface SingleReviewProps {
+  _id: string;
+  userId: UserIdInReview | null;
+  carId: string;
   rating: number;
-  review: string;
-  numberOfReviews: number;
-  date: string;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ReviewData {
+  _id?: string;
+  userId?: {
+    _id?: string;
+    image?: string;
+    username?: string;
+  };
+  carId?: {
+    _id: string;
+    carTitle: string;
+    carImages: string[];
+  };
+  rating: number;
+  title?: string;
+  content?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface CleanDateRange {
+  from: string;
+  to: string;
+  _id: string;
+}
+
+interface CleanReview {
+  _id: string;
+  userId?: string | null;
+  carId: string;
+  rating: number;
+  title: string;
+  content: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface CleanedCarProps {
+  disabledDates: {
+    singleDates: string[];
+    dateRanges: CleanDateRange[];
+  };
+  starRating?: any[]; // You can specify a more specific type if you know what should be inside.
+  _id: string;
+  userId: string;
+  reviews: CleanReview[];
+  carTitle: string;
+  carType: string;
+  carRented: number;
+  rentPrice: string;
+  capacity: string;
+  transmission: string;
+  location: string;
+  fuelCapacity: string;
+  shortDescription: string;
+  carImages: any[]; // Again, if you know the content, specify the type.
+  createdAt: string;
+  updatedAt: string;
 }

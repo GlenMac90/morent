@@ -27,11 +27,11 @@ const RecommendedCars: React.FC<RecommendedCarsProps> = ({
         {/* Change id to match id of card once live data is passed */}
         {showAll
           ? recommendedCars?.map((car) => (
-              <CarCard carData={car} key={car._id} id={"123"} />
+              <CarCard carData={car} key={car._id} />
             ))
           : recommendedCars
               ?.slice(0, 4)
-              .map((car) => <CarCard carData={car} key={car._id} id={"123"} />)}
+              .map((car) => <CarCard carData={car} key={car._id} />)}
         {/* Change id to match id of card once live data is passed */}
       </div>
       <button

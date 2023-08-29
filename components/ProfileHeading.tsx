@@ -7,14 +7,17 @@ import { motion } from "framer-motion";
 
 import ReviewList from "./reviewComponents/ReviewList";
 import { profileDefaultCover } from "@/public/pngs";
-import { UserParams } from "@/lib/interfaces";
+import { UserParams, ReviewData } from "@/lib/interfaces";
 
 type ProfileHeadingProps = {
-  userData: UserParams;
+  userData: UserParams | null;
+  reviews: ReviewData[];
 };
 
-const ProfileHeading: React.FC<ProfileHeadingProps> = ({ userData }) => {
-  console.log(userData);
+const ProfileHeading: React.FC<ProfileHeadingProps> = ({
+  userData,
+  reviews,
+}) => {
   const [showReviews, setShowReviews] = useState(false);
   return (
     <motion.div animate={{ scale: 1 }} initial={{ scale: 0 }}>
@@ -29,13 +32,17 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({ userData }) => {
           Show Reviews
         </p>
         {showReviews && (
-          <ReviewList id={userData._id} setShowReviews={setShowReviews} />
+          <ReviewList
+            reviews={reviews}
+            setShowReviews={setShowReviews}
+            canEdit={true}
+          />
         )}
       </div>
       <section className="mt-6 flex h-auto w-full flex-col rounded-xl bg-white dark:bg-gray850">
         <div className="relative flex h-40 md:h-48">
           <Image
-            src={userData.coverImage || profileDefaultCover}
+            src={userData?.coverImage || profileDefaultCover}
             alt="cover-picture"
             layout="fill"
             style={{
@@ -50,7 +57,7 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({ userData }) => {
         </div>
         <div className="ml-3.5 flex flex-col justify-between md:ml-8 md:flex-row">
           <div className="flex flex-col md:flex-row">
-            {userData.image && (
+            {userData?.image && (
               <Image
                 src={userData.image}
                 alt="profile pic"
@@ -60,9 +67,9 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({ userData }) => {
               />
             )}
             <div className="mt-10 flex flex-col md:mb-8 md:ml-48 md:mt-4">
-              <p className="mt-2.5 text-xl font-semibold">{userData.name}</p>
+              <p className="mt-2.5 text-xl font-semibold">{userData?.name}</p>
               <p className="mt-2 w-3/5 text-sm text-gray400 sm:w-full">
-                {userData.bio}
+                {userData?.bio}
               </p>
             </div>
           </div>

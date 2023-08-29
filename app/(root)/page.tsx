@@ -8,12 +8,16 @@ import {
   fetchPopularCars,
   fetchRecommendedCars,
 } from "@/lib/actions/car.actions";
-import console from "console";
 
 const Home = async () => {
   const popularCars = await fetchPopularCars();
   const recommendedCars = await fetchRecommendedCars();
-  console.log(popularCars);
+  const cleanedPopularCars = popularCars?.map((car) =>
+    convertToPlainObject(car)
+  );
+  const cleanedRecommendedCars = recommendedCars?.map((car) =>
+    convertToPlainObject(car)
+  );
 
   return (
     <main className="flex flex-col items-center bg-white200 p-2 dark:bg-gray900">
@@ -22,8 +26,8 @@ const Home = async () => {
         <div className="mt-7 flex w-full px-5">
           <PickUpDropOffCard />
         </div>
-        <PopularCars popularCars={popularCars} />
-        <RecommendedCars recommendedCars={popularCars} />
+        <PopularCars popularCars={cleanedPopularCars} />
+        <RecommendedCars recommendedCars={cleanedRecommendedCars} />
       </div>
     </main>
   );

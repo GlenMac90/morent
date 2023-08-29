@@ -5,7 +5,6 @@ import User from "../models/user.model";
 import Car from "../models/car.model";
 import Review from "../models/reviews.model";
 import { CarParams, ReviewDocument } from "../interfaces";
-import { convertToPlainObject } from "@/utils/formatCarData";
 import mongoose from "mongoose";
 
 export async function fetchRecommendedCars(): Promise<CarParams[] | null> {

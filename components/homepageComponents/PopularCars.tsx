@@ -4,10 +4,10 @@ import React from "react";
 import { motion } from "framer-motion";
 
 import CarCard from "../carCardComponents/CarCard";
-import { CarParams } from "@/lib/interfaces";
+import { CleanedCarProps } from "@/lib/interfaces";
 
 interface PopularCarsProps {
-  popularCars: CarParams[] | null;
+  popularCars: CleanedCarProps[] | any;
 }
 
 const PopularCars: React.FC<PopularCarsProps> = ({ popularCars }) => {

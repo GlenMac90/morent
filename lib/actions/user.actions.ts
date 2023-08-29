@@ -7,7 +7,9 @@ import Car from "../models/car.model";
 import Review from "../models/reviews.model";
 import { UserParams } from "../interfaces";
 
-export async function userFromDB(userId: string): Promise<UserParams | null> {
+export async function userFromDB(
+  userId: string | undefined
+): Promise<UserParams | null> {
   connectToDB();
   const userDocument = await User.findOne({ id: userId });
   if (!userDocument) {

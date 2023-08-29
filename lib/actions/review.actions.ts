@@ -86,26 +86,39 @@ export async function deleteAllReviews(): Promise<void> {
 
 export async function getAllReviewsByUser(
   userId: mongoose.Types.ObjectId
-): Promise<ReviewDocument[]> {
+): Promise<any[]> {
+  // Note: Adjusted the return type
   try {
     connectToDB();
+
     const reviews = await Review.find({ userId })
-      .populate("carId", "carTitle")
+      .populate({
+        path: "carId",
+        select: "carTitle carImages", // Select both carTitle and carImages
+      })
+      .lean() // Convert Mongoose documents to plain objects
       .exec();
 
     if (!reviews) {
       throw new Error("No reviews found for the specified user.");
     }
 
-    return reviews as ReviewDocument[];
+    // If you only want the first image from the carImages array
+    reviews.forEach((review) => {
+      if (
+        review.carId &&
+        review.carId.carImages &&
+        review.carId.carImages.length > 0
+      ) {
+        review.carId.carImages = review.carId.carImages[0]; // Keep only the first image
+      }
+    });
+
+    return reviews;
   } catch (error: any) {
     throw new Error(`Failed to fetch reviews for the user: ${error.message}`);
   }
 }
-
-// interface ICar extends Document {
-//   reviews: string[];
-// }
 
 export async function fetchReviewsForCar(carId: string): Promise<any[]> {
   try {
@@ -125,7 +138,7 @@ export async function fetchReviewsForCar(carId: string): Promise<any[]> {
       .exec();
 
     return reviews;
-  } catch (error) {
+  } catch (error: any) {
     console.error(
       `Failed to fetch reviews for car with ID ${carId}: ${error.message}`
     );
