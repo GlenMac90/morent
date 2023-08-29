@@ -1,61 +1,137 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useReducer } from 'react';
 
 import { seedCars } from '@/utils/seedCars';
 import { seedCarReviews } from '@/utils/seedCarReviews';
 import { deleteAllCars } from '@/lib/actions/car.actions';
 import { Button } from '@/components/ui/button';
 
+type State = {
+  isConfirmingSeed: boolean;
+  isConfirmingDelete: boolean;
+  isConfirmingReviewsSeed: boolean;
+};
+
+type Action =
+  | { type: 'TOGGLE_SEED_CONFIRMATION' }
+  | { type: 'CANCEL_SEED_CONFIRMATION' }
+  | { type: 'TOGGLE_REVIEWS_SEED_CONFIRMATION' }
+  | { type: 'CANCEL_REVIEWS_SEED_CONFIRMATION' }
+  | { type: 'TOGGLE_DELETE_CONFIRMATION' }
+  | { type: 'CANCEL_DELETE_CONFIRMATION' };
+
+const initialState = {
+  isConfirmingSeed: false,
+  isConfirmingDelete: false,
+  isConfirmingReviewsSeed: false,
+};
+
+const actionsConfig: {
+  type: Action['type'];
+  confirmText: string;
+  actionText: string;
+  cancelType: Action['type'];
+  cancelText: string;
+}[] = [
+  {
+    type: 'TOGGLE_SEED_CONFIRMATION',
+    confirmText: 'Confirm Seed',
+    actionText: 'Seed Cars',
+    cancelType: 'CANCEL_SEED_CONFIRMATION',
+    cancelText: 'Cancel Seed',
+  },
+  {
+    type: 'TOGGLE_REVIEWS_SEED_CONFIRMATION',
+    confirmText: 'Confirm Seed Reviews',
+    actionText: 'Seed Reviews',
+    cancelType: 'CANCEL_REVIEWS_SEED_CONFIRMATION',
+    cancelText: 'Cancel Seed',
+  },
+  {
+    type: 'TOGGLE_DELETE_CONFIRMATION',
+    confirmText: 'Confirm Delete',
+    actionText: 'Delete All Cars',
+    cancelType: 'CANCEL_DELETE_CONFIRMATION',
+    cancelText: 'Cancel Delete',
+  },
+];
+
+const getIsConfirmingStateKey = (
+  actionType: Action['type']
+): keyof State | undefined => {
+  switch (actionType) {
+    case 'TOGGLE_SEED_CONFIRMATION':
+      return 'isConfirmingSeed';
+    case 'TOGGLE_REVIEWS_SEED_CONFIRMATION':
+      return 'isConfirmingReviewsSeed';
+    case 'TOGGLE_DELETE_CONFIRMATION':
+      return 'isConfirmingDelete';
+  }
+};
+
+const reducer = (state: State, action: Action): State => {
+  switch (action.type) {
+    case 'TOGGLE_SEED_CONFIRMATION': {
+      return { ...state, isConfirmingSeed: !state.isConfirmingSeed };
+    }
+    case 'CANCEL_SEED_CONFIRMATION':
+      return { ...state, isConfirmingSeed: false };
+    case 'TOGGLE_REVIEWS_SEED_CONFIRMATION':
+      return {
+        ...state,
+        isConfirmingReviewsSeed: !state.isConfirmingReviewsSeed,
+      };
+    case 'CANCEL_REVIEWS_SEED_CONFIRMATION':
+      return { ...state, isConfirmingReviewsSeed: false };
+    case 'TOGGLE_DELETE_CONFIRMATION':
+      return { ...state, isConfirmingDelete: !state.isConfirmingDelete };
+    case 'CANCEL_DELETE_CONFIRMATION':
+      return { ...state, isConfirmingDelete: false };
+    default:
+      return state;
+  }
+};
+
 const Page = () => {
-  const [isConfirmingSeed, setIsConfirmingSeed] = useState(false);
-  const [isConfirmingDelete, setIsConfirmingDelete] = useState(false);
-  const [isConfirmingReviewsSeed, setIsConfirmingReviewsSeed] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const handleSeedClick = () => {
-    if (isConfirmingSeed) {
-      seedCars(10);
-
-      setIsConfirmingSeed(false);
-    } else {
-      setIsConfirmingSeed(true);
+  const handleActionClick = async (actionType: Action['type']) => {
+    switch (actionType) {
+      case 'TOGGLE_SEED_CONFIRMATION':
+        if (state.isConfirmingSeed) {
+          seedCars(10);
+          dispatch({ type: 'CANCEL_SEED_CONFIRMATION' });
+        } else {
+          dispatch({ type: actionType });
+        }
+        break;
+      case 'TOGGLE_REVIEWS_SEED_CONFIRMATION':
+        if (state.isConfirmingReviewsSeed) {
+          await seedCarReviews();
+          dispatch({ type: 'CANCEL_REVIEWS_SEED_CONFIRMATION' });
+        } else {
+          dispatch({ type: actionType });
+        }
+        break;
+      case 'TOGGLE_DELETE_CONFIRMATION':
+        if (state.isConfirmingDelete) {
+          try {
+            await deleteAllCars();
+            alert('All cars deleted successfully!');
+            dispatch({ type: 'CANCEL_DELETE_CONFIRMATION' });
+          } catch (error) {
+            console.error(error);
+            alert('Failed to delete all cars.');
+          }
+        } else {
+          dispatch({ type: actionType });
+        }
+        break;
+      default:
+        dispatch({ type: actionType });
+        break;
     }
-  };
-
-  const handleReviewsSeedClick = async () => {
-    if (isConfirmingReviewsSeed) {
-      seedCarReviews();
-      setIsConfirmingReviewsSeed(false);
-    } else {
-      setIsConfirmingReviewsSeed(true);
-    }
-  };
-
-  const handleCancelReviewsSeedClick = () => {
-    setIsConfirmingReviewsSeed(false);
-  };
-
-  const handleCancelSeedClick = () => {
-    setIsConfirmingSeed(false);
-  };
-
-  const handleDeleteClick = async () => {
-    if (isConfirmingDelete) {
-      try {
-        await deleteAllCars();
-        alert('All cars deleted successfully!');
-        setIsConfirmingDelete(false);
-      } catch (error) {
-        console.error(error);
-        alert('Failed to delete all cars.');
-      }
-    } else {
-      setIsConfirmingDelete(true);
-    }
-  };
-
-  const handleCancelDeleteClick = () => {
-    setIsConfirmingDelete(false);
   };
 
   return (
@@ -66,55 +142,27 @@ const Page = () => {
       <p className="mb-6 text-[2rem] text-black">
         This page is for administration purposes only.
       </p>
-      <div className="mb-4 flex space-x-12">
-        <Button
-          onClick={handleSeedClick}
-          className="bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-        >
-          {isConfirmingSeed ? 'Confirm Seed' : 'Seed Cars'}
-        </Button>
-        {isConfirmingSeed && (
-          <Button
-            onClick={handleCancelSeedClick}
-            className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
-          >
-            Cancel Seed
-          </Button>
-        )}
-      </div>
-      <div className="mb-4 flex space-x-12">
-        <Button
-          onClick={handleReviewsSeedClick}
-          className="bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-        >
-          {isConfirmingReviewsSeed ? 'Confirm Seed Reviews' : 'Seed Reviews'}
-        </Button>
-        {isConfirmingReviewsSeed && (
-          <Button
-            onClick={handleCancelReviewsSeedClick}
-            className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
-          >
-            Cancel Seed
-          </Button>
-        )}
-      </div>
-      <div className="flex space-x-12">
-        <Button
-          onClick={handleDeleteClick}
-          disabled={false}
-          className="bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
-        >
-          {isConfirmingDelete ? 'Confirm Delete' : 'Delete All Cars'}
-        </Button>
-        {isConfirmingDelete && (
-          <Button
-            onClick={handleCancelDeleteClick}
-            className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
-          >
-            Cancel Delete
-          </Button>
-        )}
-      </div>
+      {actionsConfig.map((action, index) => {
+        const key = getIsConfirmingStateKey(action.type);
+        return (
+          <div key={index} className="mb-4 flex space-x-12">
+            <Button
+              onClick={() => handleActionClick(action.type)}
+              className={`bg-red-500 px-4 py-2 font-bold text-white hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2`}
+            >
+              {key && state[key] ? action.confirmText : action.actionText}
+            </Button>
+            {key && state[key] && (
+              <Button
+                onClick={() => handleActionClick(action.cancelType)}
+                className="bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-600"
+              >
+                {action.cancelText}
+              </Button>
+            )}
+          </div>
+        );
+      })}
     </div>
   );
 };

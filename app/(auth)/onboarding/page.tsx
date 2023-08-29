@@ -15,8 +15,6 @@ const Page = async () => {
   const user = (await currentUser()) as ExtendedUser;
   if (!user) return null;
 
-  console.log(user);
-
   const currentUserData = {
     clerkId: user.id,
     username: user.username || '',
