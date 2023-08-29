@@ -36,24 +36,24 @@ const actionsConfig: {
 }[] = [
   {
     type: 'TOGGLE_SEED_CONFIRMATION',
-    confirmText: 'Confirm Seed',
+    confirmText: 'Confirm Seed Cars',
     actionText: 'Seed Cars',
     cancelType: 'CANCEL_SEED_CONFIRMATION',
-    cancelText: 'Cancel Seed',
+    cancelText: 'Cancel Seed Cars',
   },
   {
     type: 'TOGGLE_REVIEWS_SEED_CONFIRMATION',
     confirmText: 'Confirm Seed Reviews',
     actionText: 'Seed Reviews',
     cancelType: 'CANCEL_REVIEWS_SEED_CONFIRMATION',
-    cancelText: 'Cancel Seed',
+    cancelText: 'Cancel Seed Reviews',
   },
   {
     type: 'TOGGLE_DELETE_CONFIRMATION',
-    confirmText: 'Confirm Delete',
+    confirmText: 'Confirm Delete All Cars',
     actionText: 'Delete All Cars',
     cancelType: 'CANCEL_DELETE_CONFIRMATION',
-    cancelText: 'Cancel Delete',
+    cancelText: 'Cancel Delete All Cars',
   },
 ];
 

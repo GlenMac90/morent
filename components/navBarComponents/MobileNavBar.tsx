@@ -1,16 +1,16 @@
-import { FC } from "react";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import Image from "next/image";
+import { FC } from 'react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import Image from 'next/image';
 
-import { navButtons } from "@/constants";
+import { navButtons } from '@/constants';
 import {
   cross,
   whiteCross,
   darkModeHome,
   darkModeIcon,
-} from "@/public/svg-icons";
-import { clearLocalStorageItems } from "@/utils/utility.functions";
+} from '@/public/svg-icons';
+import { clearLocalStorageItems } from '@/utils/utility.functionsClient';
 
 interface MobileNavBarProps {
   theme: string | undefined;
@@ -43,7 +43,7 @@ const MobileNavBar: FC<MobileNavBarProps> = ({
           MORENT
         </p>
         <Image
-          src={theme === "light" ? cross : whiteCross}
+          src={theme === 'light' ? cross : whiteCross}
           height={20}
           width={20}
           alt="close modal"
@@ -62,14 +62,14 @@ const MobileNavBar: FC<MobileNavBarProps> = ({
             href={navButton.path}
             className={`flex rounded p-3 ${
               pathname === navButton.path
-                ? "bg-blue500 text-white"
-                : "text-gray700 dark:text-white200"
+                ? 'bg-blue500 text-white'
+                : 'text-gray700 dark:text-white200'
             }`}
           >
             <Image
               src={
                 navButton.images
-                  ? navButton.path === pathname || theme !== "light"
+                  ? navButton.path === pathname || theme !== 'light'
                     ? navButton.images[1]
                     : navButton.images[0]
                   : darkModeHome
@@ -85,8 +85,8 @@ const MobileNavBar: FC<MobileNavBarProps> = ({
           onClick={() => setShowNavMenu(false)}
           href={
             userId
-              ? "/profile"
-              : "/sign-in?redirect_url=http%3A%2F%2Flocalhost%3A3000%2F"
+              ? '/profile'
+              : '/sign-in?redirect_url=http%3A%2F%2Flocalhost%3A3000%2F'
           }
           className="mt-5 rounded"
         >
@@ -100,16 +100,16 @@ const MobileNavBar: FC<MobileNavBarProps> = ({
               width={20}
               alt="profile pic"
               className={`${
-                userId ? "mr-1.5 flex min-h-[20px] rounded-full" : "hidden"
+                userId ? 'mr-1.5 flex min-h-[20px] rounded-full' : 'hidden'
               }`}
             />
 
-            <p>{userId ? "My Profile" : "Login"}</p>
+            <p>{userId ? 'My Profile' : 'Login'}</p>
           </button>
         </Link>
         <button
           className={`${
-            userId ? "flex" : "hidden"
+            userId ? 'flex' : 'hidden'
           } w-full items-center justify-center rounded bg-red400 py-3.5 text-sm font-semibold text-white`}
         >
           Logout

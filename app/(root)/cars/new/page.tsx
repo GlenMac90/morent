@@ -2,7 +2,7 @@ import { currentUser } from '@clerk/nextjs';
 
 import CarForm from '@/components/forms/CarForm';
 import { userFromDB } from '@/lib/actions/user.actions';
-import { objectToStringId } from '@/utils/utility.functions';
+import { objectToStringId } from '@/utils/utility.functionsServer';
 
 const Page = async () => {
   let user;

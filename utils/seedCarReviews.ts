@@ -7,9 +7,12 @@ import Review from '@/lib/models/review.model';
 import { connectToDB } from '@/lib/mongoose';
 import { fetchAllUsers } from '@/lib/actions/user.actions';
 import { fetchAllCars } from '@/lib/actions/car.actions';
-import { getRandomItemFromArray } from '@/utils/utility.functions';
 
 export async function seedCarReviews(): Promise<void> {
+  function getRandomItemFromArray<T>(arr: T[]): T {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
   await connectToDB();
 
   const users = await fetchAllUsers();
@@ -17,6 +20,11 @@ export async function seedCarReviews(): Promise<void> {
 
   if (!users.length) {
     console.error('No users found to write reviews.');
+    return;
+  }
+
+  if (!cars) {
+    console.error('No cars found to generate reviews for.');
     return;
   }
 
