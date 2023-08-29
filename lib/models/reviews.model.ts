@@ -12,24 +12,11 @@ const reviewSchema = new mongoose.Schema({
     ref: "Car",
     required: true,
   },
-  userImage: {
-    type: String,
-    required: false,
-  },
-  username: {
-    type: String,
-    unique: true,
-    required: true,
-  },
   rating: {
     type: Number,
     required: true,
     min: 1,
     max: 5,
-  },
-  carImage: {
-    type: String,
-    required: true,
   },
   title: {
     type: String,
@@ -38,10 +25,6 @@ const reviewSchema = new mongoose.Schema({
   content: {
     type: String,
     required: true,
-  },
-  datePosted: {
-    type: Date,
-    default: Date.now,
   },
 });
 

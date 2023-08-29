@@ -11,7 +11,6 @@ interface PopularCarsProps {
 }
 
 const PopularCars: React.FC<PopularCarsProps> = ({ popularCars }) => {
-  console.log(popularCars);
   return (
     <motion.div
       animate={{ scale: 1 }}
@@ -26,11 +25,9 @@ const PopularCars: React.FC<PopularCarsProps> = ({ popularCars }) => {
         <div className="absolute right-0 h-60 w-20 bg-gradient-to-r from-transparent to-white/100 dark:to-gray900/100 xs:h-72 sm:hidden"></div>
         <div className="flex w-5 xs:hidden" />
 
-        {/* Change id to match id of card once live data is passed */}
-        {popularCars?.map((car) => (
-          <CarCard carData={car} key={car._id} isPopularCar={true} id={"123"} />
+        {popularCars?.map((car, index) => (
+          <CarCard carData={car} key={car._id} isPopularCar={true} />
         ))}
-        {/* Change id to match id of card once live data is passed */}
       </div>
     </motion.div>
   );

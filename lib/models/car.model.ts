@@ -23,6 +23,12 @@ const carSchema = new mongoose.Schema({
       },
     ],
   },
+  reviews: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
   carRented: Number,
   starRating: [Number],
   likes: Number,

@@ -1,20 +1,22 @@
+"use client";
+
 import React, { useState } from "react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-import { dummyReviewList } from "@/utils/dummyReviewList";
-import { dummyData } from "@/utils/dummyCarData";
 import Review from "./Review";
+import { ReviewData } from "@/lib/interfaces";
 
 import { whiteCross, cross } from "@/public/svg-icons";
 
 interface ReviewListProps {
-  id: number;
   setShowReviews: (show: boolean) => void;
+  reviews: ReviewData[];
 }
 
-const ReviewList: React.FC<ReviewListProps> = ({ id, setShowReviews }) => {
+const ReviewList: React.FC<ReviewListProps> = ({ setShowReviews, reviews }) => {
+  console.log(reviews);
   const [animateClose, setAnimateClose] = useState(false);
   const { theme } = useTheme();
 
@@ -33,7 +35,7 @@ const ReviewList: React.FC<ReviewListProps> = ({ id, setShowReviews }) => {
 
   return (
     <div
-      className="fixed inset-0 z-40 flex justify-center bg-black/50"
+      className="fixed inset-0 z-40 flex justify-center "
       onClick={handleBackgroundClick}
     >
       <motion.div
@@ -56,12 +58,8 @@ const ReviewList: React.FC<ReviewListProps> = ({ id, setShowReviews }) => {
           />
         </div>
         <div className="flex w-full flex-col gap-5">
-          {dummyReviewList.map((review, index) => (
-            <Review
-              key={review.id}
-              reviewData={dummyReviewList[index]}
-              carData={dummyData}
-            />
+          {reviews.map((review) => (
+            <Review key={review.id} reviewData={review} />
           ))}
         </div>
       </motion.div>

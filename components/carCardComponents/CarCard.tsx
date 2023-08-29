@@ -8,10 +8,10 @@ import { usePathname } from "next/navigation";
 import CarDetailsModalOne from "./CarDetailsModalOne";
 import CarCardMainContent from "./CarCardMainContent";
 import { CarParams } from "@/lib/interfaces";
+import { id } from "date-fns/locale";
 
 interface CarCardProps {
   carData: CarParams;
-  id: string | undefined;
   isPopularCar?: boolean;
   canEdit?: boolean;
   canReview?: boolean;
@@ -21,7 +21,6 @@ interface CarCardProps {
 
 const CarCard: React.FC<CarCardProps> = ({
   carData,
-  id,
   isPopularCar = false,
   canEdit = false,
   canReview = false,

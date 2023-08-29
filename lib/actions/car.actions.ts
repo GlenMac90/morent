@@ -5,20 +5,32 @@ import User from "../models/user.model";
 import Car from "../models/car.model";
 import Review from "../models/reviews.model";
 import { CarParams, ReviewDocument } from "../interfaces";
+import { convertToPlainObject } from "@/utils/formatCarData";
 import mongoose from "mongoose";
 
 export async function fetchRecommendedCars(): Promise<CarParams[] | null> {
   try {
     connectToDB();
 
-    // Find cars with a rating of 4 and above
-    const cars = await Car.find({ starRating: { $gte: 4 } }).exec();
+    const cars = await Car.aggregate([
+      {
+        $addFields: {
+          averageRating: {
+            $avg: "$starRating",
+          },
+        },
+      },
+      {
+        $match: {
+          averageRating: { $gte: 3.75 },
+        },
+      },
+    ]).exec();
 
-    // Convert each car document to a plain JavaScript object
-    return cars.map((car) => car.toObject());
+    return cars;
   } catch (error: any) {
     throw new Error(
-      `Failed to fetch cars with rating 4 and above: ${error.message}`
+      `Failed to fetch cars with average rating of 3.75 and above: ${error.message}`
     );
   }
 }
@@ -27,8 +39,16 @@ export async function fetchPopularCars(): Promise<CarParams[] | null> {
   try {
     connectToDB();
 
-    // Find cars with a carRented of over 4
-    const cars = await Car.find({ carRented: { $gt: 4 } }).exec();
+    // Find cars with a carRented of over 4 and populate their reviews
+    const cars = await Car.find({ carRented: { $gt: 4 } })
+      .populate({
+        path: "reviews", // First, populate the reviews
+        populate: {
+          path: "userId", // Then, within each review, populate the userId
+          select: "image username", // Only select the 'image' and 'username' fields from the User document
+        },
+      })
+      .exec();
 
     // Convert each car document to a plain JavaScript object
     return cars.map((car) => car.toObject());

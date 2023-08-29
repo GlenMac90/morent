@@ -9,12 +9,12 @@ import { usePathname } from "next/navigation";
 import { cross, whiteCross } from "../../public/svg-icons/index";
 import CarDetailsModalTwo from "./CarDetailsModalTwo";
 import ReviewForm from "../reviewComponents/ReviewForm";
+import ReviewList from "../reviewComponents/ReviewList";
 import ModalImageGallery from "./ModalImageGallery";
 import ModalCarDetails from "./ModalCarDetails";
 import { CarParams } from "@/lib/interfaces";
 
 interface CarDetailsModalOneProps {
-  id: string | undefined;
   carData: CarParams;
   setShowModal: (show: boolean) => void;
   isPopular?: boolean;
@@ -23,7 +23,6 @@ interface CarDetailsModalOneProps {
 }
 
 const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
-  id,
   carData,
   setShowModal,
   isPopular,
@@ -37,6 +36,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
   const [changePicture, setChangePicture] = useState(true);
   const [motionKey, setMotionKey] = useState(0);
   const [showReviewScreen, setShowReviewScreen] = useState(false);
+  const [showListOfReviews, setShowListOfReviews] = useState(false);
   const [closeModal, setCloseModal] = useState(false);
 
   const handleShowModalTwo = () => {
@@ -57,7 +57,9 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         key={motionKey}
         animate={{ scale: closeModal ? 0 : 1 }}
         initial={{ scale: 0 }}
-        className={`fixed inset-x-2 top-[12.75rem] z-50 flex flex-col rounded-lg bg-white p-4 dark:bg-gray850 xs:inset-x-auto  sm:flex-row 
+        className={`fixed inset-x-2 top-[12.75rem] ${
+          showListOfReviews ? "z-40" : "z-50"
+        } flex flex-col rounded-lg bg-white p-4 dark:bg-gray850 xs:inset-x-auto  sm:flex-row 
         ${
           !showModalScreen2
             ? "max-w-[30rem] lg:max-w-[65.9rem]"
@@ -70,7 +72,10 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         }`}
       >
         {showModalScreen2 && (
-          <CarDetailsModalTwo setShowModal={handleCloseClick} id={id} />
+          <CarDetailsModalTwo
+            setShowModal={handleCloseClick}
+            id={carData._id}
+          />
         )}
         <div
           className={`flex flex-col lg:flex-row ${
@@ -100,6 +105,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             canReview={canReview}
             setShowModal={handleCloseClick}
             setShowReviewScreen={setShowReviewScreen}
+            setShowListOfReviews={setShowListOfReviews}
             handleButtonClick={handleShowModalTwo}
             carAvailability={carAvailability}
           />
@@ -111,6 +117,12 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
       ></div>
       {showReviewScreen && (
         <ReviewForm setShowReviewScreen={setShowReviewScreen} data={carData} />
+      )}
+      {showListOfReviews && (
+        <ReviewList
+          setShowReviews={setShowListOfReviews}
+          reviews={carData.reviews}
+        />
       )}
     </>
   );

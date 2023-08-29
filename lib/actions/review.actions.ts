@@ -3,6 +3,8 @@
 import { connectToDB } from "../mongoose";
 import Review from "../models/reviews.model";
 import { ReviewDocument } from "../interfaces";
+import Car from "../models/car.model";
+
 import mongoose from "mongoose";
 
 export async function createReview(
@@ -101,4 +103,32 @@ export async function getAllReviewsByUser(
   }
 }
 
-// associate review with car
+// interface ICar extends Document {
+//   reviews: string[];
+// }
+
+export async function fetchReviewsForCar(carId: string): Promise<any[]> {
+  try {
+    connectToDB();
+    const car = await Car.findById(carId).exec();
+
+    if (!car) {
+      throw new Error(`Car with ID ${carId} not found.`);
+    }
+
+    const reviewIds = car.reviews;
+
+    const reviews = await Review.find({
+      _id: { $in: reviewIds },
+    })
+      .populate("userId", "username image")
+      .exec();
+
+    return reviews;
+  } catch (error) {
+    console.error(
+      `Failed to fetch reviews for car with ID ${carId}: ${error.message}`
+    );
+    throw error;
+  }
+}

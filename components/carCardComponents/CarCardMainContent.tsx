@@ -106,7 +106,7 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
               {carData?.fuelCapacity}L
             </p>
           </div>
-          <div className="flex">
+          <div className="flex max-w-[9rem]">
             <Image
               width={14}
               height={14}
@@ -114,7 +114,7 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
               alt="transmission"
               className="h-3.5 w-3.5 xs:h-5 xs:w-5"
             />
-            <p className="ml-1 self-center text-xs text-gray400 xs:text-sm sm:ml-1.5">
+            <p className="ml-1 self-center truncate text-xs text-gray400 xs:text-sm sm:ml-1.5">
               {carData?.transmission}
             </p>
           </div>

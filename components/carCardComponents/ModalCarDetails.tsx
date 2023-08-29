@@ -11,6 +11,7 @@ interface ModalCarDetailsProps {
   canReview: boolean | undefined;
   setShowModal: (value: boolean) => void;
   setShowReviewScreen: (value: boolean) => void;
+  setShowListOfReviews: (value: boolean) => void;
   handleButtonClick: () => void;
   carAvailability: boolean;
 }
@@ -21,9 +22,11 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
   canReview,
   setShowModal,
   setShowReviewScreen,
+  setShowListOfReviews,
   handleButtonClick,
   carAvailability,
 }) => {
+  console.log(carData);
   const availabilityColor = carAvailability ? "bg-blue500" : "bg-blue100";
 
   return (
@@ -40,21 +43,26 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
             className="hidden cursor-pointer self-start dark:text-white200 lg:flex"
           />
         </div>
-        <div
-          className={`flex w-full sm:mt-2 ${canReview && "justify-between"}`}
-        >
+        <div className={`flex w-full justify-between sm:mt-2`}>
           <StarRating
-            rating={carData.starRating || 0} // Provide a default value, e.g., 0
-            reviews={carData.numberOfReviews || 100}
+            rating={carData.starRating || 3.86} // Provide a default value, e.g., 0
+            reviews={carData.numberOfReviews || 27}
           />
-          <button
-            className={`${
-              !canReview && "hidden"
-            } cursor-pointer self-center rounded border border-gray300 bg-white200 px-3 py-2 font-light hover:bg-blue500 hover:text-white dark:bg-white/50`}
-            onClick={() => setShowReviewScreen(true)}
-          >
-            Review
-          </button>
+          {canReview ? (
+            <button
+              className="cursor-pointer self-center rounded border border-gray300 bg-white200 px-3 py-2 font-light hover:bg-blue500 hover:text-white dark:bg-white/50"
+              onClick={() => setShowReviewScreen(true)}
+            >
+              Review
+            </button>
+          ) : (
+            <button
+              className="cursor-pointer self-center justify-self-end rounded border border-gray300 bg-white200 px-3 py-2 font-light hover:bg-blue500 hover:text-white dark:bg-white/50"
+              onClick={() => setShowListOfReviews(true)}
+            >
+              Reviews
+            </button>
+          )}
         </div>
       </div>
       <p className="mt-2 text-xs font-light leading-6 text-gray700 dark:text-white200 lg:text-lg lg:leading-10">
@@ -66,7 +74,7 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
             <p className="text-xs text-gray400 sm:text-lg lg:text-xl">
               Type Car
             </p>
-            <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
+            <p className="text-right text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
               {carData.carType}
             </p>
           </div>
@@ -74,7 +82,7 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
             <p className="text-xs text-gray400 sm:text-lg lg:text-xl">
               Capacity
             </p>
-            <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
+            <p className="text-right text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
               {carData.capacity} people
             </p>
           </div>
@@ -84,7 +92,7 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
             <p className="text-xs text-gray400 sm:text-lg lg:text-xl">
               Transm.
             </p>
-            <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
+            <p className="text-right text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
               {carData.transmission}
             </p>
           </div>

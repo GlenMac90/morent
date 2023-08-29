@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 import CarCard from "../carCardComponents/CarCard";
@@ -13,6 +13,7 @@ interface RecommendedCarsProps {
 const RecommendedCars: React.FC<RecommendedCarsProps> = ({
   recommendedCars,
 }) => {
+  const [showAll, setShowAll] = useState(false);
   return (
     <motion.div
       animate={{ scale: 1 }}
@@ -24,13 +25,20 @@ const RecommendedCars: React.FC<RecommendedCarsProps> = ({
       </p>
       <div className="mt-5 flex w-full flex-col items-center justify-center gap-5 px-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
         {/* Change id to match id of card once live data is passed */}
-        {recommendedCars?.map((car) => (
-          <CarCard carData={car} key={car._id} id={"123"} />
-        ))}
+        {showAll
+          ? recommendedCars?.map((car) => (
+              <CarCard carData={car} key={car._id} id={"123"} />
+            ))
+          : recommendedCars
+              ?.slice(0, 4)
+              .map((car) => <CarCard carData={car} key={car._id} id={"123"} />)}
         {/* Change id to match id of card once live data is passed */}
       </div>
-      <button className="my-10 max-w-[14.25rem] self-center rounded bg-blue500 px-10 py-4 text-sm font-medium text-white">
-        Show More Cars
+      <button
+        className="my-10 max-w-[14.25rem] self-center rounded bg-blue500 px-10 py-4 text-sm font-medium text-white"
+        onClick={() => setShowAll((prev) => !prev)}
+      >
+        {showAll ? "Show Less Cars" : "Show More Cars"}
       </button>
     </motion.div>
   );

@@ -140,3 +140,14 @@ export type GeocodeResult = {
     name: string;
   };
 };
+
+export interface ReviewData {
+  id: string;
+  ownerId: string;
+  title: string;
+  imageUrl: string;
+  rating: number;
+  review: string;
+  numberOfReviews: number;
+  date: string;
+}

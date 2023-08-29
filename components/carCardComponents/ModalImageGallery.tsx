@@ -3,6 +3,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { CarParams } from "@/lib/interfaces";
 import { advertSilverCar } from "@/public/pngs";
+import { dummyData } from "@/utils/dummyCarData";
 
 interface ModalImageGalleryProps {
   changePicture: boolean;
@@ -19,6 +20,13 @@ const ModalImageGallery: React.FC<ModalImageGalleryProps> = ({
   setChangePicture,
   setDisplayPicture,
 }) => {
+  console.log(dummyData);
+  let images = carData.carImages;
+  let mainImage = carData.carImages[0];
+  if (carData.carImages.length === 0) {
+    images = dummyData.pictures;
+    mainImage = dummyData.pictures[0];
+  }
   return (
     <div className="flex flex-col justify-between md:w-full">
       <motion.div
@@ -28,19 +36,17 @@ const ModalImageGallery: React.FC<ModalImageGalleryProps> = ({
         whileHover={{ scale: 1.2 }}
         className="flex h-[15rem] w-full max-w-full items-center justify-center rounded-lg md:max-w-full lg:min-h-[22.5rem]"
       >
-        {displayPicture && (
-          <Image
-            src={displayPicture || advertSilverCar}
-            alt="main display picture"
-            style={{
-              objectFit: "cover",
-            }}
-            className="h-full w-full rounded-lg"
-          />
-        )}
+        <Image
+          src={displayPicture || dummyData.pictures[0]}
+          alt="main display picture"
+          style={{
+            objectFit: "cover",
+          }}
+          className="h-full w-full rounded-lg"
+        />
       </motion.div>
       <div className="no_scrollbar mt-5 flex gap-5 overflow-x-auto">
-        {carData.pictures.map((picture: string, index: number) => (
+        {images.map((picture: string, index: number) => (
           <div className="w-1/3 rounded-lg" key={index}>
             <Image
               src={picture}
