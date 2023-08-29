@@ -1,5 +1,7 @@
 import * as z from 'zod';
 
+
+
 export const CarValidation = z.object({
   carTitle: z.string().min(3, 'Title should be at least 3 characters long'),
   carType: z.string().min(3, 'Type should be at least 3 characters long'),

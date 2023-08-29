@@ -137,7 +137,7 @@ const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
       }
     } catch (error) {
       console.error('Error occurred during onSubmit:', error);
-      handleServerError(error, toast, !!car?._id);
+      handleServerError(error, toast);
     } finally {
       setSuccess(false);
       setIsLoading(false);
@@ -195,6 +195,7 @@ const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
             name="rentPrice"
             label="Rent Price"
             placeholder="Price"
+            type="numerical"
           />
 
           <SelectInput
