@@ -14,7 +14,7 @@ import { Label } from '@/components/ui/label';
 import Location from './Location';
 import { ellipse, search } from '@/public/svg-icons';
 import AvailabilityFromTo from './AvailabilityFromTo';
-import { parseLocalStorageDate } from '@/utils/utility.functionsClient';
+import { parseLocalStorageDate } from '@/utils/utility.clientFunctions';
 
 const PickUpDropOffCard = () => {
   const pathname = usePathname();
