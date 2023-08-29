@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import { Webhook, WebhookRequiredHeaders } from 'svix';
 import { IncomingHttpHeaders } from 'http';
 import { NextResponse } from 'next/server';
@@ -45,28 +46,40 @@ export const POST = async (request: Request) => {
 
   if (payloadType === 'user.updated') {
     const {
-      image_url: image,
+      image_url: imageFromData,
       first_name: firstName,
       id: clerkId,
       last_name: lastName,
-      // eslint-disable-next-line camelcase
       email_addresses,
-      username,
+      username: usernameFromData,
     } = evnt.data;
 
     const name = `${firstName} ${lastName}`;
-    // @ts-ignore
-    // eslint-disable-next-line camelcase
-    const email = email_addresses[0]?.email_address;
+
+    let email = '';
+    if (
+      typeof email_addresses[0] === 'object' &&
+      'email_address' in email_addresses[0]
+    ) {
+      email = email_addresses[0].email_address;
+    }
+
+    let image = '';
+    if (typeof imageFromData === 'string') {
+      image = imageFromData;
+    }
+
+    let username = '';
+    if (typeof usernameFromData === 'string') {
+      username = usernameFromData;
+    }
 
     try {
       await updateUser({
-        // @ts-ignore
         image,
         name,
         email,
         clerkId,
-        // @ts-ignore
         username,
         bio: '',
         onboarded: false,

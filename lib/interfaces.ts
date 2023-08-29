@@ -73,14 +73,14 @@ interface CarRentedParams {
 
 export interface UserParams {
   clerkId: string;
-  _id: mongoose.Types.ObjectId;
+  _id?: mongoose.Types.ObjectId;
   username: string;
   email?: string;
   name: string;
   image?: string;
   bio?: string;
   onboarded?: boolean;
-  path: string;
+  path?: string;
   carsAdded?: CarAddedParams[];
   carsRented?: CarRentedParams[];
 }
