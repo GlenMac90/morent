@@ -11,7 +11,7 @@ import { useMediaQuery } from '@uidotdev/usehooks';
 import { darkModeIcon, lightModeIcon, burgerMenu } from '@/public/svg-icons';
 import { navButtons } from '@/constants';
 import MobileNavBar from './MobileNavBar';
-import { clearLocalStorageItems } from '@/utils/utility.functionsClient';
+import { clearLocalStorageItems } from '@/utils/utility.clientFunctions';
 
 const NavBar = () => {
   const { user } = useUser();
