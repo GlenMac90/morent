@@ -17,3 +17,7 @@ export function stringToObjectId(id: string): mongoose.Types.ObjectId | null {
     return null;
   }
 }
+
+export function getRandomItemFromArray<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)];
+}

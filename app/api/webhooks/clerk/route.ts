@@ -112,23 +112,16 @@ export const POST = async (request: Request) => {
 
     const name = `${firstName} ${lastName}`;
 
-    let email = '';
-    if (
+    const email =
       typeof email_addresses[0] === 'object' &&
       'email_address' in email_addresses[0]
-    ) {
-      email = email_addresses[0].email_address;
-    }
+        ? email_addresses[0].email_address
+        : '';
 
-    let image = '';
-    if (typeof imageFromData === 'string') {
-      image = imageFromData;
-    }
+    const image = typeof imageFromData === 'string' ? imageFromData : '';
 
-    let username = '';
-    if (typeof usernameFromData === 'string') {
-      username = usernameFromData;
-    }
+    const username =
+      typeof usernameFromData === 'string' ? usernameFromData : '';
 
     try {
       await updateUser({

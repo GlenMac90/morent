@@ -195,6 +195,7 @@ const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
             name="rentPrice"
             label="Rent Price"
             placeholder="Price"
+            type="numerical"
           />
 
           <SelectInput
