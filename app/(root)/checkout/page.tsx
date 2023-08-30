@@ -39,7 +39,7 @@ const Page = ({ searchParams }) => {
   };
 
   return (
-    <div className=''>
+    <div>
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <CheckoutForm price={price} totalDays={totalDays} />
