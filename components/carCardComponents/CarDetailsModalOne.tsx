@@ -35,7 +35,6 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
   const [showModalScreen2, setShowModalScreen2] = useState(false);
   const [changePicture, setChangePicture] = useState(true);
   const [motionKey, setMotionKey] = useState(0);
-  const [showReviewScreen, setShowReviewScreen] = useState(false);
   const [showListOfReviews, setShowListOfReviews] = useState(false);
   const [closeModal, setCloseModal] = useState(false);
 
@@ -66,10 +65,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             : "h-auto max-w-[31.25rem]"
         } ${!isPopular && "xs:-mr-14 sm:mr-0"}
         ${pathname === "/search" && "xs:ml-3 xs:mr-1 sm:mr-4 lg:ml-6"}
-        ${
-          showReviewScreen &&
-          "bg-black opacity-50 dark:bg-gray900 dark:opacity-70"
-        }`}
+       `}
       >
         {showModalScreen2 && (
           <CarDetailsModalTwo
@@ -80,7 +76,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         <div
           className={`flex flex-col lg:flex-row ${
             showModalScreen2 && "hidden"
-          } ${showReviewScreen && "hidden"}`}
+          }`}
         >
           <div className="absolute -top-4 right-2 rounded-sm bg-white dark:bg-gray850">
             <Image
@@ -104,7 +100,6 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
             theme={theme}
             canReview={canReview}
             setShowModal={handleCloseClick}
-            setShowReviewScreen={setShowReviewScreen}
             setShowListOfReviews={setShowListOfReviews}
             handleButtonClick={handleShowModalTwo}
             carAvailability={carAvailability}
@@ -115,9 +110,6 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         className="fixed inset-0 z-40 h-full w-full bg-black opacity-50 dark:bg-gray900 dark:opacity-70"
         onClick={handleCloseClick}
       ></div>
-      {showReviewScreen && (
-        <ReviewForm setShowReviewScreen={setShowReviewScreen} data={carData} />
-      )}
       {showListOfReviews && (
         <ReviewList
           setShowReviews={setShowListOfReviews}

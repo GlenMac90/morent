@@ -107,7 +107,11 @@ const Review: React.FC<ReviewProps> = ({ reviewData, canEdit = false }) => {
         <p className="text-lg font-light leading-8">{reviewData.content}</p>
       </div>
       {showEditReview && (
-        <ReviewForm data={reviewData} setShowReviewScreen={setShowEditReview} />
+        <ReviewForm
+          data={reviewData}
+          setShowReviewScreen={setShowEditReview}
+          editScreen={canEdit}
+        />
       )}
     </>
   );

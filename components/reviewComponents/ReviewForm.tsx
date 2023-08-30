@@ -24,10 +24,12 @@ import { ReviewDocument } from "@/lib/interfaces";
 
 interface ReviewFormProps {
   setShowReviewScreen: (value: boolean) => void;
+  editScreen: boolean;
   data: CarData;
 }
 
 const ReviewForm: React.FC<ReviewFormProps> = ({
+  editScreen = false,
   setShowReviewScreen,
   data,
 }) => {
@@ -64,18 +66,31 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const reviewObject: ReviewDocument = {
-      _id: data?._id,
-      userId: data?.userId,
-      carId: data.carId,
-      rating: starRating || 0,
-      title: data.title,
-      content: values.review,
-      datePosted: new Date(),
-    };
-    editReview(reviewObject);
-    console.log(values.review);
-    console.log(starRating);
+    if (editScreen) {
+      const editedReview: ReviewDocument = {
+        _id: data?._id,
+        userId: data?.userId,
+        carId: data.carId,
+        rating: starRating || 0,
+        title: data.title,
+        content: values.review,
+        datePosted: new Date(),
+      };
+      editReview(editedReview);
+      console.log(values.review);
+      console.log(starRating);
+    } else {
+      const newReview: ReviewDocument = {
+        userId: data?.userId,
+        carId: data?._id,
+        rating: starRating || 0,
+        title: data.carTitle,
+        content: values.review,
+        datePosted: new Date(),
+      };
+      createReview(newReview);
+      console.log(newReview);
+    }
   }
 
   return (
@@ -100,7 +115,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
             className="cursor-pointer self-start dark:text-white200"
           />
         </div>
-        {data?.carId.carImages[0] && (
+        {data?.carId?.carImages && (
           <Image
             src={data?.carId.carImages[0]}
             alt="car-picture"

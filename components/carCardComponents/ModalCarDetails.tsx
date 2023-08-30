@@ -1,16 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import StarRating from "../reviewComponents/StarRating";
 import { cross, whiteCross } from "@/public/svg-icons";
 import { CarParams } from "@/lib/interfaces";
+import ReviewForm from "../reviewComponents/ReviewForm";
 
 interface ModalCarDetailsProps {
   carData: CarParams;
   theme: string | undefined;
   canReview: boolean | undefined;
   setShowModal: (value: boolean) => void;
-  setShowReviewScreen: (value: boolean) => void;
   setShowListOfReviews: (value: boolean) => void;
   handleButtonClick: () => void;
   carAvailability: boolean;
@@ -21,11 +21,11 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
   theme,
   canReview,
   setShowModal,
-  setShowReviewScreen,
   setShowListOfReviews,
   handleButtonClick,
   carAvailability,
 }) => {
+  const [showReviewScreen, setShowReviewScreen] = useState(false);
   console.log(carData);
   const availabilityColor = carAvailability ? "bg-blue500" : "bg-blue100";
 
@@ -64,6 +64,12 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
             </button>
           )}
         </div>
+        {showReviewScreen && (
+          <ReviewForm
+            data={carData}
+            setShowReviewScreen={setShowReviewScreen}
+          />
+        )}
       </div>
       <p className="mt-2 text-xs font-light leading-6 text-gray700 dark:text-white200 lg:text-lg lg:leading-10">
         {carData.shortDescription}
