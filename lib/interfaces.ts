@@ -141,7 +141,6 @@ export interface ReviewDocument extends mongoose.Document {
   userId: mongoose.Types.ObjectId;
   carId: mongoose.Types.ObjectId;
   rating: number;
-  carImage: string;
   title: string;
   content: string;
   datePosted?: Date;

@@ -47,7 +47,9 @@ export async function editReview(
   }
 }
 
-export async function deleteReview(reviewId: string): Promise<void> {
+export async function deleteReview(
+  reviewId: string | undefined
+): Promise<void> {
   try {
     connectToDB();
     const review = await Review.findById(reviewId);

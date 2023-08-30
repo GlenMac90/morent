@@ -17,12 +17,10 @@ import Image from "next/image";
 import { useTheme } from "next-themes";
 import { motion } from "framer-motion";
 
-import { CarData } from "@/constants/interfaces";
 import ReviewFormStarRating from "./ReviewFormStarRating";
 import { cross, whiteCross } from "@/public/svg-icons";
-import { createReview } from "@/lib/actions/review.actions";
-import { formatReviewData } from "../forms/components/form.utils";
-import currentUserId from "@/lib/hooks/currentUserId";
+import { createReview, editReview } from "@/lib/actions/review.actions";
+import { ReviewDocument } from "@/lib/interfaces";
 
 interface ReviewFormProps {
   setShowReviewScreen: (value: boolean) => void;
@@ -33,7 +31,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   setShowReviewScreen,
   data,
 }) => {
-  currentUserId();
+  console.log(data);
   const { theme } = useTheme();
   const [starRating, setStarRating] = useState<number | null>(null);
   const [animateClose, setAnimateClose] = useState(false);
@@ -65,33 +63,19 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
     },
   });
 
-  type UserDetails = {
-    id: Types.ObjectId;
-    image: string;
-    username: string;
-  };
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const datePosted = new Date();
-
-    const userDetails = (await currentUserId()) as UserDetails;
-    if (starRating !== null && values.review !== "[empty string]") {
-      const reviewData = formatReviewData({
-        userId: userDetails.id,
-        carId: data.id,
-        userImage: userDetails.image,
-        username: userDetails.username,
-        rating: starRating,
-        carImage: data.mainPicture,
-        title: data.brand,
-        content: values.review,
-        datePosted,
-      });
-      // await createReview({ reviewData });
-      console.log(reviewData);
-    } else {
-      console.log("invalid rating or review");
-    }
+    const reviewObject: ReviewDocument = {
+      _id: data?._id,
+      userId: data?.userId,
+      carId: data.carId,
+      rating: starRating || 0,
+      title: data.title,
+      content: values.review,
+      datePosted: new Date(),
+    };
+    editReview(reviewObject);
+    console.log(values.review);
+    console.log(starRating);
   }
 
   return (
@@ -116,14 +100,17 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
             className="cursor-pointer self-start dark:text-white200"
           />
         </div>
-        <Image
-          src={data?.pictures[0]}
-          alt="car-picture"
-          style={{
-            objectFit: "cover",
-          }}
-          className="mt-3 h-full w-full rounded-xl"
-        />
+        {data?.carId.carImages[0] && (
+          <Image
+            src={data?.carId.carImages[0]}
+            alt="car-picture"
+            style={{
+              objectFit: "cover",
+            }}
+            className="mt-3 h-full w-full rounded-xl"
+          />
+        )}
+
         <ReviewFormStarRating setStarRating={setStarRating} />
         <Form {...form}>
           <form

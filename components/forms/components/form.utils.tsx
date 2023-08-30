@@ -92,10 +92,7 @@ export const formatCarData = (
 export const formatReviewData = (data: ReviewDocument) => ({
   userId: data.userId,
   carId: data.carId,
-  userImage: data.userImage || "",
-  username: data.username || "",
   rating: data.rating || "",
-  carImage: data.carImage || "",
   title: data.title || "",
   content: data.content || "",
   datePosted: data.datePosted || "",

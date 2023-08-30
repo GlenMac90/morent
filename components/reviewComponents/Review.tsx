@@ -16,7 +16,6 @@ interface ReviewProps {
 }
 
 const Review: React.FC<ReviewProps> = ({ reviewData, canEdit = false }) => {
-  console.log(reviewData);
   const pathname = usePathname();
   const [showEditReview, setShowEditReview] = useState(false);
   const [showDeleteScreen, setShowDeleteScreen] = useState(false);
@@ -40,35 +39,45 @@ const Review: React.FC<ReviewProps> = ({ reviewData, canEdit = false }) => {
               {reviewData?.userId?.username || "user"}
             </p>
           </div>
-          <div className="flex w-full items-center justify-between">
+          {pathname === "/profile" ? (
+            <div className="flex w-full items-center justify-between">
+              <p className="font-semibold">{reviewData?.createdAt}</p>
+              <button
+                className={`${
+                  !canEdit && "hidden"
+                } rounded bg-blue500 px-2 py-1.5 text-white ${
+                  showDeleteScreen && "hidden"
+                }`}
+                onClick={() => setShowDeleteScreen(true)}
+              >
+                Edit Review
+              </button>
+              {showDeleteScreen && (
+                <div className="flex gap-2">
+                  <button
+                    className="rounded bg-blue500 px-2 py-1.5 text-white"
+                    onClick={() => setShowEditReview(true)}
+                  >
+                    Edit
+                  </button>
+                  <button
+                    className="rounded bg-red-500 px-2 py-1.5 text-white"
+                    onClick={() => deleteReview(reviewData._id)}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="rounded bg-gray-500 px-2 py-1.5 text-white"
+                    onClick={() => setShowDeleteScreen(false)}
+                  >
+                    Cancel
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
             <p className="font-semibold">{reviewData?.createdAt}</p>
-            <button
-              className={`${
-                !canEdit && "hidden"
-              } rounded bg-blue500 px-2 py-1.5 text-white ${
-                showDeleteScreen && "hidden"
-              }`}
-              onClick={() => setShowDeleteScreen(true)}
-            >
-              Delete
-            </button>
-            {showDeleteScreen && (
-              <div className="flex gap-2">
-                <button
-                  className="rounded bg-red-500 px-2 py-1.5 text-white"
-                  onClick={() => deleteReview(reviewData._id)}
-                >
-                  Delete?
-                </button>
-                <button
-                  className="rounded bg-gray-500 px-2 py-1.5 text-white"
-                  onClick={() => setShowDeleteScreen(false)}
-                >
-                  Cancel
-                </button>
-              </div>
-            )}
-          </div>
+          )}
         </div>
         <div className="flex w-full justify-between">
           <p className="text-2xl text-gray900 dark:text-white200">
