@@ -7,7 +7,7 @@ import { headers } from 'next/headers';
 
 const webhookSecret = process.env.NEXT_CLERK_WEBHOOK_SECRET;
 
-type EventType = 'user.updated' | 'user.deleted';
+type EventType = 'user.created' | 'user.updated' | 'user.deleted';
 
 type Event = {
   data: {
@@ -42,6 +42,62 @@ export const POST = async (request: Request) => {
   } catch (err) {
     console.error('Error in verification:', err);
     return NextResponse.json({ message: err }, { status: 400 });
+  }
+
+  if (payloadType === 'user.created') {
+    const {
+      image_url: imageFromData,
+      first_name: firstName,
+      id: clerkId,
+      last_name: lastName,
+      email_addresses,
+      username: usernameFromData,
+    } = evnt.data;
+
+    const name = `${firstName} ${lastName}`;
+
+    let email = '';
+    if (
+      typeof email_addresses[0] === 'object' &&
+      'email_address' in email_addresses[0]
+    ) {
+      email = email_addresses[0].email_address;
+    }
+
+    let image = '';
+    if (typeof imageFromData === 'string') {
+      image = imageFromData;
+    }
+
+    let username = '';
+    if (typeof usernameFromData === 'string') {
+      username = usernameFromData;
+    }
+
+    try {
+      await updateUser({
+        image,
+        name,
+        email,
+        clerkId,
+        username,
+        bio: '',
+        onboarded: false,
+      });
+
+      return NextResponse.json(
+        {
+          message: 'User created successfully.',
+        },
+        { status: 201 }
+      );
+    } catch (err) {
+      console.error('Failed to update user:', err);
+      return NextResponse.json(
+        { message: 'Internal Server Error from Created Event' },
+        { status: 500 }
+      );
+    }
   }
 
   if (payloadType === 'user.updated') {

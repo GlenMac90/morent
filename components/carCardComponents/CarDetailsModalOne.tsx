@@ -1,17 +1,17 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
-import { usePathname } from "next/navigation";
+import React, { useState } from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { useTheme } from 'next-themes';
+import { usePathname } from 'next/navigation';
 
-import { cross, whiteCross } from "../../public/svg-icons/index";
-import CarDetailsModalTwo from "./CarDetailsModalTwo";
-import ReviewForm from "../reviewComponents/ReviewForm";
-import { CarData } from "@/constants/interfaces";
-import ModalImageGallery from "./ModalImageGallery";
-import ModalCarDetails from "./ModalCarDetails";
+import { cross, whiteCross } from '../../public/svg-icons/index';
+import CarDetailsModalTwo from './CarDetailsModalTwo';
+import ReviewForm from '../reviewComponents/ReviewForm';
+import { CarData } from '@/constants/interfaces';
+import ModalImageGallery from './ModalImageGallery';
+import ModalCarDetails from './ModalCarDetails';
 
 interface CarDetailsModalOneProps {
   id: string;
@@ -52,27 +52,31 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         className={`fixed inset-x-2 top-[12.75rem] z-50 flex flex-col rounded-lg bg-white p-4 dark:bg-gray850 xs:inset-x-auto  sm:flex-row 
         ${
           !showModalScreen2
-            ? "max-w-[30rem] lg:max-w-[65.9rem]"
-            : "h-auto max-w-[31.25rem]"
-        } ${!isPopular && "xs:-mr-14 sm:mr-0"}
-        ${pathname === "/search" && "xs:ml-3 xs:mr-1 sm:mr-4 lg:ml-6"}`}
+            ? 'max-w-[30rem] lg:max-w-[65.9rem]'
+            : 'h-auto max-w-[31.25rem]'
+        } ${!isPopular && 'xs:-mr-14 sm:mr-0'}
+        ${pathname === '/search' && 'xs:ml-3 xs:mr-1 sm:mr-4 lg:ml-6'}`}
       >
         {showModalScreen2 && (
-          <CarDetailsModalTwo setShowModal={setShowModal} id={id} />
+          <CarDetailsModalTwo
+            setShowModal={setShowModal}
+            carData={carData}
+            id={id}
+          />
         )}
         <div
           className={`flex flex-col lg:flex-row ${
-            showModalScreen2 && "hidden"
-          } ${showReviewScreen && "hidden"}`}
+            showModalScreen2 && 'hidden'
+          } ${showReviewScreen && 'hidden'}`}
         >
-          <div className="absolute -top-4 right-2 rounded-sm bg-white dark:bg-gray850">
+          <div className='absolute -top-4 right-2 rounded-sm bg-white dark:bg-gray850'>
             <Image
-              src={theme === "light" ? cross : whiteCross}
+              src={theme === 'light' ? cross : whiteCross}
               height={20}
               width={20}
-              alt="close modal"
+              alt='close modal'
               onClick={() => setShowModal(false)}
-              className="flex cursor-pointer self-start lg:hidden"
+              className='flex cursor-pointer self-start lg:hidden'
             />
           </div>
           <ModalImageGallery
@@ -94,7 +98,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         </div>
       </motion.div>
       <div
-        className="fixed inset-0 z-40 h-full w-full bg-black opacity-50 dark:bg-gray900 dark:opacity-70"
+        className='fixed inset-0 z-40 h-full w-full bg-black opacity-50 dark:bg-gray900 dark:opacity-70'
         onClick={() => setShowModal(false)}
       ></div>
       {showReviewScreen && (
