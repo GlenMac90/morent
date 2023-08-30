@@ -12,7 +12,7 @@ export function formatProfileReviewData(data) {
     carId: {
       _id: data.carId._id.toString(),
       carTitle: data.carId.carTitle,
-      carImages: data.carId.carImages, // Assuming carImages is an array of strings or objects with URLs
+      carImages: data.carId.carImages,
     },
     rating: data.rating.toString(),
     title: data.title,

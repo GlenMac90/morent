@@ -16,7 +16,7 @@ export async function userFromDB(
     console.warn("User not found.");
     return null;
   }
-  return userDocument.toObject();
+  return userDocument;
 }
 
 export async function fetchUserWithCars(

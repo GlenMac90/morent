@@ -14,6 +14,7 @@ export async function createReview(
     connectToDB();
     const review = new Review(reviewData);
     await review.save();
+    console.log("Saved Review:", review.toObject());
     return review.toObject();
   } catch (error: any) {
     throw new Error(`Failed to create review: ${error.message}`);

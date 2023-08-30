@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 
 import { cross, whiteCross } from "../../public/svg-icons/index";
 import CarDetailsModalTwo from "./CarDetailsModalTwo";
-import ReviewForm from "../reviewComponents/ReviewForm";
 import ReviewList from "../reviewComponents/ReviewList";
 import ModalImageGallery from "./ModalImageGallery";
 import ModalCarDetails from "./ModalCarDetails";

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 
@@ -9,6 +9,7 @@ import ReviewForm from "./ReviewForm";
 import { ReviewData } from "@/lib/interfaces";
 import { profilePic } from "@/public/svg-icons";
 import { deleteReview } from "@/lib/actions/review.actions";
+import { advertSilverCar } from "@/public/pngs";
 
 interface ReviewProps {
   reviewData: ReviewData;
@@ -19,6 +20,14 @@ const Review: React.FC<ReviewProps> = ({ reviewData, canEdit = false }) => {
   const pathname = usePathname();
   const [showEditReview, setShowEditReview] = useState(false);
   const [showDeleteScreen, setShowDeleteScreen] = useState(false);
+  const [reloadPage, setReloadPage] = useState(false);
+
+  useEffect(() => {
+    if (reloadPage) {
+      window.location.href = "/profile";
+    }
+  }, [reloadPage]);
+
   return (
     <>
       <div className="flex w-full flex-col items-center gap-3 rounded-xl bg-white p-4 dark:bg-gray850 xs:items-start">
@@ -62,7 +71,10 @@ const Review: React.FC<ReviewProps> = ({ reviewData, canEdit = false }) => {
                   </button>
                   <button
                     className="rounded bg-red-500 px-2 py-1.5 text-white"
-                    onClick={() => deleteReview(reviewData._id)}
+                    onClick={() => {
+                      deleteReview(reviewData._id);
+                      setReloadPage(true);
+                    }}
                   >
                     Delete
                   </button>
@@ -90,9 +102,9 @@ const Review: React.FC<ReviewProps> = ({ reviewData, canEdit = false }) => {
         >
           Edit Review
         </button>
-        {reviewData.userId?.image && (
+        {reviewData.carId?.carImages && (
           <Image
-            src={reviewData.userId?.image}
+            src={reviewData.carId?.carImages[0] || advertSilverCar}
             alt="review-car-image"
             height={400}
             width={400}

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useState, useRef, ChangeEvent } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
@@ -18,6 +18,24 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({
   userData,
   reviews,
 }) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleEditCover = () => {
+    console.log("clicked");
+    if (inputRef.current) {
+      inputRef.current.value = "";
+      inputRef.current.click();
+    }
+  };
+
+  function handleSelectNewBanner(e: ChangeEvent<HTMLInputElement>) {
+    e.preventDefault();
+    const { files: newFiles } = e.target;
+    if (newFiles) {
+      console.log("we have a new file");
+    }
+  }
+
   const [showReviews, setShowReviews] = useState(false);
   return (
     <motion.div animate={{ scale: 1 }} initial={{ scale: 0 }}>
@@ -51,9 +69,21 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({
             }}
             className="rounded-t-xl"
           />
-          <button className="absolute bottom-2.5 right-2.5 rounded bg-white/40 px-2.5 py-1.5 text-[10px] text-white md:bottom-6 md:right-14 md:rounded-md md:px-5 md:py-3 md:text-sm">
+          <button
+            onClick={handleEditCover}
+            className="absolute bottom-2.5 right-2.5 rounded bg-white/40 px-2.5 py-1.5 text-[10px] text-white md:bottom-6 md:right-14 md:rounded-md md:px-5 md:py-3 md:text-sm"
+          >
             Edit Cover
           </button>
+          <input
+            placeholder="fileInput"
+            className="hidden"
+            ref={inputRef}
+            type="file"
+            multiple={false}
+            onChange={handleSelectNewBanner}
+            accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf"
+          />
         </div>
         <div className="ml-3.5 flex flex-col justify-between md:ml-8 md:flex-row">
           <div className="flex flex-col md:flex-row">

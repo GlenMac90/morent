@@ -20,13 +20,15 @@ const ModalImageGallery: React.FC<ModalImageGalleryProps> = ({
   setChangePicture,
   setDisplayPicture,
 }) => {
-  console.log(dummyData);
-  let images = carData.carImages;
-  let mainImage = carData.carImages[0];
-  if (carData.carImages.length === 0) {
+  console.log(carData);
+  let images = carData?.carImages || [];
+  let mainImage = images[0] || advertSilverCar;
+
+  if (images.length === 0) {
     images = dummyData.pictures;
     mainImage = dummyData.pictures[0];
   }
+
   return (
     <div className="flex flex-col justify-between md:w-full">
       <motion.div

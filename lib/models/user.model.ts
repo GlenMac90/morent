@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    bannerImage: {
+      type: String,
+      required: true,
+    },
     bio: {
       type: String,
       required: false,

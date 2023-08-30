@@ -22,6 +22,7 @@ const ReviewList: React.FC<ReviewListProps> = ({
   reviews,
   canEdit = false,
 }) => {
+  console.log(reviews);
   const pathname = usePathname();
   const [animateClose, setAnimateClose] = useState(false);
   const { theme } = useTheme();
