@@ -14,16 +14,13 @@ import { formatProfileReviewData } from "@/utils/formatProfileReviewData";
 const Page = async () => {
   const user = await currentUser();
   const userData = await userFromDB(user?.id);
-  console.log(userData);
 
   if (userData && userData._id) {
     const userId = userData._id.toString();
-    console.log(userId);
     const rentedCars = await fetchCarsAddedByUser(userId);
     const carsRented = await fetchCarsRentedByUser(userId);
     console.log(carsRented);
     const reviews = await getAllReviewsByUser(userId);
-    console.log(reviews);
     const cleanedReviews = reviews.map((review) =>
       formatProfileReviewData(review)
     );

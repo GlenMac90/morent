@@ -30,9 +30,9 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({
 
   function handleSelectNewBanner(e: ChangeEvent<HTMLInputElement>) {
     e.preventDefault();
-    const { files: newFiles } = e.target;
-    if (newFiles) {
-      console.log("we have a new file");
+    const { files: newFile } = e.target;
+    if (newFile) {
+      console.log(newFile);
     }
   }
 

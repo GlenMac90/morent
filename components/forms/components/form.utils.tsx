@@ -36,6 +36,21 @@ export const uploadImages = async (
   return uploadedUrls.filter((url) => url !== null) as string[];
 };
 
+export const uploadBannerImage = async (
+  imagePreview: string,
+  file: FileWithPreview,
+  isBase64Image: (data: string) => boolean,
+  startUpload: UploadFunction
+): Promise<string | null> => {
+  const isImage = isBase64Image(imagePreview);
+
+  if (!isImage) return null;
+
+  const imgRes = await startUpload([file]);
+
+  return imgRes?.[0]?.url || null;
+};
+
 export const handleFilesChange = (
   dragDropFiles: FileWithPreview[],
   form: UseFormReturn<FormData>,
