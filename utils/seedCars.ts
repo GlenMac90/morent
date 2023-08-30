@@ -6,12 +6,9 @@ import Car from '@/lib/models/car.model';
 import User from '@/lib/models/user.model';
 import { connectToDB } from '@/lib/mongoose';
 import { fetchAllUsers } from '@/lib/actions/user.actions';
+import { getRandomItemFromArray } from './utility.serverFunctions';
 
 export async function seedCars(numCars: number): Promise<void> {
-  function getRandomItemFromArray<T>(arr: T[]): T {
-    return arr[Math.floor(Math.random() * arr.length)];
-  }
-
   await connectToDB();
 
   const users = await fetchAllUsers();

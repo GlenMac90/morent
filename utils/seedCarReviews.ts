@@ -7,12 +7,9 @@ import Review from '@/lib/models/review.model';
 import { connectToDB } from '@/lib/mongoose';
 import { fetchAllUsers } from '@/lib/actions/user.actions';
 import { fetchAllCars } from '@/lib/actions/car.actions';
+import { getRandomItemFromArray } from './utility.serverFunctions';
 
 export async function seedCarReviews(): Promise<void> {
-  function getRandomItemFromArray<T>(arr: T[]): T {
-    return arr[Math.floor(Math.random() * arr.length)];
-  }
-
   await connectToDB();
 
   const users = await fetchAllUsers();
