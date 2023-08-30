@@ -1,6 +1,6 @@
-import { Control } from "react-hook-form";
-import { UploadFileResponse } from "uploadthing/client";
-import mongoose from "mongoose";
+import { Control } from 'react-hook-form';
+import { UploadFileResponse } from 'uploadthing/client';
+import mongoose from 'mongoose';
 
 export interface GeocodeResult {
   geometry: {
@@ -24,34 +24,28 @@ export interface CarParams {
   _id?: string;
   carTitle: string;
   carType: string;
-  carRented?: number;
-  starRating?: number;
+  disabledDates?: {
+    singleDates?: Date[];
+    dateRanges?: DateRange[];
+  };
   rentPrice?: string;
+  carRented?: number;
+  starRating?: number[];
+  likes?: number;
   capacity?: string;
   transmission?: string;
   location?: string;
   fuelCapacity?: string;
   shortDescription?: string;
-  carImageMain?: string;
-  disabledDates?: {
-    singleDates?: Date[];
-    dateRanges?: DateRange[];
-  };
-  path?: string;
+  carImages?: string[];
   liked?: boolean;
+  path?: string;
 }
 
-export interface UserParams {
-  id: string;
-  _id: any;
-  userId: string;
-  username: string;
-  name: string;
-  image?: string;
-  bio?: string;
-  onboarded?: boolean;
-  path: string;
-  cars?: CarParams[];
+export interface CarFormProps {
+  userId?: string;
+  carId?: string | null;
+  car?: CarParams | null;
 }
 
 export type FormData = {
@@ -63,11 +57,43 @@ export type FormData = {
   location: string;
   fuelCapacity: string;
   shortDescription: string;
-  carImageMain: string;
+  carImages: string[];
   path: string;
 };
 
-export type FieldNames = keyof FormData;
+interface CarAddedParams {
+  car: mongoose.Types.ObjectId;
+  reviews?: mongoose.Types.ObjectId[];
+}
+
+interface CarRentedParams {
+  car: mongoose.Types.ObjectId;
+  reviewId?: mongoose.Types.ObjectId;
+}
+
+export interface UserParams {
+  clerkId: string;
+  _id?: mongoose.Types.ObjectId;
+  username: string;
+  email?: string;
+  name: string;
+  image?: string;
+  bio?: string;
+  onboarded?: boolean;
+  path?: string;
+  carsAdded?: CarAddedParams[];
+  carsRented?: CarRentedParams[];
+}
+
+export type EditUserFormFields = {
+  name: string;
+  username: string;
+  bio?: string;
+  image: string;
+  email?: string;
+};
+
+type FieldNames = keyof FormData;
 
 export type SelectItems = {
   value: string;
@@ -99,12 +125,6 @@ export interface CarFormButtonsProps {
   isLoading: boolean;
 }
 
-export interface Props {
-  userId?: string;
-  carId?: string | null;
-  car?: CarParams | null;
-}
-
 export interface FileWithPreview extends File {
   preview?: string;
 }
@@ -112,7 +132,7 @@ export interface FileWithPreview extends File {
 export type CarFormHeaderProps = {
   pathname: string;
   car?: {
-    carImageMain?: string;
+    carImages?: string[];
   };
   imagePreviews: string[];
 };
@@ -130,10 +150,11 @@ export interface FeedbackMessageProps {
 export interface ToastOptions {
   title: string;
   description: string;
-  variant?: "destructive" | "success";
+  variant?: 'destructive' | 'success';
 }
 
 export type ToastFunction = (options: ToastOptions) => void;
+
 export interface ReviewDocument extends mongoose.Document {
   userId: mongoose.Types.ObjectId;
   carId: mongoose.Types.ObjectId;
@@ -143,8 +164,16 @@ export interface ReviewDocument extends mongoose.Document {
   datePosted?: Date;
 }
 
-export type GeocodeResult = {
-  properties: {
-    name: string;
-  };
+export type State = {
+  isConfirmingSeed: boolean;
+  isConfirmingDelete: boolean;
+  isConfirmingReviewsSeed: boolean;
 };
+
+export type Action =
+  | { type: 'TOGGLE_SEED_CONFIRMATION' }
+  | { type: 'CANCEL_SEED_CONFIRMATION' }
+  | { type: 'TOGGLE_REVIEWS_SEED_CONFIRMATION' }
+  | { type: 'CANCEL_REVIEWS_SEED_CONFIRMATION' }
+  | { type: 'TOGGLE_DELETE_CONFIRMATION' }
+  | { type: 'CANCEL_DELETE_CONFIRMATION' };
