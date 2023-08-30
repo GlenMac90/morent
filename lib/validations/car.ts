@@ -11,7 +11,7 @@ export const CarValidation = z.object({
   location: z.string().optional(),
   fuelCapacity: z.string().optional(),
   shortDescription: z.string().optional(),
-  carImageMain: z.string().optional(),
+  carImages: z.array(z.string()).optional(),
   path: z.string().optional(),
   disabledDates: z
     .object({
