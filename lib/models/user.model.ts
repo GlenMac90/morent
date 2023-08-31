@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    coverImage: {
+      type: String,
+      required: false,
+    },
     bio: {
       type: String,
       required: false,

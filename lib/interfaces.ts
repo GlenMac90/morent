@@ -78,6 +78,7 @@ export interface UserParams {
   email?: string;
   name: string;
   image?: string;
+  coverImage?: string;
   bio?: string;
   onboarded?: boolean;
   path?: string;
