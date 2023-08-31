@@ -5,7 +5,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useAuth } from '@clerk/nextjs';
 
-import { fetchUserWithCars } from '@/lib/actions/user.actions';
+import { fetchUserCars } from '@/lib/actions/user.actions';
 import { UserParams } from '@/lib/interfaces';
 import CarCard from '@/components/carCardComponents/CarCard';
 import { dummyData } from '@/utils/dummyCarData';
@@ -21,7 +21,7 @@ const Page = () => {
     if (userId) {
       const fetchData = async () => {
         try {
-          const result = await fetchUserWithCars(userId);
+          const result = await fetchUserCars(userId);
           setUserData(result);
         } catch (error) {
           console.error('Failed to fetch user data:', error);

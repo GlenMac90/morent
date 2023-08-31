@@ -32,6 +32,8 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   const { theme } = useTheme();
   const [starRating, setStarRating] = useState<number | null>(null);
   const [review, setReview] = useState('');
+
+  console.log(starRating, review);
   const handleBackgroundClick = () => {
     setShowReviewScreen(false);
   };
