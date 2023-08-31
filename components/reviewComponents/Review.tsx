@@ -60,7 +60,7 @@ const Review: React.FC<ReviewProps> = ({ reviewData, canEdit = false }) => {
           {pathname === "/profile" ? (
             <div className="flex w-full items-center justify-between">
               <p className="font-semibold">
-                {formatDate(reviewData?.createdAt || "")}
+                {reviewData.createdAt ? formatDate(reviewData?.createdAt) : ""}
               </p>
               <button
                 className={`${
@@ -99,7 +99,9 @@ const Review: React.FC<ReviewProps> = ({ reviewData, canEdit = false }) => {
               )}
             </div>
           ) : (
-            <p className="font-semibold">{formatDate(reviewData?.createdAt)}</p>
+            <p className="font-semibold">
+              {reviewData.createdAt ? formatDate(reviewData?.createdAt) : ""}
+            </p>
           )}
         </div>
         <div className="flex w-full justify-between">
