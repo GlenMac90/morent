@@ -92,6 +92,7 @@ export async function fetchAllCars(): Promise<CarParams[] | null> {
     throw new Error(`Failed to fetch all cars: ${error.message}`);
   }
 }
+
 export async function deleteAllCars(): Promise<void> {
   try {
     await connectToDB();
@@ -101,9 +102,12 @@ export async function deleteAllCars(): Promise<void> {
     for (const car of cars) {
       await Review.deleteMany({ carId: car._id });
 
-      await User.findByIdAndUpdate(car.userId, {
-        $pull: { carsAdded: { car: car._id }, carsRented: { car: car._id } },
-      });
+      await User.updateMany(
+        {},
+        {
+          $pull: { carsAdded: { car: car._id }, carsRented: { car: car._id } },
+        }
+      );
     }
 
     await Car.deleteMany({});
