@@ -2,7 +2,7 @@
 
 import { connectToDB } from "../mongoose";
 import Review from "../models/review.model";
-import { ReviewDocument, ReviewDocument } from "../interfaces";
+import { ReviewDocument } from "../interfaces";
 import Car from "../models/car.model";
 import User from "../models/user.model";
 

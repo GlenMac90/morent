@@ -99,7 +99,7 @@ const Review: React.FC<ReviewProps> = ({ reviewData, canEdit = false }) => {
               )}
             </div>
           ) : (
-            <p className="font-semibold">{reviewData?.createdAt}</p>
+            <p className="font-semibold">{formatDate(reviewData?.createdAt)}</p>
           )}
         </div>
         <div className="flex w-full justify-between">
