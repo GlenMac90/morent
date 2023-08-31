@@ -4,14 +4,14 @@ import { revalidatePath } from "next/cache";
 import { connectToDB } from "../mongoose";
 import User from "../models/user.model";
 import Car from "../models/car.model";
-import Review from "../models/reviews.model";
+import Review from "../models/review.model";
 import { UserParams } from "../interfaces";
 
 export async function userFromDB(
-  userId: string | undefined
+  userName: string | undefined
 ): Promise<UserParams | null> {
   connectToDB();
-  const userDocument = await User.findOne({ id: userId });
+  const userDocument = await User.findOne({ id: userName });
   if (!userDocument) {
     console.warn("User not found.");
     return null;
@@ -20,7 +20,7 @@ export async function userFromDB(
 }
 
 export async function fetchUserCars(
-  clerkId: string
+  userId: string
 ): Promise<UserParams | null> {
   connectToDB();
   const userWithCars = await User.findOne({ id: userId })
@@ -32,17 +32,16 @@ export async function fetchUserCars(
     return null;
   }
 
-  return userWithCarsAdded.toObject();
+  return userWithCars.toObject();
 }
 
 export async function updateUser(params: UserParams): Promise<void> {
-  const { clerkId, username, name, bio, image, onboarded, path, email } =
-    params;
+  const { id, username, name, bio, image, onboarded, path, email } = params;
   try {
     await connectToDB();
 
     await User.findOneAndUpdate(
-      { clerkId },
+      { id },
       {
         username,
         name,
@@ -61,26 +60,24 @@ export async function updateUser(params: UserParams): Promise<void> {
   }
 }
 
-export async function deleteUserAndCars(clerkId: string): Promise<void> {
+export async function deleteUserAndCars(id: string): Promise<void> {
   try {
     await connectToDB();
 
-    const user = await User.findOne({ clerkId });
+    const user = await User.findOne({ id });
     if (!user) {
       throw new Error("User not found.");
     }
 
     await Car.deleteMany({ userId: user._id });
 
-    await User.findOneAndDelete({ clerkId });
+    await User.findOneAndDelete({ id });
   } catch (error: any) {
     throw new Error(`Failed to delete user and their cars: ${error.message}`);
   }
 }
 
-export async function fetchReviewsByUser(
-  clerkId: string
-): Promise<any[] | null> {
+export async function fetchReviewsByUser(id: string): Promise<any[] | null> {
   await connectToDB();
 
   try {

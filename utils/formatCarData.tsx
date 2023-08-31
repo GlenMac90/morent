@@ -66,7 +66,7 @@ export function convertToPlainObject(data: CarParams | any) {
     return review;
   });
 
-  result.disabledDates.dateRanges = result.disabledDates.dateRanges.map(
+  result.disabledDates.dateRanges = result?.disabledDates?.dateRanges?.map(
     (range: DateRange): DateRange => {
       // Specify type for range
       range._id = range._id.toString() || "";

@@ -80,9 +80,14 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
       >
         <div className="flex w-full justify-center">
           <Image
-            src={carData.carImageMain || advertSilverCar}
+            src={carData?.carImages[0] || advertSilverCar}
+            width={100}
+            height={100}
+            style={{
+              objectFit: "cover",
+            }}
             alt="car picture"
-            className={`mb-1 ml-0 h-[3.3rem] w-[11rem] self-end dark:bg-gray850 xs:ml-4 xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[4.5rem] sm:w-[236px] sm:self-center ${
+            className={`mb-1 ml-0 h-[4rem] w-[11rem] self-end rounded-lg dark:bg-gray850 xs:h-[4rem] xs:w-[12rem] sm:ml-0 sm:h-[6rem] sm:w-[236px] sm:self-center ${
               isPopularCar ? "self-center" : "self-end sm:self-center"
             }`}
           />

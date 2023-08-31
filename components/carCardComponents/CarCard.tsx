@@ -27,7 +27,6 @@ const CarCard: React.FC<CarCardProps> = ({
   availabilityFrom,
   availabilityTo,
 }) => {
-  console.log(carData);
   const pathname = usePathname();
   const { theme } = useTheme();
   const [isFavourited, setIsFavourited] = useState(carData.liked);

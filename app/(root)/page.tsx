@@ -27,7 +27,7 @@ const Home = async () => {
           <PickUpDropOffCard />
         </div>
         <PopularCars popularCars={cleanedPopularCars} />
-        <RecommendedCars recommendedCars={cleanedRecommendedCars} />
+        <RecommendedCars recommendedCars={cleanedPopularCars} />
       </div>
     </main>
   );

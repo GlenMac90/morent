@@ -20,7 +20,6 @@ const ModalImageGallery: React.FC<ModalImageGalleryProps> = ({
   setChangePicture,
   setDisplayPicture,
 }) => {
-  console.log(carData);
   let images = carData?.carImages || [];
   let mainImage = images[0] || advertSilverCar;
 
@@ -36,11 +35,13 @@ const ModalImageGallery: React.FC<ModalImageGalleryProps> = ({
         initial={{ opacity: 0 }}
         transition={{ duration: changePicture ? 0.08 : 0 }}
         whileHover={{ scale: 1.2 }}
-        className="flex h-[15rem] w-full max-w-full items-center justify-center rounded-lg md:max-w-full lg:min-h-[22.5rem]"
+        className="flex h-[15rem] w-full max-w-full items-center justify-center rounded-lg md:max-w-full lg:min-h-[18rem]"
       >
         <Image
           src={displayPicture || dummyData.pictures[0]}
           alt="main display picture"
+          width={300}
+          height={225}
           style={{
             objectFit: "cover",
           }}
@@ -52,8 +53,10 @@ const ModalImageGallery: React.FC<ModalImageGalleryProps> = ({
           <div className="w-1/3 rounded-lg" key={index}>
             <Image
               src={picture}
+              width={100}
+              height={100}
               alt="car pictures"
-              className={`h-full cursor-pointer rounded-lg p-[3px] ${
+              className={`h-full w-auto cursor-pointer rounded-lg p-[3px] ${
                 displayPicture === picture && "border border-blue-600 p-[1px]"
               }`}
               onClick={() => {

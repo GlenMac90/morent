@@ -1,7 +1,7 @@
 "use server";
 
 import { connectToDB } from "../mongoose";
-import Review from "../models/reviews.model";
+import Review from "../models/review.model";
 import { ReviewDocument } from "../interfaces";
 import Car from "../models/car.model";
 import User from "../models/user.model";

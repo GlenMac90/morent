@@ -16,6 +16,16 @@ interface ModalCarDetailsProps {
   carAvailability: boolean;
 }
 
+const findAverageRating = (reviews) => {
+  let rating = 0;
+  let timesRated = 0;
+  reviews.forEach((review) => {
+    rating += review.rating;
+    timesRated++;
+  });
+  return rating / timesRated;
+};
+
 const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
   carData,
   theme,
@@ -25,8 +35,9 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
   handleButtonClick,
   carAvailability,
 }) => {
+  const numberOfReviews = carData?.reviews.length;
+  const starRating = findAverageRating(carData?.reviews);
   const [showReviewScreen, setShowReviewScreen] = useState(false);
-  console.log(carData);
   const availabilityColor = carAvailability ? "bg-blue500" : "bg-blue100";
 
   return (
@@ -45,8 +56,8 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
         </div>
         <div className={`flex w-full justify-between sm:mt-2`}>
           <StarRating
-            rating={carData.starRating || 3.86} // Provide a default value, e.g., 0
-            reviews={carData.numberOfReviews || 27}
+            rating={starRating || 0}
+            reviews={numberOfReviews || 100}
           />
           {canReview ? (
             <button

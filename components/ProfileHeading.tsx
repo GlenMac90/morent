@@ -19,6 +19,7 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({
   reviews,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  console.log(userData);
 
   const handleEditCover = () => {
     console.log("clicked");
@@ -87,9 +88,9 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({
         </div>
         <div className="ml-3.5 flex flex-col justify-between md:ml-8 md:flex-row">
           <div className="flex flex-col md:flex-row">
-            {userData?.image && (
+            {userData?.profileImageUrl && (
               <Image
-                src={userData.image}
+                src={userData?.profileImageUrl}
                 alt="profile pic"
                 height={70}
                 width={70}
@@ -97,7 +98,9 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({
               />
             )}
             <div className="mt-10 flex flex-col md:mb-8 md:ml-48 md:mt-4">
-              <p className="mt-2.5 text-xl font-semibold">{userData?.name}</p>
+              <p className="mt-2.5 text-xl font-semibold">
+                {userData?.firstName} {userData?.lastName}
+              </p>
               <p className="mt-2 w-3/5 text-sm text-gray400 sm:w-full">
                 {userData?.bio}
               </p>
