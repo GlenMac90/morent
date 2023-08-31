@@ -4,9 +4,9 @@ import { connectToDB } from "../mongoose";
 import Review from "../models/reviews.model";
 import { ReviewDocument } from "../interfaces";
 import Car from "../models/car.model";
+import User from "../models/user.model";
 
 import mongoose from "mongoose";
-import { User } from "lucide-react";
 
 export async function createReview(
   reviewData: ReviewDocument
@@ -36,15 +36,15 @@ export async function deleteReview(reviewId: string): Promise<void> {
       throw new Error("Review not found.");
     }
 
-    // await User.updateOne(
-    //   { _id: review.userId },
-    //   { $pull: { reviews: reviewId } }
-    // );
+    await User.updateOne(
+      { _id: review.userId },
+      { $pull: { reviews: reviewId } }
+    );
 
-    // await Car.updateOne(
-    //   { _id: review.carId },
-    //   { $pull: { reviews: reviewId } }
-    // );
+    await Car.updateOne(
+      { _id: review.carId },
+      { $pull: { reviews: reviewId } }
+    );
 
     await Review.findByIdAndRemove(reviewId);
   } catch (error: any) {
