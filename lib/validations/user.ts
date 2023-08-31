@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 export const UserValidation = z.object({
   image: z.string().url().nonempty(),
-  clerkId: z.string().nonempty(),
+  id: z.string().nonempty(),
   name: z
     .string()
     .min(3, { message: 'Minimum 3 characters.' })
@@ -20,6 +20,6 @@ export const UserValidation = z.object({
 });
 
 export const EditUserFormFieldsValidation = UserValidation.omit({
-  clerkId: true,
+  id: true,
   email: true,
 });

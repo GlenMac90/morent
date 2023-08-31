@@ -12,7 +12,7 @@ async function Page() {
   const userInfo = await userFromDB(user.id);
 
   const userData = {
-    clerkId: user.id,
+    id: user.id,
     username: userInfo?.username || user.username,
     name: userInfo?.name || `${user.firstName} ${user.lastName}`.trim(),
     email: userInfo?.email || user.emailAddresses[0]?.emailAddress || '',
