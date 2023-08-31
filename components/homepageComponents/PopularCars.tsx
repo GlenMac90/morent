@@ -11,6 +11,7 @@ interface PopularCarsProps {
 }
 
 const PopularCars: React.FC<PopularCarsProps> = ({ popularCars }) => {
+  popularCars = JSON.parse(popularCars);
   const [viewAll, setViewAll] = useState(false);
   return (
     <motion.div
@@ -32,12 +33,12 @@ const PopularCars: React.FC<PopularCarsProps> = ({ popularCars }) => {
         <div className="flex w-5 xs:hidden" />
 
         {viewAll
-          ? popularCars?.map((car, index) => (
+          ? popularCars?.map((car: CarParams) => (
               <CarCard carData={car} key={car._id} isPopularCar={true} />
             ))
           : popularCars
               ?.slice(0, 4)
-              .map((car, index) => (
+              .map((car: CarParams) => (
                 <CarCard carData={car} key={car._id} isPopularCar={true} />
               ))}
       </div>

@@ -2,7 +2,6 @@ import PickUpDropOffCard from "@/components/PickUpDropOffCard";
 import AdvertsDisplay from "@/components/advertsComponents/AdvertsDisplay";
 import PopularCars from "@/components/homepageComponents/PopularCars";
 import RecommendedCars from "@/components/homepageComponents/RecommendedCars";
-import { convertToPlainObject } from "@/utils/formatCarData";
 
 import {
   fetchPopularCars,
@@ -12,12 +11,8 @@ import {
 const Home = async () => {
   const popularCars = await fetchPopularCars();
   const recommendedCars = await fetchRecommendedCars();
-  const cleanedPopularCars = popularCars?.map((car) =>
-    convertToPlainObject(car)
-  );
-  const cleanedRecommendedCars = recommendedCars?.map((car) =>
-    convertToPlainObject(car)
-  );
+  const parsedPopularCars = JSON.stringify(popularCars);
+  const parsedRecommendedCars = JSON.stringify(recommendedCars);
 
   return (
     <main className="flex flex-col items-center bg-white200 p-2 dark:bg-gray900">
@@ -26,8 +21,8 @@ const Home = async () => {
         <div className="mt-7 flex w-full px-5">
           <PickUpDropOffCard />
         </div>
-        <PopularCars popularCars={cleanedPopularCars} />
-        <RecommendedCars recommendedCars={cleanedPopularCars} />
+        <PopularCars popularCars={parsedPopularCars} />
+        <RecommendedCars recommendedCars={parsedPopularCars} />
       </div>
     </main>
   );
