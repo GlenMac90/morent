@@ -48,7 +48,7 @@ export const POST = async (request: Request) => {
     const {
       image_url: imageFromData,
       first_name: firstName,
-      id: clerkId,
+      id,
       last_name: lastName,
       email_addresses,
       username: usernameFromData,
@@ -79,7 +79,7 @@ export const POST = async (request: Request) => {
         image,
         name,
         email,
-        clerkId,
+        id,
         username,
         bio: '',
         onboarded: false,
@@ -104,7 +104,7 @@ export const POST = async (request: Request) => {
     const {
       image_url: imageFromData,
       first_name: firstName,
-      id: clerkId,
+      id,
       last_name: lastName,
       email_addresses,
       username: usernameFromData,
@@ -128,7 +128,7 @@ export const POST = async (request: Request) => {
         image,
         name,
         email,
-        clerkId,
+        id,
         username,
         bio: '',
         onboarded: false,
@@ -150,9 +150,9 @@ export const POST = async (request: Request) => {
   }
 
   if (payloadType === 'user.deleted') {
-    const { id: clerkId } = evnt.data;
+    const { id } = evnt.data;
     try {
-      await deleteUserAndCars(clerkId);
+      await deleteUserAndCars(id);
       return NextResponse.json(
         {
           message: 'User deleted successfully.',

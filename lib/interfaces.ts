@@ -72,12 +72,13 @@ interface CarRentedParams {
 }
 
 export interface UserParams {
-  clerkId: string;
+  id: string;
   _id?: mongoose.Types.ObjectId;
   username: string;
   email?: string;
   name: string;
   image?: string;
+  coverImage?: string;
   bio?: string;
   onboarded?: boolean;
   path?: string;

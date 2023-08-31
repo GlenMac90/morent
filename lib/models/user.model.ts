@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
   {
-    clerkId: {
+    id: {
       type: String,
       unique: true,
       required: true,
@@ -22,6 +22,10 @@ const userSchema = new mongoose.Schema(
       required: false,
     },
     image: {
+      type: String,
+      required: false,
+    },
+    coverImage: {
       type: String,
       required: false,
     },
