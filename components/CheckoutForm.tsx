@@ -26,6 +26,8 @@ export default function CheckoutForm({
   const [message, setMessage] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
 
+  console.log(email);
+
   React.useEffect(() => {
     if (!stripe) {
       return;
@@ -95,25 +97,25 @@ export default function CheckoutForm({
   };
 
   return (
-    <div className=' flex w-full items-center justify-center bg-white200 pb-10 pt-[8rem]'>
-      <form id='payment-form' onSubmit={handleSubmit}>
-        <h1 className='text-base font-extrabold text-blue500'>Card Details</h1>
-        <section className='py-8'>
+    <div className=" flex w-full items-center justify-center bg-white200 pb-10 pt-[8rem]">
+      <form id="payment-form" onSubmit={handleSubmit}>
+        <h1 className="text-base font-extrabold text-blue500">Card Details</h1>
+        <section className="py-8">
           <LinkAuthenticationElement
-            id='link-authentication-element'
+            id="link-authentication-element"
             onChange={(e) => setEmail(e.target.value)}
           />
           <PaymentElement
-            id='payment-element'
+            id="payment-element"
             options={paymentElementOptions}
           />
         </section>
         <button
-          className='w-full rounded-lg bg-blue500 py-4 text-white'
+          className="w-full rounded-lg bg-blue500 py-4 text-white"
           disabled={isLoading || !stripe || !elements}
-          id='submit'
+          id="submit"
         >
-          <span id='button-text'>
+          <span id="button-text">
             {isLoading ? (
               <div></div>
             ) : (
@@ -122,7 +124,7 @@ export default function CheckoutForm({
           </span>
         </button>
         {/* Show any error or success messages */}
-        {message && <div id='payment-message'>{message}</div>}
+        {message && <div id="payment-message">{message}</div>}
       </form>
     </div>
   );

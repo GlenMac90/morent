@@ -19,9 +19,6 @@ async function Page() {
     onboarded: userInfo?.onboarded || false,
   };
 
-  // console.log("USER DATA: " + JSON.stringify(userData.id));
-  // console.log(userData);
-
   return (
     <>
       <div className="flex w-screen flex-col items-center justify-center">

@@ -35,37 +35,8 @@ export async function fetchUserCars(
   return userWithCars.toObject();
 }
 
-// export async function fetchUserCarsProfile(
-//   clerkId: string
-// ): Promise<UserParams | null> {
-//   await connectToDB();
-//   const userWithCarsAdded = await User.findOne({ clerkId })
-//     .populate({
-//       path: 'carsAdded.car',
-//       model: 'Car',
-//       populate: {
-//         path: 'reviews',
-//         model: 'Review',
-//       },
-//     })
-//     .populate({
-//       path: 'carsRented.car',
-//       model: 'Car',
-//       populate: {
-//         path: 'reviews',
-//         model: 'Review',
-//       },
-//     })
-//     .exec();
-
-//   if (!userWithCarsAdded) {
-//     console.warn('User not found.');
-//     return null;
-//   }
-
 export async function updateUser(params: UserParams): Promise<void> {
   const { id, username, name, bio, image, onboarded, path, email } = params;
-  console.log(params);
   try {
     await connectToDB();
 

@@ -50,15 +50,37 @@ export async function seedCars(numCars: number): Promise<void> {
       location: faker.address.city(),
       fuelCapacity: getRandomItemFromArray(['40', '50', '60', '80']),
       shortDescription: faker.lorem.sentence(),
-      carImageMain: faker.image.imageUrl(640, 480),
+      carImages: [
+        faker.image.urlLoremFlickr({
+          category: 'musclecar',
+          width: 640,
+          height: 480,
+        }),
+        faker.image.urlLoremFlickr({
+          category: 'car,old',
+          width: 640,
+          height: 480,
+        }),
+        faker.image.urlLoremFlickr({
+          category: 'car,old',
+          width: 640,
+          height: 480,
+        }),
+      ],
       liked: faker.datatype.boolean(),
     };
+
     const car = new Car(carDetails);
     try {
       await car.save();
 
       await User.findByIdAndUpdate(randomUserId, {
         $push: { carsAdded: { car: car._id } },
+      });
+
+      const randomRentingUserId = getRandomItemFromArray(userIds);
+      await User.findByIdAndUpdate(randomRentingUserId, {
+        $push: { carsRented: { car: car._id } },
       });
     } catch (error) {
       console.error(
