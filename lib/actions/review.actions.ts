@@ -61,9 +61,15 @@ export async function editReview(
 
   try {
     await connectToDB();
+
+    const updateData = {
+      content: reviewData.content,
+      rating: reviewData.rating,
+    };
+
     const updatedReview = await Review.findByIdAndUpdate(
       reviewData._id,
-      reviewData,
+      updateData,
       {
         new: true,
       }

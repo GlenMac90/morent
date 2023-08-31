@@ -21,7 +21,6 @@ const Review: React.FC<ReviewProps> = ({ reviewData, canEdit = false }) => {
   const [showEditReview, setShowEditReview] = useState(false);
   const [showDeleteScreen, setShowDeleteScreen] = useState(false);
   const [reloadPage, setReloadPage] = useState(false);
-  console.log(reviewData);
 
   useEffect(() => {
     if (reloadPage) {
