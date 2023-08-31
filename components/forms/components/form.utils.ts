@@ -1,15 +1,15 @@
-import { UseFormReturn } from 'react-hook-form';
+import { UseFormReturn } from "react-hook-form";
 
-import { FormData, FileWithPreview, UploadFunction } from '@/lib/interfaces';
-import { CarValidation } from '@/lib/validations/car';
-import { z } from 'zod';
-import { showError } from '@/lib/toastHandler';
+import { FormData, FileWithPreview, UploadFunction } from "@/lib/interfaces";
+import { CarValidation } from "@/lib/validations/car";
+import { z } from "zod";
+import { showError } from "@/lib/toastHandler";
 
 export const handleLocationSelected = (
   location: string,
   form: UseFormReturn<FormData>
 ) => {
-  form.setValue('location', location);
+  form.setValue("location", location);
 };
 
 export const uploadImages = async (
@@ -54,11 +54,11 @@ export const handleFilesChange = (
     .then((allFileData) => {
       setImagePreviews(allFileData);
       if (allFileData.length > 0) {
-        form.setValue('carImageMain', allFileData[0] || '');
+        form.setValue("carImageMain", allFileData[0] || "");
       }
     })
     .catch((error) => {
-      console.error('Error reading one or more files:', error);
+      console.error("Error reading one or more files:", error);
     });
 };
 
@@ -73,23 +73,23 @@ export const formatCarData = (
   userId: string | undefined
 ) => ({
   userId,
-  carTitle: values.carTitle || '',
-  carType: values.carType || '',
-  rentPrice: values.rentPrice || '',
-  capacity: values.capacity || '',
-  transmission: values.transmission || '',
-  location: values.location || '',
-  fuelCapacity: values.fuelCapacity || '',
-  shortDescription: values.shortDescription || '',
+  carTitle: values.carTitle || "",
+  carType: values.carType || "",
+  rentPrice: values.rentPrice || "",
+  capacity: values.capacity || "",
+  transmission: values.transmission || "",
+  location: values.location || "",
+  fuelCapacity: values.fuelCapacity || "",
+  shortDescription: values.shortDescription || "",
   carImageMain: values.carImageMain,
 });
 
 export const handleServerError = (error: any, toast: any) => {
   if (error instanceof Error) {
     console.error({ error, message: error.message });
-    showError(toast, 'Error', error.message);
+    showError(toast, "Error", error.message);
   } else {
-    console.error({ error, message: 'An unknown error occurred' });
-    showError(toast, 'Error', 'An unknown error occurred');
+    console.error({ error, message: "An unknown error occurred" });
+    showError(toast, "Error", "An unknown error occurred");
   }
 };

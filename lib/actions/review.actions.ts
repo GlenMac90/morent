@@ -2,7 +2,7 @@
 
 import { connectToDB } from "../mongoose";
 import Review from "../models/review.model";
-import { ReviewDocument } from "../interfaces";
+import { ReviewDocument, ReviewDocument } from "../interfaces";
 import Car from "../models/car.model";
 import User from "../models/user.model";
 
@@ -119,18 +119,9 @@ export async function deleteAllReviews(): Promise<void> {
   }
 }
 
-// const reviews = await Review.find({ userId })
-//   .populate('carId')
-//   .populate('userId', 'username image')
-//   .exec();
-
-// reviews.forEach((review) => {
-//   console.log(review.carId); // Check what's being populated here
-// });
-
 export async function getAllReviewsByUser(
   userId: string | undefined
-): Promise<any[]> {
+): Promise<ReviewDocument[]> {
   try {
     await connectToDB();
 
@@ -143,7 +134,6 @@ export async function getAllReviewsByUser(
       throw new Error("No reviews found for the specified user.");
     }
 
-    // Update the carImages property to include only the first image
     reviews.forEach((review) => {
       if (
         review.carId &&

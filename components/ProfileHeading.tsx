@@ -82,7 +82,7 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({
             type="file"
             multiple={false}
             onChange={handleSelectNewBanner}
-            accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf"
+            accept=".xlsx,.xls,image/*,.doc,.docx,.ppt,.pptx,.txt,.pdf,.png,.jpeg,.jpg"
           />
         </div>
         <div className="ml-3.5 flex flex-col justify-between md:ml-8 md:flex-row">

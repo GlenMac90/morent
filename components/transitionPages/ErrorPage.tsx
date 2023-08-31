@@ -17,7 +17,7 @@ const ErrorPage = ({ errorMessage = "" }) => {
       <div className="flex flex-col items-center justify-center gap-8 rounded-xl p-8">
         <div
           className={`flex justify-center rounded-t-full ${
-            theme === "light" ? "bg-[#87ceeb]" : "bg-[#030338]"
+            theme === "light" ? "bg-blue200" : "bg-gray200"
           } px-24`}
         >
           <Image
@@ -41,7 +41,7 @@ const ErrorPage = ({ errorMessage = "" }) => {
           </ul>
           <div
             className={`absolute h-20 w-20 translate-x-14 translate-y-10 rounded-full ${
-              theme === "light" ? "bg-[#FFFF00]" : "bg-white"
+              theme === "light" ? "bg-yellow200" : "bg-white"
             } blur-[2px]`}
           ></div>
           <div
