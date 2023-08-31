@@ -1,22 +1,13 @@
 import mongoose from "mongoose";
 
-const carSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
-  carTitle: {
-    type: String,
-    required: true,
-  },
-  carType: {
-    type: String,
-    required: true,
-  },
-  disabledDates: {
-    singleDates: [Date],
-    dateRanges: [
+const carSchema = new mongoose.Schema(
+  {
+    userId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    reviews: [
       {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Review",
@@ -55,24 +46,10 @@ const carSchema = new mongoose.Schema({
     shortDescription: String,
     carImages: [String],
   },
-  reviews: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Review",
-    },
-  ],
-  carRented: Number,
-  starRating: [Number],
-  likes: Number,
-  rentPrice: String,
-  capacity: String,
-  transmission: String,
-  location: String,
-  fuelCapacity: String,
-  shortDescription: String,
-  carImageMain: String,
-  liked: Boolean,
-});
+  {
+    timestamps: true,
+  }
+);
 
 const Car = mongoose?.models?.Car || mongoose.model("Car", carSchema);
 

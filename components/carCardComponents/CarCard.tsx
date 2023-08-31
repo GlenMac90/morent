@@ -8,7 +8,6 @@ import { usePathname } from "next/navigation";
 import CarDetailsModalOne from "./CarDetailsModalOne";
 import CarCardMainContent from "./CarCardMainContent";
 import { CarParams } from "@/lib/interfaces";
-import { id } from "date-fns/locale";
 
 interface CarCardProps {
   carData: CarParams;
@@ -103,16 +102,13 @@ const CarCard: React.FC<CarCardProps> = ({
               : "w-screen max-w-7xl"
           } w-screen items-center justify-center xs:pr-14 xl:justify-self-center xl:pr-0`}
         >
-          {/* Type error of data will so away once dummyData is removed and lived data will be a string leading to the URL of the image */}
           <CarDetailsModalOne
-            id={id}
             carData={carData}
             setShowModal={setShowModal}
             isPopular={isPopularCar}
             canReview={canReview}
             carAvailability={carAvailability()}
           />
-          {/* Type error of data will so away once dummyData is removed and lived data will be a string leading to the URL of the image */}
         </div>
       )}
     </>

@@ -16,6 +16,15 @@ interface ReviewProps {
   canEdit?: boolean;
 }
 
+function formatDate(dateString: string) {
+  const date = new Date(dateString);
+  const day = String(date.getUTCDate()).padStart(2, "0");
+  const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+  const year = date.getUTCFullYear();
+
+  return `${day}/${month}/${year}`;
+}
+
 const Review: React.FC<ReviewProps> = ({ reviewData, canEdit = false }) => {
   const pathname = usePathname();
   const [showEditReview, setShowEditReview] = useState(false);
@@ -50,7 +59,9 @@ const Review: React.FC<ReviewProps> = ({ reviewData, canEdit = false }) => {
           </div>
           {pathname === "/profile" ? (
             <div className="flex w-full items-center justify-between">
-              <p className="font-semibold">{reviewData?.createdAt}</p>
+              <p className="font-semibold">
+                {formatDate(reviewData?.createdAt || "")}
+              </p>
               <button
                 className={`${
                   !canEdit && "hidden"

@@ -1,12 +1,12 @@
-'use server';
+"use server";
 
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
-import { connectToDB } from '../mongoose';
-import User from '../models/user.model';
-import Car from '../models/car.model';
-import Review from '../models/review.model';
-import { CarParams, ReviewDocument } from '../interfaces';
+import { connectToDB } from "../mongoose";
+import User from "../models/user.model";
+import Car from "../models/car.model";
+import Review from "../models/review.model";
+import { CarParams, ReviewDocument } from "../interfaces";
 
 export async function fetchRecommendedCars(): Promise<CarParams[] | null> {
   try {
@@ -58,7 +58,7 @@ export async function fetchPopularCars(): Promise<CarParams[] | null> {
 }
 
 export async function fetchCarsAddedByUser(
-  userId: string
+  userId: string | undefined
 ): Promise<CarParams[] | null> {
   try {
     connectToDB();
@@ -76,7 +76,7 @@ export async function fetchCarsAddedByUser(
 }
 
 export async function fetchCarsRentedByUser(
-  userId: string
+  userId: string | undefined
 ): Promise<CarParams[] | null> {
   try {
     connectToDB();
@@ -124,7 +124,7 @@ export async function deleteCar(carId: string): Promise<void> {
     await connectToDB();
     const car = await Car.findById(carId);
     if (!car) {
-      throw new Error('Car not found.');
+      throw new Error("Car not found.");
     }
 
     await Review.deleteMany({ carId });
@@ -143,7 +143,7 @@ export async function deleteCar(carId: string): Promise<void> {
 
 export async function editCar(carData: CarParams): Promise<CarParams> {
   if (!carData._id) {
-    throw new Error('Car ID is required to edit.');
+    throw new Error("Car ID is required to edit.");
   }
 
   try {
@@ -153,7 +153,7 @@ export async function editCar(carData: CarParams): Promise<CarParams> {
     });
 
     if (!updatedCar) {
-      throw new Error('Failed to find and update the car.');
+      throw new Error("Failed to find and update the car.");
     }
 
     return updatedCar.toObject();
@@ -167,7 +167,7 @@ export async function fetchCarById(carId: string): Promise<CarParams | null> {
     await connectToDB();
     const car = await Car.findById(carId).exec();
     if (!car) {
-      throw new Error('Car not found.');
+      throw new Error("Car not found.");
     }
     return car.toObject();
   } catch (error: any) {
@@ -180,13 +180,14 @@ export async function fetchAllCars(): Promise<CarParams[] | null> {
     await connectToDB();
     const cars = await Car.find().exec();
     if (!cars || cars.length === 0) {
-      throw new Error('No cars found.');
+      throw new Error("No cars found.");
     }
     return cars.map((car) => car.toObject());
   } catch (error: any) {
     throw new Error(`Failed to fetch all cars: ${error.message}`);
   }
 }
+
 export async function deleteAllCars(): Promise<void> {
   try {
     await connectToDB();
@@ -217,13 +218,13 @@ export async function getAllReviewsForCar(
 
     const reviews = await Review.find({ carId })
       .populate({
-        path: 'userId',
-        select: 'username image',
+        path: "userId",
+        select: "username image",
       })
       .exec();
 
     if (!reviews) {
-      throw new Error('No reviews found for the specified car.');
+      throw new Error("No reviews found for the specified car.");
     }
 
     return reviews as ReviewDocument[];
@@ -233,17 +234,17 @@ export async function getAllReviewsForCar(
 }
 
 export async function getCarsByLocation(
-  location: string = ''
+  location: string = ""
 ): Promise<CarParams[] | null> {
   try {
     await connectToDB();
 
     const cars = await Car.find({
-      location: { $regex: location, $options: 'i' },
+      location: { $regex: location, $options: "i" },
     }).exec();
 
     if (!cars) {
-      throw new Error('Cars not found.');
+      throw new Error("Cars not found.");
     }
     return cars.map((car) => car.toObject() as CarParams);
   } catch (error: any) {

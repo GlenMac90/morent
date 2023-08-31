@@ -30,7 +30,9 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
 }) => {
   const pathname = usePathname();
   const { theme } = useTheme();
-  const [displayPicture, setDisplayPicture] = useState(carData?.carImages[0]);
+  const [displayPicture, setDisplayPicture] = useState(
+    carData?.carImages && carData.carImages[0]
+  );
   const [showModalScreen2, setShowModalScreen2] = useState(false);
   const [changePicture, setChangePicture] = useState(true);
   const [motionKey, setMotionKey] = useState(0);

@@ -3,7 +3,7 @@ import Image from "next/image";
 
 import StarRating from "../reviewComponents/StarRating";
 import { cross, whiteCross } from "@/public/svg-icons";
-import { CarParams } from "@/lib/interfaces";
+import { CarParams, ReviewData } from "@/lib/interfaces";
 import ReviewForm from "../reviewComponents/ReviewForm";
 
 interface ModalCarDetailsProps {
@@ -16,7 +16,7 @@ interface ModalCarDetailsProps {
   carAvailability: boolean;
 }
 
-const findAverageRating = (reviews) => {
+const findAverageRating = (reviews: ReviewData[]) => {
   let rating = 0;
   let timesRated = 0;
   reviews.forEach((review) => {

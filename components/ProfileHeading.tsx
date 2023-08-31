@@ -7,11 +7,10 @@ import { motion } from "framer-motion";
 
 import ReviewList from "./reviewComponents/ReviewList";
 import { profileDefaultCover } from "@/public/pngs";
-import { UserParams, ReviewData } from "@/lib/interfaces";
 
 type ProfileHeadingProps = {
-  userData: UserParams | null;
-  reviews: ReviewData[];
+  userData: string;
+  reviews: string;
 };
 
 const ProfileHeading: React.FC<ProfileHeadingProps> = ({
@@ -19,10 +18,10 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({
   reviews,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  console.log(userData);
+  const parsedReviews = JSON.parse(reviews);
+  const parsedUserData = JSON.parse(userData);
 
   const handleEditCover = () => {
-    console.log("clicked");
     if (inputRef.current) {
       inputRef.current.value = "";
       inputRef.current.click();
@@ -52,7 +51,7 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({
         </p>
         {showReviews && (
           <ReviewList
-            reviews={reviews}
+            reviews={parsedReviews}
             setShowReviews={setShowReviews}
             canEdit={true}
           />
@@ -61,7 +60,7 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({
       <section className="mt-6 flex h-auto w-full flex-col rounded-xl bg-white dark:bg-gray850">
         <div className="relative flex h-40 md:h-48">
           <Image
-            src={userData?.coverImage || profileDefaultCover}
+            src={parsedUserData?.coverImage || profileDefaultCover}
             alt="cover-picture"
             layout="fill"
             style={{
@@ -88,9 +87,9 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({
         </div>
         <div className="ml-3.5 flex flex-col justify-between md:ml-8 md:flex-row">
           <div className="flex flex-col md:flex-row">
-            {userData?.profileImageUrl && (
+            {parsedUserData?.image && (
               <Image
-                src={userData?.profileImageUrl}
+                src={parsedUserData?.image}
                 alt="profile pic"
                 height={70}
                 width={70}
@@ -99,10 +98,10 @@ const ProfileHeading: React.FC<ProfileHeadingProps> = ({
             )}
             <div className="mt-10 flex flex-col md:mb-8 md:ml-48 md:mt-4">
               <p className="mt-2.5 text-xl font-semibold">
-                {userData?.firstName} {userData?.lastName}
+                {parsedUserData?.name}
               </p>
               <p className="mt-2 w-3/5 text-sm text-gray400 sm:w-full">
-                {userData?.bio}
+                {parsedUserData?.bio}
               </p>
             </div>
           </div>

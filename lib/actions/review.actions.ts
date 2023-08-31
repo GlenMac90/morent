@@ -6,8 +6,6 @@ import { ReviewDocument } from "../interfaces";
 import Car from "../models/car.model";
 import User from "../models/user.model";
 
-import mongoose from "mongoose";
-
 export async function createReview(
   reviewData: ReviewDocument
 ): Promise<ReviewDocument> {
@@ -27,7 +25,9 @@ export async function createReview(
   }
 }
 
-export async function deleteReview(reviewId: string): Promise<void> {
+export async function deleteReview(
+  reviewId: string | undefined
+): Promise<void> {
   try {
     connectToDB();
 
@@ -119,14 +119,23 @@ export async function deleteAllReviews(): Promise<void> {
   }
 }
 
+// const reviews = await Review.find({ userId })
+//   .populate('carId')
+//   .populate('userId', 'username image')
+//   .exec();
+
+// reviews.forEach((review) => {
+//   console.log(review.carId); // Check what's being populated here
+// });
+
 export async function getAllReviewsByUser(
-  userId: mongoose.Types.ObjectId
+  userId: string | undefined
 ): Promise<any[]> {
-  // Note: Adjusted the return type
   try {
     await connectToDB();
+
     const reviews = await Review.find({ userId })
-      .populate("carId", "carTitle")
+      .populate("carId", "carTitle carImages") // Including carImages here
       .populate("userId", "username image")
       .exec();
 
@@ -134,14 +143,14 @@ export async function getAllReviewsByUser(
       throw new Error("No reviews found for the specified user.");
     }
 
-    // If you only want the first image from the carImages array
+    // Update the carImages property to include only the first image
     reviews.forEach((review) => {
       if (
         review.carId &&
         review.carId.carImages &&
         review.carId.carImages.length > 0
       ) {
-        review.carId.carImages = review.carId.carImages[0]; // Keep only the first image
+        review.carId.carImages = review.carId.carImages[0];
       }
     });
 

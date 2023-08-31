@@ -33,12 +33,12 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   setShowReviewScreen,
   data,
 }) => {
-  console.log(data);
   const { theme } = useTheme();
   const [starRating, setStarRating] = useState<number | null>(null);
   const [animateClose, setAnimateClose] = useState(false);
   const [reloadPage, setReloadPage] = useState(false);
   const [enterRatingText, setEnterRatingText] = useState(false);
+  console.log(data);
 
   useEffect(() => {
     if (reloadPage) {
@@ -97,7 +97,6 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
           content: values.review,
         };
         createReview(newReview);
-        console.log(newReview);
         setReloadPage(true);
       }
     }
@@ -115,7 +114,12 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         className="fixed top-44 z-50 flex h-[35rem] w-full max-w-[30rem] flex-col overflow-y-auto rounded-xl bg-white200 p-5 dark:bg-gray850  "
       >
         <div className="flex w-full justify-between">
-          <p className="text-2xl font-semibold ">{data.title}</p>
+          {data.carTitle ? (
+            <p className="text-2xl font-semibold ">{data.carTitle}</p>
+          ) : (
+            <p className="text-2xl font-semibold ">{data.title}</p>
+          )}
+
           <Image
             src={theme === "light" ? cross : whiteCross}
             height={30}
@@ -127,9 +131,20 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
         </div>
         {data?.carId?.carImages && (
           <Image
-            src={data?.carId.carImages[0] || advertSilverCar}
+            src={data.carId.carImages[0] || advertSilverCar}
             alt="car-picture"
-            className="mt-3 h-auto w-full rounded-xl"
+            height={200}
+            width={200}
+            className="mt-3 h-[16.5rem] w-full rounded-xl"
+          />
+        )}
+        {data?.carImages && (
+          <Image
+            src={data.carImages[0] || advertSilverCar}
+            alt="car-picture"
+            height={200}
+            width={200}
+            className="mt-3 h-[16.5rem] w-full rounded-xl"
           />
         )}
         <div className="flex">

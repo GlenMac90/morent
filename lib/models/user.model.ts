@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    id: {
+    clerkId: {
       type: String,
       unique: true,
       required: true,
@@ -25,10 +25,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    bannerImage: {
-      type: String,
-      required: true,
-    },
     bio: {
       type: String,
       required: false,
@@ -39,22 +35,18 @@ const userSchema = new mongoose.Schema(
     },
     carsAdded: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Car",
+        car: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Car",
+        },
       },
     ],
-
     carsRented: [
       {
         car: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "Car",
           required: true,
-        },
-        reviewId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "Review",
-          required: false,
         },
       },
     ],

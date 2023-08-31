@@ -28,6 +28,7 @@ interface Props {
 }
 
 const AccountProfile: React.FC<Props> = ({ user }) => {
+  console.log(user);
   const [files, setFiles] = useState<File[]>([]);
   const { startUpload } = useUploadThing("media");
 
@@ -35,6 +36,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
   const pathname = usePathname();
 
   const userData = JSON.parse(user);
+  console.log(userData.id);
 
   const form = useForm<EditUserFormFields>({
     resolver: zodResolver(EditUserFormFieldsValidation),
@@ -59,14 +61,12 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
     }
 
     await updateUser({
-      // ...userData,
-      id: userData?._id,
+      ...userData,
       username: values.username,
       name: values.name,
       bio: values.bio || "",
       image: values.image,
       path: pathname,
-      email: userData?.email,
     });
 
     if (pathname === "/profile/edit") {
