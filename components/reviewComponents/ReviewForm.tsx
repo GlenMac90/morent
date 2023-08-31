@@ -87,8 +87,6 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
           content: values.review,
         };
         editReview(editedReview);
-        console.log(values.review);
-        console.log(starRating);
         setReloadPage(true);
       } else {
         const newReview: ReviewDocument = {
