@@ -1,7 +1,8 @@
 import * as z from 'zod';
 
 export const UserValidation = z.object({
-  profile_photo: z.string().url().nonempty(),
+  image: z.string().url().nonempty(),
+  clerkId: z.string().nonempty(),
   name: z
     .string()
     .min(3, { message: 'Minimum 3 characters.' })
@@ -10,8 +11,15 @@ export const UserValidation = z.object({
     .string()
     .min(3, { message: 'Minimum 3 characters.' })
     .max(30, { message: 'Maximum 30 characters.' }),
+  email: z.string().email().optional(),
   bio: z
     .string()
     .min(3, { message: 'Minimum 3 characters.' })
-    .max(1000, { message: 'Maximum 1000 characters.' }),
+    .max(1000, { message: 'Maximum 1000 characters.' })
+    .optional(),
+});
+
+export const EditUserFormFieldsValidation = UserValidation.omit({
+  clerkId: true,
+  email: true,
 });

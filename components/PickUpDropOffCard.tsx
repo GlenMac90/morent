@@ -1,57 +1,70 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { motion } from "framer-motion";
-import "@geoapify/geocoder-autocomplete/styles/round-borders.css";
-import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
-import { DateRange } from "react-day-picker";
-import { addDays } from "date-fns";
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import '@geoapify/geocoder-autocomplete/styles/round-borders.css';
+import { usePathname, useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { DateRange } from 'react-day-picker';
+import { addDays } from 'date-fns';
 
-import { Card, CardContent } from "./ui/card";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import Location from "./Location";
-import { ellipse, search } from "@/public/svg-icons";
-import AvailabilityFromTo from "./AvailabilityFromTo";
+import { Card, CardContent } from './ui/card';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import Location from './Location';
+import { ellipse, search } from '@/public/svg-icons';
+import AvailabilityFromTo from './AvailabilityFromTo';
+import { parseLocalStorageDate } from '@/utils/utility.clientFunctions';
 
-const PickUpDropOffCard = ({
-  availabilityFrom,
-  availabilityTo,
-  searchLocation,
-}: {
-  availabilityFrom?: Date;
-  availabilityTo?: Date;
-  searchLocation?: string;
-}) => {
+const PickUpDropOffCard = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState('');
   // Set date from the handleSelected function
   const [date, setDate] = useState<DateRange>();
+  // Set default dates
+  const twoDaysFromNow = addDays(new Date(), 2);
+  const fiveDaysFromNow = addDays(new Date(), 5);
 
-  // if date is undefined, set default date to today and 2 days from now
-  const dateFrom = date?.from ?? new Date();
-  const dateTo = date?.to ?? addDays(new Date(), 2);
+  // get stored date from local storage
+  const availabilityFrom = parseLocalStorageDate(
+    'availabilityFrom',
+    twoDaysFromNow
+  );
+  const availabilityTo = parseLocalStorageDate(
+    'availabilityTo',
+    fiveDaysFromNow
+  );
 
   const handleUserInput = (input: string) => {
     setLocation(input);
+    localStorage.setItem('location', input);
   };
 
   const handleSearch = () => {
-    router.push(`/search?location=${location}&from=${dateFrom}&to=${dateTo}`);
+    router.push(
+      `/search?location=${location}&from=${date?.from ?? twoDaysFromNow}&to=${
+        date?.to ?? fiveDaysFromNow
+      }`
+    );
   };
 
   const handleSelectedDate = (selectedDate: DateRange | undefined) => {
     setDate(selectedDate);
+    // to save the date in local storage and use it when the user refreshes the page
+    localStorage.setItem(
+      'availabilityFrom',
+      JSON.stringify(selectedDate?.from)
+    );
+    localStorage.setItem('availabilityTo', JSON.stringify(selectedDate?.to));
   };
 
-  const isSearchPage = pathname === "/search";
-  const searchPageDiv = isSearchPage ? "xl:px-7" : "xl:px-6";
-  const searchPageLocation = isSearchPage && "xl:max-w-[17rem] 2xl:max-w-none";
+  const isSearchPage = pathname === '/search';
+  const searchPageDiv = isSearchPage ? 'xl:px-7' : 'xl:px-6';
+  const searchPageLocation = isSearchPage && 'xl:max-w-[17rem] 2xl:max-w-none';
   const searchPageButton = isSearchPage
-    ? "h-14 w-[3.75rem] xl:flex hidden"
-    : "flex h-12 grow flex-row gap-[0.38rem] xl:h-14 xl:max-w-[10rem]";
+    ? 'h-14 w-[3.75rem] xl:flex hidden'
+    : 'flex h-12 grow flex-row gap-[0.38rem] xl:h-14 xl:max-w-[10rem]';
 
   return (
     <motion.div
@@ -73,7 +86,7 @@ const PickUpDropOffCard = ({
             </div>
             <Location
               onUserInput={handleUserInput}
-              searchLocation={searchLocation}
+              searchLocation={localStorage.getItem('location')}
             />
           </div>
           <AvailabilityFromTo
@@ -90,15 +103,16 @@ const PickUpDropOffCard = ({
       >
         <Image src={search} width={14} height={14} alt="Search" />
         <span className="text-[0.875rem] font-semibold not-italic leading-[1.6625rem] text-white0 xl:text-[1rem] xl:font-medium xl:leading-[1.6rem]">
-          {isSearchPage ? "" : "Search"}
+          {isSearchPage ? '' : 'Search'}
         </span>
       </Button>
       {/* Search button on search Page */}
       {isSearchPage && (
         <Button
           className={`${
-            isSearchPage ? "xl:hidden" : "xl:max-w-[10rem]"
+            isSearchPage ? 'xl:hidden' : 'xl:max-w-[10rem]'
           } flex h-12 grow flex-row gap-[0.38rem] rounded-[0.625rem] bg-blue500 xl:mt-[3.26rem] xl:h-14`}
+          onClick={handleSearch}
         >
           <Image src={search} width={14} height={14} alt="Search" />
           <span className="text-[0.875rem] font-semibold not-italic leading-[1.6625rem] text-white0 xl:text-[1rem] xl:font-medium xl:leading-[1.6rem]">

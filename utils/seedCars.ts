@@ -1,28 +1,12 @@
 'use server';
 
 import { faker } from '@faker-js/faker';
-import Car from '../lib/models/car.model';
-import { UserParams } from '@/lib/interfaces';
-import User from '../lib/models/user.model';
+
+import Car from '@/lib/models/car.model';
+import User from '@/lib/models/user.model';
 import { connectToDB } from '@/lib/mongoose';
-
-export async function fetchAllUsers(): Promise<UserParams[]> {
-  await connectToDB();
-
-  const userDocuments = await User.find();
-  if (userDocuments.length === 0) {
-    console.log('No user documents retrieved from the DB.');
-  } else {
-    console.log(`Retrieved ${userDocuments.length} user(s) from the DB.`);
-  }
-
-  const usersArray = userDocuments.map((userDoc) => userDoc.toObject());
-  return usersArray;
-}
-
-function getRandomItemFromArray<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)];
-}
+import { fetchAllUsers } from '@/lib/actions/user.actions';
+import { getRandomItemFromArray } from './utility.serverFunctions';
 
 export async function seedCars(numCars: number): Promise<void> {
   await connectToDB();
@@ -69,13 +53,12 @@ export async function seedCars(numCars: number): Promise<void> {
       carImageMain: faker.image.imageUrl(640, 480),
       liked: faker.datatype.boolean(),
     };
-    console.log('Car Details to be Saved:', carDetails);
     const car = new Car(carDetails);
     try {
       await car.save();
 
       await User.findByIdAndUpdate(randomUserId, {
-        $push: { cars: car._id },
+        $push: { carsAdded: { car: car._id } },
       });
     } catch (error) {
       console.error(

@@ -19,8 +19,8 @@ export async function userFromDB(
   return userDocument;
 }
 
-export async function fetchUserWithCars(
-  userId: string
+export async function fetchUserCars(
+  clerkId: string
 ): Promise<UserParams | null> {
   connectToDB();
   const userWithCars = await User.findOne({ id: userId })
@@ -31,28 +31,29 @@ export async function fetchUserWithCars(
     console.warn("User not found.");
     return null;
   }
-  console.log(userWithCars.toObject());
-  return userWithCars.toObject();
+
+  return userWithCarsAdded.toObject();
 }
 
 export async function updateUser(params: UserParams): Promise<void> {
-  const { userId, username, name, bio, image, onboarded, path } = params;
-
+  const { clerkId, username, name, bio, image, onboarded, path, email } =
+    params;
   try {
-    connectToDB();
+    await connectToDB();
 
     await User.findOneAndUpdate(
-      { id: userId },
+      { clerkId },
       {
         username,
         name,
         bio,
         image,
         onboarded,
+        email,
       },
       { upsert: true }
     );
-    if (path === `/profile/${userId}`) {
+    if (path === `/profile/edit`) {
       revalidatePath(path);
     }
   } catch (error: any) {
@@ -60,24 +61,27 @@ export async function updateUser(params: UserParams): Promise<void> {
   }
 }
 
-export async function deleteUser(userId: string): Promise<void> {
+export async function deleteUserAndCars(clerkId: string): Promise<void> {
   try {
-    connectToDB();
+    await connectToDB();
 
-    await Car.deleteMany({ userId });
-    await Review.deleteMany({ userId });
-    await User.findOneAndDelete({ id: userId });
+    const user = await User.findOne({ clerkId });
+    if (!user) {
+      throw new Error("User not found.");
+    }
+
+    await Car.deleteMany({ userId: user._id });
+
+    await User.findOneAndDelete({ clerkId });
   } catch (error: any) {
-    throw new Error(
-      `Failed to delete user, their cars, and their reviews: ${error.message}`
-    );
+    throw new Error(`Failed to delete user and their cars: ${error.message}`);
   }
 }
 
 export async function fetchReviewsByUser(
-  userId: string
+  clerkId: string
 ): Promise<any[] | null> {
-  connectToDB();
+  await connectToDB();
 
   try {
     const userReviews = await Review.find({ userId })
@@ -93,4 +97,18 @@ export async function fetchReviewsByUser(
   } catch (error: any) {
     throw new Error(`Failed to fetch reviews by user: ${error.message}`);
   }
+}
+
+export async function fetchAllUsers(): Promise<UserParams[]> {
+  await connectToDB();
+
+  const userDocuments = await User.find();
+  if (userDocuments.length === 0) {
+    console.log("No user documents retrieved from the DB.");
+  } else {
+    console.log(`Retrieved ${userDocuments.length} user(s) from the DB.`);
+  }
+
+  const usersArray = userDocuments.map((userDoc) => userDoc.toObject());
+  return usersArray;
 }

@@ -2,6 +2,18 @@ import { Control } from "react-hook-form";
 import { UploadFileResponse } from "uploadthing/client";
 import mongoose from "mongoose";
 
+export interface GeocodeResult {
+  geometry: {
+    location: {
+      lat: number;
+      lng: number;
+    };
+  };
+  properties: {
+    name: string;
+  };
+}
+
 export interface DateRangeCars {
   from: Date;
   to: Date;
@@ -12,9 +24,14 @@ export interface CarParams {
   _id?: string;
   carTitle: string;
   carType: string;
-  carRented?: number;
-  starRating?: number;
+  disabledDates?: {
+    singleDates?: Date[];
+    dateRanges?: DateRange[];
+  };
   rentPrice?: string;
+  carRented?: number;
+  starRating?: number[];
+  likes?: number;
   capacity?: string;
   transmission?: string;
   location?: string;
@@ -27,6 +44,7 @@ export interface CarParams {
   };
   path?: string;
   liked?: boolean;
+  path?: string;
 }
 
 export interface UserParams {
@@ -63,11 +81,43 @@ export type FormData = {
   location: string;
   fuelCapacity: string;
   shortDescription: string;
-  carImageMain: string;
+  carImages: string[];
   path: string;
 };
 
-export type FieldNames = keyof FormData;
+interface CarAddedParams {
+  car: mongoose.Types.ObjectId;
+  reviews?: mongoose.Types.ObjectId[];
+}
+
+interface CarRentedParams {
+  car: mongoose.Types.ObjectId;
+  reviewId?: mongoose.Types.ObjectId;
+}
+
+export interface UserParams {
+  clerkId: string;
+  _id?: mongoose.Types.ObjectId;
+  username: string;
+  email?: string;
+  name: string;
+  image?: string;
+  bio?: string;
+  onboarded?: boolean;
+  path?: string;
+  carsAdded?: CarAddedParams[];
+  carsRented?: CarRentedParams[];
+}
+
+export type EditUserFormFields = {
+  name: string;
+  username: string;
+  bio?: string;
+  image: string;
+  email?: string;
+};
+
+type FieldNames = keyof FormData;
 
 export type SelectItems = {
   value: string;
@@ -80,9 +130,7 @@ export interface SelectInputProps {
   label: string;
   placeholder: string;
   items: SelectItems[];
-  isNumeric: boolean;
 }
-
 export interface InputControllerProps {
   control: Control<FormData>;
   name: FieldNames;
@@ -101,12 +149,6 @@ export interface CarFormButtonsProps {
   isLoading: boolean;
 }
 
-export interface Props {
-  userId?: string;
-  carId?: string | null;
-  car?: CarParams | null;
-}
-
 export interface FileWithPreview extends File {
   preview?: string;
 }
@@ -114,7 +156,7 @@ export interface FileWithPreview extends File {
 export type CarFormHeaderProps = {
   pathname: string;
   car?: {
-    carImageMain?: string;
+    carImages?: string[];
   };
   imagePreviews: string[];
 };
@@ -146,10 +188,10 @@ export interface ReviewDocument extends mongoose.Document {
   datePosted?: Date;
 }
 
-export type GeocodeResult = {
-  properties: {
-    name: string;
-  };
+export type State = {
+  isConfirmingSeed: boolean;
+  isConfirmingDelete: boolean;
+  isConfirmingReviewsSeed: boolean;
 };
 
 export interface DateRange {

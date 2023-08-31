@@ -1,16 +1,17 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from "react";
-import { UserButton, useAuth, useUser } from "@clerk/nextjs";
-import Link from "next/link";
-import Image from "next/image";
-import { usePathname } from "next/navigation";
-import { useTheme } from "next-themes";
-import { useMediaQuery } from "@uidotdev/usehooks";
+import { useState, useEffect } from 'react';
+import { UserButton, useAuth, useUser } from '@clerk/nextjs';
+import Link from 'next/link';
+import Image from 'next/image';
+import { usePathname } from 'next/navigation';
+import { useTheme } from 'next-themes';
+import { useMediaQuery } from '@uidotdev/usehooks';
 
-import { darkModeIcon, lightModeIcon, burgerMenu } from "@/public/svg-icons";
-import { navButtons } from "@/constants";
-import MobileNavBar from "./MobileNavBar";
+import { darkModeIcon, lightModeIcon, burgerMenu } from '@/public/svg-icons';
+import { navButtons } from '@/constants';
+import MobileNavBar from './MobileNavBar';
+import { clearLocalStorageItems } from '@/utils/utility.clientFunctions';
 
 const NavBar = () => {
   const { user } = useUser();
@@ -18,10 +19,10 @@ const NavBar = () => {
   const { userId } = useAuth();
   const [showNavMenu, setShowNavMenu] = useState(false);
   const { systemTheme, theme, setTheme } = useTheme();
-  const currentTheme = theme === "system" ? systemTheme : theme;
+  const currentTheme = theme === 'system' ? systemTheme : theme;
   const pathname = usePathname();
 
-  const isSmallDevice = useMediaQuery("only screen and (max-width : 768px)");
+  const isSmallDevice = useMediaQuery('only screen and (max-width : 768px)');
 
   useEffect(() => {
     if (!isSmallDevice) {
@@ -41,17 +42,22 @@ const NavBar = () => {
         <Link
           href="/"
           className="text-2xl font-semibold text-blue500 md:text-3xl"
+          onClick={clearLocalStorageItems}
         >
           MORENT
         </Link>
         <div className="flex items-center">
           {navButtons.map((button) => (
-            <Link key={button.path} href={button.path}>
+            <Link
+              key={button.path}
+              href={button.path}
+              onClick={clearLocalStorageItems}
+            >
               <p
                 className={`${
                   pathname === button.path
-                    ? "text-blue-500"
-                    : "text-gray700 dark:text-white200"
+                    ? 'text-blue-500'
+                    : 'text-gray700 dark:text-white200'
                 } mr-7 hidden font-medium  md:flex`}
               >
                 {button.title}
@@ -73,11 +79,11 @@ const NavBar = () => {
 
           <span className="mx-1 hidden w-[2.25rem] rotate-90 border-t border-blue-50 dark:border-gray850 md:flex"></span>
           <Image
-            src={theme === "light" ? lightModeIcon : darkModeIcon}
+            src={theme === 'light' ? lightModeIcon : darkModeIcon}
             height={20}
             width={20}
             alt="light mode icon"
-            onClick={() => setTheme(currentTheme === "dark" ? "light" : "dark")}
+            onClick={() => setTheme(currentTheme === 'dark' ? 'light' : 'dark')}
             className="cursor-pointer"
           />
           <div className="mx-3 md:hidden">

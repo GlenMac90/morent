@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    id: {
+    clerkId: {
       type: String,
       unique: true,
       required: true,
@@ -15,6 +15,11 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+    },
+    email: {
+      type: String,
+      unique: true,
+      required: false,
     },
     image: {
       type: String,
@@ -38,7 +43,8 @@ const userSchema = new mongoose.Schema(
         ref: "Car",
       },
     ],
-    carsHired: [
+
+    carsRented: [
       {
         car: {
           type: mongoose.Schema.Types.ObjectId,

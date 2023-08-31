@@ -114,19 +114,17 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
         throw new Error("Failed to upload image.");
       }
 
-      if (uploadedUrls.length > 0) {
-        values.carImageMain = uploadedUrls[0];
-      }
+      values.carImages = uploadedUrls;
 
       if (car?._id) {
         await editCar({
           ...carData,
           _id: car?._id,
-          carImageMain: values.carImageMain,
+          carImages: values.carImages,
         });
         setSuccess(true);
       } else {
-        await createCar({ ...carData, carImageMain: values.carImageMain });
+        await createCar({ ...carData, carImages: values.carImages });
         setSuccess(true);
       }
 
@@ -189,7 +187,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             label="Car Type"
             placeholder="Car Type"
             items={carTypes}
-            isNumeric={false}
           />
         </div>
         <div className="flex w-full flex-col gap-8 md:flex-row">
@@ -198,6 +195,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             name="rentPrice"
             label="Rent Price"
             placeholder="Price"
+            type="numerical"
           />
 
           <SelectInput
@@ -206,7 +204,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             label="Capacity"
             placeholder="Capacity in persons"
             items={capacities}
-            isNumeric={true}
           />
         </div>
 
@@ -217,7 +214,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             label="Transmission"
             placeholder="Transmission Type"
             items={transmissionOptions}
-            isNumeric={false}
           />
 
           <FormItem className=" flex w-full flex-col justify-start">
@@ -238,7 +234,6 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
             label="Fuel Capacity"
             placeholder="Fuel Capacity"
             items={fuelCapacityOptions}
-            isNumeric={true}
           />
           <InputController
             control={form.control}

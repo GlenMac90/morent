@@ -12,6 +12,7 @@ import {
   darkModeHome,
   darkModeIcon,
 } from "@/public/svg-icons";
+import { clearLocalStorageItems } from "@/utils/utility.clientFunctions";
 
 interface MobileNavBarProps {
   theme: string | undefined;

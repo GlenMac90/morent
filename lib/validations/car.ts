@@ -1,5 +1,7 @@
 import * as z from 'zod';
 
+
+
 export const CarValidation = z.object({
   carTitle: z.string().min(3, 'Title should be at least 3 characters long'),
   carType: z.string().min(3, 'Type should be at least 3 characters long'),
@@ -11,7 +13,7 @@ export const CarValidation = z.object({
   location: z.string().optional(),
   fuelCapacity: z.string().optional(),
   shortDescription: z.string().optional(),
-  carImageMain: z.string().optional(),
+  carImages: z.array(z.string()).optional(),
   path: z.string().optional(),
   disabledDates: z
     .object({

@@ -1,7 +1,8 @@
+/* eslint-disable camelcase */
 import { Webhook, WebhookRequiredHeaders } from 'svix';
 import { IncomingHttpHeaders } from 'http';
 import { NextResponse } from 'next/server';
-import { deleteUser, updateUser } from '@/lib/actions/user.actions';
+import { deleteUserAndCars, updateUser } from '@/lib/actions/user.actions';
 import { headers } from 'next/headers';
 
 const webhookSecret = process.env.NEXT_CLERK_WEBHOOK_SECRET;
@@ -19,6 +20,7 @@ type Event = {
 
 export const POST = async (request: Request) => {
   const payload = await request.json();
+  const payloadType: string = payload.type;
 
   const header = headers();
 
@@ -38,27 +40,46 @@ export const POST = async (request: Request) => {
       heads as IncomingHttpHeaders & WebhookRequiredHeaders
     ) as Event;
   } catch (err) {
+    console.error('Error in verification:', err);
     return NextResponse.json({ message: err }, { status: 400 });
   }
 
-  const eventType: EventType = evnt?.type!;
-
-  if (eventType === 'user.created') {
+  if (payloadType === 'user.created') {
     const {
-      image_url: image,
-      first_name: name,
-      id: userId,
-      last_name: username,
+      image_url: imageFromData,
+      first_name: firstName,
+      id: clerkId,
+      last_name: lastName,
+      email_addresses,
+      username: usernameFromData,
     } = evnt.data;
+
+    const name = `${firstName} ${lastName}`;
+
+    let email = '';
+    if (
+      typeof email_addresses[0] === 'object' &&
+      'email_address' in email_addresses[0]
+    ) {
+      email = email_addresses[0].email_address;
+    }
+
+    let image = '';
+    if (typeof imageFromData === 'string') {
+      image = imageFromData;
+    }
+
+    let username = '';
+    if (typeof usernameFromData === 'string') {
+      username = usernameFromData;
+    }
+
     try {
       await updateUser({
-        // @ts-ignore
         image,
-        // @ts-ignore
         name,
-        // @ts-ignore
-        userId,
-        // @ts-ignore
+        email,
+        clerkId,
         username,
         bio: '',
         onboarded: false,
@@ -79,22 +100,35 @@ export const POST = async (request: Request) => {
     }
   }
 
-  if (eventType === 'user.updated') {
+  if (payloadType === 'user.updated') {
     const {
-      image_url: image,
-      first_name: name,
-      id: userId,
-      last_name: username,
+      image_url: imageFromData,
+      first_name: firstName,
+      id: clerkId,
+      last_name: lastName,
+      email_addresses,
+      username: usernameFromData,
     } = evnt.data;
+
+    const name = `${firstName} ${lastName}`;
+
+    const email =
+      typeof email_addresses[0] === 'object' &&
+      'email_address' in email_addresses[0]
+        ? email_addresses[0].email_address
+        : '';
+
+    const image = typeof imageFromData === 'string' ? imageFromData : '';
+
+    const username =
+      typeof usernameFromData === 'string' ? usernameFromData : '';
+
     try {
       await updateUser({
-        // @ts-ignore
         image,
-        // @ts-ignore
         name,
-        // @ts-ignore
-        userId,
-        // @ts-ignore
+        email,
+        clerkId,
         username,
         bio: '',
         onboarded: false,
@@ -115,11 +149,10 @@ export const POST = async (request: Request) => {
     }
   }
 
-  if (eventType === 'user.deleted') {
-    const { id: userId } = evnt.data;
-
+  if (payloadType === 'user.deleted') {
+    const { id: clerkId } = evnt.data;
     try {
-      await deleteUser(userId);
+      await deleteUserAndCars(clerkId);
       return NextResponse.json(
         {
           message: 'User deleted successfully.',

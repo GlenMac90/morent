@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { format, addDays, addYears } from "date-fns";
+import { format, addYears } from "date-fns";
 import Image from "next/image";
 import { DateRange } from "react-day-picker";
 
@@ -23,15 +23,12 @@ const AvailabilityFromTo = ({
   availabilityTo,
 }: {
   onSelectedDate: (date: DateRange | undefined) => void;
-  availabilityFrom: Date | undefined;
-  availabilityTo: Date | undefined;
+  availabilityFrom: Date;
+  availabilityTo: Date;
 }) => {
-  const today = new Date();
-  const twoDaysFromNow = addDays(today, 2);
-
   const [date, setDate] = useState<DateRange | undefined>({
-    from: twoDaysFromNow,
-    to: addDays(twoDaysFromNow, 3),
+    from: availabilityFrom,
+    to: availabilityTo,
   });
 
   // When a user click on a date, this function will be called
@@ -61,8 +58,6 @@ const AvailabilityFromTo = ({
               >
                 {availabilityFrom ? (
                   format(availabilityFrom, "LLL dd, y")
-                ) : date?.from ? (
-                  format(date.from, "LLL dd, y")
                 ) : (
                   <>
                     <span className="text-[0.625rem] font-normal leading-5 text-gray-400">
@@ -74,10 +69,10 @@ const AvailabilityFromTo = ({
               </Button>
             </PopoverTrigger>
           </div>
-          <PopoverContent className="w-auto p-0">
+          <PopoverContent avoidCollisions={false} className="w-auto p-0">
             <Calendar
-              fromDate={today}
-              toDate={addYears(today, 1)}
+              fromDate={new Date()}
+              toDate={addYears(new Date(), 1)}
               mode={"range"}
               selected={date}
               onSelect={(newDate) => {
@@ -109,8 +104,6 @@ const AvailabilityFromTo = ({
               >
                 {availabilityTo ? (
                   format(availabilityTo, "LLL dd, y")
-                ) : date?.to ? (
-                  format(date.to, "LLL dd, y")
                 ) : (
                   <>
                     <span className="text-[0.625rem] font-normal leading-5 text-gray-400">
@@ -124,8 +117,8 @@ const AvailabilityFromTo = ({
           </div>
           <PopoverContent className="w-auto p-0">
             <Calendar
-              fromDate={today}
-              toDate={addYears(today, 1)}
+              fromDate={new Date()}
+              toDate={addYears(new Date(), 1)}
               mode={"range"}
               selected={date}
               onSelect={(newDate) => {
