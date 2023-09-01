@@ -38,7 +38,6 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   const [animateClose, setAnimateClose] = useState(false);
   const [reloadPage, setReloadPage] = useState(false);
   const [enterRatingText, setEnterRatingText] = useState(false);
-  console.log(data);
 
   useEffect(() => {
     if (reloadPage) {
