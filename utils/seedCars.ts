@@ -27,7 +27,14 @@ export async function seedCars(numCars: number): Promise<void> {
     const carDetails = {
       userId: randomUserId,
       carTitle: faker.vehicle.model(),
-      carType: faker.vehicle.type(),
+      carType: getRandomItemFromArray([
+        'Sport',
+        'SUV',
+        'MPV',
+        'Sedan',
+        'Coupe',
+        'Hatchback',
+      ]),
       disabledDates: {
         singleDates: [faker.date.future(), faker.date.future()],
         dateRanges: [
