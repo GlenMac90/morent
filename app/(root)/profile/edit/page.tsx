@@ -5,15 +5,13 @@ import AccountProfile from "@/components/forms/AccountProfile";
 
 async function Page() {
   const user = await currentUser();
-  if (!user) return null;
-
-  const userInfo = await userFromDB(user.id);
+  const userInfo = await userFromDB(user?.id);
 
   const userData = {
     id: userInfo?.id,
-    username: userInfo?.username || user.username,
-    name: userInfo?.name || `${user.firstName} ${user.lastName}`.trim(),
-    email: userInfo?.email || user.emailAddresses[0]?.emailAddress || "",
+    username: userInfo?.username || user?.username,
+    name: userInfo?.name || `${user?.firstName} ${user?.lastName}`.trim(),
+    email: userInfo?.email || user?.emailAddresses[0]?.emailAddress || "",
     bio: userInfo?.bio || "",
     image: userInfo?.image || "",
     onboarded: userInfo?.onboarded || false,

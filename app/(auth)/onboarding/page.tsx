@@ -1,8 +1,8 @@
 import React from "react";
-
-import { currentUser } from "@clerk/nextjs";
-import AccountProfile from "@/components/forms/AccountProfile";
 import { User } from "@clerk/nextjs/server";
+import { currentUser } from "@clerk/nextjs";
+
+import AccountProfile from "@/components/forms/AccountProfile";
 
 type ExtendedUser = User & {
   bio?: string;
