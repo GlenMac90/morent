@@ -69,7 +69,6 @@ export async function fetchCarsAddedByUser(
     // Convert each car document to a plain JavaScript object
     return cars.map((car) => car.toObject());
   } catch (error: any) {
-    console.log(userId);
     throw new Error(
       `Failed to fetch cars added by user with ID ${userId}: ${error.message}`
     );
