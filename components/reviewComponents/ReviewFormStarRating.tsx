@@ -7,16 +7,19 @@ const ratingEmojis = ["😡", "😒", "🙂", "😀", "🤩"];
 
 interface ReviewFormStarRatingProps {
   setStarRating: (rating: number) => void;
+  setEnterRatingText: (value: boolean) => void;
 }
 
 const ReviewFormStarRating: React.FC<ReviewFormStarRatingProps> = ({
   setStarRating,
+  setEnterRatingText,
 }) => {
   const [hoveredStar, setHoveredStar] = useState(-1);
   const [selectedStar, setSelectedStar] = useState(-1);
 
   const handleClick = (star: number, index: number) => {
     setSelectedStar(star);
+    setEnterRatingText(false);
     setStarRating(index + 1);
   };
 

@@ -1,16 +1,16 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const carSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     reviews: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Review',
+        ref: "Review",
       },
     ],
     carTitle: {
@@ -33,7 +33,7 @@ const carSchema = new mongoose.Schema(
     likes: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
       },
     ],
     carRented: Number,
@@ -51,6 +51,6 @@ const carSchema = new mongoose.Schema(
   }
 );
 
-const Car = mongoose?.models?.Car || mongoose.model('Car', carSchema);
+const Car = mongoose?.models?.Car || mongoose.model("Car", carSchema);
 
 export default Car;

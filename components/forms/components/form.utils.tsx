@@ -1,6 +1,11 @@
 import { UseFormReturn } from "react-hook-form";
 
-import { FormData, FileWithPreview, UploadFunction } from "@/lib/interfaces";
+import {
+  FormData,
+  FileWithPreview,
+  UploadFunction,
+  ReviewDocument,
+} from "@/lib/interfaces";
 import { CarValidation } from "@/lib/validations/car";
 import { z } from "zod";
 import { showError } from "@/lib/toastHandler";
@@ -38,12 +43,27 @@ export const uploadImages = async (
   return flatUploadedUrls;
 };
 
+export const uploadBannerImage = async (
+  imagePreview: string,
+  file: FileWithPreview,
+  isBase64Image: (data: string) => boolean,
+  startUpload: UploadFunction
+): Promise<string | null> => {
+  const isImage = isBase64Image(imagePreview);
+
+  if (!isImage) return null;
+
+  const imgRes = await startUpload([file]);
+
+  return imgRes?.[0]?.url || null;
+};
+
 export const handleFilesChange = (
   dragDropFiles: FileWithPreview[],
   form: UseFormReturn<FormData>,
   setImagePreviews: (images: string[]) => void
 ) => {
-  const fileReadPromises = dragDropFiles.map((file) => {
+  const fileReadPromises = dragDropFiles.map((file, index) => {
     return new Promise<string>((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(file);
@@ -52,7 +72,10 @@ export const handleFilesChange = (
         resolve(result);
       };
       fileReader.onerror = () => {
-        console.error(`Error reading file:`, fileReader.error);
+        console.error(
+          `Error reading file at index ${index}:`,
+          fileReader.error
+        );
         reject(fileReader.error);
       };
     });
@@ -62,7 +85,7 @@ export const handleFilesChange = (
     .then((allFileData) => {
       setImagePreviews(allFileData);
       if (allFileData.length > 0) {
-        form.setValue("carImages", allFileData);
+        form.setValue("carImageMain", allFileData[0] || "");
       }
     })
     .catch((error) => {
@@ -89,15 +112,33 @@ export const formatCarData = (
   location: values.location || "",
   fuelCapacity: values.fuelCapacity || "",
   shortDescription: values.shortDescription || "",
-  carImages: values.carImages || [],
+  carImageMain: values.carImageMain,
 });
 
-export const handleServerError = (error: any, toast: any) => {
+export const formatReviewData = (data: ReviewDocument) => ({
+  userId: data.userId,
+  carId: data.carId,
+  rating: data.rating || "",
+  title: data.title || "",
+  content: data.content || "",
+  datePosted: data.datePosted || "",
+});
+
+export const handleServerError = (
+  error: any,
+  toast: any,
+  updating: boolean
+) => {
+  let errorMessage = updating
+    ? "There was an issue while updating the car."
+    : "There was an issue while creating the car.";
+
   if (error instanceof Error) {
+    errorMessage += ` Detail: ${error.message}`;
     console.error({ error, message: error.message });
-    showError(toast, "Error", error.message);
   } else {
     console.error({ error, message: "An unknown error occurred" });
-    showError(toast, "Error", "An unknown error occurred");
   }
+
+  showError(toast, "Error", errorMessage);
 };

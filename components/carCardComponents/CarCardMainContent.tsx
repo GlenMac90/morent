@@ -1,6 +1,6 @@
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
+import React from "react";
+import Link from "next/link";
+import Image from "next/image";
 
 import {
   redHeart,
@@ -10,16 +10,16 @@ import {
   litres,
   transmission,
   peopleCapacity,
-} from '@/public/svg-icons';
-import { motion } from 'framer-motion';
-import { CarParams } from '@/lib/interfaces';
-import { dummyData } from '@/utils/dummyCarData';
+} from "@/public/svg-icons";
+import { motion } from "framer-motion";
+import { CarParams } from "@/lib/interfaces";
+import { advertSilverCar } from "@/public/pngs";
 
 interface CarCardMainContentProps {
   carData: CarParams;
   canEdit: boolean;
   motionKey: number;
-  isFavourited: boolean;
+  isFavourited?: boolean;
   theme: string | undefined;
   isPopularCar: boolean;
   handleButtonClick: () => void;
@@ -38,9 +38,9 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
     <>
       <div className="flex w-full justify-between">
         <div className="flex flex-col">
-          <p className="font-medium xs:text-xl">{carData?.carTitle}</p>
+          <p className="font-medium xs:text-xl">{carData.carTitle}</p>
           <p className="mt-1 text-xs font-semibold text-gray400 xs:text-sm">
-            {carData?.carType}
+            {carData.carType}
           </p>
         </div>
         {!canEdit ? (
@@ -56,17 +56,17 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
               src={isFavourited ? redHeart : heart}
               alt="heart button"
               className={`h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6 ${
-                isFavourited && 'heart_animation'
+                isFavourited && "heart_animation"
               }`}
               onClick={handleButtonClick}
             />
           </motion.div>
         ) : (
-          <Link href={`/cars/${carData?._id}`}>
+          <Link href={`/cars/${carData._id}`}>
             <Image
               width={16}
               height={16}
-              src={theme === 'light' ? editSymbol : editSymbolDarkMode}
+              src={theme === "light" ? editSymbol : editSymbolDarkMode}
               alt="edit button"
               className="h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6"
             />
@@ -75,26 +75,28 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
       </div>
       <div
         className={`mt-3 flex justify-between ${
-          isPopularCar ? 'flex-col' : 'sm:flex-col'
+          isPopularCar ? "flex-col" : "sm:flex-col"
         }`}
       >
         <div className="flex w-full justify-center">
           <Image
-            width={176}
-            height={52.8}
-            // TODO: Remove dummyData once live three image data is available
-            src={carData?.carImages[0] || dummyData.mainPicture}
+            src={carData?.carImages ? carData.carImages[0] : advertSilverCar}
+            width={100}
+            height={100}
+            style={{
+              objectFit: "cover",
+            }}
             alt="car picture"
-            className={`mb-1 ml-0 h-[3.3rem] w-[11rem] self-end dark:bg-gray850 xs:ml-4 xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[4.5rem] sm:w-[236px] sm:self-center ${
-              isPopularCar ? 'self-center' : 'self-end sm:self-center'
+            className={`mb-1 ml-0 h-[6rem] w-[11rem] self-end rounded-lg  dark:bg-gray850 xs:w-[12rem] sm:ml-0 sm:w-[236px] sm:self-center ${
+              isPopularCar ? "self-center" : "self-end sm:self-center"
             }`}
           />
         </div>
         <div
           className={`flex gap-3 xs:mt-4  sm:mt-6  ${
             isPopularCar
-              ? 'mt-3 flex-row justify-evenly'
-              : 'w-1/3 flex-col sm:w-auto sm:flex-row'
+              ? "mt-3 flex-row justify-evenly"
+              : "w-1/3 flex-col sm:w-auto sm:flex-row"
           } sm:justify-evenly`}
         >
           <div className="flex">
@@ -109,7 +111,7 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
               {carData?.fuelCapacity}L
             </p>
           </div>
-          <div className="flex">
+          <div className="flex max-w-[9rem]">
             <Image
               width={14}
               height={14}
@@ -117,7 +119,7 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
               alt="transmission"
               className="h-3.5 w-3.5 xs:h-5 xs:w-5"
             />
-            <p className="ml-1 self-center text-xs text-gray400 xs:text-sm sm:ml-1.5">
+            <p className="ml-1 self-center truncate text-xs text-gray400 xs:text-sm sm:ml-1.5">
               {carData?.transmission}
             </p>
           </div>
@@ -130,8 +132,8 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
               className="h-3.5 w-3.5 xs:h-5 xs:w-5"
             />
             <p className="ml-1 self-center text-xs text-gray400 xs:text-sm sm:ml-1.5">
-              {carData?.capacity}{' '}
-              {carData?.capacity === '1' ? 'person' : 'people'}
+              {carData?.capacity}{" "}
+              {carData?.capacity === "1" ? "person" : "people"}
             </p>
           </div>
         </div>

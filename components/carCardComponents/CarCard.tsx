@@ -1,17 +1,16 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useTheme } from 'next-themes';
-import { usePathname } from 'next/navigation';
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useTheme } from "next-themes";
+import { usePathname } from "next/navigation";
 
-import CarDetailsModalOne from './CarDetailsModalOne';
-import CarCardMainContent from './CarCardMainContent';
-import { CarParams } from '@/lib/interfaces';
+import CarDetailsModalOne from "./CarDetailsModalOne";
+import CarCardMainContent from "./CarCardMainContent";
+import { CarParams } from "@/lib/interfaces";
 
 interface CarCardProps {
   carData: CarParams;
-  id: string | undefined;
   isPopularCar?: boolean;
   canEdit?: boolean;
   canReview?: boolean;
@@ -21,7 +20,6 @@ interface CarCardProps {
 
 const CarCard: React.FC<CarCardProps> = ({
   carData,
-  id,
   isPopularCar = false,
   canEdit = false,
   canReview = false,
@@ -30,7 +28,7 @@ const CarCard: React.FC<CarCardProps> = ({
 }) => {
   const pathname = usePathname();
   const { theme } = useTheme();
-  const [isFavourited, setIsFavourited] = useState(carData.isFavourited);
+  const [isFavourited, setIsFavourited] = useState(carData.liked);
   const [showModal, setShowModal] = useState(false);
   const [motionKey, setMotionKey] = useState(0);
 
@@ -69,7 +67,7 @@ const CarCard: React.FC<CarCardProps> = ({
         viewport={{ once: true }}
         className={`flex w-full flex-col rounded-lg bg-white
         p-4 shadow hover:shadow-xl dark:bg-gray850 ${
-          isPopularCar ? 'min-w-[18rem]' : 'xs:max-w-[28rem]'
+          isPopularCar ? "min-w-[18rem]" : "xs:max-w-[28rem]"
         } sm:w-auto sm:max-w-full`}
       >
         <CarCardMainContent
@@ -88,7 +86,7 @@ const CarCard: React.FC<CarCardProps> = ({
           </p>
           <button
             className={`rounded-md bg-blue500 px-5 py-2 text-sm font-medium text-white ${
-              canEdit && 'hidden'
+              canEdit && "hidden"
             }`}
             onClick={() => setShowModal(true)}
           >
@@ -99,21 +97,18 @@ const CarCard: React.FC<CarCardProps> = ({
       {showModal && (
         <div
           className={`absolute flex ${
-            pathname === '/search'
-              ? 'h-screen w-screen lg:left-5 xl:left-0'
-              : 'w-screen max-w-7xl'
+            pathname === "/search"
+              ? "h-screen w-screen lg:left-5 xl:left-0"
+              : "w-screen max-w-7xl"
           } w-screen items-center justify-center xs:pr-14 xl:justify-self-center xl:pr-0`}
         >
-          {/* Type error of data will so away once dummyData is removed and lived data will be a string leading to the URL of the image */}
           <CarDetailsModalOne
-            id={id}
             carData={carData}
             setShowModal={setShowModal}
             isPopular={isPopularCar}
             canReview={canReview}
             carAvailability={carAvailability()}
           />
-          {/* Type error of data will so away once dummyData is removed and lived data will be a string leading to the URL of the image */}
         </div>
       )}
     </>

@@ -1,41 +1,55 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import * as z from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import React, { useState, useEffect } from "react";
+import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import Image from 'next/image';
-import { useTheme } from 'next-themes';
-import { motion } from 'framer-motion';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import Image from "next/image";
+import { useTheme } from "next-themes";
+import { motion } from "framer-motion";
 
-import { CarParams } from '@/lib/interfaces';
-import ReviewFormStarRating from './ReviewFormStarRating';
-import { cross, whiteCross } from '@/public/svg-icons';
+import ReviewFormStarRating from "./ReviewFormStarRating";
+import { cross, whiteCross } from "@/public/svg-icons";
+import { createReview, editReview } from "@/lib/actions/review.actions";
+import { ReviewDocument } from "@/lib/interfaces";
+import { advertSilverCar } from "@/public/pngs";
 
 interface ReviewFormProps {
   setShowReviewScreen: (value: boolean) => void;
-  data: CarParams;
+  editScreen?: boolean;
+  data: any;
 }
 
 const ReviewForm: React.FC<ReviewFormProps> = ({
+  editScreen = false,
   setShowReviewScreen,
   data,
 }) => {
   const { theme } = useTheme();
   const [starRating, setStarRating] = useState<number | null>(null);
-  const [review, setReview] = useState('');
+  const [animateClose, setAnimateClose] = useState(false);
+  const [reloadPage, setReloadPage] = useState(false);
+  const [enterRatingText, setEnterRatingText] = useState(false);
 
-  console.log(starRating, review);
+  useEffect(() => {
+    if (reloadPage) {
+      window.location.href = "/profile";
+    }
+  }, [reloadPage]);
+
   const handleBackgroundClick = () => {
-    setShowReviewScreen(false);
+    setAnimateClose(true);
+    setTimeout(() => {
+      setShowReviewScreen(false);
+    }, 250);
   };
 
   const handleChildClick = (
@@ -47,36 +61,66 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
   const formSchema = z.object({
     review: z
       .string()
-      .min(10, 'Review must be at least 10 characters.')
-      .max(300, 'Review must be at most 300 characters.'),
+      .min(10, "Review must be at least 10 characters.")
+      .max(300, "Review must be at most 300 characters."),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      review: '',
+      review: "",
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    setReview(values.review);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (starRating === null) {
+      setEnterRatingText(true);
+    } else {
+      if (editScreen) {
+        const editedReview: ReviewDocument = {
+          _id: data._id,
+          userId: data?.userId,
+          carId: data.carId,
+          rating: starRating || 0,
+          title: data.title,
+          content: values.review,
+        };
+        editReview(editedReview);
+        setReloadPage(true);
+      } else {
+        const newReview: ReviewDocument = {
+          userId: data?.userId,
+          carId: data?._id,
+          rating: starRating || 0,
+          title: data.carTitle,
+          content: values.review,
+        };
+        createReview(newReview);
+        setReloadPage(true);
+      }
+    }
   }
 
   return (
     <motion.div
-      animate={{ scale: 1 }}
+      animate={{ scale: animateClose ? 0 : 1 }}
       initial={{ scale: 0 }}
       className="fixed inset-0 z-50 flex justify-center"
       onClick={handleBackgroundClick}
     >
       <div
         onClick={handleChildClick}
-        className="fixed top-44 z-50 flex max-h-[40rem] w-full max-w-[30rem] flex-col overflow-y-auto rounded-xl bg-white200 p-5 dark:bg-gray850  "
+        className="fixed top-44 z-50 flex h-[35rem] w-full max-w-[30rem] flex-col overflow-y-auto rounded-xl bg-white200 p-5 dark:bg-gray850  "
       >
         <div className="flex w-full justify-between">
-          <p className="text-2xl font-semibold ">{data.carTitle}</p>
+          {data.carTitle ? (
+            <p className="text-2xl font-semibold ">{data.carTitle}</p>
+          ) : (
+            <p className="text-2xl font-semibold ">{data.title}</p>
+          )}
+
           <Image
-            src={theme === 'light' ? cross : whiteCross}
+            src={theme === "light" ? cross : whiteCross}
             height={30}
             width={30}
             alt="close modal"
@@ -84,19 +128,39 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
             className="cursor-pointer self-start dark:text-white200"
           />
         </div>
-        <Image
-          src={data?.carImages[0]}
-          alt="car-picture"
-          style={{
-            objectFit: 'cover',
-          }}
-          className="mt-3 h-full w-full rounded-xl"
-        />
-        <ReviewFormStarRating setStarRating={setStarRating} />
+        {data?.carId?.carImages && (
+          <Image
+            src={data.carId.carImages[0] || advertSilverCar}
+            alt="car-picture"
+            height={200}
+            width={200}
+            className="mt-3 h-[16.5rem] w-full rounded-xl"
+          />
+        )}
+        {data?.carImages && (
+          <Image
+            src={data.carImages[0] || advertSilverCar}
+            alt="car-picture"
+            height={200}
+            width={200}
+            className="mt-3 h-[16.5rem] w-full rounded-xl"
+          />
+        )}
+        <div className="flex">
+          <ReviewFormStarRating
+            setStarRating={setStarRating}
+            setEnterRatingText={setEnterRatingText}
+          />
+          {enterRatingText && (
+            <p className="ml-2 self-end font-semibold text-red-500">
+              Select a rating
+            </p>
+          )}
+        </div>
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
-            className="mt-5"
+            className="mt-5 flex h-full flex-col justify-between"
             autoComplete="off"
           >
             <FormField
@@ -118,7 +182,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
               )}
             />
             <button
-              className="mt-4 rounded bg-blue500 px-4 py-2 font-semibold text-white"
+              className="mt-4 self-start rounded bg-blue500 px-4 py-2 font-semibold text-white"
               type="submit"
             >
               Submit

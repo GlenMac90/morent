@@ -21,9 +21,9 @@ function roundDownToNearestTen(number: number): number {
 }
 
 export const StarRating: React.FC<StarRatingProps> = ({ rating, reviews }) => {
-  const goldenStars = numberOfGoldenStars(rating);
+  const goldenStars = rating ? numberOfGoldenStars(rating) : 0;
+  const reviewCount = reviews ? roundDownToNearestTen(reviews) : 0;
   const blankStars = 4 - goldenStars;
-  const reviewCount = roundDownToNearestTen(reviews);
   const goldPartialStarPercentage = rating % 1;
   const blankPartialStarPercentage = 1 - goldPartialStarPercentage;
 
@@ -78,7 +78,7 @@ export const StarRating: React.FC<StarRatingProps> = ({ rating, reviews }) => {
           height={20}
         />
       ))}
-      <p className="ml-2">
+      <p className="ml-2 self-center">
         {reviewCount}
         {reviews % 10 !== 0 && reviews > 9 && "+"}{" "}
         {reviews === 1 ? "Review" : "Reviews"}

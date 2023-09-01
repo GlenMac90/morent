@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { ChangeEvent, useState } from 'react';
-import Image from 'next/image';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { usePathname, useRouter } from 'next/navigation';
+import { ChangeEvent, useState } from "react";
+import Image from "next/image";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { usePathname, useRouter } from "next/navigation";
 
 import {
   Form,
@@ -12,38 +12,40 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from '@/components/ui/form';
-import { EditUserFormFieldsValidation } from '@/lib/validations/user';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '../ui/textarea';
-import ImageWithFallback from '@/utils/ImageWithFallback';
-import { isBase64Image } from '@/lib/utils';
-import { useUploadThing } from '@/lib/uploadthing';
-import { updateUser } from '@/lib/actions/user.actions';
-import { EditUserFormFields } from '@/lib/interfaces';
+} from "@/components/ui/form";
+import { EditUserFormFieldsValidation } from "@/lib/validations/user";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "../ui/textarea";
+import ImageWithFallback from "@/utils/ImageWithFallback";
+import { isBase64Image } from "@/lib/utils";
+import { useUploadThing } from "@/lib/uploadthing";
+import { updateUser } from "@/lib/actions/user.actions";
+import { EditUserFormFields } from "@/lib/interfaces";
 
 interface Props {
   user: string;
 }
 
 const AccountProfile: React.FC<Props> = ({ user }) => {
+  console.log(user);
   const [files, setFiles] = useState<File[]>([]);
-  const { startUpload } = useUploadThing('media');
+  const { startUpload } = useUploadThing("media");
 
   const router = useRouter();
   const pathname = usePathname();
 
   const userData = JSON.parse(user);
+  console.log(userData.id);
 
   const form = useForm<EditUserFormFields>({
     resolver: zodResolver(EditUserFormFieldsValidation),
     defaultValues: {
-      name: userData?.name || '',
-      username: userData?.username || '',
-      bio: userData?.bio || '',
-      image: userData?.image || '',
-      email: userData?.email || '',
+      name: userData?.name || "",
+      username: userData?.username || "",
+      bio: userData?.bio || "",
+      image: userData?.image || "",
+      email: userData?.email || "",
     },
   });
 
@@ -60,17 +62,17 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
 
     await updateUser({
       ...userData,
-      name: values.name,
       username: values.username,
-      bio: values.bio || '',
+      name: values.name,
+      bio: values.bio || "",
       image: values.image,
       path: pathname,
     });
 
-    if (pathname === '/profile/edit') {
+    if (pathname === "/profile/edit") {
       router.back();
     } else {
-      router.push('/');
+      router.push("/");
     }
   };
 
@@ -86,11 +88,11 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
       const file = e.target.files[0];
       setFiles(Array.from(e.target.files));
 
-      if (!file.type.includes('image')) return;
+      if (!file.type.includes("image")) return;
 
       fileReader.readAsDataURL(file);
       fileReader.onload = () => {
-        fieldChange((fileReader.result as string) || '');
+        fieldChange((fileReader.result as string) || "");
       };
     }
   };
@@ -99,7 +101,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="flex w-full flex-col gap-5 self-center"
+        className="flex w-full flex-col gap-5 self-center "
       >
         <FormField
           control={form.control}
@@ -128,7 +130,7 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
                   />
                 )}
               </FormLabel>
-              <FormControl className="bg-white200 dark:bg-gray800">
+              <FormControl className="bg-white200 placeholder:text-gray400 dark:bg-gray800">
                 <Input
                   type="file"
                   accept="image/*"

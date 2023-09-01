@@ -1,6 +1,25 @@
-import { Control } from 'react-hook-form';
-import { UploadFileResponse } from 'uploadthing/client';
-import mongoose from 'mongoose';
+import { Control } from "react-hook-form";
+import { UploadFileResponse } from "uploadthing/client";
+import mongoose from "mongoose";
+
+export interface ReviewData {
+  _id?: string;
+  userId?: {
+    _id?: string;
+    image?: string;
+    username?: string;
+  };
+  carId?: {
+    _id: string;
+    carTitle: string;
+    carImages: string[];
+  };
+  rating: number;
+  title?: string;
+  content?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
 
 export interface GeocodeResult {
   geometry: {
@@ -15,8 +34,8 @@ export interface GeocodeResult {
 }
 
 export interface DateRange {
-  from: Date;
-  to: Date;
+  from: Date | string;
+  to: Date | string;
 }
 
 export interface CarParams {
@@ -25,7 +44,7 @@ export interface CarParams {
   carTitle: string;
   carType: string;
   disabledDates?: {
-    singleDates?: Date[];
+    singleDates?: Date[] | string[];
     dateRanges?: DateRange[];
   };
   rentPrice?: string;
@@ -151,7 +170,7 @@ export interface FeedbackMessageProps {
 export interface ToastOptions {
   title: string;
   description: string;
-  variant?: 'destructive' | 'success';
+  variant?: "destructive" | "success";
 }
 
 export type ToastFunction = (options: ToastOptions) => void;
@@ -172,9 +191,9 @@ export type State = {
 };
 
 export type Action =
-  | { type: 'TOGGLE_SEED_CONFIRMATION' }
-  | { type: 'CANCEL_SEED_CONFIRMATION' }
-  | { type: 'TOGGLE_REVIEWS_SEED_CONFIRMATION' }
-  | { type: 'CANCEL_REVIEWS_SEED_CONFIRMATION' }
-  | { type: 'TOGGLE_DELETE_CONFIRMATION' }
-  | { type: 'CANCEL_DELETE_CONFIRMATION' };
+  | { type: "TOGGLE_SEED_CONFIRMATION" }
+  | { type: "CANCEL_SEED_CONFIRMATION" }
+  | { type: "TOGGLE_REVIEWS_SEED_CONFIRMATION" }
+  | { type: "CANCEL_REVIEWS_SEED_CONFIRMATION" }
+  | { type: "TOGGLE_DELETE_CONFIRMATION" }
+  | { type: "CANCEL_DELETE_CONFIRMATION" };
