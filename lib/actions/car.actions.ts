@@ -14,15 +14,76 @@ export async function fetchRecommendedCars(): Promise<CarParams[] | null> {
 
     const cars = await Car.aggregate([
       {
-        $addFields: {
-          averageRating: {
-            $avg: "$starRating",
+        $lookup: {
+          from: "reviews",
+          localField: "reviews",
+          foreignField: "_id",
+          as: "reviewsData",
+        },
+      },
+      {
+        $unwind: {
+          path: "$reviewsData",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "reviewsData.userId",
+          foreignField: "_id",
+          as: "reviewsData.user",
+        },
+      },
+      {
+        $unwind: {
+          path: "$reviewsData.user",
+          preserveNullAndEmptyArrays: true,
+        },
+      },
+      {
+        $group: {
+          _id: "$_id",
+          carDoc: { $first: "$$ROOT" },
+          averageRating: { $avg: "$reviewsData.rating" },
+          reviews: {
+            $push: {
+              _id: "$reviewsData._id",
+              userId: {
+                _id: "$reviewsData.user._id",
+                image: "$reviewsData.user.image",
+                username: "$reviewsData.user.username",
+              },
+              carId: "$reviewsData.carId",
+              rating: "$reviewsData.rating",
+              title: "$reviewsData.title",
+              content: "$reviewsData.content",
+              createdAt: "$reviewsData.createdAt",
+              updatedAt: "$reviewsData.updatedAt",
+              __v: "$reviewsData.__v",
+            },
           },
         },
       },
       {
         $match: {
           averageRating: { $gte: 3.75 },
+        },
+      },
+      {
+        $replaceRoot: {
+          newRoot: {
+            $mergeObjects: [
+              "$carDoc",
+              { averageRating: "$averageRating", reviews: "$reviews" },
+            ],
+          },
+        },
+      },
+      {
+        $project: {
+          "carDoc.reviews": 0,
+          "carDoc.reviewsData": 0,
         },
       },
     ]).exec();
