@@ -134,6 +134,9 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
             alt="car-picture"
             height={200}
             width={200}
+            style={{
+              objectFit: "cover",
+            }}
             className="mt-3 h-[16.5rem] w-full rounded-xl"
           />
         )}
@@ -143,6 +146,9 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
             alt="car-picture"
             height={200}
             width={200}
+            style={{
+              objectFit: "cover",
+            }}
             className="mt-3 h-[16.5rem] w-full rounded-xl"
           />
         )}

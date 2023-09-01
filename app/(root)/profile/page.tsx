@@ -14,8 +14,8 @@ const Page = async () => {
   const user = await currentUser();
   const userData = await userFromDB(user?.id);
   const userId = userData?._id;
-  const addedCars = await fetchCarsAddedByUser(userId?.toString());
   const carsRented = await fetchCarsRentedByUser(userId?.toString());
+  const addedCars = await fetchCarsAddedByUser(userId?.toString());
   const reviews = await getAllReviewsByUser(userId?.toString());
 
   return (
