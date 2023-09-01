@@ -14,9 +14,9 @@ const Page = async () => {
   const user = await currentUser();
   const userData = await userFromDB(user?.id);
   const userId = userData?._id;
-  const rentedCars = await fetchCarsAddedByUser(userId);
-  const carsRented = await fetchCarsRentedByUser(userId);
-  const reviews = await getAllReviewsByUser(userId);
+  const addedCars = await fetchCarsAddedByUser(userId?.toString());
+  const carsRented = await fetchCarsRentedByUser(userId?.toString());
+  const reviews = await getAllReviewsByUser(userId?.toString());
 
   return (
     <div className="flex w-full justify-center self-center bg-white200 dark:bg-gray900">
@@ -25,8 +25,8 @@ const Page = async () => {
           userData={JSON.stringify(userData)}
           reviews={JSON.stringify(reviews)}
         />
-        <RentedCars rentedCars={JSON.stringify(rentedCars)} />
-        <UsersCarsForRent carsForRent={JSON.stringify(rentedCars)} />
+        <RentedCars rentedCars={JSON.stringify(carsRented)} />
+        <UsersCarsForRent carsForRent={JSON.stringify(addedCars)} />
       </div>
     </div>
   );

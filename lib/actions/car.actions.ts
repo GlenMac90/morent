@@ -77,25 +77,15 @@ export async function fetchCarsAddedByUser(
 
 export async function fetchCarsRentedByUser(
   userId: string | undefined
-): Promise<CarParams[] | null> {
+): Promise<mongoose.Document[] | null> {
   try {
-    connectToDB();
+    const user = await User.findById(userId).populate("carsRented.car").exec();
 
-    // Find the user by their ID
-    const user = await User.findById(userId).exec();
-
-    // If user doesn't exist or doesn't have carsRented array, return null
     if (!user || !user.carsRented || user.carsRented.length === 0) {
       return null;
     }
 
-    // Find cars with IDs that match the ids in the user's carsRented array
-    const cars = await Car.find({
-      _id: { $in: user.carsRented },
-    }).exec();
-
-    // Convert each car document to a plain JavaScript object
-    return cars.map((car) => car.toObject());
+    return user.carsRented.map((rented: any) => rented.car);
   } catch (error: any) {
     throw new Error(
       `Failed to fetch cars rented by user with ID ${userId}: ${error.message}`
