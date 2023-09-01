@@ -1,6 +1,6 @@
-import React from "react";
-import Link from "next/link";
-import Image from "next/image";
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
 
 import {
   redHeart,
@@ -10,10 +10,10 @@ import {
   litres,
   transmission,
   peopleCapacity,
-} from "@/public/svg-icons";
-import { motion } from "framer-motion";
-import { CarParams } from "@/lib/interfaces";
-import { dummyData } from "@/utils/dummyCarData";
+} from '@/public/svg-icons';
+import { motion } from 'framer-motion';
+import { CarParams } from '@/lib/interfaces';
+import { dummyData } from '@/utils/dummyCarData';
 
 interface CarCardMainContentProps {
   carData: CarParams;
@@ -56,7 +56,7 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
               src={isFavourited ? redHeart : heart}
               alt="heart button"
               className={`h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6 ${
-                isFavourited && "heart_animation"
+                isFavourited && 'heart_animation'
               }`}
               onClick={handleButtonClick}
             />
@@ -66,7 +66,7 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
             <Image
               width={16}
               height={16}
-              src={theme === "light" ? editSymbol : editSymbolDarkMode}
+              src={theme === 'light' ? editSymbol : editSymbolDarkMode}
               alt="edit button"
               className="h-4 w-4 cursor-pointer self-start xs:h-6 xs:w-6"
             />
@@ -75,7 +75,7 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
       </div>
       <div
         className={`mt-3 flex justify-between ${
-          isPopularCar ? "flex-col" : "sm:flex-col"
+          isPopularCar ? 'flex-col' : 'sm:flex-col'
         }`}
       >
         <div className="flex w-full justify-center">
@@ -83,18 +83,18 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
             width={176}
             height={52.8}
             // TODO: Remove dummyData once live three image data is available
-            src={carData?.carImageMain || dummyData.mainPicture}
+            src={carData?.carImages[0] || dummyData.mainPicture}
             alt="car picture"
             className={`mb-1 ml-0 h-[3.3rem] w-[11rem] self-end dark:bg-gray850 xs:ml-4 xs:mt-6 xs:h-[4rem] xs:w-[13.25rem] sm:ml-0 sm:h-[4.5rem] sm:w-[236px] sm:self-center ${
-              isPopularCar ? "self-center" : "self-end sm:self-center"
+              isPopularCar ? 'self-center' : 'self-end sm:self-center'
             }`}
           />
         </div>
         <div
           className={`flex gap-3 xs:mt-4  sm:mt-6  ${
             isPopularCar
-              ? "mt-3 flex-row justify-evenly"
-              : "w-1/3 flex-col sm:w-auto sm:flex-row"
+              ? 'mt-3 flex-row justify-evenly'
+              : 'w-1/3 flex-col sm:w-auto sm:flex-row'
           } sm:justify-evenly`}
         >
           <div className="flex">
@@ -130,8 +130,8 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
               className="h-3.5 w-3.5 xs:h-5 xs:w-5"
             />
             <p className="ml-1 self-center text-xs text-gray400 xs:text-sm sm:ml-1.5">
-              {carData?.capacity}{" "}
-              {carData?.capacity === "1" ? "person" : "people"}
+              {carData?.capacity}{' '}
+              {carData?.capacity === '1' ? 'person' : 'people'}
             </p>
           </div>
         </div>

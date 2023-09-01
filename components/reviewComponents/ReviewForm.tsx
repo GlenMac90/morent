@@ -85,7 +85,7 @@ const ReviewForm: React.FC<ReviewFormProps> = ({
           />
         </div>
         <Image
-          src={data?.carImageMain || ''}
+          src={data?.carImages[0]}
           alt="car-picture"
           style={{
             objectFit: 'cover',

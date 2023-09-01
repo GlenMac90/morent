@@ -37,7 +37,7 @@ export interface CarParams {
   location?: string;
   fuelCapacity?: string;
   shortDescription?: string;
-  carImages?: string[];
+  carImages: string[];
   liked?: boolean;
   path?: string;
 }
@@ -132,8 +132,8 @@ export interface FileWithPreview extends File {
 
 export type CarFormHeaderProps = {
   pathname: string;
-  car?: {
-    carImages?: string[];
+  car: {
+    carImages: string[];
   };
   imagePreviews: string[];
 };
