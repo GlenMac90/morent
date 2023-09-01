@@ -45,7 +45,7 @@ export interface CarParams {
 export interface CarFormProps {
   userId?: string;
   carId?: string | null;
-  car?: CarParams | null;
+  car: CarParams;
 }
 
 export type FormData = {
