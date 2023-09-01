@@ -13,7 +13,7 @@ import { getAllReviewsByUser } from "@/lib/actions/review.actions";
 const Page = async () => {
   const user = await currentUser();
   const userData = await userFromDB(user?.id);
-  const userId = userData?.id;
+  const userId = userData?._id;
   const rentedCars = await fetchCarsAddedByUser(userId);
   const carsRented = await fetchCarsRentedByUser(userId);
   const reviews = await getAllReviewsByUser(userId);
