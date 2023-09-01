@@ -13,7 +13,11 @@ interface RecommendedCarsProps {
 const RecommendedCars: React.FC<RecommendedCarsProps> = ({
   recommendedCars,
 }) => {
-  recommendedCars = JSON.parse(recommendedCars);
+  try {
+    recommendedCars = JSON.parse(recommendedCars);
+  } catch (e) {
+    console.error("Invalid JSON", e);
+  }
   const [showAll, setShowAll] = useState(false);
   return (
     <motion.div
