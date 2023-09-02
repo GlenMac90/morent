@@ -85,7 +85,7 @@ const FetchCarCard = ({
   }, [cars, search, type, capacity, price]);
 
   return (
-    <>
+    <main>
       <div
         className="mt-[3.75rem] grid grid-rows-1 gap-5 xs:flex-col xs:items-center xs:justify-center sm:grid-cols-2 md:mt-9 
             md:gap-8 xl:grid-cols-3"
@@ -116,7 +116,7 @@ const FetchCarCard = ({
           </div>
         )
       )}
-    </>
+    </main>
   );
 };
 
