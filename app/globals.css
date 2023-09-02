@@ -13,7 +13,7 @@
 }
 
 .advert_background {
-  background-image: url('../public/testCarPictures/carAdBackground.png');
+  background-image: url("../public/testCarPictures/carAdBackground.png");
   background-size: 100%;
 }
 
@@ -26,7 +26,7 @@
 }
 
 .black_car_ad {
-  background-image: url('../public/pngs/car-ad-background.png');
+  background-image: url("../public/pngs/car-ad-background.png");
   background-size: 100% 100%;
 }
 
@@ -238,7 +238,7 @@
 }
 
 .shooting_star::before {
-  content: '';
+  content: "";
   position: absolute;
   width: 150px;
   height: 1px;
@@ -318,7 +318,7 @@
 }
 
 .cloud:before {
-  content: '';
+  content: "";
   position: absolute;
   top: -15px;
   left: 15px;
@@ -329,7 +329,7 @@
 }
 
 .cloud:after {
-  content: '';
+  content: "";
   position: absolute;
   top: -20px;
   right: 15px;
@@ -498,11 +498,12 @@
   overflow: hidden;
 }
 
-.CollapsibleContent[data-state='open'] {
+.CollapsibleContent[data-state="open"] {
   animation: slideDown 300ms ease-out;
+  overflow: visible;
 }
 
-.CollapsibleContent[data-state='closed'] {
+.CollapsibleContent[data-state="closed"] {
   animation: slideUp 300ms ease-out;
 }
 
