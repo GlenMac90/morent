@@ -78,7 +78,7 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
           isPopularCar ? "flex-col" : "sm:flex-col"
         }`}
       >
-        <div className="flex w-full justify-center">
+        <div className="flex w-full justify-center pr-4 sm:px-4 sm:pt-4">
           <Image
             src={carData?.carImages ? carData.carImages[0] : advertSilverCar}
             width={100}
@@ -87,13 +87,13 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
               objectFit: "cover",
             }}
             alt="car picture"
-            className={`mb-1 ml-0 h-[6rem] w-[11rem] self-end rounded-lg  dark:bg-gray850 xs:w-[12rem] sm:ml-0 sm:w-[236px] sm:self-center ${
+            className={`mb-1 ml-0 h-full max-h-[6rem] w-full max-w-[15rem] self-end rounded-xl dark:bg-gray850 sm:max-h-[8rem] sm:max-w-[22rem] sm:self-center ${
               isPopularCar ? "self-center" : "self-end sm:self-center"
             }`}
           />
         </div>
         <div
-          className={`flex gap-3 xs:mt-4  sm:mt-6  ${
+          className={`flex gap-3 xs:mt-4 sm:mt-6  ${
             isPopularCar
               ? "mt-3 flex-row justify-evenly"
               : "w-1/3 flex-col sm:w-auto sm:flex-row"
@@ -119,7 +119,7 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
               alt="transmission"
               className="h-3.5 w-3.5 xs:h-5 xs:w-5"
             />
-            <p className="ml-1 self-center truncate text-xs text-gray400 xs:text-sm sm:ml-1.5">
+            <p className="ml-1 max-w-[5rem] self-center truncate text-xs text-gray400 xs:text-sm sm:ml-1.5">
               {carData?.transmission}
             </p>
           </div>
@@ -131,7 +131,7 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
               alt="people capacity"
               className="h-3.5 w-3.5 xs:h-5 xs:w-5"
             />
-            <p className="ml-1 self-center text-xs text-gray400 xs:text-sm sm:ml-1.5">
+            <p className="ml-1 self-center truncate text-xs text-gray400 xs:text-sm sm:ml-1.5">
               {carData?.capacity}{" "}
               {carData?.capacity === "1" ? "person" : "people"}
             </p>
