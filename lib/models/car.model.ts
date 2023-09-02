@@ -32,7 +32,7 @@ const carSchema = new mongoose.Schema(
     },
     likes: [
       {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         ref: "User",
       },
     ],
