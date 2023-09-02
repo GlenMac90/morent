@@ -38,12 +38,7 @@ import {
   handleServerError,
 } from './components/form.utilities';
 
-import {
-  showValidationError,
-  showImageError,
-  showSuccessMessage,
-  showError,
-} from '@/lib/toastHandler';
+import { showImageError, showSuccessMessage } from '@/lib/toastHandler';
 
 const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
   const { startUpload } = useUploadThing('media');
@@ -85,13 +80,6 @@ const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
     setError(null);
 
     const carData = formatCarData(values, userId);
-
-    if (Object.keys(form.formState.errors).length > 0) {
-      const errorFields = Object.keys(form.formState.errors);
-      showValidationError(toast, 'Validation Error', errorFields);
-      setIsLoading(false);
-      return;
-    }
 
     if (dragDropFiles.length === 0 && pathname === '/cars/new') {
       showImageError(
@@ -152,10 +140,9 @@ const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
 
       showSuccessMessage(toast, 'Success', 'Car deleted successfully');
 
-      router.push('/');
+      router.push('/profile');
     } catch (error) {
       console.error('Failed to delete car:', error);
-      showError(toast, 'Error', 'Failed to delete car. Please try again.');
     } finally {
       setIsLoading(false);
     }
