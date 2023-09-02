@@ -6,6 +6,7 @@ import useFilterStore from "@/lib/store";
 import CarCard from "@/components/carCardComponents/CarCard";
 import { CarParams } from "@/lib/interfaces";
 import ShowMoreCars from "./ShowMoreCars";
+import { getCapacityAndCarType } from "@/utils/utility.clientFunctions";
 
 const FetchCarCard = ({
   cars,
@@ -28,6 +29,7 @@ const FetchCarCard = ({
     setPrice,
     setSearch,
   ] = useFilterStore((state) => [
+    // NOTE from Zustand store
     state.search,
     state.type,
     state.capacity,
@@ -41,34 +43,20 @@ const FetchCarCard = ({
   ]);
   const [filteredCars, setFilteredCars] = useState<CarParams[] | null>(null);
 
-  const getCapacityAndCarType = (cars: CarParams[] | null) => {
-    const capacityMap: { [key: string]: number } = {};
-    const carTypeMap: { [key: string]: number } = {};
-    cars?.forEach((car) => {
-      capacityMap[car?.capacity ?? ""] =
-        (capacityMap[car?.capacity ?? ""] || 0) + 1;
-      carTypeMap[car?.carType ?? ""] =
-        (carTypeMap[car?.carType ?? ""] || 0) + 1;
-    });
-    return {
-      capacityMap,
-      carTypeMap,
-    };
-  };
-
   useEffect(() => {
-    // when a user goes to the search page, the filters should be reset
+    // NOTE when a user goes to the search page, the filters should be reset
     setType([]);
     setCapacity([]);
     setPrice([950]);
     setSearch("");
-
+    // NOTE when a user goes to the search page, get the counts of Type and Capacity of cars
     const { capacityMap, carTypeMap } = getCapacityAndCarType(cars || []);
     setTypeCounts(carTypeMap);
     setCapacityCounts(capacityMap);
   }, [cars]);
 
   useEffect(() => {
+    // NOTE: filter cars based on user input
     const filteredCars = cars?.filter((car) => {
       const carPrice = parseFloat(car?.rentPrice || "0");
       const carTitleMatches = car.carTitle
@@ -102,6 +90,7 @@ const FetchCarCard = ({
               />
             ))}
       </div>
+      {/* NOTE If cars are more than 6, show the ShowMoreCars component */}
       {filteredCars && filteredCars?.length > 6 ? (
         <ShowMoreCars
           availabilityFrom={availabilityFrom}
