@@ -96,7 +96,6 @@ const FetchCarCard = ({
             .map((car: CarParams) => (
               <CarCard
                 key={car._id}
-                id={car._id}
                 carData={car}
                 availabilityFrom={availabilityFrom}
                 availabilityTo={availabilityTo}
