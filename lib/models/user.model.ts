@@ -1,8 +1,8 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema(
   {
-    clerkId: {
+    id: {
       type: String,
       unique: true,
       required: true,
@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema(
       {
         car: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Car',
+          ref: "Car",
         },
       },
     ],
@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema(
       {
         car: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: 'Car',
+          ref: "Car",
           required: true,
         },
       },
@@ -57,6 +57,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose?.models?.User || mongoose.model('User', userSchema);
+const User = mongoose?.models?.User || mongoose.model("User", userSchema);
 
 export default User;

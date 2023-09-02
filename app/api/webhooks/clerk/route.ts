@@ -1,20 +1,20 @@
 /* eslint-disable camelcase */
-import { Webhook, WebhookRequiredHeaders } from 'svix';
-import { IncomingHttpHeaders } from 'http';
-import { NextResponse } from 'next/server';
-import { deleteUserAndCars, updateUser } from '@/lib/actions/user.actions';
-import { headers } from 'next/headers';
+import { Webhook, WebhookRequiredHeaders } from "svix";
+import { IncomingHttpHeaders } from "http";
+import { NextResponse } from "next/server";
+import { deleteUserAndCars, updateUser } from "@/lib/actions/user.actions";
+import { headers } from "next/headers";
 
 const webhookSecret = process.env.NEXT_CLERK_WEBHOOK_SECRET;
 
-type EventType = 'user.created' | 'user.updated' | 'user.deleted';
+type EventType = "user.created" | "user.updated" | "user.deleted";
 
 type Event = {
   data: {
     id: string;
     [key: string]: string | Record<string, string>[];
   };
-  object: 'event';
+  object: "event";
   type: EventType;
 };
 
@@ -25,12 +25,12 @@ export const POST = async (request: Request) => {
   const header = headers();
 
   const heads = {
-    'svix-id': header.get('svix-id'),
-    'svix-timestamp': header.get('svix-timestamp'),
-    'svix-signature': header.get('svix-signature'),
+    "svix-id": header.get("svix-id"),
+    "svix-timestamp": header.get("svix-timestamp"),
+    "svix-signature": header.get("svix-signature"),
   };
 
-  const wh = new Webhook(webhookSecret || '');
+  const wh = new Webhook(webhookSecret || "");
 
   let evnt: Event | null = null;
 
@@ -40,15 +40,15 @@ export const POST = async (request: Request) => {
       heads as IncomingHttpHeaders & WebhookRequiredHeaders
     ) as Event;
   } catch (err) {
-    console.error('Error in verification:', err);
+    console.error("Error in verification:", err);
     return NextResponse.json({ message: err }, { status: 400 });
   }
 
-  if (payloadType === 'user.created') {
+  if (payloadType === "user.created") {
     const {
       image_url: imageFromData,
       first_name: firstName,
-      id: clerkId,
+      id: id,
       last_name: lastName,
       email_addresses,
       username: usernameFromData,
@@ -56,21 +56,21 @@ export const POST = async (request: Request) => {
 
     const name = `${firstName} ${lastName}`;
 
-    let email = '';
+    let email = "";
     if (
-      typeof email_addresses[0] === 'object' &&
-      'email_address' in email_addresses[0]
+      typeof email_addresses[0] === "object" &&
+      "email_address" in email_addresses[0]
     ) {
       email = email_addresses[0].email_address;
     }
 
-    let image = '';
-    if (typeof imageFromData === 'string') {
+    let image = "";
+    if (typeof imageFromData === "string") {
       image = imageFromData;
     }
 
-    let username = '';
-    if (typeof usernameFromData === 'string') {
+    let username = "";
+    if (typeof usernameFromData === "string") {
       username = usernameFromData;
     }
 
@@ -79,32 +79,32 @@ export const POST = async (request: Request) => {
         image,
         name,
         email,
-        clerkId,
+        id,
         username,
-        bio: '',
+        bio: "",
         onboarded: false,
       });
 
       return NextResponse.json(
         {
-          message: 'User created successfully.',
+          message: "User created successfully.",
         },
         { status: 201 }
       );
     } catch (err) {
-      console.error('Failed to update user:', err);
+      console.error("Failed to update user:", err);
       return NextResponse.json(
-        { message: 'Internal Server Error from Created Event' },
+        { message: "Internal Server Error from Created Event" },
         { status: 500 }
       );
     }
   }
 
-  if (payloadType === 'user.updated') {
+  if (payloadType === "user.updated") {
     const {
       image_url: imageFromData,
       first_name: firstName,
-      id: clerkId,
+      id: id,
       last_name: lastName,
       email_addresses,
       username: usernameFromData,
@@ -113,63 +113,63 @@ export const POST = async (request: Request) => {
     const name = `${firstName} ${lastName}`;
 
     const email =
-      typeof email_addresses[0] === 'object' &&
-      'email_address' in email_addresses[0]
+      typeof email_addresses[0] === "object" &&
+      "email_address" in email_addresses[0]
         ? email_addresses[0].email_address
-        : '';
+        : "";
 
-    const image = typeof imageFromData === 'string' ? imageFromData : '';
+    const image = typeof imageFromData === "string" ? imageFromData : "";
 
     const username =
-      typeof usernameFromData === 'string' ? usernameFromData : '';
+      typeof usernameFromData === "string" ? usernameFromData : "";
 
     try {
       await updateUser({
         image,
         name,
         email,
-        clerkId,
+        id,
         username,
-        bio: '',
+        bio: "",
         onboarded: false,
       });
 
       return NextResponse.json(
         {
-          message: 'User updated successfully.',
+          message: "User updated successfully.",
         },
         { status: 201 }
       );
     } catch (err) {
-      console.error('Failed to update user:', err);
+      console.error("Failed to update user:", err);
       return NextResponse.json(
-        { message: 'Internal Server Error from Updated Event' },
+        { message: "Internal Server Error from Updated Event" },
         { status: 500 }
       );
     }
   }
 
-  if (payloadType === 'user.deleted') {
-    const { id: clerkId } = evnt.data;
+  if (payloadType === "user.deleted") {
+    const { id: id } = evnt.data;
     try {
-      await deleteUserAndCars(clerkId);
+      await deleteUserAndCars(id);
       return NextResponse.json(
         {
-          message: 'User deleted successfully.',
+          message: "User deleted successfully.",
         },
         { status: 200 }
       );
     } catch (err) {
-      console.error('Failed to delete user:', err);
+      console.error("Failed to delete user:", err);
       return NextResponse.json(
-        { message: 'Internal Server Error from Deleted Event' },
+        { message: "Internal Server Error from Deleted Event" },
         { status: 500 }
       );
     }
   }
 
   return NextResponse.json(
-    { message: 'Request processed successfully.' },
+    { message: "Request processed successfully." },
     { status: 200 }
   );
 };

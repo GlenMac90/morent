@@ -1,7 +1,7 @@
-import { currentUser } from '@clerk/nextjs';
+import { currentUser } from "@clerk/nextjs";
 
-import { userFromDB } from '@/lib/actions/user.actions';
-import AccountProfile from '@/components/forms/AccountProfile';
+import { userFromDB } from "@/lib/actions/user.actions";
+import AccountProfile from "@/components/forms/AccountProfile";
 
 async function Page() {
   const user = await currentUser();
@@ -12,12 +12,12 @@ async function Page() {
   const userInfo = await userFromDB(user.id);
 
   const userData = {
-    clerkId: user.id,
+    id: user.id,
     username: userInfo?.username || user.username,
     name: userInfo?.name || `${user.firstName} ${user.lastName}`.trim(),
-    email: userInfo?.email || user.emailAddresses[0]?.emailAddress || '',
-    bio: userInfo?.bio || '',
-    image: userInfo?.image || '',
+    email: userInfo?.email || user.emailAddresses[0]?.emailAddress || "",
+    bio: userInfo?.bio || "",
+    image: userInfo?.image || "",
     onboarded: userInfo?.onboarded || false,
   };
 

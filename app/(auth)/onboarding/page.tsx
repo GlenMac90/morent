@@ -1,7 +1,7 @@
-import { currentUser } from '@clerk/nextjs';
-import { User } from '@clerk/nextjs/server';
+import { currentUser } from "@clerk/nextjs";
+import { User } from "@clerk/nextjs/server";
 
-import AccountProfile from '@/components/forms/AccountProfile';
+import AccountProfile from "@/components/forms/AccountProfile";
 
 type ExtendedUser = User & {
   bio?: string;
@@ -16,12 +16,12 @@ const Page = async () => {
   if (!user) return null;
 
   const currentUserData = {
-    clerkId: user.id,
-    username: user.username || '',
-    name: user.name || '',
-    email: user.email || '',
-    bio: user.bio || '',
-    image: user.image || user.imageUrl || '',
+    id: user.id,
+    username: user.username || "",
+    name: user.name || "",
+    email: user.email || "",
+    bio: user.bio || "",
+    image: user.image || user.imageUrl || "",
     onboarded: Boolean,
   };
 
