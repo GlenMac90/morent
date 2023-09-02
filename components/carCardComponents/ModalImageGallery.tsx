@@ -1,13 +1,14 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { CarParams } from "@/lib/interfaces";
+import { advertSilverCar } from "@/public/pngs";
+import { dummyData } from "@/utils/dummyCarData";
 
 interface ModalImageGalleryProps {
   changePicture: boolean;
-  carData: {
-    pictures: string[];
-  };
-  displayPicture: string;
+  carData: CarParams;
+  displayPicture: string | undefined;
   setChangePicture: (value: boolean) => void;
   setDisplayPicture: (value: string) => void;
 }
@@ -19,6 +20,14 @@ const ModalImageGallery: React.FC<ModalImageGalleryProps> = ({
   setChangePicture,
   setDisplayPicture,
 }) => {
+  let images = carData?.carImages || [];
+  let mainImage = images[0] || advertSilverCar;
+
+  if (images.length === 0) {
+    images = dummyData.pictures;
+    mainImage = dummyData.pictures[0];
+  }
+
   return (
     <div className="flex flex-col justify-between md:w-full">
       <motion.div
@@ -26,11 +35,13 @@ const ModalImageGallery: React.FC<ModalImageGalleryProps> = ({
         initial={{ opacity: 0 }}
         transition={{ duration: changePicture ? 0.08 : 0 }}
         whileHover={{ scale: 1.2 }}
-        className="flex h-[15rem] w-full max-w-full items-center justify-center rounded-lg md:max-w-full lg:min-h-[22.5rem]"
+        className="flex h-[15rem] w-full max-w-full items-center justify-center rounded-lg md:max-w-full lg:min-h-[18rem]"
       >
         <Image
-          src={displayPicture}
+          src={displayPicture || dummyData.pictures[0]}
           alt="main display picture"
+          width={300}
+          height={225}
           style={{
             objectFit: "cover",
           }}
@@ -38,12 +49,14 @@ const ModalImageGallery: React.FC<ModalImageGalleryProps> = ({
         />
       </motion.div>
       <div className="no_scrollbar mt-5 flex gap-5 overflow-x-auto">
-        {carData.pictures.map((picture: string, index: number) => (
+        {images.map((picture: string, index: number) => (
           <div className="w-1/3 rounded-lg" key={index}>
             <Image
               src={picture}
+              width={100}
+              height={100}
               alt="car pictures"
-              className={`h-full cursor-pointer rounded-lg p-[3px] ${
+              className={`h-full w-auto cursor-pointer rounded-lg p-[3px] ${
                 displayPicture === picture && "border border-blue-600 p-[1px]"
               }`}
               onClick={() => {

@@ -30,6 +30,12 @@ const NavBar = () => {
     }
   }, [isSmallDevice]);
 
+  const handleCloseMobileNav = () => {
+    setTimeout(() => {
+      setShowNavMenu(!showNavMenu);
+    }, 250);
+  };
+
   return (
     <>
       <nav className="fixed z-40 flex h-[5.75rem] w-screen items-center justify-between bg-white px-6 dark:border-b-gray850 dark:bg-gray900 lg:h-[6.25rem] lg:border-b lg:px-[3.75rem]">
@@ -89,24 +95,18 @@ const NavBar = () => {
             width={24}
             alt="menu click"
             className="md:hidden"
-            onClick={() => setShowNavMenu(!showNavMenu)}
+            onClick={handleCloseMobileNav}
           />
         </div>
       </nav>
       {showNavMenu && (
-        <>
-          <div
-            className="fixed z-40 flex h-screen w-screen justify-center bg-black opacity-50 dark:bg-gray900 dark:opacity-70 md:hidden"
-            onClick={() => setShowNavMenu(false)}
-          />
-          <MobileNavBar
-            theme={theme}
-            setShowNavMenu={setShowNavMenu}
-            pathname={pathname}
-            userId={userId}
-            userImage={userImage}
-          />
-        </>
+        <MobileNavBar
+          theme={theme}
+          setShowNavMenu={handleCloseMobileNav}
+          pathname={pathname}
+          userId={userId}
+          userImage={userImage}
+        />
       )}
     </>
   );

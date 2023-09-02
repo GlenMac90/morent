@@ -1,59 +1,86 @@
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 
 import StarRating from "../reviewComponents/StarRating";
 import { cross, whiteCross } from "@/public/svg-icons";
-import { CarData } from "@/constants/interfaces";
+import { CarParams, ReviewData } from "@/lib/interfaces";
+import ReviewForm from "../reviewComponents/ReviewForm";
 
 interface ModalCarDetailsProps {
-  carData: CarData;
+  carData: CarParams;
   theme: string | undefined;
   canReview: boolean | undefined;
   setShowModal: (value: boolean) => void;
-  setShowReviewScreen: (value: boolean) => void;
+  setShowListOfReviews: (value: boolean) => void;
   handleButtonClick: () => void;
   carAvailability: boolean;
 }
+
+const findAverageRating = (reviews: ReviewData[]) => {
+  let rating = 0;
+  let timesRated = 0;
+  reviews.forEach((review) => {
+    rating += review.rating;
+    timesRated++;
+  });
+  return rating / timesRated;
+};
 
 const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
   carData,
   theme,
   canReview,
   setShowModal,
-  setShowReviewScreen,
+  setShowListOfReviews,
   handleButtonClick,
   carAvailability,
 }) => {
+  const numberOfReviews = carData?.reviews.length;
+  const starRating = findAverageRating(carData?.reviews);
+  const [showReviewScreen, setShowReviewScreen] = useState(false);
   const availabilityColor = carAvailability ? "bg-blue500" : "bg-blue100";
 
   return (
     <div className="mt-8 flex flex-col px-2 md:w-full lg:ml-10 lg:mt-0 lg:justify-between lg:p-6">
       <div className="flex flex-col">
         <div className="flex justify-between">
-          <p className="text-xl font-medium lg:text-3xl">{carData.brand}</p>
+          <p className="text-xl font-medium lg:text-3xl">{carData.carTitle}</p>
           <Image
             src={theme === "light" ? cross : whiteCross}
-            height={20}
-            width={20}
+            height={34}
+            width={34}
             alt="close modal"
             onClick={() => setShowModal(false)}
             className="hidden cursor-pointer self-start dark:text-white200 lg:flex"
           />
         </div>
-        <div className={`flex w-full ${canReview && "justify-between"}`}>
+        <div className={`flex w-full justify-between sm:mt-2`}>
           <StarRating
-            rating={carData.rating}
-            reviews={carData.numberOfReviews}
+            rating={starRating || 0}
+            reviews={numberOfReviews || 100}
           />
-          <button
-            className={`${
-              !canReview && "hidden"
-            } cursor-pointer self-center rounded border border-gray300 bg-white200 px-3 py-2 font-light hover:bg-blue500 hover:text-white dark:bg-white/50`}
-            onClick={() => setShowReviewScreen(true)}
-          >
-            Review
-          </button>
+          {canReview ? (
+            <button
+              className="cursor-pointer self-center rounded border border-gray300 bg-white200 px-3 py-2 font-light hover:bg-blue500 hover:text-white dark:bg-white/50"
+              onClick={() => setShowReviewScreen(true)}
+            >
+              Review
+            </button>
+          ) : (
+            <button
+              className="cursor-pointer self-center justify-self-end rounded border border-gray300 bg-white200 px-3 py-2 font-light hover:bg-blue500 hover:text-white dark:bg-white/50"
+              onClick={() => setShowListOfReviews(true)}
+            >
+              Reviews
+            </button>
+          )}
         </div>
+        {showReviewScreen && (
+          <ReviewForm
+            data={carData}
+            setShowReviewScreen={setShowReviewScreen}
+          />
+        )}
       </div>
       <p className="mt-2 text-xs font-light leading-6 text-gray700 dark:text-white200 lg:text-lg lg:leading-10">
         {carData.shortDescription}
@@ -64,16 +91,16 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
             <p className="text-xs text-gray400 sm:text-lg lg:text-xl">
               Type Car
             </p>
-            <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
-              {carData.type}
+            <p className="text-right text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
+              {carData.carType}
             </p>
           </div>
           <div className="flex w-1/2 justify-between">
             <p className="text-xs text-gray400 sm:text-lg lg:text-xl">
               Capacity
             </p>
-            <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
-              {carData.capacity} {carData.capacity === 1 ? "person" : "people"}
+            <p className="text-right text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
+              {carData.capacity} people
             </p>
           </div>
         </div>
@@ -82,7 +109,7 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
             <p className="text-xs text-gray400 sm:text-lg lg:text-xl">
               Transm.
             </p>
-            <p className="text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
+            <p className="text-right text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
               {carData.transmission}
             </p>
           </div>

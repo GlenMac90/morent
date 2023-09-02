@@ -1,15 +1,20 @@
-import { UseFormReturn } from 'react-hook-form';
+import { UseFormReturn } from "react-hook-form";
 
-import { FormData, FileWithPreview, UploadFunction } from '@/lib/interfaces';
-import { CarValidation } from '@/lib/validations/car';
-import { z } from 'zod';
-import { showError } from '@/lib/toastHandler';
+import {
+  FormData,
+  FileWithPreview,
+  UploadFunction,
+  ReviewDocument,
+} from "@/lib/interfaces";
+import { CarValidation } from "@/lib/validations/car";
+import { z } from "zod";
+import { showError } from "@/lib/toastHandler";
 
 export const handleLocationSelected = (
   location: string,
   form: UseFormReturn<FormData>
 ) => {
-  form.setValue('location', location);
+  form.setValue("location", location);
 };
 
 export const uploadImages = async (
@@ -25,7 +30,7 @@ export const uploadImages = async (
     const imgRes = await startUpload([files[index]]);
 
     return (
-      imgRes?.map((imgRes) => imgRes?.url || '').filter((url) => url) || []
+      imgRes?.map((imgRes) => imgRes?.url || "").filter((url) => url) || []
     );
   });
 
@@ -36,6 +41,21 @@ export const uploadImages = async (
   );
 
   return flatUploadedUrls;
+};
+
+export const uploadBannerImage = async (
+  imagePreview: string,
+  file: FileWithPreview,
+  isBase64Image: (data: string) => boolean,
+  startUpload: UploadFunction
+): Promise<string | null> => {
+  const isImage = isBase64Image(imagePreview);
+
+  if (!isImage) return null;
+
+  const imgRes = await startUpload([file]);
+
+  return imgRes?.[0]?.url || null;
 };
 
 export const handleFilesChange = (
@@ -65,11 +85,11 @@ export const handleFilesChange = (
     .then((allFileData) => {
       setImagePreviews(allFileData);
       if (allFileData.length > 0) {
-        form.setValue('carImages', allFileData);
+        form.setValue("carImageMain", allFileData[0] || "");
       }
     })
     .catch((error) => {
-      console.error('Error reading one or more files:', error);
+      console.error("Error reading one or more files:", error);
     });
 };
 
@@ -84,15 +104,24 @@ export const formatCarData = (
   userId: string | undefined
 ) => ({
   userId,
-  carTitle: values.carTitle || '',
-  carType: values.carType || '',
-  rentPrice: values.rentPrice || '',
-  capacity: values.capacity || '',
-  transmission: values.transmission || '',
-  location: values.location || '',
-  fuelCapacity: values.fuelCapacity || '',
-  shortDescription: values.shortDescription || '',
-  carImages: values.carImages || [],
+  carTitle: values.carTitle || "",
+  carType: values.carType || "",
+  rentPrice: values.rentPrice || "",
+  capacity: values.capacity || "",
+  transmission: values.transmission || "",
+  location: values.location || "",
+  fuelCapacity: values.fuelCapacity || "",
+  shortDescription: values.shortDescription || "",
+  carImageMain: values.carImageMain,
+});
+
+export const formatReviewData = (data: ReviewDocument) => ({
+  userId: data.userId,
+  carId: data.carId,
+  rating: data.rating || "",
+  title: data.title || "",
+  content: data.content || "",
+  datePosted: data.datePosted || "",
 });
 
 export const handleServerError = (
@@ -101,15 +130,15 @@ export const handleServerError = (
   updating: boolean
 ) => {
   let errorMessage = updating
-    ? 'There was an issue while updating the car.'
-    : 'There was an issue while creating the car.';
+    ? "There was an issue while updating the car."
+    : "There was an issue while creating the car.";
 
   if (error instanceof Error) {
     errorMessage += ` Detail: ${error.message}`;
     console.error({ error, message: error.message });
   } else {
-    console.error({ error, message: 'An unknown error occurred' });
+    console.error({ error, message: "An unknown error occurred" });
   }
 
-  showError(toast, 'Error', errorMessage);
+  showError(toast, "Error", errorMessage);
 };

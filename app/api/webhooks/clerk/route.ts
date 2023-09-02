@@ -48,7 +48,7 @@ export const POST = async (request: Request) => {
     const {
       image_url: imageFromData,
       first_name: firstName,
-      id: id,
+      id,
       last_name: lastName,
       email_addresses,
       username: usernameFromData,
@@ -104,7 +104,7 @@ export const POST = async (request: Request) => {
     const {
       image_url: imageFromData,
       first_name: firstName,
-      id: id,
+      id,
       last_name: lastName,
       email_addresses,
       username: usernameFromData,
@@ -149,8 +149,12 @@ export const POST = async (request: Request) => {
     }
   }
 
+<<<<<<< HEAD
   if (payloadType === "user.deleted") {
-    const { id: id } = evnt.data;
+=======
+  if (payloadType === 'user.deleted') {
+>>>>>>> main
+    const { id } = evnt.data;
     try {
       await deleteUserAndCars(id);
       return NextResponse.json(

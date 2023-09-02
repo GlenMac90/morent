@@ -1,16 +1,16 @@
-import mongoose from 'mongoose';
-import { ReviewDocument } from '../interfaces';
+import mongoose from "mongoose";
+import { ReviewDocument } from "../interfaces";
 
 const reviewSchema = new mongoose.Schema(
   {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: "User",
       required: true,
     },
     carId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Car',
+      ref: "Car",
       required: true,
     },
     rating: {
@@ -35,6 +35,6 @@ const reviewSchema = new mongoose.Schema(
 
 const Review =
   mongoose?.models?.Review ||
-  mongoose.model<ReviewDocument>('Review', reviewSchema);
+  mongoose.model<ReviewDocument>("Review", reviewSchema);
 
 export default Review;

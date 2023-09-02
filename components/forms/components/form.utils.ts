@@ -1,15 +1,15 @@
-import { UseFormReturn } from 'react-hook-form';
+import { UseFormReturn } from "react-hook-form";
 
-import { FormData, FileWithPreview, UploadFunction } from '@/lib/interfaces';
-import { CarValidation } from '@/lib/validations/car';
-import { z } from 'zod';
-import { showError } from '@/lib/toastHandler';
+import { FormData, FileWithPreview, UploadFunction } from "@/lib/interfaces";
+import { CarValidation } from "@/lib/validations/car";
+import { z } from "zod";
+import { showError } from "@/lib/toastHandler";
 
 export const handleLocationSelected = (
   location: string,
   form: UseFormReturn<FormData>
 ) => {
-  form.setValue('location', location);
+  form.setValue("location", location);
 };
 
 export const uploadImages = async (
@@ -20,15 +20,22 @@ export const uploadImages = async (
 ): Promise<string[]> => {
   const uploadPromises = imagePreviews.map(async (blob, index) => {
     const isImage = isBase64Image(blob);
-    if (!isImage) return null;
+    if (!isImage) return [];
 
     const imgRes = await startUpload([files[index]]);
 
-    return imgRes?.[0]?.url || null;
+    return (
+      imgRes?.map((imgRes) => imgRes?.url || "").filter((url) => url) || []
+    );
   });
 
-  const uploadedUrls: (string | null)[] = await Promise.all(uploadPromises);
-  return uploadedUrls.filter((url) => url !== null) as string[];
+  const allUploadedUrls: string[][] = await Promise.all(uploadPromises);
+
+  const flatUploadedUrls: string[] = ([] as string[]).concat(
+    ...allUploadedUrls
+  );
+
+  return flatUploadedUrls;
 };
 
 export const handleFilesChange = (
@@ -45,6 +52,7 @@ export const handleFilesChange = (
         resolve(result);
       };
       fileReader.onerror = () => {
+        console.error(`Error reading file:`, fileReader.error);
         reject(fileReader.error);
       };
     });
@@ -54,11 +62,11 @@ export const handleFilesChange = (
     .then((allFileData) => {
       setImagePreviews(allFileData);
       if (allFileData.length > 0) {
-        form.setValue('carImageMain', allFileData[0] || '');
+        form.setValue("carImages", allFileData);
       }
     })
     .catch((error) => {
-      console.error('Error reading one or more files:', error);
+      console.error("Error reading one or more files:", error);
     });
 };
 
@@ -73,23 +81,23 @@ export const formatCarData = (
   userId: string | undefined
 ) => ({
   userId,
-  carTitle: values.carTitle || '',
-  carType: values.carType || '',
-  rentPrice: values.rentPrice || '',
-  capacity: values.capacity || '',
-  transmission: values.transmission || '',
-  location: values.location || '',
-  fuelCapacity: values.fuelCapacity || '',
-  shortDescription: values.shortDescription || '',
-  carImageMain: values.carImageMain,
+  carTitle: values.carTitle || "",
+  carType: values.carType || "",
+  rentPrice: values.rentPrice || "",
+  capacity: values.capacity || "",
+  transmission: values.transmission || "",
+  location: values.location || "",
+  fuelCapacity: values.fuelCapacity || "",
+  shortDescription: values.shortDescription || "",
+  carImages: values.carImages || [],
 });
 
 export const handleServerError = (error: any, toast: any) => {
   if (error instanceof Error) {
     console.error({ error, message: error.message });
-    showError(toast, 'Error', error.message);
+    showError(toast, "Error", error.message);
   } else {
-    console.error({ error, message: 'An unknown error occurred' });
-    showError(toast, 'Error', 'An unknown error occurred');
+    console.error({ error, message: "An unknown error occurred" });
+    showError(toast, "Error", "An unknown error occurred");
   }
 };

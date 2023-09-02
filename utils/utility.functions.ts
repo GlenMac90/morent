@@ -1,3 +1,4 @@
+import * as mongoose from "mongoose";
 export function calculateDaysBetweenDates(
   dateStr1: string,
   dateStr2: string

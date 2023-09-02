@@ -7,43 +7,32 @@ import Car from "../models/car.model";
 import Review from "../models/review.model";
 import { UserParams } from "../interfaces";
 
-export async function userFromDB(id: string): Promise<UserParams | null> {
-  await connectToDB();
-  const userDocument = await User.findOne({ id });
+export async function userFromDB(
+  userName: string | undefined
+): Promise<UserParams | null> {
+  connectToDB();
+  const userDocument = await User.findOne({ id: userName });
   if (!userDocument) {
     console.warn("User not found.");
     return null;
   }
-  return userDocument.toObject();
+  return userDocument;
 }
 
-export async function fetchUserCars(id: string): Promise<UserParams | null> {
+export async function fetchUserCars(
+  userId: string
+): Promise<UserParams | null> {
   connectToDB();
-  const userWithCarsAdded = await User.findOne({ id })
-    .populate({
-      path: "carsAdded.car",
-      model: "Car",
-      populate: {
-        path: "reviews",
-        model: "Review",
-      },
-    })
-    .populate({
-      path: "carsRented.car",
-      model: "Car",
-      populate: {
-        path: "reviews",
-        model: "Review",
-      },
-    })
+  const userWithCars = await User.findOne({ id: userId })
+    .populate("cars")
     .exec();
 
-  if (!userWithCarsAdded) {
+  if (!userWithCars) {
     console.warn("User not found.");
     return null;
   }
 
-  return userWithCarsAdded.toObject();
+  return userWithCars.toObject();
 }
 
 export async function updateUser(params: UserParams): Promise<void> {
@@ -92,17 +81,8 @@ export async function fetchReviewsByUser(id: string): Promise<any[] | null> {
   await connectToDB();
 
   try {
-    const user = await User.findOne({ id });
-    if (!user) {
-      console.warn("User not found.");
-      return null;
-    }
-
-    const userReviews = await Review.find({ userId: user._id })
-      .populate({
-        path: "carId",
-        select: "carTitle carImages",
-      })
+    const userReviews = await Review.find({ userId })
+      .populate("carId", "carTitle", "carImageMain")
       .exec();
 
     if (!userReviews || userReviews.length === 0) {

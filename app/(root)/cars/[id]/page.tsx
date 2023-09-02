@@ -16,8 +16,10 @@ const EditCarPage: React.FC<EditCarPageProps> = async ({ params }) => {
   }
 
   return (
-    <div className="my-10 flex w-full items-center justify-center bg-white200">
-      <CarForm car={carData} />
+    <div className="flex w-full items-center justify-center">
+      <div className="flex w-full justify-center py-40">
+        <CarForm car={carData} />
+      </div>
     </div>
   );
 };

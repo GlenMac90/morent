@@ -2,6 +2,25 @@ import { Control } from "react-hook-form";
 import { UploadFileResponse } from "uploadthing/client";
 import mongoose from "mongoose";
 
+export interface ReviewData {
+  _id?: string;
+  userId?: {
+    _id?: string;
+    image?: string;
+    username?: string;
+  };
+  carId?: {
+    _id: string;
+    carTitle: string;
+    carImages: string[];
+  };
+  rating: number;
+  title?: string;
+  content?: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface GeocodeResult {
   geometry: {
     location: {
@@ -15,8 +34,8 @@ export interface GeocodeResult {
 }
 
 export interface DateRange {
-  from: Date;
-  to: Date;
+  from: Date | string;
+  to: Date | string;
 }
 
 export interface CarParams {
@@ -25,7 +44,7 @@ export interface CarParams {
   carTitle: string;
   carType: string;
   disabledDates?: {
-    singleDates?: Date[];
+    singleDates?: Date[] | string[];
     dateRanges?: DateRange[];
   };
   rentPrice?: string;
@@ -37,7 +56,7 @@ export interface CarParams {
   location?: string;
   fuelCapacity?: string;
   shortDescription?: string;
-  carImages?: string[];
+  carImages: string[];
   liked?: boolean;
   path?: string;
 }
@@ -45,7 +64,7 @@ export interface CarParams {
 export interface CarFormProps {
   userId?: string;
   carId?: string | null;
-  car?: CarParams | null;
+  car: CarParams;
 }
 
 export type FormData = {
@@ -78,6 +97,7 @@ export interface UserParams {
   email?: string;
   name: string;
   image?: string;
+  coverImage?: string;
   bio?: string;
   onboarded?: boolean;
   path?: string;
@@ -131,8 +151,8 @@ export interface FileWithPreview extends File {
 
 export type CarFormHeaderProps = {
   pathname: string;
-  car?: {
-    carImages?: string[];
+  car: {
+    carImages: string[];
   };
   imagePreviews: string[];
 };

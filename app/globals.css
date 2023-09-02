@@ -473,24 +473,22 @@
 }
 
 @keyframes driveAway {
-  0% {
-    transform: translateX(0);
-  }
-
+  0%,
   50% {
-    transform: translateX(0);
+    transform: translate(0, 0);
   }
-
+  65% {
+    transform: translate(1000px, 0);
+  }
+  70% {
+    transform: translate(0, 500px);
+  }
   75% {
-    transform: translateX(1000px);
-  }
-
-  76% {
-    transform: translateX(-1000px);
+    transform: translate(-1000px, 0);
   }
 
   100% {
-    transform: translateX(0);
+    transform: translate(0, 0);
   }
 }
 
