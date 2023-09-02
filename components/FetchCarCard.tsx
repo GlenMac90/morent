@@ -50,7 +50,7 @@ const FetchCarCard = ({
     setPrice([950]);
     setSearch("");
     // NOTE when a user goes to the search page, get the counts of Type and Capacity of cars
-    const { capacityMap, carTypeMap } = getCapacityAndCarType(cars || []);
+    const { carTypeMap, capacityMap } = getCapacityAndCarType(cars || []);
     setTypeCounts(carTypeMap);
     setCapacityCounts(capacityMap);
   }, [cars]);

@@ -42,11 +42,9 @@ const Filter = ({
   }: React.ChangeEvent<HTMLInputElement>) => {
     const { state, setState } = filterOptions[label as "type" | "capacity"];
 
-    if (checked) {
-      setState([...state, value]);
-    } else {
-      setState(state.filter((item: string) => item !== value));
-    }
+    checked
+      ? setState([...state, value])
+      : setState(state.filter((item) => item !== value));
   };
 
   return (
