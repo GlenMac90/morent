@@ -1,13 +1,12 @@
 'use server';
 
-import { faker } from '@faker-js/faker';
-
 import Car from '@/lib/models/car.model';
 import Review from '@/lib/models/review.model';
 import { connectToDB } from '@/lib/mongoose';
 import { fetchAllUsers } from '@/lib/actions/user.actions';
 import { fetchAllCars } from '@/lib/actions/car.actions';
 import { getRandomItemFromArray } from './utility.serverFunctions';
+import { reviews, reviewTitles } from '@/constants';
 
 export async function seedCarReviews(): Promise<void> {
   await connectToDB();
@@ -35,8 +34,8 @@ export async function seedCarReviews(): Promise<void> {
         userId: randomUserId,
         carId: car._id,
         rating: getRandomItemFromArray([1, 2, 3, 4, 5]),
-        title: faker.lorem.sentence(),
-        content: faker.lorem.paragraph(),
+        title: getRandomItemFromArray(reviewTitles),
+        content: getRandomItemFromArray(reviews),
       };
 
       const review = new Review(reviewDetails);

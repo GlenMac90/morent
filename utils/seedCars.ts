@@ -1,18 +1,22 @@
 'use server';
 
 import { faker } from '@faker-js/faker';
+import mongoose from 'mongoose';
 
 import Car from '@/lib/models/car.model';
 import User from '@/lib/models/user.model';
 import { connectToDB } from '@/lib/mongoose';
 import { fetchAllUsers } from '@/lib/actions/user.actions';
 import { getRandomItemFromArray } from './utility.serverFunctions';
+import { locations, shortDescription } from '@/constants';
+
+type ObjectId = mongoose.Types.ObjectId;
 
 export async function seedCars(numCars: number): Promise<void> {
   await connectToDB();
 
   const users = await fetchAllUsers();
-  const userIds = users.map((user) => user._id);
+  const userIds = users.map((user) => user._id) as ObjectId[];
 
   if (userIds.length === 0) {
     console.error('No users found to assign cars to.');
@@ -21,8 +25,34 @@ export async function seedCars(numCars: number): Promise<void> {
     console.warn(`Found ${userIds.length} user IDs to assign cars to.`);
   }
 
+  const numberOfLikes = faker.datatype.number({ min: 0, max: userIds.length });
+  const likedByUserIds: ObjectId[] = [];
+
+  while (likedByUserIds.length < numberOfLikes) {
+    const potentialLike: ObjectId | undefined = getRandomItemFromArray(userIds);
+
+    if (potentialLike && !likedByUserIds.includes(potentialLike)) {
+      likedByUserIds.push(potentialLike);
+    }
+  }
+
   for (let i = 0; i < numCars; i++) {
     const randomUserId = getRandomItemFromArray(userIds);
+
+    const numberOfLikes = faker.datatype.number({
+      min: 0,
+      max: userIds.length,
+    });
+    const likedByUserIds: ObjectId[] = [];
+
+    while (likedByUserIds.length < numberOfLikes) {
+      const potentialLike: ObjectId | undefined =
+        getRandomItemFromArray(userIds);
+
+      if (potentialLike && !likedByUserIds.includes(potentialLike)) {
+        likedByUserIds.push(potentialLike);
+      }
+    }
 
     const carDetails = {
       userId: randomUserId,
@@ -45,8 +75,8 @@ export async function seedCars(numCars: number): Promise<void> {
         ],
       },
       carRented: getRandomItemFromArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
-      starRating: getRandomItemFromArray([1, 2, 3, 4, 5]),
-      rentPrice: faker.finance.amount(),
+      averageRating: getRandomItemFromArray([1, 2, 3, 4, 5]),
+      rentPrice: String(faker.finance.amount(10, 200, 2)),
       capacity: getRandomItemFromArray(['2', '4', '6', '8']),
       transmission: getRandomItemFromArray([
         'manual',
@@ -54,9 +84,9 @@ export async function seedCars(numCars: number): Promise<void> {
         'semi-automatic',
         'cvt',
       ]),
-      location: faker.address.city(),
+      location: getRandomItemFromArray(locations),
       fuelCapacity: getRandomItemFromArray(['40', '50', '60', '80']),
-      shortDescription: faker.lorem.sentence(),
+      shortDescription: getRandomItemFromArray(shortDescription),
       carImages: [
         faker.image.urlLoremFlickr({
           category: 'musclecar',
@@ -74,7 +104,7 @@ export async function seedCars(numCars: number): Promise<void> {
           height: 480,
         }),
       ],
-      liked: faker.datatype.boolean(),
+      likes: likedByUserIds,
     };
 
     const car = new Car(carDetails);
