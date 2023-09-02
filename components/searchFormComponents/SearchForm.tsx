@@ -28,8 +28,9 @@ const SearchForm = () => {
             onChange={handleInputChange}
             id="search"
             type="search"
-            className="h-12 truncate border-blue50 bg-[url('/svg-icons/filterSearch.svg')] bg-[0.75rem_center] bg-no-repeat pl-12 text-[0.875rem] font-medium not-italic leading-[1.3125rem] tracking-[-0.0175rem] 
-                      text-gray700 dark:border-gray800 dark:bg-gray850 dark:bg-[url('/svg-icons/darkFilterSearch.svg')] dark:text-blue100"
+            className="h-12 truncate border-blue50 bg-[url('/svg-icons/filterSearch.svg')] bg-[0.75rem_center]  
+              bg-no-repeat pl-12 text-[0.875rem] font-medium not-italic leading-[1.3125rem] tracking-[-0.0175rem] 
+              text-gray700 dark:border-gray800 dark:bg-gray850 dark:bg-[url('/svg-icons/darkFilterSearch.svg')] dark:text-blue100"
             placeholder="Search by car title"
           />
         </>

@@ -61,7 +61,8 @@ const Filter = ({
             <div key={data} className="flex flex-row gap-[0.38rem]">
               <div className="flex flex-row items-center gap-[0.38rem] lg:gap-2">
                 <input
-                  className="peer h-[18px] w-[18px] appearance-none rounded-[5px] border border-gray400 bg-center bg-no-repeat checked:border-none checked:bg-[url('/svg-icons/checkBox.svg')]"
+                  className="peer h-[18px] w-[18px] appearance-none rounded-[5px] border border-gray400 
+                    bg-center bg-no-repeat checked:border-none checked:bg-[url('/svg-icons/checkBox.svg')]"
                   id={desktopView ? `desktop-${data}` : data}
                   value={data}
                   onChange={filterHandler}
