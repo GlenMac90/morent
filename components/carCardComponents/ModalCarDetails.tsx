@@ -100,7 +100,7 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
               Capacity
             </p>
             <p className="text-right text-xs text-gray700 dark:text-white200 sm:text-lg lg:text-xl">
-              {carData.capacity} people
+              {carData.capacity}
             </p>
           </div>
         </div>

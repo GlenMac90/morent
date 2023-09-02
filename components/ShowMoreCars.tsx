@@ -9,9 +9,19 @@ import {
 } from "@/components/ui/collapsible";
 import { Button } from "@/components/ui/button";
 import CarCard from "@/components/carCardComponents/CarCard";
-import { dummyData } from "@/utils/dummyCarData";
+import { CarParams } from "@/lib/interfaces";
 
-const ShowMoreCars = () => {
+const ShowMoreCars = ({
+  filteredCars,
+  carNumbers,
+  availabilityTo,
+  availabilityFrom,
+}: {
+  filteredCars: CarParams[];
+  carNumbers: number;
+  availabilityTo: Date;
+  availabilityFrom: Date;
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
@@ -28,9 +38,17 @@ const ShowMoreCars = () => {
         className={`${isClickedAddMarginBottom} CollapsibleContent mt-5 grid grid-rows-1 gap-5 xs:flex-col xs:items-center 
           xs:justify-center sm:grid-cols-2 md:mt-9 md:gap-8 xl:grid-cols-3`}
       >
-        {Array.from({ length: 6 }).map((_, i) => (
-          <CarCard key={i} id={i.toString()} carData={dummyData} />
-        ))}
+        {filteredCars &&
+          filteredCars
+            .slice(6, carNumbers)
+            .map((car: CarParams) => (
+              <CarCard
+                key={car._id}
+                carData={car}
+                availabilityFrom={availabilityFrom}
+                availabilityTo={availabilityTo}
+              />
+            ))}
       </CollapsibleContent>
       <div className="flex items-center justify-center space-x-4 px-4">
         <CollapsibleTrigger asChild>

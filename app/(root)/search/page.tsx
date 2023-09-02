@@ -1,9 +1,7 @@
+import FetchCarCard from "@/components/FetchCarCard";
 import PickUpDropOffCard from "@/components/PickUpDropOffCard";
 import SearchWithFiltering from "@/components/searchFormComponents/SearchWithFiltering";
-import CarCard from "@/components/carCardComponents/CarCard";
-import ShowMoreCars from "@/components/ShowMoreCars";
 import { getCarsByLocation } from "@/lib/actions/car.actions";
-import { CarParams } from "@/lib/interfaces";
 
 const SearchPage = async ({
   searchParams,
@@ -23,22 +21,11 @@ const SearchPage = async ({
       <SearchWithFiltering />
       <div className="flex grow flex-col bg-white200 px-6 pb-[3.75rem] pt-6 dark:bg-gray950 sm:pb-0">
         <PickUpDropOffCard />
-        <div
-          className="mt-[3.75rem] grid grid-rows-1 gap-5 xs:flex-col xs:items-center xs:justify-center sm:grid-cols-2 md:mt-9 
-              md:gap-8 xl:grid-cols-3"
-        >
-          {cars &&
-            cars.map((car: CarParams) => (
-              <CarCard
-                key={car._id}
-                id={car._id}
-                carData={car}
-                availabilityFrom={availabilityFrom}
-                availabilityTo={availabilityTo}
-              />
-            ))}
-        </div>
-        <ShowMoreCars />
+        <FetchCarCard
+          cars={cars}
+          availabilityFrom={availabilityFrom}
+          availabilityTo={availabilityTo}
+        />
       </div>
     </div>
   );

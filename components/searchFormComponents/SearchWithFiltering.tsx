@@ -5,7 +5,7 @@ import FilteringContent from "../FilteringContent";
 
 const SearchWithFiltering = () => {
   return (
-    <div className="flex flex-row gap-4 bg-white0 px-6 pb-8 dark:bg-gray900 lg:w-[22.5rem] lg:flex-col lg:gap-[3.25rem] lg:px-8">
+    <aside className="flex flex-row gap-4 bg-white0 px-6 pb-8 dark:bg-gray900 lg:w-[22.5rem] lg:flex-col lg:gap-[3.25rem] lg:px-8">
       <SearchForm />
       <FilteringContent desktopView={true} />
       <Dialog>
@@ -21,7 +21,7 @@ const SearchWithFiltering = () => {
           <FilteringContent desktopView={false} />
         </DialogContent>
       </Dialog>
-    </div>
+    </aside>
   );
 };
 

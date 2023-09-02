@@ -149,6 +149,7 @@ export const POST = async (request: Request) => {
     }
   }
 
+
   if (payloadType === 'user.deleted') {
     const { id } = evnt.data;
     try {
