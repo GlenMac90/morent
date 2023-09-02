@@ -1,12 +1,12 @@
-'use server';
+"use server";
 
-import { faker } from '@faker-js/faker';
+import { faker } from "@faker-js/faker";
 
-import Car from '@/lib/models/car.model';
-import User from '@/lib/models/user.model';
-import { connectToDB } from '@/lib/mongoose';
-import { fetchAllUsers } from '@/lib/actions/user.actions';
-import { getRandomItemFromArray } from './utility.serverFunctions';
+import Car from "@/lib/models/car.model";
+import User from "@/lib/models/user.model";
+import { connectToDB } from "@/lib/mongoose";
+import { fetchAllUsers } from "@/lib/actions/user.actions";
+import { getRandomItemFromArray } from "./utility.serverFunctions";
 
 export async function seedCars(numCars: number): Promise<void> {
   await connectToDB();
@@ -15,8 +15,8 @@ export async function seedCars(numCars: number): Promise<void> {
   const userIds = users.map((user) => user._id);
 
   if (userIds.length === 0) {
-    console.error('No users found to assign cars to.');
-    throw new Error('No users found to assign cars to.');
+    console.error("No users found to assign cars to.");
+    throw new Error("No users found to assign cars to.");
   } else {
     console.warn(`Found ${userIds.length} user IDs to assign cars to.`);
   }
@@ -28,12 +28,12 @@ export async function seedCars(numCars: number): Promise<void> {
       userId: randomUserId,
       carTitle: faker.vehicle.model(),
       carType: getRandomItemFromArray([
-        'Sport',
-        'SUV',
-        'MPV',
-        'Sedan',
-        'Coupe',
-        'Hatchback',
+        "Sport",
+        "SUV",
+        "MPV",
+        "Sedan",
+        "Coupe",
+        "Hatchback",
       ]),
       disabledDates: {
         singleDates: [faker.date.future(), faker.date.future()],
@@ -47,29 +47,34 @@ export async function seedCars(numCars: number): Promise<void> {
       carRented: getRandomItemFromArray([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
       starRating: getRandomItemFromArray([1, 2, 3, 4, 5]),
       rentPrice: faker.finance.amount(),
-      capacity: getRandomItemFromArray(['2', '4', '6', '8']),
+      capacity: getRandomItemFromArray([
+        "2 Person",
+        "4 Person",
+        "6 Person",
+        "8 or More",
+      ]),
       transmission: getRandomItemFromArray([
-        'manual',
-        'automatic',
-        'semi-automatic',
-        'cvt',
+        "manual",
+        "automatic",
+        "semi-automatic",
+        "cvt",
       ]),
       location: faker.address.city(),
-      fuelCapacity: getRandomItemFromArray(['40', '50', '60', '80']),
+      fuelCapacity: getRandomItemFromArray(["40", "50", "60", "80"]),
       shortDescription: faker.lorem.sentence(),
       carImages: [
         faker.image.urlLoremFlickr({
-          category: 'musclecar',
+          category: "musclecar",
           width: 640,
           height: 480,
         }),
         faker.image.urlLoremFlickr({
-          category: 'car,old',
+          category: "car,old",
           width: 640,
           height: 480,
         }),
         faker.image.urlLoremFlickr({
-          category: 'car,old',
+          category: "car,old",
           width: 640,
           height: 480,
         }),

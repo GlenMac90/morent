@@ -80,11 +80,7 @@ const Filter = ({
                   className="text-[1rem] font-semibold not-italic leading-[1.4rem] tracking-[-0.02rem]"
                   htmlFor={desktopView ? `desktop-${data}` : data}
                 >
-                  {label === "capacity"
-                    ? data === "8"
-                      ? data + " or More"
-                      : data + " Person"
-                    : data}
+                  {data}
                 </Label>
               </div>
               <span className="text-[1rem] font-medium not-italic leading-[140%] tracking-[-0.02rem] text-gray400">

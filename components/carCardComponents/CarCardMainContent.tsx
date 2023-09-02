@@ -132,8 +132,7 @@ const CarCardMainContent: React.FC<CarCardMainContentProps> = ({
               className="h-3.5 w-3.5 xs:h-5 xs:w-5"
             />
             <p className="ml-1 self-center text-xs text-gray400 xs:text-sm sm:ml-1.5">
-              {carData?.capacity}{" "}
-              {carData?.capacity === "1" ? "person" : "people"}
+              {carData?.capacity}
             </p>
           </div>
         </div>
