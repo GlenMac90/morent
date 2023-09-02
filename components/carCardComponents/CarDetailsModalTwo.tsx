@@ -42,8 +42,8 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
   carData,
   setShowModal,
 }) => {
+  console.log(carData);
   const { theme } = useTheme();
-
   const today = new Date();
   const twoDaysFromNow = addDays(today, 2);
 
@@ -176,7 +176,9 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
             `/checkout?price=${carData.rentPrice.replace(
               ".",
               ""
-            )}&totalDays=${daysRented}`
+            )}&totalDays=${daysRented}&date=${JSON.stringify(date)}&id=${
+              carData._id
+            }`
           )
         }
         className="mt-7 w-full rounded-xl bg-blue500 py-4 font-semibold text-white"

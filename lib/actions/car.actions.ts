@@ -6,7 +6,7 @@ import { connectToDB } from "../mongoose";
 import User from "../models/user.model";
 import Car from "../models/car.model";
 import Review from "../models/review.model";
-import { CarParams, CarParams, ReviewDocument } from "../interfaces";
+import { CarParams, ReviewDocument } from "../interfaces";
 
 export async function fetchRecommendedCars(): Promise<CarParams[] | null> {
   try {
@@ -128,7 +128,7 @@ export async function fetchCarsAddedByUser(
     const cars = await Car.find({ userId }).exec();
 
     // Convert each car document to a plain JavaScript object
-    return cars.map((car) => car.toObject());
+    return cars.map((car) => car.toObject()).reverse();
   } catch (error: any) {
     throw new Error(
       `Failed to fetch cars added by user with ID ${userId}: ${error.message}`
@@ -154,7 +154,7 @@ export async function fetchCarsRentedByUser(
       return null;
     }
 
-    return user.carsRented.map((rented: any) => {
+    return user.carsRented.reverse().map((rented: any) => {
       const car = rented.car.toObject();
 
       // Compute average rating for each car
@@ -287,6 +287,51 @@ export async function deleteAllCars(): Promise<void> {
   }
 }
 
+export async function editCarDisabledDates(
+  carId: string,
+  dateRange: { from: Date; to: Date }
+): Promise<CarParams | null> {
+  console.log("Starting editCarDisabledDates function...");
+
+  await connectToDB();
+  console.log("Connected to the database.");
+
+  // Find the car with the provided carId
+  console.log(`Looking for car with id: ${carId}`);
+  const car = await Car.findById(carId).exec();
+
+  if (!car) {
+    console.warn("Car not found.");
+    return null;
+  }
+  console.log("Car found.");
+
+  // Check if the dateRange is already in the car's dateRanges array
+  console.log(
+    "Checking if the date range is already in the car's disabled dates..."
+  );
+  const exists = car.disabledDates.dateRanges.some(
+    (range) => range.from === dateRange.from && range.to === dateRange.to
+  );
+
+  if (exists) {
+    console.warn("Date range already added to the car's disabled dates.");
+    return car.toObject();
+  }
+  console.log("Date range not yet added. Proceeding to add...");
+
+  // Add the dateRange to the car's disabledDates.dateRanges array
+  car.disabledDates.dateRanges.push(dateRange);
+  console.log(
+    `Date range from ${dateRange.from} to ${dateRange.to} added to the car's disabled dates.`
+  );
+
+  await car.save();
+  console.log("Car updated successfully.");
+
+  return car.toObject();
+}
+
 export async function getAllReviewsForCar(
   carId: mongoose.Types.ObjectId
 ): Promise<ReviewDocument[]> {
@@ -326,5 +371,32 @@ export async function getCarsByLocation(
     return cars.map((car) => car.toObject() as CarParams);
   } catch (error: any) {
     throw new Error(`Failed to get cars by location: ${error.message}`);
+  }
+}
+
+export async function likeCar(carId: string, userId: string): Promise<void> {
+  try {
+    await connectToDB();
+    const car = await Car.findById(carId);
+    if (!car) {
+      throw new Error("Car not found.");
+    }
+
+    // Use $addToSet to ensure no duplicate likes from the same user
+    const updatedCar = await Car.findByIdAndUpdate(
+      carId,
+      {
+        $addToSet: { likes: userId },
+      },
+      {
+        new: true,
+      }
+    );
+
+    if (!updatedCar) {
+      throw new Error("Failed to like the car.");
+    }
+  } catch (error: any) {
+    throw new Error(`Failed to like car: ${error.message}`);
   }
 }

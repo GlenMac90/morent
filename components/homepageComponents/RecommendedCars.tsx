@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 import CarCard from "../carCardComponents/CarCard";
+import { addDays } from "date-fns";
 
 interface RecommendedCarsProps {
   recommendedCars: string;
@@ -12,6 +13,8 @@ interface RecommendedCarsProps {
 const RecommendedCars: React.FC<RecommendedCarsProps> = ({
   recommendedCars,
 }) => {
+  const twoDaysFromNow = addDays(new Date(), 2);
+  const fiveDaysFromNow = addDays(new Date(), 5);
   try {
     recommendedCars = JSON.parse(recommendedCars);
   } catch (e) {
@@ -30,11 +33,23 @@ const RecommendedCars: React.FC<RecommendedCarsProps> = ({
       <div className="mt-5 flex w-full flex-col items-center justify-center gap-5 px-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
         {showAll
           ? recommendedCars?.map((car) => (
-              <CarCard carData={car} key={car._id} />
+              <CarCard
+                carData={car}
+                key={car._id}
+                availabilityFrom={twoDaysFromNow}
+                availabilityTo={fiveDaysFromNow}
+              />
             ))
           : recommendedCars
               ?.slice(0, 4)
-              .map((car) => <CarCard carData={car} key={car._id} />)}
+              .map((car) => (
+                <CarCard
+                  carData={car}
+                  key={car._id}
+                  availabilityFrom={twoDaysFromNow}
+                  availabilityTo={fiveDaysFromNow}
+                />
+              ))}
       </div>
       <button
         className="my-10 max-w-[14.25rem] self-center rounded bg-blue500 px-10 py-4 text-sm font-medium text-white"

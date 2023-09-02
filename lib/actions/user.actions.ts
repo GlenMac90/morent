@@ -19,10 +19,48 @@ export async function userFromDB(
   return userDocument;
 }
 
+export async function addRentedCarToUser(
+  userId: string,
+  carId: string
+): Promise<UserParams | null> {
+  console.log("Starting addRentedCarToUser function...");
+
+  await connectToDB();
+  console.log("Connected to the database.");
+
+  // Find the user with the provided id
+  console.log(`Looking for user with id: ${userId}`);
+  const user = await User.findOne({ id: userId }).exec();
+  console.log(user);
+  if (!user) {
+    console.log("User not found.");
+    return null;
+  }
+  console.log(user + "- User found.");
+
+  // Check if the car is already in the user's carsRented array
+  if (user.carsRented.includes(carId)) {
+    console.warn("Car already added to the user's rented cars.");
+    return user.toObject();
+  }
+  console.log(
+    "Car not yet added to the user's rented cars. Proceeding to add..."
+  );
+
+  // Add the car to the user's carsRented array
+  user.carsRented.push({ car: carId });
+  console.log(`Car with id ${carId} added to the user's carsRented array.`);
+
+  await user.save();
+  console.log("User updated successfully.");
+
+  return user.toObject();
+}
+
 export async function fetchUserCars(
   userId: string
 ): Promise<UserParams | null> {
-  connectToDB();
+  await connectToDB();
   const userWithCars = await User.findOne({ id: userId })
     .populate("cars")
     .exec();

@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { addDays } from "date-fns";
 
 import CarCard from "../carCardComponents/CarCard";
 import { CarParams } from "@/lib/interfaces";
@@ -11,6 +12,8 @@ interface PopularCarsProps {
 }
 
 const PopularCars: React.FC<PopularCarsProps> = ({ popularCars }) => {
+  const twoDaysFromNow = addDays(new Date(), 2);
+  const fiveDaysFromNow = addDays(new Date(), 5);
   popularCars = JSON.parse(popularCars);
   const [viewAll, setViewAll] = useState(false);
   return (
@@ -34,12 +37,24 @@ const PopularCars: React.FC<PopularCarsProps> = ({ popularCars }) => {
 
         {viewAll
           ? popularCars?.map((car: CarParams) => (
-              <CarCard carData={car} key={car._id} isPopularCar={true} />
+              <CarCard
+                carData={car}
+                key={car._id}
+                isPopularCar={true}
+                availabilityFrom={twoDaysFromNow}
+                availabilityTo={fiveDaysFromNow}
+              />
             ))
           : popularCars
               ?.slice(0, 4)
               .map((car: CarParams) => (
-                <CarCard carData={car} key={car._id} isPopularCar={true} />
+                <CarCard
+                  carData={car}
+                  key={car._id}
+                  isPopularCar={true}
+                  availabilityFrom={twoDaysFromNow}
+                  availabilityTo={fiveDaysFromNow}
+                />
               ))}
       </div>
     </motion.div>
