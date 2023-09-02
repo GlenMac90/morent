@@ -39,10 +39,6 @@ export default function CheckoutForm({
     to: new Date(parsedDate.to),
   };
 
-  console.log("User ID:", userId);
-  console.log("Pathname:", pathname);
-  console.log("Car ID:", carId);
-
   const [email, setEmail] = React.useState("");
   const [message, setMessage] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
@@ -53,8 +49,6 @@ export default function CheckoutForm({
     }
 
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
-      console.log("IN HERE", paymentIntent);
-      alert("IN HERE");
       switch (paymentIntent?.status) {
         case "succeeded":
           setMessage("Success");

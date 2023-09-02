@@ -140,7 +140,6 @@ export async function fetchCarsRentedByUser(
   userId: string | undefined
 ): Promise<CarParams[] | null> {
   try {
-    console.log(userId);
     const user = await User.findOne({ userId })
       .populate({
         path: "carsRented.car",

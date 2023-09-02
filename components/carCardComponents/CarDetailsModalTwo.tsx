@@ -42,7 +42,6 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
   carData,
   setShowModal,
 }) => {
-  console.log(carData);
   const { theme } = useTheme();
   const today = new Date();
   const twoDaysFromNow = addDays(today, 2);

@@ -14,11 +14,7 @@ const Page = async () => {
   const user = await currentUser();
   const userData = await userFromDB(user?.id);
   const userId = userData?._id;
-  console.log(user?.id);
   const carsRented = await fetchCarsRentedByUser(user?.id);
-  carsRented?.forEach((car) => {
-    console.log(car._id);
-  });
   const addedCars = await fetchCarsAddedByUser(userId?.toString());
   const reviews = await getAllReviewsByUser(userId?.toString());
 

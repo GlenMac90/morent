@@ -22,10 +22,6 @@ const Page = ({
     from: new Date(parsedDate.from),
     to: new Date(parsedDate.to),
   };
-  console.log(dateObject);
-  console.log(params);
-  console.log(searchParams.carId);
-  console.log(searchParams.userId);
 
   const loadData = async () => {
     try {
