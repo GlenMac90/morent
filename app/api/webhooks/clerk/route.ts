@@ -149,11 +149,7 @@ export const POST = async (request: Request) => {
     }
   }
 
-<<<<<<< HEAD
   if (payloadType === "user.deleted") {
-=======
-  if (payloadType === 'user.deleted') {
->>>>>>> main
     const { id } = evnt.data;
     try {
       await deleteUserAndCars(id);
