@@ -13,7 +13,7 @@ import { isBase64Image } from '@/lib/utils';
 import { useUploadThing } from '@/lib/uploadthing';
 import { createCar, deleteCar, editCar } from '@/lib/actions/car.actions';
 import DragDrop from './DragDrop';
-import { Props, FileWithPreview } from '@/lib/interfaces';
+import { CarFormProps, FileWithPreview } from '@/lib/interfaces';
 import {
   carTypes,
   capacities,
@@ -36,7 +36,8 @@ import {
   getCarIdFromPath,
   formatCarData,
   handleServerError,
-} from './components/form.utils';
+} from './components/form.utilities';
+
 import {
   showValidationError,
   showImageError,
@@ -44,7 +45,7 @@ import {
   showError,
 } from '@/lib/toastHandler';
 
-const CarForm: React.FC<Props> = ({ userId, car }) => {
+const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
   const { startUpload } = useUploadThing('media');
   const router = useRouter();
   const pathname = usePathname();
@@ -137,7 +138,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
       }
     } catch (error) {
       console.error('Error occurred during onSubmit:', error);
-      handleServerError(error, toast, !!car?._id);
+      handleServerError(error, toast);
     } finally {
       setSuccess(false);
       setIsLoading(false);
@@ -218,7 +219,7 @@ const CarForm: React.FC<Props> = ({ userId, car }) => {
 
           <FormItem className=" flex w-full flex-col justify-start">
             <FormLabel>Location</FormLabel>
-            <FormControl className="">
+            <FormControl>
               <Location
                 handleLocationSelected={(location: string) =>
                   handleLocationSelected(location, form)
