@@ -26,21 +26,26 @@ const Filter = ({
     ]);
   const isMax = price[0] === 999 ? "MAX." : "";
 
-  const filterHandler = ({
+  const filterOptions = {
+    type: {
+      state: type,
+      setState: setType,
+    },
+    capacity: {
+      state: capacity,
+      setState: setCapacity,
+    },
+  };
+
+  const handleFilterCheckBoxChange = ({
     target: { checked, value },
   }: React.ChangeEvent<HTMLInputElement>) => {
-    if (label === "type") {
-      if (checked) {
-        setType([...type, value]);
-      } else {
-        setType(type.filter((item: string) => item !== value));
-      }
-    } else if (label === "capacity") {
-      if (checked) {
-        setCapacity([...capacity, value]);
-      } else {
-        setCapacity(capacity.filter((item: string) => item !== value));
-      }
+    const { state, setState } = filterOptions[label as "type" | "capacity"];
+
+    if (checked) {
+      setState([...state, value]);
+    } else {
+      setState(state.filter((item: string) => item !== value));
     }
   };
 
@@ -65,7 +70,7 @@ const Filter = ({
                     bg-center bg-no-repeat checked:border-none checked:bg-[url('/svg-icons/checkBox.svg')]"
                   id={desktopView ? `desktop-${data}` : data}
                   value={data}
-                  onChange={filterHandler}
+                  onChange={handleFilterCheckBoxChange}
                   type="checkbox"
                   checked={
                     label === "type"
