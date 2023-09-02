@@ -4,10 +4,9 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 
 import CarCard from "../carCardComponents/CarCard";
-import { CarParams } from "@/lib/interfaces";
 
 interface RecommendedCarsProps {
-  recommendedCars: CarParams[] | null;
+  recommendedCars: string;
 }
 
 const RecommendedCars: React.FC<RecommendedCarsProps> = ({
@@ -29,7 +28,6 @@ const RecommendedCars: React.FC<RecommendedCarsProps> = ({
         Recommended cars
       </p>
       <div className="mt-5 flex w-full flex-col items-center justify-center gap-5 px-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
-        {/* Change id to match id of card once live data is passed */}
         {showAll
           ? recommendedCars?.map((car) => (
               <CarCard carData={car} key={car._id} />
@@ -37,7 +35,6 @@ const RecommendedCars: React.FC<RecommendedCarsProps> = ({
           : recommendedCars
               ?.slice(0, 4)
               .map((car) => <CarCard carData={car} key={car._id} />)}
-        {/* Change id to match id of card once live data is passed */}
       </div>
       <button
         className="my-10 max-w-[14.25rem] self-center rounded bg-blue500 px-10 py-4 text-sm font-medium text-white"
