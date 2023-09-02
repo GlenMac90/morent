@@ -6,7 +6,7 @@ import { connectToDB } from "../mongoose";
 import User from "../models/user.model";
 import Car from "../models/car.model";
 import Review from "../models/review.model";
-import { CarParams, ReviewDocument } from "../interfaces";
+import { CarParams, CarParams, ReviewDocument } from "../interfaces";
 
 export async function fetchRecommendedCars(): Promise<CarParams[] | null> {
   try {
@@ -138,15 +138,38 @@ export async function fetchCarsAddedByUser(
 
 export async function fetchCarsRentedByUser(
   userId: string | undefined
-): Promise<mongoose.Document[] | null> {
+): Promise<CarParams[] | null> {
   try {
-    const user = await User.findById(userId).populate("carsRented.car").exec();
+    const user = await User.findById(userId)
+      .populate({
+        path: "carsRented.car",
+        populate: {
+          path: "reviews",
+          model: "Review",
+        },
+      })
+      .exec();
 
     if (!user || !user.carsRented || user.carsRented.length === 0) {
       return null;
     }
 
-    return user.carsRented.map((rented: any) => rented.car);
+    return user.carsRented.map((rented: any) => {
+      const car = rented.car.toObject();
+
+      // Compute average rating for each car
+      if (car.reviews && car.reviews.length > 0) {
+        const totalRatings = car.reviews.reduce(
+          (acc: number, review: ReviewDocument) => acc + review.rating,
+          0
+        );
+        car.averageRating = totalRatings / car.reviews.length;
+      } else {
+        car.averageRating = null;
+      }
+
+      return car;
+    });
   } catch (error: any) {
     throw new Error(
       `Failed to fetch cars rented by user with ID ${userId}: ${error.message}`
