@@ -43,7 +43,7 @@ const CarCard: React.FC<CarCardProps> = ({
 
   // Check if the car is available from database and user input by single date
   const carAvailabilityBySingleDate =
-    carData?.disabledDates?.singleDates?.every((singleDate) => {
+    (carData?.disabledDates?.singleDates as Date[])?.every((singleDate) => {
       const newSingleDate = new Date(singleDate);
       return availabilityFrom > newSingleDate || newSingleDate > availabilityTo;
     }) ?? true;

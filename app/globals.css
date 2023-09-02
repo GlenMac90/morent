@@ -498,6 +498,7 @@
 
 .CollapsibleContent[data-state="open"] {
   animation: slideDown 300ms ease-out;
+  overflow: visible;
 }
 
 .CollapsibleContent[data-state="closed"] {

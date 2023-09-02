@@ -1,8 +1,14 @@
+"use client";
+
 import { FilterData } from "@/constants";
 import Filter from "@/components/Filter";
+import useFilterStore from "@/lib/store";
 
 const FilteringContent = ({ desktopView }: { desktopView: boolean }) => {
-  const dummyCountData = 10;
+  const [typeCounts, capacityCounts] = useFilterStore((state) => [
+    state.typeCounts,
+    state.capacityCounts,
+  ]);
 
   return (
     <div className={`lg:flex lg:flex-col ${desktopView && "hidden"}`}>
@@ -11,7 +17,7 @@ const FilteringContent = ({ desktopView }: { desktopView: boolean }) => {
           key={item.label}
           label={item.label}
           payload={item.payload}
-          count={dummyCountData}
+          count={item.label === "type" ? typeCounts : capacityCounts}
           desktopView={desktopView}
         />
       ))}

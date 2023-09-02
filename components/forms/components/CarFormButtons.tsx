@@ -46,12 +46,14 @@ const DeleteConfirmation = ({
       <Button
         className="flex self-end bg-red-500 p-5 text-white sm:w-auto"
         onClick={() => setIsDeleting(true)}
+        type="button"
       >
         Confirm Delete
       </Button>
       <Button
         className="flex w-full self-end bg-gray-500 p-5 text-white md:w-auto"
         onClick={() => setIsConfirmingDelete(false)}
+        type="button"
       >
         Cancel Delete
       </Button>
@@ -83,6 +85,7 @@ const CarFormButtons: React.FC<CarFormButtonsProps> = ({
             <Button
               className="flex w-full self-end bg-red-500 p-5 text-white md:w-auto"
               onClick={() => setIsConfirmingDelete(true)}
+              type="button"
             >
               Delete Car
             </Button>

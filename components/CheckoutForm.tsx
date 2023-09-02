@@ -11,8 +11,6 @@ import {
 } from "@stripe/react-stripe-js";
 
 import { calculateOrderAmount } from "@/utils/utility.functions";
-import { editCarDisabledDates } from "@/lib/actions/car.actions";
-import { addRentedCarToUser } from "@/lib/actions/user.actions";
 
 interface CheckoutFormProps {
   clientSecret: string;

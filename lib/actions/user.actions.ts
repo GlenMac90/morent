@@ -119,8 +119,8 @@ export async function fetchReviewsByUser(id: string): Promise<any[] | null> {
   await connectToDB();
 
   try {
-    const userReviews = await Review.find({ userId })
-      .populate("carId", "carTitle", "carImageMain")
+    const userReviews = await Review.find({ id })
+      .populate("carId", "carTitle", "carImages")
       .exec();
 
     if (!userReviews || userReviews.length === 0) {

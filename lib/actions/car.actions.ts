@@ -140,7 +140,8 @@ export async function fetchCarsRentedByUser(
   userId: string | undefined
 ): Promise<CarParams[] | null> {
   try {
-    const user = await User.findById(userId)
+    console.log(userId);
+    const user = await User.findOne({ userId })
       .populate({
         path: "carsRented.car",
         populate: {
@@ -154,7 +155,7 @@ export async function fetchCarsRentedByUser(
       return null;
     }
 
-    return user.carsRented.reverse().map((rented: any) => {
+    return user.carsRented.map((rented: any) => {
       const car = rented.car.toObject();
 
       // Compute average rating for each car
@@ -201,10 +202,11 @@ export async function deleteCar(carId: string): Promise<void> {
       throw new Error("Car not found.");
     }
 
-    await Review.deleteMany({ carId });
-
     await User.findByIdAndUpdate(car.userId, {
-      $pull: { carsAdded: { car: car._id } },
+      $pull: {
+        carsAdded: { car: car._id },
+        carsRented: { car: car._id },
+      },
     });
 
     await Car.findByIdAndRemove(carId);
@@ -268,18 +270,29 @@ export async function deleteAllCars(): Promise<void> {
 
     const cars = await Car.find().exec();
 
-    for (const car of cars) {
-      await Review.deleteMany({ carId: car._id });
+    // First, delete all reviews associated with these cars
+    const carIds = cars.map((car) => car._id);
+    const deleteReviewsResult = await Review.deleteMany({
+      carId: { $in: carIds },
+    });
+    console.log(
+      `Deleted ${deleteReviewsResult.deletedCount} reviews for cars.`
+    );
 
-      await User.updateMany(
-        {},
-        {
-          $pull: { carsAdded: { car: car._id }, carsRented: { car: car._id } },
-        }
-      );
-    }
+    // Then, pull the cars from the users' carsAdded and carsRented arrays
+    await User.updateMany(
+      {},
+      {
+        $pull: {
+          carsAdded: { car: { $in: carIds } },
+          carsRented: { car: { $in: carIds } },
+        },
+      }
+    );
 
-    await Car.deleteMany({});
+    // Finally, delete the cars
+    const deleteCarsResult = await Car.deleteMany({});
+    console.log(`Deleted ${deleteCarsResult.deletedCount} cars.`);
   } catch (error: any) {
     throw new Error(
       `Failed to delete all cars and their associated reviews: ${error.message}`
