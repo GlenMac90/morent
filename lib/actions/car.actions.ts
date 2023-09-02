@@ -6,7 +6,7 @@ import { connectToDB } from "../mongoose";
 import User from "../models/user.model";
 import Car from "../models/car.model";
 import Review from "../models/review.model";
-import { CarParams, ReviewDocument } from "../interfaces";
+import { CarParams, CarParams, ReviewDocument } from "../interfaces";
 
 export async function fetchRecommendedCars(): Promise<CarParams[] | null> {
   try {
@@ -77,14 +77,14 @@ export async function fetchCarsAddedByUser(
 
 export async function fetchCarsRentedByUser(
   userId: string | undefined
-): Promise<any[] | null> {
+): Promise<CarParams[] | null> {
   try {
     const user = await User.findById(userId)
       .populate({
         path: "carsRented.car",
         populate: {
           path: "reviews",
-          model: "Review", // Assuming 'Review' is the name of your review model
+          model: "Review",
         },
       })
       .exec();
@@ -99,12 +99,12 @@ export async function fetchCarsRentedByUser(
       // Compute average rating for each car
       if (car.reviews && car.reviews.length > 0) {
         const totalRatings = car.reviews.reduce(
-          (acc: number, review: any) => acc + review.rating,
+          (acc: number, review: ReviewDocument) => acc + review.rating,
           0
         );
         car.averageRating = totalRatings / car.reviews.length;
       } else {
-        car.averageRating = null; // or set to 0 or any default value
+        car.averageRating = null;
       }
 
       return car;
