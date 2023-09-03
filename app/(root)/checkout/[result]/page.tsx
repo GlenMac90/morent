@@ -1,8 +1,8 @@
-import { redirect } from "next/navigation";
+import { redirect } from 'next/navigation';
 
-import PaymentResult from "@/components/transitionPages/PaymentResult";
-import { editCarDisabledDates } from "@/lib/actions/car.actions";
-import { addRentedCarToUser } from "@/lib/actions/user.actions";
+import PaymentResult from '@/components/transitionPages/PaymentResult';
+import { editCarDisabledDates } from '@/lib/actions/car.actions';
+import { addRentedCarToUser } from '@/lib/actions/user.actions';
 
 const Page = async ({
   params,
@@ -23,8 +23,10 @@ const Page = async ({
     try {
       await editCarDisabledDates(carId, dateObject);
       await addRentedCarToUser(userId, carId);
+      return true;
     } catch (error) {
-      console.error("Error updating data:", error);
+      console.error('Error updating data:', error);
+      return false;
     }
   };
 
@@ -32,7 +34,7 @@ const Page = async ({
 
   if (data) {
     setTimeout(() => {
-      redirect("/");
+      redirect('/');
     }, 3000);
   }
   return <PaymentResult result={result} />;
