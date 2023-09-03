@@ -144,7 +144,7 @@ export async function getAllReviewsByUser(
       }
     });
 
-    return reviews;
+    return reviews.reverse();
   } catch (error: any) {
     throw new Error(`Failed to fetch reviews for the user: ${error.message}`);
   }

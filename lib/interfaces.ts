@@ -50,7 +50,7 @@ export interface CarParams {
   rentPrice?: string;
   carRented?: number;
   starRating?: number[];
-  likes?: number;
+  likes?: mongoose.Types.ObjectId[];
   capacity?: string;
   transmission?: string;
   location?: string;

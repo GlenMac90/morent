@@ -71,7 +71,7 @@ const CarDetailsModalOne: React.FC<CarDetailsModalOneProps> = ({
         {showModalScreen2 && (
           <CarDetailsModalTwo
             setShowModal={handleCloseClick}
-            id={carData._id}
+            carData={carData}
           />
         )}
         <div

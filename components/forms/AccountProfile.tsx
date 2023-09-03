@@ -28,7 +28,6 @@ interface Props {
 }
 
 const AccountProfile: React.FC<Props> = ({ user }) => {
-  console.log(user);
   const [files, setFiles] = useState<File[]>([]);
   const { startUpload } = useUploadThing("media");
 
@@ -36,7 +35,6 @@ const AccountProfile: React.FC<Props> = ({ user }) => {
   const pathname = usePathname();
 
   const userData = JSON.parse(user);
-  console.log(userData.id);
 
   const form = useForm<EditUserFormFields>({
     resolver: zodResolver(EditUserFormFieldsValidation),

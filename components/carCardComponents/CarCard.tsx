@@ -4,10 +4,12 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useTheme } from "next-themes";
 import { usePathname } from "next/navigation";
+import { useAuth } from "@clerk/nextjs";
 
 import CarDetailsModalOne from "./CarDetailsModalOne";
 import CarCardMainContent from "./CarCardMainContent";
 import { CarParams } from "@/lib/interfaces";
+import { likeCar } from "@/lib/actions/car.actions";
 
 interface CarCardProps {
   carData: CarParams;
@@ -26,6 +28,7 @@ const CarCard: React.FC<CarCardProps> = ({
   availabilityFrom,
   availabilityTo,
 }) => {
+  const { userId } = useAuth();
   const pathname = usePathname();
   const { theme } = useTheme();
   const [isFavourited, setIsFavourited] = useState(carData.liked);
@@ -34,6 +37,7 @@ const CarCard: React.FC<CarCardProps> = ({
 
   const handleButtonClick = () => {
     setIsFavourited((prev) => !prev);
+    likeCar(carData._id || "", userId || "");
     setMotionKey((prevKey) => prevKey + 1);
   };
 
