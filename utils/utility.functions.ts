@@ -1,4 +1,3 @@
-import * as mongoose from "mongoose";
 export function calculateDaysBetweenDates(
   dateStr1: string,
   dateStr2: string
@@ -15,6 +14,6 @@ export function calculateDaysBetweenDates(
   return daysDiff + 1;
 }
 
-export function calculateOrderAmount(daysRented, rentPrice) {
+export function calculateOrderAmount(daysRented: number, rentPrice: number) {
   return daysRented * rentPrice;
 }

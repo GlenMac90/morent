@@ -13,11 +13,15 @@ import { calculateOrderAmount } from '@/utils/utility.functions';
 
 interface CheckoutFormProps {
   clientSecret: string;
-  price: string;
-  totalDays: string;
+  price: number;
+  totalDays: number;
   date: string;
   carId: string;
 }
+
+type PaymentElementOptions = {
+  layout: 'tabs';
+};
 
 export default function CheckoutForm({
   clientSecret,
@@ -32,11 +36,8 @@ export default function CheckoutForm({
 
   // Simplified date handling
 
-  const [email, setEmail] = React.useState('');
-  const [message, setMessage] = React.useState(null);
+  const [message, setMessage] = React.useState<string | null>(null);
   const [isLoading, setIsLoading] = React.useState(false);
-
-  console.log(email);
 
   React.useEffect(() => {
     if (!stripe || !clientSecret) {
@@ -61,7 +62,7 @@ export default function CheckoutForm({
     });
   }, [stripe, clientSecret]);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!stripe || !elements) {
@@ -78,16 +79,18 @@ export default function CheckoutForm({
       },
     });
 
-    if (error.type === 'card_error' || error.type === 'validation_error') {
-      setMessage(error.message);
-    } else {
-      setMessage('An unexpected error occurred.');
+    if (error) {
+      if (error.type === 'card_error' || error.type === 'validation_error') {
+        setMessage(error.message || 'An error occurred.');
+      } else {
+        setMessage('An unexpected error occurred.');
+      }
     }
 
     setIsLoading(false);
   };
 
-  const paymentElementOptions = {
+  const paymentElementOptions: PaymentElementOptions = {
     layout: 'tabs',
   };
 
@@ -96,10 +99,7 @@ export default function CheckoutForm({
       <form id="payment-form" onSubmit={handleSubmit}>
         <h1 className="text-base font-extrabold text-blue500">Card Details</h1>
         <section className="py-8">
-          <LinkAuthenticationElement
-            id="link-authentication-element"
-            onChange={(e) => setEmail(e.target.value)}
-          />
+          <LinkAuthenticationElement id="link-authentication-element" />
           <PaymentElement
             id="payment-element"
             options={paymentElementOptions}
