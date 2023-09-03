@@ -63,7 +63,7 @@ export interface CarParams {
 
 export interface CarFormProps {
   userId?: string;
-  car: CarParams;
+  car?: CarParams;
 }
 
 export type FormData = {
@@ -150,10 +150,7 @@ export interface FileWithPreview extends File {
 
 export type CarFormHeaderProps = {
   pathname: string;
-  car: {
-    carImages: string[];
-  };
-  imagePreviews: string[];
+  car?: CarParams;
 };
 
 export type UploadFunction = (
