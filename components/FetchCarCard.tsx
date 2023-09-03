@@ -1,19 +1,19 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
-import useFilterStore from "@/lib/store";
-import CarCard from "@/components/carCardComponents/CarCard";
-import { CarParams } from "@/lib/interfaces";
-import ShowMoreCars from "./ShowMoreCars";
-import { getCapacityAndCarType } from "@/utils/utility.clientFunctions";
+import useFilterStore from '@/lib/store';
+import CarCard from '@/components/carCardComponents/CarCard';
+import { CarParamsExtended } from '@/lib/interfaces';
+import ShowMoreCars from './ShowMoreCars';
+import { getCapacityAndCarType } from '@/utils/utility.clientFunctions';
 
 const FetchCarCard = ({
   cars,
   availabilityFrom,
   availabilityTo,
 }: {
-  cars: CarParams[] | null;
+  cars: CarParamsExtended[] | null;
   availabilityFrom: Date;
   availabilityTo: Date;
 }) => {
@@ -41,14 +41,16 @@ const FetchCarCard = ({
     state.setPrice,
     state.setSearch,
   ]);
-  const [filteredCars, setFilteredCars] = useState<CarParams[] | null>(null);
+  const [filteredCars, setFilteredCars] = useState<CarParamsExtended[] | null>(
+    null
+  );
 
   useEffect(() => {
     // NOTE when a user goes to the search page, the filters should be reset
     setType([]);
     setCapacity([]);
     setPrice([950]);
-    setSearch("");
+    setSearch('');
     // NOTE when a user goes to the search page, get the counts of Type and Capacity of cars
     const { carTypeMap, capacityMap } = getCapacityAndCarType(cars || []);
     setTypeCounts(carTypeMap);
@@ -58,13 +60,13 @@ const FetchCarCard = ({
   useEffect(() => {
     // NOTE: filter cars based on user input
     const filteredCars = cars?.filter((car) => {
-      const carPrice = parseFloat(car?.rentPrice || "0");
+      const carPrice = parseFloat(car?.rentPrice || '0');
       const carTitleMatches = car.carTitle
         .toLowerCase()
         .includes(search.toLowerCase());
       const typeMatches = type.length === 0 || type.includes(car.carType);
       const capacityMatches =
-        capacity.length === 0 || capacity.includes(car?.capacity || "");
+        capacity.length === 0 || capacity.includes(car?.capacity || '');
       const priceMatches = price ? carPrice <= price[0] : true;
 
       return carTitleMatches && typeMatches && capacityMatches && priceMatches;
@@ -81,7 +83,7 @@ const FetchCarCard = ({
         {filteredCars &&
           filteredCars
             .slice(0, 6)
-            .map((car: CarParams) => (
+            .map((car: CarParamsExtended) => (
               <CarCard
                 key={car._id}
                 carData={car}

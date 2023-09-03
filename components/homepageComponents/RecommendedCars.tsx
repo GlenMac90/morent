@@ -1,10 +1,11 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
-import CarCard from "../carCardComponents/CarCard";
-import { addDays } from "date-fns";
+import CarCard from '../carCardComponents/CarCard';
+import { addDays } from 'date-fns';
+import { CarParamsExtended } from '@/lib/interfaces';
 
 interface RecommendedCarsProps {
   recommendedCars: string;
@@ -15,11 +16,9 @@ const RecommendedCars: React.FC<RecommendedCarsProps> = ({
 }) => {
   const twoDaysFromNow = addDays(new Date(), 2);
   const fiveDaysFromNow = addDays(new Date(), 5);
-  try {
-    recommendedCars = JSON.parse(recommendedCars);
-  } catch (e) {
-    console.error("Invalid JSON", e);
-  }
+
+  const parsedCars = (recommendedCars = JSON.parse(recommendedCars));
+
   const [showAll, setShowAll] = useState(false);
   return (
     <motion.div
@@ -32,7 +31,7 @@ const RecommendedCars: React.FC<RecommendedCarsProps> = ({
       </p>
       <div className="mt-5 flex w-full flex-col items-center justify-center gap-5 px-5 sm:grid sm:grid-cols-2 sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
         {showAll
-          ? recommendedCars?.map((car) => (
+          ? parsedCars?.map((car: CarParamsExtended) => (
               <CarCard
                 carData={car}
                 key={car._id}
@@ -40,9 +39,9 @@ const RecommendedCars: React.FC<RecommendedCarsProps> = ({
                 availabilityTo={fiveDaysFromNow}
               />
             ))
-          : recommendedCars
+          : parsedCars
               ?.slice(0, 4)
-              .map((car) => (
+              .map((car: CarParamsExtended) => (
                 <CarCard
                   carData={car}
                   key={car._id}
@@ -55,7 +54,7 @@ const RecommendedCars: React.FC<RecommendedCarsProps> = ({
         className="my-10 max-w-[14.25rem] self-center rounded bg-blue500 px-10 py-4 text-sm font-medium text-white"
         onClick={() => setShowAll((prev) => !prev)}
       >
-        {showAll ? "Show Less Cars" : "Show More Cars"}
+        {showAll ? 'Show Less Cars' : 'Show More Cars'}
       </button>
     </motion.div>
   );

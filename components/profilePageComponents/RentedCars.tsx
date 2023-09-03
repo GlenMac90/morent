@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import CarCard from "../carCardComponents/CarCard";
+import React, { useState } from 'react';
+import CarCard from '../carCardComponents/CarCard';
 
 interface RentedCarsProps {
   rentedCars: string;
@@ -18,12 +18,12 @@ const RentedCars: React.FC<RentedCarsProps> = ({ rentedCars }) => {
           className="mt-10 cursor-pointer font-medium text-gray400"
           onClick={() => setShowMore((prev) => !prev)}
         >
-          {showMore ? "See Less" : "See More"}
+          {showMore ? 'See Less' : 'See More'}
         </p>
       </div>
 
       <section className="mt-7 flex flex-col items-center gap-5 sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {showMore
+        {showMore // @ts-ignore
           ? parsedRentedCars?.map((car) => (
               <CarCard
                 carData={car}
@@ -34,7 +34,7 @@ const RentedCars: React.FC<RentedCarsProps> = ({ rentedCars }) => {
               />
             ))
           : parsedRentedCars
-              ?.slice(0, 4)
+              ?.slice(0, 4) // @ts-ignore
               .map((car) => (
                 <CarCard
                   carData={car}
