@@ -28,8 +28,9 @@ import {
   FormState,
   InputController,
   SelectInput,
-  CarFormImagePreviews,
 } from './components/index';
+
+import CarFormImagePreviews from './components/CarFormImagePreviews';
 import {
   uploadImages,
   handleFilesChange,
@@ -156,11 +157,7 @@ const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
       >
         <FormState isLoading={isLoading} error={error} success={success} />
 
-        <CarFormHeader
-          pathname={pathname}
-          car={car || undefined}
-          imagePreviews={imagePreviews}
-        />
+        <CarFormHeader pathname={pathname} car={car} />
 
         <div className="flex w-full flex-col gap-8 md:flex-row ">
           <InputController
