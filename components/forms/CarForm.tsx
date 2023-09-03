@@ -28,8 +28,9 @@ import {
   FormState,
   InputController,
   SelectInput,
-  CarFormImagePreviews,
 } from './components/index';
+
+import CarFormImagePreviews from './components/CarFormImagePreviews';
 import {
   uploadImages,
   handleFilesChange,
