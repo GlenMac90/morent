@@ -195,7 +195,7 @@ const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
           />
         </div>
 
-        <div className="flex w-full flex-col gap-8 md:flex-row">
+        <div className=" flex w-full flex-col gap-8 md:flex-row">
           <SelectInput
             control={form.control}
             name="transmission"
@@ -204,14 +204,16 @@ const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
             items={transmissionOptions}
           />
 
-          <FormItem className=" flex w-full flex-col justify-start">
+          <FormItem className="relative flex w-full flex-col justify-start">
             <FormLabel>Location</FormLabel>
-            <FormControl>
-              <Location
-                handleLocationSelected={(location: string) =>
-                  handleLocationSelected(location, form)
-                }
-              />
+            <FormControl className="w-full">
+              <div className="absolute  top-[12px]  z-10 w-full">
+                <Location
+                  handleLocationSelected={(location: string) =>
+                    handleLocationSelected(location, form)
+                  }
+                />
+              </div>
             </FormControl>
           </FormItem>
         </div>
