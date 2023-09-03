@@ -231,10 +231,6 @@ const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
           />
         </div>
 
-        <p className="self-start font-semibold text-gray900 dark:text-white">
-          Upload Images
-        </p>
-
         <CarFormImagePreviews imagePreviews={imagePreviews} />
 
         <DragDrop setDragDropFiles={setDragDropFiles} />
