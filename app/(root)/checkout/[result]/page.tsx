@@ -1,20 +1,17 @@
-"use client";
-
-import { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 import PaymentResult from "@/components/transitionPages/PaymentResult";
 import { editCarDisabledDates } from "@/lib/actions/car.actions";
 import { addRentedCarToUser } from "@/lib/actions/user.actions";
 
-const Page = ({
+const Page = async ({
   params,
   searchParams,
 }: {
   params: { result: string };
   searchParams: { carId: string; userId: string; date: string };
 }) => {
-  const router = useRouter();
+  const { result } = params;
   const carId = searchParams.carId;
   const userId = searchParams.userId;
   const parsedDate = JSON.parse(searchParams.date);
@@ -22,7 +19,6 @@ const Page = ({
     from: new Date(parsedDate.from),
     to: new Date(parsedDate.to),
   };
-
   const loadData = async () => {
     try {
       await editCarDisabledDates(carId, dateObject);
@@ -32,17 +28,13 @@ const Page = ({
     }
   };
 
-  useEffect(() => {
-    loadData();
+  const data = await loadData();
 
-    const timer = setTimeout(() => {
-      router.push("/");
+  if (data) {
+    setTimeout(() => {
+      redirect("/");
     }, 3000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  const { result } = params;
+  }
   return <PaymentResult result={result} />;
 };
 
