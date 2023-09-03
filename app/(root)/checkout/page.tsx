@@ -1,26 +1,35 @@
-"use client";
+'use client';
 
-import React from "react";
-import { loadStripe } from "@stripe/stripe-js";
-import { Elements } from "@stripe/react-stripe-js";
+import React from 'react';
+import {
+  StripeElementsOptionsClientSecret,
+  loadStripe,
+} from '@stripe/stripe-js';
+import { Elements } from '@stripe/react-stripe-js';
 
-import CheckoutForm from "@/components/CheckoutForm";
+import CheckoutForm from '@/components/CheckoutForm';
+
+type PageProps = {
+  searchParams: {
+    price: number;
+    totalDays: number;
+    date: string;
+    id: string;
+  };
+};
 
 const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY as string
 );
 
-const Page = ({ searchParams }) => {
-  const price = searchParams.price;
-  const totalDays = searchParams.totalDays;
-  const date = searchParams.date;
-  const carId = searchParams.id;
-  const [clientSecret, setClientSecret] = React.useState("");
+const Page: React.FC<PageProps> = ({ searchParams }) => {
+  const { price, totalDays, date, id: carId } = searchParams;
+  const [clientSecret, setClientSecret] = React.useState('');
 
   React.useEffect(() => {
     // Create PaymentIntent as soon as the page loads
-    fetch("/api/stripe/create-payment-intent", {
-      method: "POST",
+    fetch('/api/stripe/create-payment-intent', {
+      method: 'POST',
       body: JSON.stringify({
         data: {
           price,
@@ -33,9 +42,10 @@ const Page = ({ searchParams }) => {
   }, []);
 
   const appearance = {
-    theme: "stripe",
+    theme: 'stripe' as const,
   };
-  const options = {
+
+  const options: StripeElementsOptionsClientSecret = {
     clientSecret,
     appearance,
   };
@@ -49,6 +59,7 @@ const Page = ({ searchParams }) => {
             totalDays={totalDays}
             date={date}
             carId={carId}
+            clientSecret={clientSecret}
           />
         </Elements>
       )}
