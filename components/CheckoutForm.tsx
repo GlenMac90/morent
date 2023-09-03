@@ -1,16 +1,15 @@
-"use client";
+'use client';
 
-import React from "react";
-import { usePathname } from "next/navigation";
-import { useAuth } from "@clerk/nextjs";
+import React from 'react';
+import { useAuth } from '@clerk/nextjs';
 import {
   PaymentElement,
   LinkAuthenticationElement,
   useStripe,
   useElements,
-} from "@stripe/react-stripe-js";
+} from '@stripe/react-stripe-js';
 
-import { calculateOrderAmount } from "@/utils/utility.functions";
+import { calculateOrderAmount } from '@/utils/utility.functions';
 
 interface CheckoutFormProps {
   clientSecret: string;
@@ -30,18 +29,14 @@ export default function CheckoutForm({
   const stripe = useStripe();
   const elements = useElements();
   const { userId } = useAuth();
-  const pathname = usePathname();
 
   // Simplified date handling
-  const parsedDate = JSON.parse(date);
-  const dateObject = {
-    from: new Date(parsedDate.from),
-    to: new Date(parsedDate.to),
-  };
 
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = React.useState('');
   const [message, setMessage] = React.useState(null);
   const [isLoading, setIsLoading] = React.useState(false);
+
+  console.log(email);
 
   React.useEffect(() => {
     if (!stripe || !clientSecret) {
@@ -50,17 +45,17 @@ export default function CheckoutForm({
 
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent?.status) {
-        case "succeeded":
-          setMessage("Success");
+        case 'succeeded':
+          setMessage('Success');
           break;
-        case "processing":
-          setMessage("Your payment is processing.");
+        case 'processing':
+          setMessage('Your payment is processing.');
           break;
-        case "requires_payment_method":
-          setMessage("Error");
+        case 'requires_payment_method':
+          setMessage('Error');
           break;
         default:
-          setMessage("An unexpected error occurred.");
+          setMessage('An unexpected error occurred.');
           break;
       }
     });
@@ -70,7 +65,7 @@ export default function CheckoutForm({
     e.preventDefault();
 
     if (!stripe || !elements) {
-      setMessage("Stripe has not loaded correctly.");
+      setMessage('Stripe has not loaded correctly.');
       return;
     }
 
@@ -83,17 +78,17 @@ export default function CheckoutForm({
       },
     });
 
-    if (error.type === "card_error" || error.type === "validation_error") {
+    if (error.type === 'card_error' || error.type === 'validation_error') {
       setMessage(error.message);
     } else {
-      setMessage("An unexpected error occurred.");
+      setMessage('An unexpected error occurred.');
     }
 
     setIsLoading(false);
   };
 
   const paymentElementOptions = {
-    layout: "tabs",
+    layout: 'tabs',
   };
 
   return (
@@ -117,7 +112,7 @@ export default function CheckoutForm({
         >
           <span id="button-text">
             {isLoading
-              ? "Processing..."
+              ? 'Processing...'
               : `Pay $${calculateOrderAmount(totalDays, price) / 100}`}
           </span>
         </button>

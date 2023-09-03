@@ -1,12 +1,12 @@
-"use server";
+'use server';
 
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-import { connectToDB } from "../mongoose";
-import User from "../models/user.model";
-import Car from "../models/car.model";
-import Review from "../models/review.model";
-import { CarParams, ReviewDocument } from "../interfaces";
+import { connectToDB } from '../mongoose';
+import User from '../models/user.model';
+import Car from '../models/car.model';
+import Review from '../models/review.model';
+import { CarParams, ReviewDocument } from '../interfaces';
 
 export async function fetchRecommendedCars(): Promise<CarParams[] | null> {
   try {
@@ -15,52 +15,52 @@ export async function fetchRecommendedCars(): Promise<CarParams[] | null> {
     const cars = await Car.aggregate([
       {
         $lookup: {
-          from: "reviews",
-          localField: "reviews",
-          foreignField: "_id",
-          as: "reviewsData",
+          from: 'reviews',
+          localField: 'reviews',
+          foreignField: '_id',
+          as: 'reviewsData',
         },
       },
       {
         $unwind: {
-          path: "$reviewsData",
+          path: '$reviewsData',
           preserveNullAndEmptyArrays: true,
         },
       },
       {
         $lookup: {
-          from: "users",
-          localField: "reviewsData.userId",
-          foreignField: "_id",
-          as: "reviewsData.user",
+          from: 'users',
+          localField: 'reviewsData.userId',
+          foreignField: '_id',
+          as: 'reviewsData.user',
         },
       },
       {
         $unwind: {
-          path: "$reviewsData.user",
+          path: '$reviewsData.user',
           preserveNullAndEmptyArrays: true,
         },
       },
       {
         $group: {
-          _id: "$_id",
-          carDoc: { $first: "$$ROOT" },
-          averageRating: { $avg: "$reviewsData.rating" },
+          _id: '$_id',
+          carDoc: { $first: '$$ROOT' },
+          averageRating: { $avg: '$reviewsData.rating' },
           reviews: {
             $push: {
-              _id: "$reviewsData._id",
+              _id: '$reviewsData._id',
               userId: {
-                _id: "$reviewsData.user._id",
-                image: "$reviewsData.user.image",
-                username: "$reviewsData.user.username",
+                _id: '$reviewsData.user._id',
+                image: '$reviewsData.user.image',
+                username: '$reviewsData.user.username',
               },
-              carId: "$reviewsData.carId",
-              rating: "$reviewsData.rating",
-              title: "$reviewsData.title",
-              content: "$reviewsData.content",
-              createdAt: "$reviewsData.createdAt",
-              updatedAt: "$reviewsData.updatedAt",
-              __v: "$reviewsData.__v",
+              carId: '$reviewsData.carId',
+              rating: '$reviewsData.rating',
+              title: '$reviewsData.title',
+              content: '$reviewsData.content',
+              createdAt: '$reviewsData.createdAt',
+              updatedAt: '$reviewsData.updatedAt',
+              __v: '$reviewsData.__v',
             },
           },
         },
@@ -74,16 +74,16 @@ export async function fetchRecommendedCars(): Promise<CarParams[] | null> {
         $replaceRoot: {
           newRoot: {
             $mergeObjects: [
-              "$carDoc",
-              { averageRating: "$averageRating", reviews: "$reviews" },
+              '$carDoc',
+              { averageRating: '$averageRating', reviews: '$reviews' },
             ],
           },
         },
       },
       {
         $project: {
-          "carDoc.reviews": 0,
-          "carDoc.reviewsData": 0,
+          'carDoc.reviews': 0,
+          'carDoc.reviewsData': 0,
         },
       },
     ]).exec();
@@ -103,10 +103,10 @@ export async function fetchPopularCars(): Promise<CarParams[] | null> {
     // Find cars with a carRented of over 4 and populate their reviews
     const cars = await Car.find({ carRented: { $gt: 4 } })
       .populate({
-        path: "reviews", // First, populate the reviews
+        path: 'reviews', // First, populate the reviews
         populate: {
-          path: "userId", // Then, within each review, populate the userId
-          select: "image username", // Only select the 'image' and 'username' fields from the User document
+          path: 'userId', // Then, within each review, populate the userId
+          select: 'image username', // Only select the 'image' and 'username' fields from the User document
         },
       })
       .exec();
@@ -140,12 +140,12 @@ export async function fetchCarsRentedByUser(
   userId: string | undefined
 ): Promise<CarParams[] | null> {
   try {
-    const user = await User.findOne({ userId })
+    const user = await User.findOne({ id: userId })
       .populate({
-        path: "carsRented.car",
+        path: 'carsRented.car',
         populate: {
-          path: "reviews",
-          model: "Review",
+          path: 'reviews',
+          model: 'Review',
         },
       })
       .exec();
@@ -198,7 +198,7 @@ export async function deleteCar(carId: string): Promise<void> {
     await connectToDB();
     const car = await Car.findById(carId);
     if (!car) {
-      throw new Error("Car not found.");
+      throw new Error('Car not found.');
     }
 
     await User.findByIdAndUpdate(car.userId, {
@@ -218,7 +218,7 @@ export async function deleteCar(carId: string): Promise<void> {
 
 export async function editCar(carData: CarParams): Promise<CarParams> {
   if (!carData._id) {
-    throw new Error("Car ID is required to edit.");
+    throw new Error('Car ID is required to edit.');
   }
 
   try {
@@ -228,7 +228,7 @@ export async function editCar(carData: CarParams): Promise<CarParams> {
     });
 
     if (!updatedCar) {
-      throw new Error("Failed to find and update the car.");
+      throw new Error('Failed to find and update the car.');
     }
 
     return updatedCar.toObject();
@@ -242,7 +242,7 @@ export async function fetchCarById(carId: string): Promise<CarParams | null> {
     await connectToDB();
     const car = await Car.findById(carId).exec();
     if (!car) {
-      throw new Error("Car not found.");
+      throw new Error('Car not found.');
     }
     return car.toObject();
   } catch (error: any) {
@@ -255,7 +255,7 @@ export async function fetchAllCars(): Promise<CarParams[] | null> {
     await connectToDB();
     const cars = await Car.find().exec();
     if (!cars || cars.length === 0) {
-      throw new Error("No cars found.");
+      throw new Error('No cars found.');
     }
     return cars.map((car) => car.toObject());
   } catch (error: any) {
@@ -303,20 +303,20 @@ export async function editCarDisabledDates(
   carId: string,
   dateRange: { from: Date; to: Date }
 ): Promise<CarParams | null> {
-  console.log("Starting editCarDisabledDates function...");
+  console.log('Starting editCarDisabledDates function...');
 
   await connectToDB();
-  console.log("Connected to the database.");
+  console.log('Connected to the database.');
 
   // Find the car with the provided carId
   console.log(`Looking for car with id: ${carId}`);
   const car = await Car.findById(carId).exec();
 
   if (!car) {
-    console.warn("Car not found.");
+    console.warn('Car not found.');
     return null;
   }
-  console.log("Car found.");
+  console.log('Car found.');
 
   // Check if the dateRange is already in the car's dateRanges array
   console.log(
@@ -330,7 +330,7 @@ export async function editCarDisabledDates(
     console.warn("Date range already added to the car's disabled dates.");
     return car.toObject();
   }
-  console.log("Date range not yet added. Proceeding to add...");
+  console.log('Date range not yet added. Proceeding to add...');
 
   // Add the dateRange to the car's disabledDates.dateRanges array
   car.disabledDates.dateRanges.push(dateRange);
@@ -339,7 +339,7 @@ export async function editCarDisabledDates(
   );
 
   await car.save();
-  console.log("Car updated successfully.");
+  console.log('Car updated successfully.');
 
   return car.toObject();
 }
@@ -352,13 +352,13 @@ export async function getAllReviewsForCar(
 
     const reviews = await Review.find({ carId })
       .populate({
-        path: "userId",
-        select: "username image",
+        path: 'userId',
+        select: 'username image',
       })
       .exec();
 
     if (!reviews) {
-      throw new Error("No reviews found for the specified car.");
+      throw new Error('No reviews found for the specified car.');
     }
 
     return reviews as ReviewDocument[];
@@ -368,17 +368,17 @@ export async function getAllReviewsForCar(
 }
 
 export async function getCarsByLocation(
-  location: string = ""
+  location: string = ''
 ): Promise<CarParams[] | null> {
   try {
     await connectToDB();
 
     const cars = await Car.find({
-      location: { $regex: location, $options: "i" },
+      location: { $regex: location, $options: 'i' },
     }).exec();
 
     if (!cars) {
-      throw new Error("Cars not found.");
+      throw new Error('Cars not found.');
     }
     return cars.map((car) => car.toObject() as CarParams);
   } catch (error: any) {
@@ -391,7 +391,7 @@ export async function likeCar(carId: string, userId: string): Promise<void> {
     await connectToDB();
     const car = await Car.findById(carId);
     if (!car) {
-      throw new Error("Car not found.");
+      throw new Error('Car not found.');
     }
 
     // Use $addToSet to ensure no duplicate likes from the same user
@@ -406,7 +406,7 @@ export async function likeCar(carId: string, userId: string): Promise<void> {
     );
 
     if (!updatedCar) {
-      throw new Error("Failed to like the car.");
+      throw new Error('Failed to like the car.');
     }
   } catch (error: any) {
     throw new Error(`Failed to like car: ${error.message}`);
