@@ -1,18 +1,18 @@
-"use client";
+'use client';
 
-import React, { useState, FC } from "react";
-import { motion } from "framer-motion";
-import Link from "next/link";
-import Image from "next/image";
+import React, { useState, FC } from 'react';
+import { motion } from 'framer-motion';
+import Link from 'next/link';
+import Image from 'next/image';
 
-import { navButtons } from "@/constants";
+import { navButtons } from '@/constants';
 import {
   cross,
   whiteCross,
   darkModeHome,
   darkModeIcon,
-} from "@/public/svg-icons";
-import { clearLocalStorageItems } from "@/utils/utility.clientFunctions";
+} from '@/public/svg-icons';
+import { clearLocalStorageItems } from '@/utils/utility.clientFunctions';
 
 interface MobileNavBarProps {
   theme: string | undefined;
@@ -50,7 +50,7 @@ const MobileNavBar: FC<MobileNavBarProps> = ({
             MORENT
           </p>
           <Image
-            src={theme === "light" ? cross : whiteCross}
+            src={theme === 'light' ? cross : whiteCross}
             height={20}
             width={20}
             alt="close modal"
@@ -61,19 +61,22 @@ const MobileNavBar: FC<MobileNavBarProps> = ({
         <div className="mt-12 flex flex-col gap-2">
           {navButtons.slice(0, 3).map((navButton) => (
             <Link
-              onClick={clickCloseMenu}
+              onClick={() => {
+                setShowNavMenu();
+                clearLocalStorageItems();
+              }}
               key={navButton.path}
               href={navButton.path}
               className={`flex rounded p-3 ${
                 pathname === navButton.path
-                  ? "bg-blue500 text-white"
-                  : "text-gray700 dark:text-white200"
+                  ? 'bg-blue500 text-white'
+                  : 'text-gray700 dark:text-white200'
               }`}
             >
               <Image
                 src={
                   navButton.images
-                    ? navButton.path === pathname || theme !== "light"
+                    ? navButton.path === pathname || theme !== 'light'
                       ? navButton.images[1]
                       : navButton.images[0]
                     : darkModeHome
@@ -89,28 +92,31 @@ const MobileNavBar: FC<MobileNavBarProps> = ({
             onClick={clickCloseMenu}
             href={
               userId
-                ? "/profile"
-                : "/sign-in?redirect_url=http%3A%2F%2Flocalhost%3A3000%2F"
+                ? '/profile'
+                : '/sign-in?redirect_url=http%3A%2F%2Flocalhost%3A3000%2F'
             }
             className="mt-5 rounded"
           >
-            <button className="flex w-full items-center justify-center rounded border-blue50 bg-white py-3.5 text-sm font-semibold text-blue500 dark:bg-gray700 dark:text-blue300">
+            <button
+              onClick={clearLocalStorageItems}
+              className="flex w-full items-center justify-center rounded border-blue50 bg-white py-3.5 text-sm font-semibold text-blue500 dark:bg-gray700 dark:text-blue300"
+            >
               <Image
                 src={profilePic}
                 height={20}
                 width={20}
                 alt="profile pic"
                 className={`${
-                  userId ? "mr-1.5 flex min-h-[20px] rounded-full" : "hidden"
+                  userId ? 'mr-1.5 flex min-h-[20px] rounded-full' : 'hidden'
                 }`}
               />
 
-              <p>{userId ? "My Profile" : "Login"}</p>
+              <p>{userId ? 'My Profile' : 'Login'}</p>
             </button>
           </Link>
           <button
             className={`${
-              userId ? "flex" : "hidden"
+              userId ? 'flex' : 'hidden'
             } w-full items-center justify-center rounded bg-red400 py-3.5 text-sm font-semibold text-white`}
           >
             Logout
