@@ -21,14 +21,15 @@ import {
   fuelCapacityOptions,
 } from '@/constants';
 import Location from '../Location';
+
 import {
-  SelectInput,
-  InputController,
   CarFormButtons,
   CarFormHeader,
   FormState,
+  InputController,
+  SelectInput,
+  CarFormImagePreviews,
 } from './components/index';
-
 import {
   uploadImages,
   handleFilesChange,
@@ -37,7 +38,6 @@ import {
   formatCarData,
   handleServerError,
 } from './components/form.utilities';
-
 import { showImageError, showSuccessMessage } from '@/lib/toastHandler';
 
 const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
@@ -234,6 +234,8 @@ const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
         <p className="self-start font-semibold text-gray900 dark:text-white">
           Upload Images
         </p>
+
+        <CarFormImagePreviews imagePreviews={imagePreviews} />
 
         <DragDrop setDragDropFiles={setDragDropFiles} />
 
