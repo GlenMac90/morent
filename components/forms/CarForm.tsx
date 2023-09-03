@@ -21,14 +21,15 @@ import {
   fuelCapacityOptions,
 } from '@/constants';
 import Location from '../Location';
+
 import {
-  SelectInput,
-  InputController,
   CarFormButtons,
   CarFormHeader,
   FormState,
+  InputController,
+  SelectInput,
+  CarFormImagePreviews,
 } from './components/index';
-
 import {
   uploadImages,
   handleFilesChange,
@@ -37,7 +38,6 @@ import {
   formatCarData,
   handleServerError,
 } from './components/form.utilities';
-
 import { showImageError, showSuccessMessage } from '@/lib/toastHandler';
 
 const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
@@ -195,7 +195,7 @@ const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
           />
         </div>
 
-        <div className="flex w-full flex-col gap-8 md:flex-row">
+        <div className=" flex w-full flex-col gap-8 md:flex-row">
           <SelectInput
             control={form.control}
             name="transmission"
@@ -204,14 +204,16 @@ const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
             items={transmissionOptions}
           />
 
-          <FormItem className=" flex w-full flex-col justify-start">
+          <FormItem className="relative flex w-full flex-col justify-start">
             <FormLabel>Location</FormLabel>
-            <FormControl>
-              <Location
-                handleLocationSelected={(location: string) =>
-                  handleLocationSelected(location, form)
-                }
-              />
+            <FormControl className="w-full">
+              <div className="absolute  top-[12px]  z-10 w-full">
+                <Location
+                  handleLocationSelected={(location: string) =>
+                    handleLocationSelected(location, form)
+                  }
+                />
+              </div>
             </FormControl>
           </FormItem>
         </div>
@@ -231,9 +233,7 @@ const CarForm: React.FC<CarFormProps> = ({ userId, car }) => {
           />
         </div>
 
-        <p className="self-start font-semibold text-gray900 dark:text-white">
-          Upload Images
-        </p>
+        <CarFormImagePreviews imagePreviews={imagePreviews} />
 
         <DragDrop setDragDropFiles={setDragDropFiles} />
 

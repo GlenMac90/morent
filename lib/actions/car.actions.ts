@@ -6,7 +6,7 @@ import { connectToDB } from '../mongoose';
 import User from '../models/user.model';
 import Car from '../models/car.model';
 import Review from '../models/review.model';
-import { CarParams, CarParams, ReviewDocument } from '../interfaces';
+import { CarParams, ReviewDocument } from '../interfaces';
 
 export async function fetchRecommendedCars(): Promise<CarParams[] | null> {
   try {
