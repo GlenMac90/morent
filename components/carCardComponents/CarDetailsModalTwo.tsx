@@ -1,35 +1,36 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
-import { motion } from "framer-motion";
-import { useTheme } from "next-themes";
-import { DateRange } from "react-day-picker";
-import { format, addDays } from "date-fns";
-import { useRouter } from "next/navigation";
+import { useState } from 'react';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { useTheme } from 'next-themes';
+import { DateRange } from 'react-day-picker';
+import { format, addDays } from 'date-fns';
+import { useRouter } from 'next/navigation';
 
-import SelectYourTime from "../searchFormComponents/SelectYourTime";
-import { cn } from "@/lib/utils";
-import { Calendar } from "@/components/ui/calendar";
+import SelectYourTime from '../searchFormComponents/SelectYourTime';
+import { cn } from '@/lib/utils';
+import { Calendar } from '@/components/ui/calendar';
 import {
   cross,
   calendar,
   whiteCross,
   ellipse,
-} from "../../public/svg-icons/index";
-import Location from "../Location";
+} from '../../public/svg-icons/index';
+import Location from '../Location';
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import ArrowDown from "../ArrowDown";
-import { calculateDaysBetweenDates } from "@/utils/utility.functions";
+} from '@/components/ui/popover';
+import { Button } from '@/components/ui/button';
+import { Label } from '@/components/ui/label';
+import ArrowDown from '../ArrowDown';
+import { calculateDaysBetweenDates } from '@/utils/utility.functions';
+import { CarParams } from '@/lib/interfaces';
 
 interface CarDetailsModalTwoProps {
-  id: string | undefined;
+  carData: CarParams;
   setShowModal: (show: boolean) => void;
 }
 
@@ -38,7 +39,6 @@ const calculateDaysRented = (from: Date, to: Date) => {
 };
 
 const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
-  id,
   carData,
   setShowModal,
 }) => {
@@ -51,7 +51,10 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
     to: addDays(twoDaysFromNow, 3),
   });
 
-  const daysRented = calculateDaysBetweenDates(date.from, date.to);
+  const daysRented = calculateDaysBetweenDates(
+    date?.from as Date,
+    date?.to as Date
+  );
   const router = useRouter();
 
   return (
@@ -68,7 +71,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
           <p className="mt-2.5 text-sm text-gray400">Please enter your info</p>
         </div>
         <Image
-          src={theme === "light" ? cross : whiteCross}
+          src={theme === 'light' ? cross : whiteCross}
           alt="close modal"
           onClick={() => setShowModal(false)}
           className="flex h-6 w-6 -translate-y-6 cursor-pointer self-start sm:h-8 sm:w-8 sm:-translate-y-0"
@@ -95,14 +98,14 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
             </div>
             <PopoverTrigger asChild id="Pick-Up Date">
               <Button
-                variant={"outline"}
+                variant={'outline'}
                 className={cn(
-                  "bg-white200 dark:bg-gray800 h-[2.875rem] sm:h-[3.5rem] w-full justify-between border-0 text-left font-normal py-[0.69rem] px-[0.62rem] xl:pl-[1.13rem] xl:h-14",
-                  !date && "text-muted-foreground"
+                  'bg-white200 dark:bg-gray800 h-[2.875rem] sm:h-[3.5rem] w-full justify-between border-0 text-left font-normal py-[0.69rem] px-[0.62rem] xl:pl-[1.13rem] xl:h-14',
+                  !date && 'text-muted-foreground'
                 )}
               >
                 {date?.from ? (
-                  format(date.from, "LLL dd, y")
+                  format(date.from, 'LLL dd, y')
                 ) : (
                   <>
                     <span className="text-[0.625rem] font-normal leading-5 text-gray-400">
@@ -116,7 +119,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
           </div>
           <PopoverContent className="w-auto p-0">
             <Calendar
-              mode={"range"}
+              mode={'range'}
               selected={date}
               onSelect={setDate}
               numberOfMonths={2}
@@ -124,7 +127,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
             />
           </PopoverContent>
         </Popover>
-        <SelectYourTime pickUpOrDropOff={"Pick-Up Time"} />
+        <SelectYourTime pickUpOrDropOff={'Pick-Up Time'} />
       </div>
 
       <div className="mt-6 flex flex-row gap-3 xl:grow xl:gap-4">
@@ -138,14 +141,14 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
             </div>
             <PopoverTrigger asChild id="Drop-Off Date">
               <Button
-                variant={"outline"}
+                variant={'outline'}
                 className={cn(
-                  "bg-white200 w-full dark:bg-gray800 h-[2.875rem] sm:h-[3.5rem] justify-between border-0 text-left font-normal py-[0.69rem] px-[0.62rem] xl:pl-[1.13rem] xl:h-14",
-                  !date && "text-muted-foreground"
+                  'bg-white200 w-full dark:bg-gray800 h-[2.875rem] sm:h-[3.5rem] justify-between border-0 text-left font-normal py-[0.69rem] px-[0.62rem] xl:pl-[1.13rem] xl:h-14',
+                  !date && 'text-muted-foreground'
                 )}
               >
                 {date?.to ? (
-                  format(date.to, "LLL dd, y")
+                  format(date.to, 'LLL dd, y')
                 ) : (
                   <>
                     <span className="text-[0.625rem] font-normal leading-5 text-gray-400">
@@ -159,7 +162,7 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
           </div>
           <PopoverContent className="w-auto p-0">
             <Calendar
-              mode={"range"}
+              mode={'range'}
               selected={date}
               onSelect={setDate}
               numberOfMonths={2}
@@ -167,15 +170,14 @@ const CarDetailsModalTwo: React.FC<CarDetailsModalTwoProps> = ({
             />
           </PopoverContent>
         </Popover>
-        <SelectYourTime pickUpOrDropOff={"Drop-Off Time"} />
+        <SelectYourTime pickUpOrDropOff={'Drop-Off Time'} />
       </div>
       <button
         onClick={() =>
           router.push(
-            `/checkout?price=${carData.rentPrice.replace(
-              ".",
-              ""
-            )}&totalDays=${daysRented}&date=${JSON.stringify(date)}&id=${
+            `/checkout?price=${
+              carData.rentPrice && carData?.rentPrice?.replace('.', '')
+            }&totalDays=${daysRented}&date=${JSON.stringify(date)}&id=${
               carData._id
             }`
           )

@@ -61,6 +61,10 @@ export interface CarParams {
   path?: string;
 }
 
+export interface CarParamsExtended extends CarParams {
+  reviews: ReviewData[]; // This is the new property you wanted to add.
+}
+
 export interface CarFormProps {
   userId?: string;
   car?: CarParams;
@@ -171,9 +175,10 @@ export interface ToastOptions {
 
 export type ToastFunction = (options: ToastOptions) => void;
 
-export interface ReviewDocument extends mongoose.Document {
-  userId: mongoose.Types.ObjectId;
-  carId: mongoose.Types.ObjectId;
+export interface ReviewDocument {
+  _id?: string;
+  userId: string;
+  carId: string;
   rating: number;
   title: string;
   content: string;

@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import Image from "next/image";
+import React, { useState } from 'react';
+import Image from 'next/image';
 
-import StarRating from "../reviewComponents/StarRating";
-import { cross, whiteCross } from "@/public/svg-icons";
-import { CarParams, ReviewData } from "@/lib/interfaces";
-import ReviewForm from "../reviewComponents/ReviewForm";
+import StarRating from '../reviewComponents/StarRating';
+import { cross, whiteCross } from '@/public/svg-icons';
+import { CarParamsExtended, ReviewData } from '@/lib/interfaces';
+import ReviewForm from '../reviewComponents/ReviewForm';
 
 interface ModalCarDetailsProps {
-  carData: CarParams;
+  carData: CarParamsExtended;
   theme: string | undefined;
   canReview: boolean | undefined;
   setShowModal: (value: boolean) => void;
@@ -38,7 +38,7 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
   const numberOfReviews = carData?.reviews.length;
   const starRating = findAverageRating(carData?.reviews);
   const [showReviewScreen, setShowReviewScreen] = useState(false);
-  const availabilityColor = carAvailability ? "bg-blue500" : "bg-blue100";
+  const availabilityColor = carAvailability ? 'bg-blue500' : 'bg-blue100';
 
   return (
     <div className="mt-8 flex flex-col px-2 md:w-full lg:ml-10 lg:mt-0 lg:justify-between lg:p-6">
@@ -46,7 +46,7 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
         <div className="flex justify-between">
           <p className="text-xl font-medium lg:text-3xl">{carData.carTitle}</p>
           <Image
-            src={theme === "light" ? cross : whiteCross}
+            src={theme === 'light' ? cross : whiteCross}
             height={34}
             width={34}
             alt="close modal"
@@ -134,10 +134,10 @@ const ModalCarDetails: React.FC<ModalCarDetailsProps> = ({
           disabled={!carAvailability}
         >
           {!carAvailability
-            ? "Unavailable"
+            ? 'Unavailable'
             : canReview
-            ? "Rent Again"
-            : "Rent Now"}
+            ? 'Rent Again'
+            : 'Rent Now'}
         </button>
       </div>
     </div>

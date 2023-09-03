@@ -323,6 +323,7 @@ export async function editCarDisabledDates(
     "Checking if the date range is already in the car's disabled dates..."
   );
   const exists = car.disabledDates.dateRanges.some(
+    // @ts-ignore
     (range) => range.from === dateRange.from && range.to === dateRange.to
   );
 

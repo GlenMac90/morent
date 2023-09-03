@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { Button } from "@/components/ui/button";
-import CarCard from "@/components/carCardComponents/CarCard";
-import { CarParams } from "@/lib/interfaces";
+} from '@/components/ui/collapsible';
+import { Button } from '@/components/ui/button';
+import CarCard from '@/components/carCardComponents/CarCard';
+import { CarParamsExtended } from '@/lib/interfaces';
 
 const ShowMoreCars = ({
   filteredCars,
@@ -17,7 +17,7 @@ const ShowMoreCars = ({
   availabilityTo,
   availabilityFrom,
 }: {
-  filteredCars: CarParams[];
+  filteredCars: CarParamsExtended[];
   carNumbers: number;
   availabilityTo: Date;
   availabilityFrom: Date;
@@ -25,8 +25,8 @@ const ShowMoreCars = ({
   const [isOpen, setIsOpen] = useState(false);
   const [isClicked, setIsClicked] = useState(false);
 
-  const isClickedHideButton = isClicked && "hidden";
-  const isClickedAddMarginBottom = isClicked && "md:mb-8";
+  const isClickedHideButton = isClicked && 'hidden';
+  const isClickedAddMarginBottom = isClicked && 'md:mb-8';
 
   return (
     <Collapsible
@@ -41,7 +41,7 @@ const ShowMoreCars = ({
         {filteredCars &&
           filteredCars
             .slice(6, carNumbers)
-            .map((car: CarParams) => (
+            .map((car: CarParamsExtended) => (
               <CarCard
                 key={car._id}
                 carData={car}

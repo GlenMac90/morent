@@ -1,14 +1,14 @@
-"use client";
+'use client';
 
-import React, { useState } from "react";
-import { motion } from "framer-motion";
-import { addDays } from "date-fns";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import { addDays } from 'date-fns';
 
-import CarCard from "../carCardComponents/CarCard";
-import { CarParams } from "@/lib/interfaces";
+import CarCard from '../carCardComponents/CarCard';
+import { CarParamsExtended } from '@/lib/interfaces';
 
 interface PopularCarsProps {
-  popularCars: CarParams[] | any;
+  popularCars: CarParamsExtended[] | any;
 }
 
 const PopularCars: React.FC<PopularCarsProps> = ({ popularCars }) => {
@@ -28,7 +28,7 @@ const PopularCars: React.FC<PopularCarsProps> = ({ popularCars }) => {
           className="cursor-pointer font-medium text-blue500"
           onClick={() => setViewAll((prev) => !prev)}
         >
-          {viewAll ? "View Less" : "View All"}
+          {viewAll ? 'View Less' : 'View All'}
         </p>
       </div>
       <div className="no_scrollbar mt-4 flex w-full gap-5 overflow-x-auto xs:mt-0 xs:items-center xs:p-5 sm:grid sm:grid-cols-2 sm:flex-col sm:justify-center sm:gap-6 lg:grid-cols-3 xl:grid-cols-4">
@@ -36,7 +36,7 @@ const PopularCars: React.FC<PopularCarsProps> = ({ popularCars }) => {
         <div className="flex w-5 xs:hidden" />
 
         {viewAll
-          ? popularCars?.map((car: CarParams) => (
+          ? popularCars?.map((car: CarParamsExtended) => (
               <CarCard
                 carData={car}
                 key={car._id}
@@ -47,7 +47,7 @@ const PopularCars: React.FC<PopularCarsProps> = ({ popularCars }) => {
             ))
           : popularCars
               ?.slice(0, 4)
-              .map((car: CarParams) => (
+              .map((car: CarParamsExtended) => (
                 <CarCard
                   carData={car}
                   key={car._id}
