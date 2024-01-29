@@ -1,8 +1,8 @@
-import React from 'react';
-import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { CarParams } from '@/lib/interfaces';
-import { advertSilverCar } from '@/public/pngs';
+import React from "react";
+import Image from "next/image";
+import { motion } from "framer-motion";
+import { CarParams } from "@/lib/interfaces";
+import { advertSilverCar } from "@/public/pngs";
 
 interface ModalImageGalleryProps {
   changePicture: boolean;
@@ -31,12 +31,12 @@ const ModalImageGallery: React.FC<ModalImageGalleryProps> = ({
         className="flex h-[15rem] w-full max-w-full items-center justify-center rounded-lg md:max-w-full lg:min-h-[18rem]"
       >
         <Image
-          src={images[0] || advertSilverCar}
+          src={displayPicture || advertSilverCar}
           alt="main display picture"
           width={300}
           height={225}
           style={{
-            objectFit: 'cover',
+            objectFit: "cover",
           }}
           className="h-full w-full rounded-lg"
         />
@@ -50,7 +50,7 @@ const ModalImageGallery: React.FC<ModalImageGalleryProps> = ({
               height={100}
               alt="car pictures"
               className={`h-full w-auto cursor-pointer rounded-lg p-[3px] ${
-                displayPicture === picture && 'border border-blue-600 p-[1px]'
+                displayPicture === picture && "border border-blue-600 p-[1px]"
               }`}
               onClick={() => {
                 setChangePicture(false);
